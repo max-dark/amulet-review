@@ -12,9 +12,9 @@ $starttime = microtime( 1 );
 
 //=========================
 $server = 'localhost';
-$user = ''; // пользователь базы
-$dbpass = '';     // пароль пользователя
-$dbname = ''; // имя базы
+$user = 'game'; // пользователь базы
+$dbpass = 'pass';     // пароль пользователя
+$dbname = 'amulet'; // имя базы
 //=========================
 
 $SERVER_URL = 'http://vostanie.hostik.in/'; //путь к игре

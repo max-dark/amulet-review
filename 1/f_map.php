@@ -1,10 +1,10 @@
 <?php
-// карта, передается map=x123x456 и для картики img=1 bw=1|2|3
+// РєР°СЂС‚Р°, РїРµСЂРµРґР°РµС‚СЃСЏ map=x123x456 Рё РґР»СЏ РєР°СЂС‚РёРєРё img=1 bw=1|2|3
 $tmp=$QUERY_STRING;if($tmp=='') $tmp=$_SERVER["QUERY_STRING"];
 $tmp=urldecode($tmp);
 parse_str($tmp);
 
-if($info) msg("<p>Ваша позиция обозначена белым квадратиком с черной точкой в центре (или черным квадратиком с белой точкой в центре, в зависимости от фона).<br/>Замки - красные квадратики с белой точкой в центре (только для цветной карты).<br/>В настройках можете поменять тип карты на черно-белую (самое плохое качество), цветную JPEG (среднее качество) или PNG (самое лучшее качество, но не все телефоны поддерживают).");
+if($info) msg("<p>Р’Р°С€Р° РїРѕР·РёС†РёСЏ РѕР±РѕР·РЅР°С‡РµРЅР° Р±РµР»С‹Рј РєРІР°РґСЂР°С‚РёРєРѕРј СЃ С‡РµСЂРЅРѕР№ С‚РѕС‡РєРѕР№ РІ С†РµРЅС‚СЂРµ (РёР»Рё С‡РµСЂРЅС‹Рј РєРІР°РґСЂР°С‚РёРєРѕРј СЃ Р±РµР»РѕР№ С‚РѕС‡РєРѕР№ РІ С†РµРЅС‚СЂРµ, РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С„РѕРЅР°).<br/>Р—Р°РјРєРё - РєСЂР°СЃРЅС‹Рµ РєРІР°РґСЂР°С‚РёРєРё СЃ Р±РµР»РѕР№ С‚РѕС‡РєРѕР№ РІ С†РµРЅС‚СЂРµ (С‚РѕР»СЊРєРѕ РґР»СЏ С†РІРµС‚РЅРѕР№ РєР°СЂС‚С‹).<br/>Р’ РЅР°СЃС‚СЂРѕР№РєР°С… РјРѕР¶РµС‚Рµ РїРѕРјРµРЅСЏС‚СЊ С‚РёРї РєР°СЂС‚С‹ РЅР° С‡РµСЂРЅРѕ-Р±РµР»СѓСЋ (СЃР°РјРѕРµ РїР»РѕС…РѕРµ РєР°С‡РµСЃС‚РІРѕ), С†РІРµС‚РЅСѓСЋ JPEG (СЃСЂРµРґРЅРµРµ РєР°С‡РµСЃС‚РІРѕ) РёР»Рё PNG (СЃР°РјРѕРµ Р»СѓС‡С€РµРµ РєР°С‡РµСЃС‚РІРѕ, РЅРѕ РЅРµ РІСЃРµ С‚РµР»РµС„РѕРЅС‹ РїРѕРґРґРµСЂР¶РёРІР°СЋС‚).");
 
 // >1650
 if($loc=="_begin") $loc="x1158x523";
@@ -25,7 +25,7 @@ if ($tc[1]>1650) {
 		$tc[2]=round($tc[2]/12);
 		}
 
-if ($img) {						// выведем картинку
+if ($img) {						// РІС‹РІРµРґРµРј РєР°СЂС‚РёРЅРєСѓ
 	if($bw==1) $t="wbmp"; else if ($bw==2) $t="jpg"; else $t="png";
 	if($b) $img="map2.".$t; else $img="map1.".$t;
 	$size = getimagesize($img);
@@ -42,9 +42,9 @@ if ($img) {						// выведем картинку
 	}//if $img
 
 srand ((float) microtime() * 10000000);
-$stmp="<p align=\"center\"><img alt=\"map\" src=\"f_map.php?loc=$loc&amp;img=1&amp;r=".rand(99,999)."&amp;bw=$bw\"/><br/><anchor>[назад]<prev/></anchor></p><p>Вы на ";
-if($b) $stmp.=" территории Ансалона."; else $stmp.="основной территории.";
-$stmp.="<br/><a href=\"f_map.php?info=1\">Помощь</a>";
+$stmp="<p align=\"center\"><img alt=\"map\" src=\"f_map.php?loc=$loc&amp;img=1&amp;r=".rand(99,999)."&amp;bw=$bw\"/><br/><anchor>[РЅР°Р·Р°Рґ]<prev/></anchor></p><p>Р’С‹ РЅР° ";
+if($b) $stmp.=" С‚РµСЂСЂРёС‚РѕСЂРёРё РђРЅСЃР°Р»РѕРЅР°."; else $stmp.="РѕСЃРЅРѕРІРЅРѕР№ С‚РµСЂСЂРёС‚РѕСЂРёРё.";
+$stmp.="<br/><a href=\"f_map.php?info=1\">РџРѕРјРѕС‰СЊ</a>";
 
 msg($stmp);
 
@@ -54,19 +54,14 @@ function msg($s) {
 	header ("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
 	header ("Pragma: no-cache");
 	header ("Content-type:text/vnd.wap.wml;charset=utf-8"); 
-	setlocale (LC_CTYPE, 'ru_RU.CP1251'); 
-	function win2unicode ( $s ) { if ( (ord($s)>=192) & (ord($s)<=255) ) $hexvalue=dechex(ord($s)+848); if ($s=="Ё") $hexvalue="401"; if ($s=="ё") $hexvalue="451"; return("&#x0".$hexvalue.";");} 
-	function translate($s) {return(preg_replace("/[А-яЁё]/e","win2unicode('\\0')",$s));} 
-	ob_start("translate");
 	echo "<?xml version=\"1.0\"?>\n<!DOCTYPE wml PUBLIC \"-//WAPFORUM//DTD WML 1.1//EN\" \"http://www.wapforum.org/DTD/wml_1.1.xml\">";
 	echo "
 <wml>
-<card title=\"Карта\">";
+<card title=\"РљР°СЂС‚Р°\">";
 echo "
 $s
 </p>
 </card>
 </wml>";
-	ob_end_flush();
 	die("");
 	}

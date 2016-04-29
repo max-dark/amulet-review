@@ -1,6 +1,6 @@
 <?php
 
-// âîçâðàùàåò -1 åñëè åñòü $login â ïàïêå online
+// Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ -1 ÐµÑÐ»Ð¸ ÐµÑÑ‚ÑŒ $login Ð² Ð¿Ð°Ð¿ÐºÐµ online
 $tmp = $QUERY_STRING;
 if ( $tmp == '' )
 		$tmp = $_SERVER["QUERY_STRING"];

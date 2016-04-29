@@ -212,8 +212,8 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu 
 						"<p><small>", "</small></p>" ), $wml );
 
 		$wml .= "</wml>";
-		//$wml = str_replace( "&amp;", "&", $wml );
-		//$wml = str_replace( "&", "&amp;", $wml );
+		$wml = str_replace( "&amp;", "&", $wml );
+		$wml = str_replace( "&", "&amp;", $wml );
 		//$wml = strtr( $wml, "КЕНХВАРОСМТехарос", "KEHXBAPOCMTexapoc" );
 
 		echo  $wml;

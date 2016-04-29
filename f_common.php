@@ -1,6 +1,6 @@
 <?php
 
-// ñïèñîê ó Ñàí÷åñà
+// ÑÐ¿Ð¸ÑÐ¾Ðº Ñƒ Ð¡Ð°Ð½Ñ‡ÐµÑÐ°
 if ( $gwanted )
 		die( @implode( "", @file( "wanted.dat" ) ) );
 if ( $swanted )
@@ -13,7 +13,7 @@ if ( $swanted )
 		}
 }
 
-// êëàíû
+// ÐºÐ»Ð°Ð½Ñ‹
 
 if ( $gclan )
 {
