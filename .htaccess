@@ -1,0 +1,6 @@
+<Files *.dat>
+order allow,deny
+deny from all
+</Files>
+php_flag register_globals 0
+DirectoryIndex index.php
