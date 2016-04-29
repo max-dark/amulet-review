@@ -1,0 +1,57 @@
+<?php
+
+if ( !preg_match( '|^[-0-9a-z_\.]+$|i', $login ) )
+		msg( "Неверный синтаксис в логине $login<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none' );
+if ( !preg_match( '|^[0-9a-z]+$|i', $p ) )
+		msg( "Неверный синтаксис в пароле $p<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none' );
+if ( substr( $login, 0, 2 ) != "u." )
+		$login = "u." . $login;
+$login = strtolower( $login );
+$login = substr( $login, 0, 15 );
+clearstatcache();
+if ( file_exists( "online/" . $login ) && filesize( "online/" . $login ) != 1 )
+{
+		if ( $gm == $gm_id )
+				$p .= "&gm=" . $gm;
+		msg( "Нажмите на ссылку ниже<br /><a href=\"g.php?site=connect2&login=$login&p=$p\">Продолжить</a>" );
+}
+$file = @fopen( "online/" . $login, "w" );
+if ( $file !== false )
+{
+		fwrite( $file, "." );
+		fclose( $file );
+}
+else
+		msg( "Ошибка создания файла" );
+
+// получаем данные с основного сервера
+$res = GetData( substr( $login, 2 ), $p, $data, 1 );
+if ( $res )
+		msg( $res, 'Проверка входа', 0, 'none' );
+$auser = unserialize( $data );
+if ( !$auser["char"] || !$auser["skills"] )
+{
+		$data = preg_replace( '/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $data );
+		$auser = unserialize( $data );
+}
+
+// проверим клан
+if ( strpos( $auser["char"], "*" ) === false )
+		$clan = "";
+else
+		$clan = substr( $auser["char"], strpos( $auser["char"], "*" ) + 1, strrpos( $auser["char"],
+				"*" ) - strpos( $auser["char"], "*" ) - 1 );
+if ( $clan && @implode( "", @file( $SERVER_URL . "f_common.php?inclan=$clan&login=$login" ) ) ==
+		"no" )
+		$clan = "no";
+else
+		$clan = "yes";
+// ок, получили данные, пробуем войти в игру
+$t = filemtime( '../news/news.htm' );
+$tnews = date( "d/m/Y", $t);
+include_once ('f_site_connect2.dat');
+if ( filesize( "online/" . $login ) == 1 || strpos( $s, "cnick=1" ) === false )
+		@unlink( "online/" . $login );
+exit;
+
+?>

@@ -1,0 +1,7 @@
+<?php 
+$npc=array( 
+'char'=>'Âapâap|140|140|100|100||||||||', 
+'war'=>'95|32|80|6||0|25||||80|40|êoïüeì|||x1162x57:120:300', 
+'items'=>'i.a.b.meh:1|i.a.c.t1:1|i.w.spear.long:1', 
+'equip'=>'i.a.b.meh|i.a.c.t1|i.w.spear.long', 
+);

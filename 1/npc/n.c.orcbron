@@ -1,0 +1,8 @@
+<?php 
+$npc=array( 
+'char'=>'орк элита|200|200|1|1||||||||', 
+'war'=>'95|12|24|6||30|5||||||кувалдой|35||',
+'items'=>'i.w.u.kuvalda:1',
+'equip'=>'i.w.u.kuvalda',
+'itemsrnd'=>'i.money:80:40:80',
+);

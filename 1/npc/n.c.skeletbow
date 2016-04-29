@@ -1,0 +1,7 @@
+<?php 
+$npc=array( 
+'char'=>'cкeлeт-лучник|24|24|1|1||||||||', 
+'war'=>'90|1|10|4|1||5|||20|||из лукa|10||', 
+'itemsrnd'=>'i.arrow:90:6:16|i.w.r.b.long:10:0:1|i.w.r.c.sredn:10:0:1|i.w.r.drotik:20:1:6|i.a.b.bone:8:0:1|i.a.h.bone:8:0:1|i.a.p.bone:8:0:1|i.a.l.bone:8:0:1', 
+'osvej'=>'i.h.bone:1', 
+);

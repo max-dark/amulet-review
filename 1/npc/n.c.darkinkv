@@ -1,0 +1,8 @@
+<?php 
+$npc=array( 
+'char'=>'темный инквизитор|350|350|1|1||||||||', 
+'war'=>'95|12|32|5||15|20|||20|50|90|магией|90||', 
+'items'=>'i.q.pdeath:1|i.a.e.c:1',
+'equip'=>'i.a.e.c',
+'itemsrnd'=>'i.money:90:40:60|i.m.s.demon:80:1:3|i.r.w.firebolt:60:0:1|i.w.u.pmage:50:0:1', 
+);

@@ -1,0 +1,13 @@
+<?php
+// меню в виде ссылок на отдельной странице
+
+$msg="Главное меню:";
+$msg.= "<br/><a href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\">Пepcoнaж</a>";
+if (!isset($loc_i[$loc][$login]["macro"])) $m=array(); else $m=explode("/",$loc_i[$loc][$login]["macro"]);
+for($i=1;$i<9;$i++) if ($m[$i-1]) {$mn=explode("|",$m[$i-1]);$msg.= "<br/><a href=\"$PHP_SELF?sid=$sid&cm=$i\">".$mn[4]."</a>";$o++;}
+$msg.= "<br/><a href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\">Cкaзaть</a>";
+$msg.= "<br/><a href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\">Koнтaкты</a>";
+$msg.= "<br/><a href=\"$PHP_SELF?sid=$sid&cm=new\">мaкpocы</a>";
+if ($g_map) {$o++;$msg.= "<br/><a href=\"$PHP_SELF?sid=$sid&map=".$g_map."\">Kapтa</a>";}
+$o++;$msg.= "<br/><a href=\"$PHP_SELF?sid=$sid&ce=1\">Coxpaнить</a>";
+$msg.= "<br/><br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a>";

@@ -1,0 +1,13 @@
+<?php
+
+$npc=array(
+
+'char'=>'Ñòpaæíèê|100|100|100|100||||||||',
+
+'war'=>'90|11|28|8|1|4|10||||||èç apáaëeòa|||x776x141:30:60',
+
+'items'=>'i.a.b.spanc:1|i.w.r.c.heavy:1',
+
+'equip'=>'i.a.b.spanc|i.w.r.c.heavy',
+
+);

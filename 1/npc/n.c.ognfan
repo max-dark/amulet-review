@@ -1,0 +1,6 @@
+<?php 
+$npc=array( 
+'char'=>'огненный фантом|70|70|1|1||||||||', 
+'war'=>'95|20|28|3||25||||20|70|50|мaгиeй|45||', 
+'itemsrnd'=>'i.m.w.firestreem:40:0:1|i.m.w.firebolt:70:0:1|i.r.w.firearrow:40:0:1',
+);

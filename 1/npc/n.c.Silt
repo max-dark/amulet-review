@@ -1,0 +1,8 @@
+<?php 
+$npc=array( 
+'char'=>'Силт-зомби|100|100|1|1||||||||', 
+'war'=>'80|14|21|5|||||||||кулaкaми|15||', 
+'items'=>'i.a.b.heavykol:1|i.a.c.sp1:1', 
+'equip'=>'i.a.b.heavykol|i.a.c.sp1', 
+'itemsrnd'=>'i.money:90:12:24|i.a.s.dub_silt_..ob..ku:2:0:1|i.a.b.plastdosp:10:0:1',
+);

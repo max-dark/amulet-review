@@ -1,0 +1,8 @@
+<?php 
+$npc=array( 
+'char'=>'Аpaнт-зомби|180|180|1|1||||||||', 
+'war'=>'95|11|26|5||26|5|||20|80|40|из арболета|50||', 
+'items'=>'i.a.b.leather:1|i.a.w.c:1|i.w.r.c.impersk:1', 
+'equip'=>'i.a.b.leather|i.a.w.c|i.w.r.c.impersk:1',
+'itemsrnd'=>'i.money:90:40:100|i.q.instrum:6:1:1', 
+); 

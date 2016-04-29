@@ -1,0 +1,12 @@
+<?php
+
+$stmp = "<p align=\"center\">
+<a href=\"$PHP_SELF?site=online&r=" . rand( 1, 99 ) . "\">Кто онлайн?</a>
+<br/><a href=\"$PHP_SELF?site=flag&r=" . rand( 1, 99 ) . "\">Флаг лидерства</a>
+<br/><a href=\"$PHP_SELF?site=clans&r=" . rand( 1, 99 ) . "\">Список кланов</a>
+<br/><a href=\"$PHP_SELF?site=castle&=" . rand( 1, 99 ) . "\">Захват замков</a>
+</p><p><anchor>Назад<prev/></anchor>
+";
+msg( $stmp, "Статистика", 0, 'none' );
+
+?>

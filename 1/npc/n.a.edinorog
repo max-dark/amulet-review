@@ -1,0 +1,7 @@
+<?php 
+$npc=array( 
+'char'=>'белый единорог|70|70|1|1||||4||||', 
+'war'=>'90|4|14|5|||5||||||кoпытaми|12||', 
+'osvej'=>'i.f.meat:2', 
+'itemsrnd'=>'i.ring.a:5:0:1|i.c.emerald.good:5:0:1|i.f.b.health.great:50:0:3|i.m.heal.great:10:0:1|i.m.ressurect:10:0:1',
+);
