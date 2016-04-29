@@ -1,5 +1,5 @@
 <?php
-//$curr - òåê. òàéìåð â ëîêàöèè $loct
+//$curr - Ñ‚ÐµÐº. Ñ‚Ð°Ð¹Ð¼ÐµÑ€ Ð² Ð»Ð¾ÐºÐ°Ñ†Ð¸Ð¸ $loct
 global $loc_i,$loc_t,$loc,$login;
 loadloc($loct);
 $new=time()+$time;

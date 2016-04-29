@@ -1,9 +1,9 @@
 <?php
 
 if ( !preg_match( '|^[-0-9a-z_\.]+$|i', $login ) )
-		msg( "Неверный синтаксис в логине $login<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none' );
+		msg( "РќРµРІРµСЂРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ РІ Р»РѕРіРёРЅРµ $login<br /><anchor>РќР°Р·Р°Рґ<prev/></anchor>", 'РџСЂРѕРІРµСЂРєР° РІС…РѕРґР°', 0, 'none' );
 if ( !preg_match( '|^[0-9a-z]+$|i', $p ) )
-		msg( "Неверный синтаксис в пароле $p<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none' );
+		msg( "РќРµРІРµСЂРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ РІ РїР°СЂРѕР»Рµ $p<br /><anchor>РќР°Р·Р°Рґ<prev/></anchor>", 'РџСЂРѕРІРµСЂРєР° РІС…РѕРґР°', 0, 'none' );
 if ( substr( $login, 0, 2 ) != "u." )
 		$login = "u." . $login;
 $login = strtolower( $login );
@@ -13,7 +13,7 @@ if ( file_exists( "online/" . $login ) && filesize( "online/" . $login ) != 1 )
 {
 		if ( $gm == $gm_id )
 				$p .= "&gm=" . $gm;
-		msg( "Нажмите на ссылку ниже<br /><a href=\"g.php?site=connect2&login=$login&p=$p\">Продолжить</a>" );
+		msg( "РќР°Р¶РјРёС‚Рµ РЅР° СЃСЃС‹Р»РєСѓ РЅРёР¶Рµ<br /><a href=\"g.php?site=connect2&login=$login&p=$p\">РџСЂРѕРґРѕР»Р¶РёС‚СЊ</a>" );
 }
 $file = @fopen( "online/" . $login, "w" );
 if ( $file !== false )
@@ -22,12 +22,12 @@ if ( $file !== false )
 		fclose( $file );
 }
 else
-		msg( "Ошибка создания файла" );
+		msg( "РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ С„Р°Р№Р»Р°" );
 
-// получаем данные с основного сервера
+// РїРѕР»СѓС‡Р°РµРј РґР°РЅРЅС‹Рµ СЃ РѕСЃРЅРѕРІРЅРѕРіРѕ СЃРµСЂРІРµСЂР°
 $res = GetData( substr( $login, 2 ), $p, $data, 1 );
 if ( $res )
-		msg( $res, 'Проверка входа', 0, 'none' );
+		msg( $res, 'РџСЂРѕРІРµСЂРєР° РІС…РѕРґР°', 0, 'none' );
 $auser = unserialize( $data );
 if ( !$auser["char"] || !$auser["skills"] )
 {
@@ -35,7 +35,7 @@ if ( !$auser["char"] || !$auser["skills"] )
 		$auser = unserialize( $data );
 }
 
-// проверим клан
+// РїСЂРѕРІРµСЂРёРј РєР»Р°РЅ
 if ( strpos( $auser["char"], "*" ) === false )
 		$clan = "";
 else
@@ -46,7 +46,7 @@ if ( $clan && @implode( "", @file( $SERVER_URL . "f_common.php?inclan=$clan&logi
 		$clan = "no";
 else
 		$clan = "yes";
-// ок, получили данные, пробуем войти в игру
+// РѕРє, РїРѕР»СѓС‡РёР»Рё РґР°РЅРЅС‹Рµ, РїСЂРѕР±СѓРµРј РІРѕР№С‚Рё РІ РёРіСЂСѓ
 $t = filemtime( '../news/news.htm' );
 $tnews = date( "d/m/Y", $t);
 include_once ('f_site_connect2.dat');

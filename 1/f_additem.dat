@@ -3,36 +3,36 @@ global $g_destroy, $loc_i;
 
 if ($count!="count") {
 	$count=intval($count);
-	if (gettype($count)!="integer" || $count==0) {msg("Количество равно ".$count); if ($journal && $to) addjournal($loc,$to,"Количество равно ".$count); $res=0; return 0;}
+	if (gettype($count)!="integer" || $count==0) {msg("РљРѕР»РёС‡РµСЃС‚РІРѕ СЂР°РІРЅРѕ ".$count); if ($journal && $to) addjournal($loc,$to,"РљРѕР»РёС‡РµСЃС‚РІРѕ СЂР°РІРЅРѕ ".$count); $res=0; return 0;}
 	}
 if ($time_delete==-1) $time_delete=$g_destroy;
 if (strpos($item,"_")!==false) $tk=substr($item,0,strpos($item,"_")); else $tk=$item;
-if (substr($item,0,5)=="i.rr.") $title=explode("|","руна|50"); else if (!file_exists("items/".$tk)) {$res=0; return 0;} else {$title=explode("|",implode("",file("items/".$tk)));}
+if (substr($item,0,5)=="i.rr.") $title=explode("|","СЂСѓРЅР°|50"); else if (!file_exists("items/".$tk)) {$res=0; return 0;} else {$title=explode("|",implode("",file("items/".$tk)));}
 $title=$title[0];
-if ($from && $from!="loc" && !isset($loc_i[$loc][$from])) {if ($journal && $to) addjournal($loc,$to,"Не от кого забрать ".$title); $res=0; return 0;}
-if ($to && $to!="loc" && !isset($loc_i[$loc][$to])) {if ($journal && $from) addjournal($loc,$from,"Некому передать ".$title); $res=0; return 0;}
+if ($from && $from!="loc" && !isset($loc_i[$loc][$from])) {if ($journal && $to) addjournal($loc,$to,"РќРµ РѕС‚ РєРѕРіРѕ Р·Р°Р±СЂР°С‚СЊ ".$title); $res=0; return 0;}
+if ($to && $to!="loc" && !isset($loc_i[$loc][$to])) {if ($journal && $from) addjournal($loc,$from,"РќРµРєРѕРјСѓ РїРµСЂРµРґР°С‚СЊ ".$title); $res=0; return 0;}
 
-// получение кол-ва
+// РїРѕР»СѓС‡РµРЅРёРµ РєРѕР»-РІР°
 if ($count=="count") {
 	if ($from=="loc") {
 		if (!isset($loc_i[$loc][$item])) {$res=0; return 0;} else {$tmp=explode("|",$loc_i[$loc][$item]); $res=$tmp[1]; return $tmp[1];}
 		} else {$res=intval(preg_replace('/.*'.$item.':(\d+).*/',"\\1",$loc_i[$loc][$from][$ft])); return $res;}
 	}
 
-if ($item=="i.q.pjpt" || $item=="i.q.pdeath") if (substr($to,0,2)=="u." && (strpos($loc_i[$loc][$to][$tt],$item)!==false || $count>1)) msg("У вас уже есть ".$title.", нельзя хранить более одного");
-if ($item=="i.q.ssword" && substr($to,0,2)=="u.") {$tcs=intval(preg_replace('/.*'.$item.':(\d+).*/',"\\1",$loc_i[$loc][$to][$tt])); if ($tcs>1 || $count>2 || $tcs==1 && $count==2) msg("Можно держать одновременно не более 2 стеклянных мечей");}
-if ($to==$from && ($ft=="bank" || $tt=="bank") && substr($to,0,2)=="u." && strlen($loc_i[$loc][$to][$tt])>800 && strpos($loc_i[$loc][$to][$tt],$item.":")===false) msg("Нет места для ".$title);
-if (substr($item,0,4)=="i.s." && (substr($to,0,2)=="u." || substr($from,0,2)=="u.")) msg("Нельзя передать");
+if ($item=="i.q.pjpt" || $item=="i.q.pdeath") if (substr($to,0,2)=="u." && (strpos($loc_i[$loc][$to][$tt],$item)!==false || $count>1)) msg("РЈ РІР°СЃ СѓР¶Рµ РµСЃС‚СЊ ".$title.", РЅРµР»СЊР·СЏ С…СЂР°РЅРёС‚СЊ Р±РѕР»РµРµ РѕРґРЅРѕРіРѕ");
+if ($item=="i.q.ssword" && substr($to,0,2)=="u.") {$tcs=intval(preg_replace('/.*'.$item.':(\d+).*/',"\\1",$loc_i[$loc][$to][$tt])); if ($tcs>1 || $count>2 || $tcs==1 && $count==2) msg("РњРѕР¶РЅРѕ РґРµСЂР¶Р°С‚СЊ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ РЅРµ Р±РѕР»РµРµ 2 СЃС‚РµРєР»СЏРЅРЅС‹С… РјРµС‡РµР№");}
+if ($to==$from && ($ft=="bank" || $tt=="bank") && substr($to,0,2)=="u." && strlen($loc_i[$loc][$to][$tt])>800 && strpos($loc_i[$loc][$to][$tt],$item.":")===false) msg("РќРµС‚ РјРµСЃС‚Р° РґР»СЏ ".$title);
+if (substr($item,0,4)=="i.s." && (substr($to,0,2)=="u." || substr($from,0,2)=="u.")) msg("РќРµР»СЊР·СЏ РїРµСЂРµРґР°С‚СЊ");
 
 if ($from) {
 	if ($from=="loc") {
 		if (!isset($loc_i[$loc][$item])) {
-			if ($journal && $to) addjournal($loc,$to,$title." отсутствует");
+			if ($journal && $to) addjournal($loc,$to,$title." РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚");
 			$res=0;
 			return 0;
 			} else {
 				$tmp=explode("|",$loc_i[$loc][$item]); 
-				if ($tmp[1]<$count) {if ($journal && $to) addjournal($loc,$to,"Количество ".$title." меньше, чем ".$count); $res=0; return 0;} 
+				if ($tmp[1]<$count) {if ($journal && $to) addjournal($loc,$to,"РљРѕР»РёС‡РµСЃС‚РІРѕ ".$title." РјРµРЅСЊС€Рµ, С‡РµРј ".$count); $res=0; return 0;} 
 				$tmp[1]-=$count; 
 				if ($tmp[1]==0) unset($loc_i[$loc][$item]); else $loc_i[$loc][$item]=implode("|",$tmp);
 				}
@@ -51,20 +51,20 @@ if(substr($items,strlen($items)-1,1)=="|") $items=substr($items,0,strlen($items)
 
 		$tcount=intval(preg_replace('/.*'.$item.':(\d+).*/',"\\1",$items));
 		if ($tcount==0) {
-			if ($msg) msg("У вас нет ".$title);
-			if ($journal && $to) addjournal($loc,$to,"Количество ".$title." равно нулю"); 
-			if ($journal && !$d) addjournal($loc,$from,"У вас нет ".$title); 
+			if ($msg) msg("РЈ РІР°СЃ РЅРµС‚ ".$title);
+			if ($journal && $to) addjournal($loc,$to,"РљРѕР»РёС‡РµСЃС‚РІРѕ ".$title." СЂР°РІРЅРѕ РЅСѓР»СЋ"); 
+			if ($journal && !$d) addjournal($loc,$from,"РЈ РІР°СЃ РЅРµС‚ ".$title); 
 			$res=0;
 			return 0;
 			} else {
 				if ($tcount<$count) {
-					if ($msg) msg("У вас недостаточно ".$title." (надо ".$count.")");
-					if ($journal && $to) addjournal($loc,$to,"Количество ".$title." меньше, чем ".$count); 
-					if ($journal && !$d) addjournal($loc,$from,"У вас количество ".$title." меньше, чем ".$count); 
+					if ($msg) msg("РЈ РІР°СЃ РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ ".$title." (РЅР°РґРѕ ".$count.")");
+					if ($journal && $to) addjournal($loc,$to,"РљРѕР»РёС‡РµСЃС‚РІРѕ ".$title." РјРµРЅСЊС€Рµ, С‡РµРј ".$count); 
+					if ($journal && !$d) addjournal($loc,$from,"РЈ РІР°СЃ РєРѕР»РёС‡РµСЃС‚РІРѕ ".$title." РјРµРЅСЊС€Рµ, С‡РµРј ".$count); 
 					$res=0;
 					return 0;
 					} 
-				if ($tcount==$count && strpos($items,"=".$item.":".$tcount)===false) {	// удаляем предмет (кроме торговцев, у кот. ver|min|max=id:count), проверяем equip
+				if ($tcount==$count && strpos($items,"=".$item.":".$tcount)===false) {	// СѓРґР°Р»СЏРµРј РїСЂРµРґРјРµС‚ (РєСЂРѕРјРµ С‚РѕСЂРіРѕРІС†РµРІ, Сѓ РєРѕС‚. ver|min|max=id:count), РїСЂРѕРІРµСЂСЏРµРј equip
 					$items=preg_replace('/\|?'.$item.':(\d+)/',"",$items);
 					$equip=$loc_i[$loc][$from]["equip"];
 					$tbp=strpos($loc_i[$loc][$from]["equip"],$item);
@@ -82,9 +82,9 @@ if(substr($equip,strlen($equip)-1,1)=="|") $equip=substr($equip,0,strlen($equip)
 						$tcount-=$count;
 						$items=preg_replace('/'.$item.':(\d+)/',$item.":".$tcount,$items);
 						}
-				if (!$d) $loc_i[$loc][$from][$ft]=$items; else {if (strpos($tdied[0],"*")===false) $clan=""; else $clan=substr($tdied[0],strpos($tdied[0],"*")+1,strrpos($tdied[0],"*")-strpos($tdied[0],"*")-1); if ($to) $tc=explode("|",$loc_i[$loc][$to]["char"]); else $tc[0]=""; if (strpos($tc[0],"*")===false) $clan1=""; else $clan1=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1); if($tc[13]) $wife=substr($from,6,strrpos($from,".")-6)==substr($tc[13],0,strlen(substr($from,6,strrpos($from,".")-6))); else $wife=0; if (!$tdied[1] && $to && substr($from,0,strlen("i.s.d.".$to))!="i.s.d.".$to && (!$clan1 || ($clan1 && $clan1!=$clan)) && !$wife && substr($from,0,11)!="i.s.d.u.qv.") docrim($loc,$to,"мародер"); $tdied[3]=str_replace("|",",",$items); $loc_i[$loc][$from]=implode("|",$tdied);}
-				if ($journal && $to=="loc") {if ($journal && !$d) addjournal($loc,$from,"Вы бросили ".$count." ".$title); if ($journal && !$d) addjournal($loc,"all",$ftitle. " бросил ".$count." ".$title,$from);}
-				if ($journal && $to!="loc") if ($journal && !$d) addjournal($loc,$from,"Вы потеряли ".$count." ".$title);
+				if (!$d) $loc_i[$loc][$from][$ft]=$items; else {if (strpos($tdied[0],"*")===false) $clan=""; else $clan=substr($tdied[0],strpos($tdied[0],"*")+1,strrpos($tdied[0],"*")-strpos($tdied[0],"*")-1); if ($to) $tc=explode("|",$loc_i[$loc][$to]["char"]); else $tc[0]=""; if (strpos($tc[0],"*")===false) $clan1=""; else $clan1=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1); if($tc[13]) $wife=substr($from,6,strrpos($from,".")-6)==substr($tc[13],0,strlen(substr($from,6,strrpos($from,".")-6))); else $wife=0; if (!$tdied[1] && $to && substr($from,0,strlen("i.s.d.".$to))!="i.s.d.".$to && (!$clan1 || ($clan1 && $clan1!=$clan)) && !$wife && substr($from,0,11)!="i.s.d.u.qv.") docrim($loc,$to,"РјР°СЂРѕРґРµСЂ"); $tdied[3]=str_replace("|",",",$items); $loc_i[$loc][$from]=implode("|",$tdied);}
+				if ($journal && $to=="loc") {if ($journal && !$d) addjournal($loc,$from,"Р’С‹ Р±СЂРѕСЃРёР»Рё ".$count." ".$title); if ($journal && !$d) addjournal($loc,"all",$ftitle. " Р±СЂРѕСЃРёР» ".$count." ".$title,$from);}
+				if ($journal && $to!="loc") if ($journal && !$d) addjournal($loc,$from,"Р’С‹ РїРѕС‚РµСЂСЏР»Рё ".$count." ".$title);
 				}
 		}
 	}
@@ -106,7 +106,7 @@ if(substr($items,strlen($items)-1,1)=="|") $items=substr($items,0,strlen($items)
 
 		if (substr($to,0,2)=="u.") {
 			if (strlen($items)>800 && strpos($items,$item.":")===false) {
-				addjournal($loc,$to,"Не хватает места, ".$title." упал вам под ноги");
+				addjournal($loc,$to,"РќРµ С…РІР°С‚Р°РµС‚ РјРµСЃС‚Р°, ".$title." СѓРїР°Р» РІР°Рј РїРѕРґ РЅРѕРіРё");
 				$to="loc";
 				}
 			}
@@ -114,15 +114,15 @@ if(substr($items,strlen($items)-1,1)=="|") $items=substr($items,0,strlen($items)
 		if ($to!="loc") {
 			$tcount=intval(preg_replace('/.*'.$item.':(\d+).*/',"\\1",$items));
 
-			if ($tcount==0) {	// торговцам новый предмет в банк не добавляем
+			if ($tcount==0) {	// С‚РѕСЂРіРѕРІС†Р°Рј РЅРѕРІС‹Р№ РїСЂРµРґРјРµС‚ РІ Р±Р°РЅРє РЅРµ РґРѕР±Р°РІР»СЏРµРј
 				if (strpos($items,"=".$item.":".$tcount)===false) if($items=="") $items=$item.":".$count; else $items.="|".$item.":".$count;
 				} else {
 					$tcount+=$count;
 					$items=preg_replace('/'.$item.':(\d+)/',$item.":".$tcount,$items);
 					}
 			if (!$d) $loc_i[$loc][$to][$tt]=$items; else {$tdied[3]=str_replace("|",",",$items); $loc_i[$loc][$to]=implode("|",$tdied);}
-			if ($journal && $from=="loc") {if ($journal && !$d) addjournal($loc,$to,"Вы подняли ".$count." ".$title); if ($journal && !$d) addjournal($loc,"all",$ftitle. " поднял ".$count." ".$title,$to);}
-			if ($journal && $from!="loc") if ($journal && !$d) addjournal($loc,$to,"Вы получили ".$count." ".$title);
+			if ($journal && $from=="loc") {if ($journal && !$d) addjournal($loc,$to,"Р’С‹ РїРѕРґРЅСЏР»Рё ".$count." ".$title); if ($journal && !$d) addjournal($loc,"all",$ftitle. " РїРѕРґРЅСЏР» ".$count." ".$title,$to);}
+			if ($journal && $from!="loc") if ($journal && !$d) addjournal($loc,$to,"Р’С‹ РїРѕР»СѓС‡РёР»Рё ".$count." ".$title);
 			}
 		}
 
@@ -138,6 +138,6 @@ if(substr($items,strlen($items)-1,1)=="|") $items=substr($items,0,strlen($items)
 		} 
 	}
 $res=1;
-return 1;	// ок
+return 1;	// РѕРє
 
 

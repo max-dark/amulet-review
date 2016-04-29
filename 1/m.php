@@ -1,10 +1,10 @@
 <?php
-// карта, передается map=x123x456 и для картики img=1 bw=1|2|3, f=x123x456 место флага
+// РєР°СЂС‚Р°, РїРµСЂРµРґР°РµС‚СЃСЏ map=x123x456 Рё РґР»СЏ РєР°СЂС‚РёРєРё img=1 bw=1|2|3, f=x123x456 РјРµСЃС‚Рѕ С„Р»Р°РіР°
 $tmp=$QUERY_STRING;if($tmp=='') $tmp=$_SERVER["QUERY_STRING"];
 $tmp=urldecode($tmp);
 parse_str($tmp);
 
-if($info) msg("<p>Ваша позиция обозначена белым квадратиком с черной точкой в центре (или черным квадратиком с белой точкой в центре, в зависимости от фона).<br/>Флаг лидерства - для цветных желтым квадратиком с черной точкой, для ч/б - как ваша.<br/>Замки - красные квадратики с белой точкой в центре (только для цветной карты).<br/>В настройках можете поменять тип карты (формат PNG лучший, но не все телефоны поддерживают).<br/><a href=\"http://mag.su/game/f_faq.php?id=map\">Другие карты</a>");
+if($info) msg("<p>Р’Р°С€Р° РїРѕР·РёС†РёСЏ РѕР±РѕР·РЅР°С‡РµРЅР° Р±РµР»С‹Рј РєРІР°РґСЂР°С‚РёРєРѕРј СЃ С‡РµСЂРЅРѕР№ С‚РѕС‡РєРѕР№ РІ С†РµРЅС‚СЂРµ (РёР»Рё С‡РµСЂРЅС‹Рј РєРІР°РґСЂР°С‚РёРєРѕРј СЃ Р±РµР»РѕР№ С‚РѕС‡РєРѕР№ РІ С†РµРЅС‚СЂРµ, РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С„РѕРЅР°).<br/>Р¤Р»Р°Рі Р»РёРґРµСЂСЃС‚РІР° - РґР»СЏ С†РІРµС‚РЅС‹С… Р¶РµР»С‚С‹Рј РєРІР°РґСЂР°С‚РёРєРѕРј СЃ С‡РµСЂРЅРѕР№ С‚РѕС‡РєРѕР№, РґР»СЏ С‡/Р± - РєР°Рє РІР°С€Р°.<br/>Р—Р°РјРєРё - РєСЂР°СЃРЅС‹Рµ РєРІР°РґСЂР°С‚РёРєРё СЃ Р±РµР»РѕР№ С‚РѕС‡РєРѕР№ РІ С†РµРЅС‚СЂРµ (С‚РѕР»СЊРєРѕ РґР»СЏ С†РІРµС‚РЅРѕР№ РєР°СЂС‚С‹).<br/>Р’ РЅР°СЃС‚СЂРѕР№РєР°С… РјРѕР¶РµС‚Рµ РїРѕРјРµРЅСЏС‚СЊ С‚РёРї РєР°СЂС‚С‹ (С„РѕСЂРјР°С‚ PNG Р»СѓС‡С€РёР№, РЅРѕ РЅРµ РІСЃРµ С‚РµР»РµС„РѕРЅС‹ РїРѕРґРґРµСЂР¶РёРІР°СЋС‚).<br/><a href=\"http://mag.su/game/f_faq.php?id=map\">Р”СЂСѓРіРёРµ РєР°СЂС‚С‹</a>");
 if($flag) msg("<p>".implode("",file("../story/flag.htm")));
 $loc=$l;
 
@@ -38,7 +38,7 @@ return $tc;
 $tc=calctc($l);
 $tcf=calctc($f);
 
-if ($img) {						// выведем картинку
+if ($img) {						// РІС‹РІРµРґРµРј РєР°СЂС‚РёРЅРєСѓ
 	if($bw==1) $t="wbmp"; else if ($bw==2) $t="jpg"; else $t="png";
 	if($tc[3]==2) $img="map3.".$t; else if($tc[3]) $img="map2.".$t; else $img="map1.".$t;
 	$size = getimagesize($img);
@@ -48,7 +48,7 @@ if ($img) {						// выведем картинку
 	if ($col==0 || $col=="16777180") {$cb=1; $cc=imagecolorallocate($im, 255, 255, 255);} else {$cb=imagecolorallocate($im, 255, 255, 255); $cc=1;}
 	imagefilledrectangle($im,$tc[1],$tc[2],$tc[1]+2,$tc[2]+2,$cb);
 	imagesetpixel($im,$tc[1]+1,$tc[2]+1,$cc);
-	if ($tcf[3]==$tc[3] && $f!=$l) {	// флаг
+	if ($tcf[3]==$tc[3] && $f!=$l) {	// С„Р»Р°Рі
 	if ($col==0 || $col=="16777180") {$cb=1; $cc=imagecolorallocate($im, 255, 255, 255);} else {$cb=imagecolorallocate($im, 255, 255, 255); $cc=1;}
 		if ($bw!=1) {$cb=imagecolorallocate($im, 255, 255, 0);$cc=imagecolorallocate($im, 0, 0, 0);}
 		imagefilledrectangle($im,$tcf[1],$tcf[2],$tcf[1]+2,$tcf[2]+2,$cb);
@@ -66,19 +66,14 @@ function msg($s) {
 	header ("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
 	header ("Pragma: no-cache");
 	header ("Content-type:text/vnd.wap.wml;charset=utf-8"); 
-	setlocale (LC_CTYPE, 'ru_RU.CP1251'); 
-	function win2unicode ( $s ) { if ( (ord($s)>=192) & (ord($s)<=255) ) $hexvalue=dechex(ord($s)+848); if ($s=="Ё") $hexvalue="401"; if ($s=="ё") $hexvalue="451"; return("&#x0".$hexvalue.";");} 
-	function translate($s) {return(preg_replace("/[А-яЁё]/e","win2unicode('\\0')",$s));} 
-	ob_start("translate");
+	
 	echo "<?xml version=\"1.0\"?>\n<!DOCTYPE wml PUBLIC \"-//WAPFORUM//DTD WML 1.1//EN\" \"http://www.wapforum.org/DTD/wml_1.1.xml\">";
 	echo "
 <wml>
-<card title=\"Карта\">";
+<card title=\"РљР°СЂС‚Р°\">";
 echo "
 $s
 </p>
 </card>
 </wml>";
-	ob_end_flush();
-	die("");
 	}

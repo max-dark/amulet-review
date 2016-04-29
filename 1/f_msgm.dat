@@ -1,9 +1,9 @@
 <?php
-// ïåðåìåùåíèå â êîíòàêòàõ
+// Ð¿ÐµÑ€ÐµÐ¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð² ÐºÐ¾Ð½Ñ‚Ð°ÐºÑ‚Ð°Ñ…
 	$items=explode("|",$loc_i[$loc][$login]["msg"]);
 	if ($msg=="up") {
 		for($i=0;$i<count($items);$i++) if ($items[$i]==$id) break;
-		if ($i==count($items)) msg("Íåò òàêîãî");
+		if ($i==count($items)) msg("ÐÐµÑ‚ Ñ‚Ð°ÐºÐ¾Ð³Ð¾");
 		if($i==0) {
 			array_push($items, $items[$i]);
 			array_shift($items);
@@ -13,11 +13,11 @@
 				$items[$i]=$tc;
 				}
 		$loc_i[$loc][$login]["msg"]=implode("|",$items);
-		msg("Ïîëüçîâàòåëü ïåðåäâèíóò ââåðõ.");
+		msg("ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ Ð¿ÐµÑ€ÐµÐ´Ð²Ð¸Ð½ÑƒÑ‚ Ð²Ð²ÐµÑ€Ñ….");
 		}
 	if ($msg=="down") {
 		for($i=0;$i<count($items);$i++) if ($items[$i]==$id) break;
-		if ($i==count($items)) msg("Íåò òàêîãî");
+		if ($i==count($items)) msg("ÐÐµÑ‚ Ñ‚Ð°ÐºÐ¾Ð³Ð¾");
 		if($i==count($items)-1) {
 			array_unshift($items, $items[$i]);
 			array_pop($items);
@@ -28,5 +28,5 @@
 				}
 
 		$loc_i[$loc][$login]["msg"]=implode("|",$items);
-		msg("Ïîëüçîâàòåëü ïåðåäâèíóò âíèç.");
+		msg("ÐŸÐ¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ Ð¿ÐµÑ€ÐµÐ´Ð²Ð¸Ð½ÑƒÑ‚ Ð²Ð½Ð¸Ð·.");
 		}

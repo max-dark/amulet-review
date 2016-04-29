@@ -1,5 +1,5 @@
 <?php
-// список всех скиллов
+// СЃРїРёСЃРѕРє РІСЃРµС… СЃРєРёР»Р»РѕРІ
 
 $arr_skills=array(
 "str"=>0,
@@ -37,46 +37,46 @@ $arr_skills=array(
 );
 
 $arr_title=array(
-"str"=>"Сила",
-"dex"=>"Ловкость",
-"int"=>"Интеллект",
-"meditation"=>"Медитация",
-"steal"=>"Кража",
-"animaltaming"=>"Прир.животных",
-"necro"=>"Некромант",
-"hand"=>"Рукопашная",
-"coldweapon"=>"Холодн.оружие",
-"ranged"=>"Стрельба",
-"parring"=>"Парирование",
-"uklon"=>"Уклон",
-"magic"=>"Магия",
-"magic_resist"=>"Сопр.магии",
-"magic_uklon"=>"Уклон от магии",
-"regeneration"=>"Регенерация",
-"hiding"=>"Скрытность",
-"look"=>"Осторожность",
-"steallook"=>"Подглядывание",
-"animallore"=>"Изуч.животных",
-"spirit"=>"Спиритизм",
-"healing"=>"Лечение",
-"alchemy"=>"Алхимия",
-"mine"=>"Рудокоп",
-"smith"=>"Кузнец",
-"lumb"=>"Лесоруб",
-"bow"=>"Плотник",
-"stone"=>"Ювелир",
-"fish"=>"Рыболов",
-"food"=>"Повар",
-"necro"=>"Некромант",
-"currier"=>"Друид",
+"str"=>"РЎРёР»Р°",
+"dex"=>"Р›РѕРІРєРѕСЃС‚СЊ",
+"int"=>"РРЅС‚РµР»Р»РµРєС‚",
+"meditation"=>"РњРµРґРёС‚Р°С†РёСЏ",
+"steal"=>"РљСЂР°Р¶Р°",
+"animaltaming"=>"РџСЂРёСЂ.Р¶РёРІРѕС‚РЅС‹С…",
+"necro"=>"РќРµРєСЂРѕРјР°РЅС‚",
+"hand"=>"Р СѓРєРѕРїР°С€РЅР°СЏ",
+"coldweapon"=>"РҐРѕР»РѕРґРЅ.РѕСЂСѓР¶РёРµ",
+"ranged"=>"РЎС‚СЂРµР»СЊР±Р°",
+"parring"=>"РџР°СЂРёСЂРѕРІР°РЅРёРµ",
+"uklon"=>"РЈРєР»РѕРЅ",
+"magic"=>"РњР°РіРёСЏ",
+"magic_resist"=>"РЎРѕРїСЂ.РјР°РіРёРё",
+"magic_uklon"=>"РЈРєР»РѕРЅ РѕС‚ РјР°РіРёРё",
+"regeneration"=>"Р РµРіРµРЅРµСЂР°С†РёСЏ",
+"hiding"=>"РЎРєСЂС‹С‚РЅРѕСЃС‚СЊ",
+"look"=>"РћСЃС‚РѕСЂРѕР¶РЅРѕСЃС‚СЊ",
+"steallook"=>"РџРѕРґРіР»СЏРґС‹РІР°РЅРёРµ",
+"animallore"=>"РР·СѓС‡.Р¶РёРІРѕС‚РЅС‹С…",
+"spirit"=>"РЎРїРёСЂРёС‚РёР·Рј",
+"healing"=>"Р›РµС‡РµРЅРёРµ",
+"alchemy"=>"РђР»С…РёРјРёСЏ",
+"mine"=>"Р СѓРґРѕРєРѕРї",
+"smith"=>"РљСѓР·РЅРµС†",
+"lumb"=>"Р›РµСЃРѕСЂСѓР±",
+"bow"=>"РџР»РѕС‚РЅРёРє",
+"stone"=>"Р®РІРµР»РёСЂ",
+"fish"=>"Р С‹Р±РѕР»РѕРІ",
+"food"=>"РџРѕРІР°СЂ",
+"necro"=>"РќРµРєСЂРѕРјР°РЅС‚",
+"currier"=>"Р”СЂСѓРёРґ",
 );
 
-	// в $to цель, если есть
+	// РІ $to С†РµР»СЊ, РµСЃР»Рё РµСЃС‚СЊ
 	$skills=explode("|",$loc_i[$loc][$login]["skills"]);
 	$war=explode("|",$loc_i[$loc][$login]["war"]);
 	if ($macro==1) $m="&macros=list&num=$num&name=$name&act=$act#add"; else $m='';
 	$stmp="<p>";
-	if (!$macro) $stmp="<a href=\"$PHP_SELF?sid=$sid&look=skill.str\">Сила</a>: ".$skills[0]."<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.dex\">Ловкость</a>: ".$skills[1]."<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.int\">Интеллект</a>: ".$skills[2]."<br/>Опыт: ".$skills[3]."/".$war[13]*$g_exp."<br/>Очки опыта: ".$skills[4];
+	if (!$macro) $stmp="<a href=\"$PHP_SELF?sid=$sid&look=skill.str\">РЎРёР»Р°</a>: ".$skills[0]."<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.dex\">Р›РѕРІРєРѕСЃС‚СЊ</a>: ".$skills[1]."<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.int\">РРЅС‚РµР»Р»РµРєС‚</a>: ".$skills[2]."<br/>РћРїС‹С‚: ".$skills[3]."/".$war[13]*$g_exp."<br/>РћС‡РєРё РѕРїС‹С‚Р°: ".$skills[4];
 	unset($arr_skills["str"]);unset($arr_skills["dex"]);unset($arr_skills["int"]);
 
 	if (!$start) $start=0;
@@ -85,11 +85,11 @@ $arr_title=array(
 		if ($to) {
 			if ($keys[$i]=="meditation" ||$keys[$i]=="animaltaming" || $keys[$i]=="steal") 
 			$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=skill.".$keys[$i].$m."\">".$arr_title[$keys[$i]]."</a>";
-			} else {	// в след. экране all выберем цель $to для использования
+			} else {	// РІ СЃР»РµРґ. СЌРєСЂР°РЅРµ all РІС‹Р±РµСЂРµРј С†РµР»СЊ $to РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 				$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.".$keys[$i]."\">".$arr_title[$keys[$i]]."</a>: ".intval($skills[$arr_skills[$keys[$i]]]);
 				if ($keys[$i]=="meditation" || $keys[$i]=="animaltaming" || $keys[$i]=="steal" || $keys[$i]=="necro") $stmp.=" <a href=\"$PHP_SELF?sid=$sid&use=skill.".$keys[$i]."\">[+]</a>";
 				}
 		}
 	if ($start) {$stmp.= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=skill\">^ </a>";}
 	if ($start+$g_list<count($keys)) {if (!$start) $stmp.="\n<br/>"; $stmp.= "<a href=\"$PHP_SELF?sid=$sid&list=skill&start=".($start+$g_list)."\">+ (".(count($keys)-$start-$g_list).")</a>";}
-	msg($stmp,"Навыки",1);
+	msg($stmp,"РќР°РІС‹РєРё",1);

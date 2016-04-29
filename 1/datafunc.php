@@ -1,7 +1,7 @@
 <?php
 
 $NOT_SET = "NOT_SET";
-require("antimat.ssp"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)
+require("antimat.ssp"); // РђРЅС‚РёРјР°С‚-С„РёР»СЊС‚СЂ ( С‡С‚РѕР±С‹ РЅРёРєРё РјР°С‚РµСЂРЅС‹Рµ РЅРµ СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°Р»Рё)
 
 function InitParam($N,$V)
 { 
@@ -31,7 +31,7 @@ global $Names,$Values,$NOT_SET;
   for ($i=0; $i<count($Nlist); $i++) if ($Nlist[$i] == $Name) break;
     
   if ($i == count($Nlist) and ($Value != $NOT_SET))
-  { // Добавляем имя и значение
+  { // Р”РѕР±Р°РІР»СЏРµРј РёРјСЏ Рё Р·РЅР°С‡РµРЅРёРµ
     $Names .= ":$Name";
     $Values .= ":$Value";
   }
@@ -41,7 +41,7 @@ global $Names,$Values,$NOT_SET;
     $Vlist[$i] = $Value;
     $Values = implode(":",$Vlist);
     if ($Value == $NOT_SET) 
-    { // Удаление имени и значения
+    { // РЈРґР°Р»РµРЅРёРµ РёРјРµРЅРё Рё Р·РЅР°С‡РµРЅРёСЏ
       $Nlist[$i] = $NOT_SET;
       $Names = implode(":",$Nlist);
       $Names = str_replace(":$NOT_SET","",$Names);
@@ -60,17 +60,17 @@ global $PassDelay;
   $now = time();
   $sql="select $fields from users where nick='$nick'";
   $result=mysql_query($sql) or die(mysql_error());
-  if (mysql_num_rows($result)!=1) return "Логин не найден";
+  if (mysql_num_rows($result)!=1) return "Р›РѕРіРёРЅ РЅРµ РЅР°Р№РґРµРЅ";
   
   $row = mysql_fetch_array($result); 
   $dt = $PassDelay - $now + $row['lastrefr'];
-  if ($dt > 0) return "Повторите через $dt"."sec";
+  if ($dt > 0) return "РџРѕРІС‚РѕСЂРёС‚Рµ С‡РµСЂРµР· $dt"."sec";
   
   if ($row['pass']!=$pass && !$skippass)
   {
     $sql = "update users set lastrefr=$now where nick='$nick'";
     mysql_query($sql) or die(mysql_error());
-    return "Неверный пароль";
+    return "РќРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ";
   }
   return "";
 }
@@ -79,25 +79,25 @@ function openDB()
 {
 global $server,$user,$dbpass,$dbname;
   $sesDB = @mysql_connect($server,$user,$dbpass);
-  if (!$sesDB) return "База данных недоступна. Повторите через 5мин";
+  if (!$sesDB) return "Р‘Р°Р·Р° РґР°РЅРЅС‹С… РЅРµРґРѕСЃС‚СѓРїРЅР°. РџРѕРІС‚РѕСЂРёС‚Рµ С‡РµСЂРµР· 5РјРёРЅ";
   $ok = @mysql_select_db($dbname,$sesDB);
-  if (!$ok)return "База данных недоступна. Повторите через 5мин";
+  if (!$ok)return "Р‘Р°Р·Р° РґР°РЅРЅС‹С… РЅРµРґРѕСЃС‚СѓРїРЅР°. РџРѕРІС‚РѕСЂРёС‚Рµ С‡РµСЂРµР· 5РјРёРЅ";
   return "";
 }
 
 function SetData($login,$pass,$data)
-{ // Возвращает пустую строку в случае успеха или сообщение об ошибке.
+{ // Р’РѕР·РІСЂР°С‰Р°РµС‚ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ СЃР»СѓС‡Р°Рµ СѓСЃРїРµС…Р° РёР»Рё СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ.
 global $error, $Names, $Values;
-  if (empty($login)) return "Логин не задан";
-  if (empty($pass)) return "Пароль не задан";
+  if (empty($login)) return "Р›РѕРіРёРЅ РЅРµ Р·Р°РґР°РЅ";
+  if (empty($pass)) return "РџР°СЂРѕР»СЊ РЅРµ Р·Р°РґР°РЅ";
 
-  $maxdata = 5000; // Максимальная длина данных
-  if(strlen($data)>$maxdata) return "Слишком длинная строка.";
+  $maxdata = 5000; // РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° РґР°РЅРЅС‹С…
+  if(strlen($data)>$maxdata) return "РЎР»РёС€РєРѕРј РґР»РёРЅРЅР°СЏ СЃС‚СЂРѕРєР°.";
   
   $error =openDB();
   if ($error != "") return $error;
   
-  $ok = checkpass($login,$pass,"names,vals",$result,1);	// сохраняет без пароля!
+  $ok = checkpass($login,$pass,"names,vals",$result,1);	// СЃРѕС…СЂР°РЅСЏРµС‚ Р±РµР· РїР°СЂРѕР»СЏ!
   if ($ok != "") return $ok;
   InitParam(mysql_result($result,0, "names"),mysql_result($result,0, "vals"));
            
@@ -109,10 +109,10 @@ global $error, $Names, $Values;
 }  
 
 function GetData($login,$pass,&$data,$srv=0)
-{ // Возвращает пустую строку в случае успеха (данные возвращаются в $data) или сообщение об ошибке.
+{ // Р’РѕР·РІСЂР°С‰Р°РµС‚ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ СЃР»СѓС‡Р°Рµ СѓСЃРїРµС…Р° (РґР°РЅРЅС‹Рµ РІРѕР·РІСЂР°С‰Р°СЋС‚СЃСЏ РІ $data) РёР»Рё СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ.
 global $error, $Names, $Values, $NOT_SET;
-  if (empty($login)) return "Логин не задан";
-  if (empty($pass)) return "Пароль не задан";
+  if (empty($login)) return "Р›РѕРіРёРЅ РЅРµ Р·Р°РґР°РЅ";
+  if (empty($pass)) return "РџР°СЂРѕР»СЊ РЅРµ Р·Р°РґР°РЅ";
   
   
   $error =openDB();
@@ -123,26 +123,26 @@ global $error, $Names, $Values, $NOT_SET;
   InitParam(mysql_result($result,0, "names"),mysql_result($result,0, "vals"));
   mysql_close();
   $data = GetParam("gamedata");
-  if ($data == $NOT_SET) return "Данные не найдены";
+  if ($data == $NOT_SET) return "Р”Р°РЅРЅС‹Рµ РЅРµ РЅР°Р№РґРµРЅС‹";
 
   return "";
 } 
 
 function SetUser($login,$oldpass,$newpass)
-{ // Регистрация нового пользователя (oldpass = "") или смена пароля.
-  // Возвращает пустую строку в случае успеха или сообщение об ошибке.
+{ // Р РµРіРёСЃС‚СЂР°С†РёСЏ РЅРѕРІРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ (oldpass = "") РёР»Рё СЃРјРµРЅР° РїР°СЂРѕР»СЏ.
+  // Р’РѕР·РІСЂР°С‰Р°РµС‚ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ СЃР»СѓС‡Р°Рµ СѓСЃРїРµС…Р° РёР»Рё СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ.
 global $RegStatus,$DefRefrInt,$DefMessLim,$CommonMode;
   
-  if (empty($login)) return "Логин не задан";
-  if (empty($newpass)) return "Пароль не задан";  
-  if (!ValidNN($login)) return "Неверный синтаксис в логине";
-  if (!ValidPass($newpass)) return "Неверный синтаксис в пароле";
+  if (empty($login)) return "Р›РѕРіРёРЅ РЅРµ Р·Р°РґР°РЅ";
+  if (empty($newpass)) return "РџР°СЂРѕР»СЊ РЅРµ Р·Р°РґР°РЅ";  
+  if (!ValidNN($login)) return "РќРµРІРµСЂРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ РІ Р»РѕРіРёРЅРµ";
+  if (!ValidPass($newpass)) return "РќРµРІРµСЂРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ РІ РїР°СЂРѕР»Рµ";
   
   $login=substr($login,0,10);
   $newpass=substr($newpass,0,10);
   
   $BadWord = GetBadWord($login);
-  if ($BadWord != "") return "Логин содержит запрещённое слово";
+  if ($BadWord != "") return "Р›РѕРіРёРЅ СЃРѕРґРµСЂР¶РёС‚ Р·Р°РїСЂРµС‰С‘РЅРЅРѕРµ СЃР»РѕРІРѕ";
  
   $error =openDB();
   if ($error != "") return $error;
@@ -159,7 +159,7 @@ global $RegStatus,$DefRefrInt,$DefMessLim,$CommonMode;
     $sqlSel="select * from users where nick = '$login'"; 
     $result=mysql_query($sqlSel) or die(mysql_error()); 
     $Count=mysql_num_rows($result);
-    if ($Count != 0) return "Такой логин уже зарегистирован";
+    if ($Count != 0) return "РўР°РєРѕР№ Р»РѕРіРёРЅ СѓР¶Рµ Р·Р°СЂРµРіРёСЃС‚РёСЂРѕРІР°РЅ";
     $now = time();
     $sqllogin ="insert into users (status,sent,regtime,refrint,messlim,mode,nick,pass) values ('$RegStatus','0', '$now', '$DefRefrInt','$DefMessLim', '$CommonMode','$login', '$newpass')"; 
     mysql_query($sqllogin) or die(mysql_error());  

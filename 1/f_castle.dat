@@ -1,5 +1,5 @@
 <?php
-// замковые функции
+// Р·Р°РјРєРѕРІС‹Рµ С„СѓРЅРєС†РёРё
 if ($ctele) {
 	loadloc($ctele);
 	if (!isset($loc_tt[$ctele]) || substr($ctele,3)!=".gate") return;
@@ -11,11 +11,11 @@ $d=explode("|",$loc_tt[$gate]["d"]);
 if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
 $char = explode("|",$loc_i[$loc][$login]["char"]);
 if (strpos($char[0],"*")===false) $clan=""; else $clan=substr($char[0],strpos($char[0],"*")+1,strrpos($char[0],"*")-strpos($char[0],"*")-1);
-if (!$ctele && $char[8] && substr($loc,3)!=".in" && $clan!=$clanc && strpos($d[0],":".$login.":")===false) {addnpc($login,$loc,substr($gate,0,4)."in"); msg("Призрак не может находиться в не своем замке.");}
+if (!$ctele && $char[8] && substr($loc,3)!=".in" && $clan!=$clanc && strpos($d[0],":".$login.":")===false) {addnpc($login,$loc,substr($gate,0,4)."in"); msg("РџСЂРёР·СЂР°Рє РЅРµ РјРѕР¶РµС‚ РЅР°С…РѕРґРёС‚СЊСЃСЏ РІ РЅРµ СЃРІРѕРµРј Р·Р°РјРєРµ.");}
 
 $arr=array("main","gate","tron","sklad");
 if ($ctele) {
-	if ($clanc && $clanc==$clan) {// телепорт только если есть враги
+	if ($clanc && $clanc==$clan) {// С‚РµР»РµРїРѕСЂС‚ С‚РѕР»СЊРєРѕ РµСЃР»Рё РµСЃС‚СЊ РІСЂР°РіРё
 		$tc=substr($ctele,0,4);
 		foreach($arr as $i) {
 			loadloc($tc.$i);
@@ -30,11 +30,11 @@ if ($ctele) {
 	}
 if (substr($loc,3,3)==".in") {include "f_castlein.dat"; return;}
 
-// заперто/открыто
+// Р·Р°РїРµСЂС‚Рѕ/РѕС‚РєСЂС‹С‚Рѕ
 if (substr($loc,3)!=".in") {
 	if (strpos($d[0],"{")===false) $timez=0; else $timez=substr($d[0],strpos($d[0],"{")+1,strrpos($d[0],"}")-strpos($d[0],"{")-1);
-	if (time()<$timez) {addnpc($login,$loc,substr($gate,0,4)."in"); msg("Ворота замка заперты изнутри, их могут открыть только хозяева замка, либо стражники откроют сами, когда истечет максимальный срок.");}
-	else if (strpos($d[0],"#")===false) {	// открываем, время истекло
+	if (time()<$timez) {addnpc($login,$loc,substr($gate,0,4)."in"); msg("Р’РѕСЂРѕС‚Р° Р·Р°РјРєР° Р·Р°РїРµСЂС‚С‹ РёР·РЅСѓС‚СЂРё, РёС… РјРѕРіСѓС‚ РѕС‚РєСЂС‹С‚СЊ С‚РѕР»СЊРєРѕ С…РѕР·СЏРµРІР° Р·Р°РјРєР°, Р»РёР±Рѕ СЃС‚СЂР°Р¶РЅРёРєРё РѕС‚РєСЂРѕСЋС‚ СЃР°РјРё, РєРѕРіРґР° РёСЃС‚РµС‡РµС‚ РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЃСЂРѕРє.");}
+	else if (strpos($d[0],"#")===false) {	// РѕС‚РєСЂС‹РІР°РµРј, РІСЂРµРјСЏ РёСЃС‚РµРєР»Рѕ
 		if ($timez!=0) $d[0]=substr($d[0],0,strpos($d[0],"{")).substr($d[0],strpos($d[0],"}")+1);
 		$d[0].="#".($timez+60*60*8)."#";
 		$loc_tt[$gate]["d"]=implode("|",$d);
@@ -44,7 +44,7 @@ if (substr($loc,3)!=".in") {
 //---
 
 $b=1;
-if (substr($loc,3)==".gate" && $clanc && $clanc!=$clan && strpos($d[0],":".$login.":")===false) {			// вход
+if (substr($loc,3)==".gate" && $clanc && $clanc!=$clan && strpos($d[0],":".$login.":")===false) {			// РІС…РѕРґ
 		$tc=substr($loc,0,4);
 		$b=1;
 		foreach($arr as $i) {
@@ -59,34 +59,34 @@ if (substr($loc,3)==".gate" && $clanc && $clanc!=$clan && strpos($d[0],":".$logi
 			$tclan=unserialize(implode("",file("../clans/".$clanc)));
 			if ($tclan) {
 				$k1=array_keys($tclan["g"]);
-				$tclan["m"][$k1[0]]=1;//глава
+				$tclan["m"][$k1[0]]=1;//РіР»Р°РІР°
 				foreach(array_keys($tclan["m"]) as $k) if (file_exists("online/".$k) && filesize("online/".$k)!=1) {
 					$tmp=file("online/".$k);
 					$tmp[0]=trim($tmp[0]);
 					loadloc($tmp[0]);
 					$tu=explode("|",$loc_i[$tmp[0]][$k]["user"]);
-					if ($tmp[0]!=$gate) addjournal($tmp[0],$k,"<a href=\"$PHP_SELF?sid=$k.".$tu[0]."&amp;ctele=".$tc."gate\">На ваш замок напали!</a>");
+					if ($tmp[0]!=$gate) addjournal($tmp[0],$k,"<a href=\"$PHP_SELF?sid=$k.".$tu[0]."&amp;ctele=".$tc."gate\">РќР° РІР°С€ Р·Р°РјРѕРє РЅР°РїР°Р»Рё!</a>");
 					}
 				}
 	}
 
-// захват замка
+// Р·Р°С…РІР°С‚ Р·Р°РјРєР°
 if (substr($loc,3,5)==".gate" && $b && $clan && $clanc!=$clan && strpos($d[0],":".$login.":")===false) {
-	if ($clanc) $tclan=unserialize(implode("",file("../clans/".$clanc))); else $tclan=0;	// сообщ. о захвате замка
+	if ($clanc) $tclan=unserialize(implode("",file("../clans/".$clanc))); else $tclan=0;	// СЃРѕРѕР±С‰. Рѕ Р·Р°С…РІР°С‚Рµ Р·Р°РјРєР°
 	if ($tclan) {
 		$k1=array_keys($tclan["g"]);
-		$tclan["m"][$k1[0]]=1;//глава
+		$tclan["m"][$k1[0]]=1;//РіР»Р°РІР°
 		foreach(array_keys($tclan["m"]) as $k) if (file_exists("online/".$k) && filesize("online/".$k)!=1) {
 			$tmp=file("online/".$k);
 			$tmp[0]=trim($tmp[0]);
 			loadloc($tmp[0]);
 			$tu=explode("|",$loc_i[$tmp[0]][$k]["user"]);
-			addjournal($tmp[0],$k,"Ваш замок захватил клан ".$clan."!");
+			addjournal($tmp[0],$k,"Р’Р°С€ Р·Р°РјРѕРє Р·Р°С…РІР°С‚РёР» РєР»Р°РЅ ".$clan."!");
 			}
 		}
 	if ($clanc) $d[0]=substr($d[0],0,strpos($d[0],"*"))."*".$clan."*()"."#".(time()+60*60*2)."#";
 		else $d[0].="*".$clan."*()"."#".(time()+60*60*2)."#";
-	addjournal($loc,$login,"Вы захватили замок!");
+	addjournal($loc,$login,"Р’С‹ Р·Р°С…РІР°С‚РёР»Рё Р·Р°РјРѕРє!");
 	$loc_tt[$gate]["d"]=implode("|",$d);
 	$loc_tt[$gate]["save"]=1;
 	}

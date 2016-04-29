@@ -11,14 +11,14 @@ if ($look) {
 	else if (substr($look,0,2)=='p.') {
 		if (file_exists("items/".$look)) $item=explode("|",implode("",file("items/".$look))); else die("err: no items/".$look);
 		$skills=explode("|",$loc_i[$loc][$login]["skills"]);
-		$stmp="<a href=\"$PHP_SELF?sid=$sid&look=p\">Период</a>: ".$item[1]."<br/>".$item[2];
-		if ($look!="p.d.c" && ($skills[2]-1)*10>0) $stmp.="<br/>---<br/>Шанс успешного использования (с учетом вашего интеллекта): -".(($skills[2]-1)*10)."%";
-		if ($char[12]) $stmp.="<br/>Так как вы на коне: -10%";
-		if ($game["fid"]==$login && $game["floc"]==$loc) $stmp.="<br/>Так как у вас флаг лидерства: +10%";
+		$stmp="<a href=\"$PHP_SELF?sid=$sid&look=p\">РџРµСЂРёРѕРґ</a>: ".$item[1]."<br/>".$item[2];
+		if ($look!="p.d.c" && ($skills[2]-1)*10>0) $stmp.="<br/>---<br/>РЁР°РЅСЃ СѓСЃРїРµС€РЅРѕРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ (СЃ СѓС‡РµС‚РѕРј РІР°С€РµРіРѕ РёРЅС‚РµР»Р»РµРєС‚Р°): -".(($skills[2]-1)*10)."%";
+		if ($char[12]) $stmp.="<br/>РўР°Рє РєР°Рє РІС‹ РЅР° РєРѕРЅРµ: -10%";
+		if ($game["fid"]==$login && $game["floc"]==$loc) $stmp.="<br/>РўР°Рє РєР°Рє Сѓ РІР°СЃ С„Р»Р°Рі Р»РёРґРµСЂСЃС‚РІР°: +10%";
 		msg($stmp,$item[0]);
 		}
 	else {
-		if (file_exists("desc/".$look)) $stmp.="<p>".implode("",file("desc/".$look)); else $stmp.="Описание недоступно";
+		if (file_exists("desc/".$look)) $stmp.="<p>".implode("",file("desc/".$look)); else $stmp.="РћРїРёСЃР°РЅРёРµ РЅРµРґРѕСЃС‚СѓРїРЅРѕ";
 		}
-	if (!$page_d && $stmp) msg($stmp,"Описание");
+	if (!$page_d && $stmp) msg($stmp,"РћРїРёСЃР°РЅРёРµ");
 	}

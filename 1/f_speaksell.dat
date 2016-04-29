@@ -1,8 +1,8 @@
 <?php
-	// список
+	// СЃРїРёСЃРѕРє
 	if ($trader[1]) $filter=explode(":",$trader[1]); else $filter="";
 	$items=$loc_i[$loc][$login]["items"];
-	// удалим что не в фильтре
+	// СѓРґР°Р»РёРј С‡С‚Рѕ РЅРµ РІ С„РёР»СЊС‚СЂРµ
 	if ($filter) {
 		$items=explode("|",$items);
 		foreach (array_keys($items) as $i) {
@@ -18,16 +18,16 @@
 	if (!$start) $start=0;
 	for ($i=$start;$i<$start+$g_list && $i<$xF;$i++) if ($regF[1][$i]){
 		if (strpos($regF[1][$i],"_")!==false) $ti=substr($regF[1][$i],0,strpos($regF[1][$i],"_")); else $ti=$regF[1][$i];
-		if (substr($regF[1][$i],0,5)=="i.rr.") $item=explode("|","руна|50"); else if (file_exists("items/".$ti)) $item=explode("|",implode("",file("items/".$ti))); else die("err: no items/".$regF[1][$i]);
+		if (substr($regF[1][$i],0,5)=="i.rr.") $item=explode("|","СЂСѓРЅР°|50"); else if (file_exists("items/".$ti)) $item=explode("|",implode("",file("items/".$ti))); else die("err: no items/".$regF[1][$i]);
 		$tmp=$item[0];
 		if (strpos($regF[1][$i],"..")!==false) $tmp.=" *";
 		if ($regF[2][$i]>1) $tmp.=" (".$regF[2][$i].")";
-		$tmp.=" за ".round($item[1]*$trader[0])." монет";
+		$tmp.=" Р·Р° ".round($item[1]*$trader[0])." РјРѕРЅРµС‚";
 		$stmp.="\n<br/><anchor>".$tmp."<go href=\"#menu\"><setvar name=\"to\" value=\"".$regF[1][$i]."\"/></go></anchor>";
 		}
 
-	if ($stmp) $stmp="<p>Я могу купить:".$stmp; else msg("Сожалею, но у вас нет интересующих меня товаров.",$tchar[0]);
+	if ($stmp) $stmp="<p>РЇ РјРѕРіСѓ РєСѓРїРёС‚СЊ:".$stmp; else msg("РЎРѕР¶Р°Р»РµСЋ, РЅРѕ Сѓ РІР°СЃ РЅРµС‚ РёРЅС‚РµСЂРµСЃСѓСЋС‰РёС… РјРµРЅСЏ С‚РѕРІР°СЂРѕРІ.",$tchar[0]);
 	if ($start) {$stmp.= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";}
 	if ($start+$g_list<$xF-1) {if (!$start) $stmp.="\n<br/>"; $stmp.= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=".($start+$g_list)."\">+ (".($xF-$start-$g_list).")</a>";}
-	$stmp.="\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Продать</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
+	$stmp.="\n</p>\n</card>\n<card id=\"menu\" title=\"РњРµРЅСЋ\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">РџСЂРѕРґР°С‚СЊ</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">РРЅС„Рѕ</a>";
 	msg($stmp,$tchar[0]);

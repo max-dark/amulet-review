@@ -1,21 +1,21 @@
 <?php
 
-$stmp = "</p><p align='center'><a href='?site=news'>Новости";
+$stmp = "</p><p align='center'><a href='?site=news'>РќРѕРІРѕСЃС‚Рё";
 $t = filemtime( '../news/news.htm' );
 if ( $t )
 		$stmp .= date( "d/m", $t );
 $stmp .= "</a>
-<br/>Ваше имя:
+<br/>Р’Р°С€Рµ РёРјСЏ:
 <br/><input name='nn' emptyok='true' type='text' value='' />
-<br/>Пароль:
+<br/>РџР°СЂРѕР»СЊ:
 <br/><input name='pass' emptyok='true' type='password' value='' />
 <br/><a href='?site=connect&amp;login=$(nn:escape)&amp;p=$(pass:escape)&amp;rnd=" . rand( 1,
-		99 ) . "'>Войти</a>
-<br/><a href='?site=gamereg&amp;log=new&amp;nn=$(nn:escape)'>Регистрация</a>
+		99 ) . "'>Р’РѕР№С‚Рё</a>
+<br/><a href='?site=gamereg&amp;log=new&amp;nn=$(nn:escape)'>Р РµРіРёСЃС‚СЂР°С†РёСЏ</a>
 <br/><a href='f_site_found.php?login=$(nn:escape)&r=" . rand( 1, 99 ) .
-		"'>Найти игрока</a>
-<br/><a href='g.php?site=main3&r=" . rand( 1, 99 ) . "'>Статистика</a>
-<br/><a href='../f_faq.php?'>Помощь</a>";
+		"'>РќР°Р№С‚Рё РёРіСЂРѕРєР°</a>
+<br/><a href='g.php?site=main3&r=" . rand( 1, 99 ) . "'>РЎС‚Р°С‚РёСЃС‚РёРєР°</a>
+<br/><a href='../f_faq.php?'>РџРѕРјРѕС‰СЊ</a>";
 msg( $stmp, $GAME_NAME, 0, 'none' );
 
 ?>

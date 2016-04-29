@@ -1,15 +1,15 @@
 <?php
 if ($use) {
 	if (time()>$char[6]) {
-		// если $list='all', то выведется список целей
-		if ($char[8]) msg("<p>Вы призрак и поэтому не можете ничего использовать, найдите лекаря или камень воскрешения");
-		if (substr($use,0,6)=='i.note' && substr($use,0,6)=='i.book') {$look=$use;} // на книги смотрим
+		// РµСЃР»Рё $list='all', С‚Рѕ РІС‹РІРµРґРµС‚СЃСЏ СЃРїРёСЃРѕРє С†РµР»РµР№
+		if ($char[8]) msg("<p>Р’С‹ РїСЂРёР·СЂР°Рє Рё РїРѕСЌС‚РѕРјСѓ РЅРµ РјРѕР¶РµС‚Рµ РЅРёС‡РµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ, РЅР°Р№РґРёС‚Рµ Р»РµРєР°СЂСЏ РёР»Рё РєР°РјРµРЅСЊ РІРѕСЃРєСЂРµС€РµРЅРёСЏ");
+		if (substr($use,0,6)=='i.note' && substr($use,0,6)=='i.book') {$look=$use;} // РЅР° РєРЅРёРіРё СЃРјРѕС‚СЂРёРј
 		else {
-			$scroll = 0; 	// со свитка?
+			$scroll = 0; 	// СЃРѕ СЃРІРёС‚РєР°?
 			if (substr($use,0,2)=="i.")  include "f_useitem.dat";
 			if (substr($use,0,2)=="m.") include "f_usemagic.dat";
 			if (substr($use,0,6)=="skill.") include "f_useskill.dat";
 			}
-		} else addjournal($loc,$login,"Вы должны отдохнуть ".round($char[6]-time()+1)." сек");
+		} else addjournal($loc,$login,"Р’С‹ РґРѕР»Р¶РЅС‹ РѕС‚РґРѕС…РЅСѓС‚СЊ ".round($char[6]-time()+1)." СЃРµРє");
 	}
 

@@ -1,43 +1,43 @@
 <?php
 
-	$stmp="<b>Замок Луен</b>:";
+	$stmp="<b>Р—Р°РјРѕРє Р›СѓРµРЅ</b>:";
 	$tmp=unserialize(implode("",file("loc_i/c.3.gate")));
 	if ($tmp["d"]) {
 		$d=explode("|",$tmp["d"]);
 		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+		if ($clanc) $stmp.=" РїСЂРёРЅР°РґР»РµР¶РёС‚ РєР»Р°РЅСѓ ".$clanc; else $stmp.=" РЅРёРєРѕРјСѓ РЅРµ РїСЂРёРЅР°РґР»РµР¶РёС‚";
+		} else $stmp.=" [РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё]";
 
-	$stmp.="<br/><b>Замок Мирра</b>:";
+	$stmp.="<br/><b>Р—Р°РјРѕРє РњРёСЂСЂР°</b>:";
 	$tmp=unserialize(implode("",file("loc_i/c.2.gate")));
 	if ($tmp["d"]) {
 		$d=explode("|",$tmp["d"]);
 		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+		if ($clanc) $stmp.=" РїСЂРёРЅР°РґР»РµР¶РёС‚ РєР»Р°РЅСѓ ".$clanc; else $stmp.=" РЅРёРєРѕРјСѓ РЅРµ РїСЂРёРЅР°РґР»РµР¶РёС‚";
+		} else $stmp.=" [РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё]";
 
-	$stmp.="<br/><b>Замок Санкастар</b>:";
+	$stmp.="<br/><b>Р—Р°РјРѕРє РЎР°РЅРєР°СЃС‚Р°СЂ</b>:";
 	$tmp=unserialize(implode("",file("loc_i/c.1.gate")));
 	if ($tmp["d"]) {
 		$d=explode("|",$tmp["d"]);
 		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+		if ($clanc) $stmp.=" РїСЂРёРЅР°РґР»РµР¶РёС‚ РєР»Р°РЅСѓ ".$clanc; else $stmp.=" РЅРёРєРѕРјСѓ РЅРµ РїСЂРёРЅР°РґР»РµР¶РёС‚";
+		} else $stmp.=" [РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё]";
 
-	$stmp.="<br/><b>Замок Танатос</b>:";
+	$stmp.="<br/><b>Р—Р°РјРѕРє РўР°РЅР°С‚РѕСЃ</b>:";
 	$tmp=unserialize(implode("",file("loc_i/c.4.gate")));
 	if ($tmp["d"]) {
 		$d=explode("|",$tmp["d"]);
 		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+		if ($clanc) $stmp.=" РїСЂРёРЅР°РґР»РµР¶РёС‚ РєР»Р°РЅСѓ ".$clanc; else $stmp.=" РЅРёРєРѕРјСѓ РЅРµ РїСЂРёРЅР°РґР»РµР¶РёС‚";
+		} else $stmp.=" [РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё]";
 
-     $stmp.="<br/><b>Замок Вилло</b>:";
+     $stmp.="<br/><b>Р—Р°РјРѕРє Р’РёР»Р»Рѕ</b>:";
 	$tmp=unserialize(implode("",file("loc_i/c.5.gate")));
 	if ($tmp["d"]) {
 		$d=explode("|",$tmp["d"]);
 		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+		if ($clanc) $stmp.=" РїСЂРёРЅР°РґР»РµР¶РёС‚ РєР»Р°РЅСѓ ".$clanc; else $stmp.=" РЅРёРєРѕРјСѓ РЅРµ РїСЂРёРЅР°РґР»РµР¶РёС‚";
+		} else $stmp.=" [РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё]";
 
-	msg($stmp,"Онлайн (Cервер ".implode("",file("server.dat")).")",0,'none');
+	msg($stmp,"РћРЅР»Р°Р№РЅ (CРµСЂРІРµСЂ ".implode("",file("server.dat")).")",0,'none');

@@ -8,7 +8,7 @@ if ( substr( $login, 0, 2 ) != "u." )
 		$login = "u." . $login;
 $login = strtolower( $login );
 
-// вначале ищем в списке онлайн
+// РІРЅР°С‡Р°Р»Рµ РёС‰РµРј РІ СЃРїРёСЃРєРµ РѕРЅР»Р°Р№РЅ
 if ( file_exists( "online/" . $login ) && filesize( "online/" . $login ) != 1 )
 {
 		$data = "";
@@ -25,7 +25,7 @@ if ( file_exists( "online/" . $login ) && filesize( "online/" . $login ) != 1 )
 						$char = explode( "|", $loc_i[$loc][$login]["char"] );
 						$tuser = explode( "|", $loc_i[$loc][$login]["user"] );
 						$tp = $tuser[0];
-						$tfound = 1; // уже онлайн
+						$tfound = 1; // СѓР¶Рµ РѕРЅР»Р°Р№РЅ
 				}
 				else
 				{
@@ -43,9 +43,9 @@ if ( file_exists( "online/" . $login ) && filesize( "online/" . $login ) != 1 )
 else
 		$tfound = 0;
 
-// если нет, то в оффлайн
+// РµСЃР»Рё РЅРµС‚, С‚Рѕ РІ РѕС„С„Р»Р°Р№РЅ
 if ( !file_exists( "online/" . $login ) || ( !$tfound && !$data ) )
-		msg( "Нажмите на ссылку ниже<br/><a href=\"?site=connect&amp;login=$login&p=$p&f_c=$f_c\">Продолжить</a>",
+		msg( "РќР°Р¶РјРёС‚Рµ РЅР° СЃСЃС‹Р»РєСѓ РЅРёР¶Рµ<br/><a href=\"?site=connect&amp;login=$login&p=$p&f_c=$f_c\">РџСЂРѕРґРѕР»Р¶РёС‚СЊ</a>",
 				$GAME_NAME, 0, 'none' );
 if ( !$tfound )
 {
@@ -65,7 +65,7 @@ if ( !$tfound )
 				$auser = unserialize( $data );
 		}
 		if ( !$auser["char"] || !$auser["skills"] )
-				msg( "Неверный формат, обновите страницу", $GAME_NAME, 0, 'none' );
+				msg( "РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚, РѕР±РЅРѕРІРёС‚Рµ СЃС‚СЂР°РЅРёС†Сѓ", $GAME_NAME, 0, 'none' );
 		$auser["srv"] = time();
 		$tuser = explode( "|", $auser["user"] );
 		$tp = $tuser[0];
@@ -103,7 +103,7 @@ if ( $tfound == 2 )
 		if ( $tuser[3] == 0 )
 				$tuser[3] = 16;
 		$auser["user"] = implode( "|", $tuser );
-		$char[5] = time(); // регенерация
+		$char[5] = time(); // СЂРµРіРµРЅРµСЂР°С†РёСЏ
 		$char[6] = time() - 1;
 		$char[11] = time();
 		$char[15] = time() - 10;
@@ -117,15 +117,15 @@ if ( $tfound == 2 )
 		$auser["char"] = implode( "|", $char );
 		loadloc( $loc );
 		$loc_i[$loc][$login] = $auser;
-		addnpc( $login, "", $loc ); // журнал
+		addnpc( $login, "", $loc ); // Р¶СѓСЂРЅР°Р»
 }
 
 $sid = substr( $login, 2 ) . "." . $p . "." . chr( rand( 97, 122 ) );
 
-// проверим клан
+// РїСЂРѕРІРµСЂРёРј РєР»Р°РЅ
 if ( $clan == "no" )
 {
-		addjournal( $loc, $login, "Вы изгнаны из клана, поговорите с Мирандером" );
+		addjournal( $loc, $login, "Р’С‹ РёР·РіРЅР°РЅС‹ РёР· РєР»Р°РЅР°, РїРѕРіРѕРІРѕСЂРёС‚Рµ СЃ РњРёСЂР°РЅРґРµСЂРѕРј" );
 		$char[0] = preg_replace( "/ \*.*?\*/", "", $char[0] );
 		$loc_i[$loc][$login]["char"] = implode( "|", $char );
 }
@@ -143,16 +143,16 @@ if ( $char[13] )
 				{
 						$char[13] = "";
 						$loc_i[$loc][$login]["char"] = implode( "|", $char );
-						addjournal( $loc, $login, substr( $ts, 2 ) . " развелся(ась) с вами!" );
+						addjournal( $loc, $login, substr( $ts, 2 ) . " СЂР°Р·РІРµР»СЃСЏ(Р°СЃСЊ) СЃ РІР°РјРё!" );
 				}
 		}
 }
 
-msg( "Добро пожаловать, " . $char[0] . "!
-      <br/><a href=\"?site=news\">Новости </a>[" . $tnews . "]
-      <br/><a href=\"?sid=$sid&cnick=1\">Настройки</a>
-        <br/>Чтобы не вводить логин и пароль, сделайте в телефоне закладку на эту страницу.
-        <br/>Для выхода используйте пункт меню \"Сохранить\", чтобы не потерять накопленные вещи и опыт.
-        <br/><a href=\"?sid=$sid\">В игру</a>", $GAME_NAME, 0, 'none' );
+msg( "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ, " . $char[0] . "!
+      <br/><a href=\"?site=news\">РќРѕРІРѕСЃС‚Рё </a>[" . $tnews . "]
+      <br/><a href=\"?sid=$sid&cnick=1\">РќР°СЃС‚СЂРѕР№РєРё</a>
+        <br/>Р§С‚РѕР±С‹ РЅРµ РІРІРѕРґРёС‚СЊ Р»РѕРіРёРЅ Рё РїР°СЂРѕР»СЊ, СЃРґРµР»Р°Р№С‚Рµ РІ С‚РµР»РµС„РѕРЅРµ Р·Р°РєР»Р°РґРєСѓ РЅР° СЌС‚Сѓ СЃС‚СЂР°РЅРёС†Сѓ.
+        <br/>Р”Р»СЏ РІС‹С…РѕРґР° РёСЃРїРѕР»СЊР·СѓР№С‚Рµ РїСѓРЅРєС‚ РјРµРЅСЋ \"РЎРѕС…СЂР°РЅРёС‚СЊ\", С‡С‚РѕР±С‹ РЅРµ РїРѕС‚РµСЂСЏС‚СЊ РЅР°РєРѕРїР»РµРЅРЅС‹Рµ РІРµС‰Рё Рё РѕРїС‹С‚.
+        <br/><a href=\"?sid=$sid\">Р’ РёРіСЂСѓ</a>", $GAME_NAME, 0, 'none' );
 
 ?>

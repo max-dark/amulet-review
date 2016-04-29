@@ -1,5 +1,5 @@
 <?php
-// îõðàíà çàìêà
+// Ð¾Ñ…Ñ€Ð°Ð½Ð° Ð·Ð°Ð¼ÐºÐ°
 			global $lcen;
 			if (gettype($lcen)!="array") {
 				$lcen=array();

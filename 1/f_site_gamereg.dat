@@ -1,31 +1,31 @@
 <?php
 
 if ( !preg_match( '|^[-0-9a-z_]+$|i', $nn ) )
-		msg( "Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none' );
+		msg( "РќРµРІРµСЂРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ РІ Р»РѕРіРёРЅРµ<br /><anchor>РќР°Р·Р°Рґ<prev/></anchor>", 'РћС€РёР±РєР°', 0, 'none' );
 openDB();
 $sqlSel = "select * from `users` where `nick` = '".$nn."'";
 $result = mysql_query( $sqlSel ) or die( mysql_error() );
 $Count = mysql_num_rows( $result );
 if ( $Count != 0 )
-		msg( 'Этот логин уже занят.<br /><anchor>Назад<prev/></anchor>', 'Ошибка', 0, 'none' );
+		msg( 'Р­С‚РѕС‚ Р»РѕРіРёРЅ СѓР¶Рµ Р·Р°РЅСЏС‚.<br /><anchor>РќР°Р·Р°Рґ<prev/></anchor>', 'РћС€РёР±РєР°', 0, 'none' );
 mysql_close();
 $stmp = '
 </p><p align="center">            
-<b>Логин:</b>
+<b>Р›РѕРіРёРЅ:</b>
 <br /><b>' . $nn . '</b><br />--------
-<br /><b>Пароль</b>:
+<br /><b>РџР°СЂРѕР»СЊ</b>:
 <br />(a-Z,0-9)
 <br /><input name="password" emptyok="true" type="password" value="" maxlength="15" size="15"/>
-<br /><b>Ваш Email адрес:</b>
+<br /><b>Р’Р°С€ Email Р°РґСЂРµСЃ:</b>
 <br /><input name="email" emptyok="true" type="text" maxlength="25" size="25"/> 
-<br /><b>Пол персонажа</b>
+<br /><b>РџРѕР» РїРµСЂСЃРѕРЅР°Р¶Р°</b>
 <br /><select name="sex" value="m">
-<option value="m">Муж.</option>
-<option value="f">Жен.</option>
+<option value="m">РњСѓР¶.</option>
+<option value="f">Р–РµРЅ.</option>
 </select>
-<br /><b>Возраст</b>
+<br /><b>Р’РѕР·СЂР°СЃС‚</b>
 <br /><input name="age" format="*N" maxlength="2"/>
-<br /><anchor title="next">Продолжить
+<br /><anchor title="next">РџСЂРѕРґРѕР»Р¶РёС‚СЊ
 <go href="?site=reg2" method="post">
 <postfield name="nn" value="' . $nn . '"/>
 <postfield name="email" value="$(email)"/>
@@ -34,6 +34,6 @@ $stmp = '
 <postfield name="age" value="$(age)"/>
 </go>
 </anchor>';
-msg( $stmp, "Регистрация", 0, "none" );
+msg( $stmp, "Р РµРіРёСЃС‚СЂР°С†РёСЏ", 0, "none" );
 
 ?>

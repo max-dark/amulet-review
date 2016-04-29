@@ -1,13 +1,13 @@
 <?php
-// диалог с квестовым NPC: при первом обращении присоединяется, при втором уходит. только следует, выдает инфу в in и out. присоединиться нанятый может только если рядом нет хозяина, иначе говорит, что следует за таким-то
+// РґРёР°Р»РѕРі СЃ РєРІРµСЃС‚РѕРІС‹Рј NPC: РїСЂРё РїРµСЂРІРѕРј РѕР±СЂР°С‰РµРЅРёРё РїСЂРёСЃРѕРµРґРёРЅСЏРµС‚СЃСЏ, РїСЂРё РІС‚РѕСЂРѕРј СѓС…РѕРґРёС‚. С‚РѕР»СЊРєРѕ СЃР»РµРґСѓРµС‚, РІС‹РґР°РµС‚ РёРЅС„Сѓ РІ in Рё out. РїСЂРёСЃРѕРµРґРёРЅРёС‚СЊСЃСЏ РЅР°РЅСЏС‚С‹Р№ РјРѕР¶РµС‚ С‚РѕР»СЊРєРѕ РµСЃР»Рё СЂСЏРґРѕРј РЅРµС‚ С…РѕР·СЏРёРЅР°, РёРЅР°С‡Рµ РіРѕРІРѕСЂРёС‚, С‡С‚Рѕ СЃР»РµРґСѓРµС‚ Р·Р° С‚Р°РєРёРј-С‚Рѕ
 
 if (isset($loc_i[$loc][$speak]["nspeak"])) {
 	$items=explode(" | ",$loc_i[$loc][$speak]["nspeak"]);
-	if ($items[1] && strpos($loc_i[$loc][$login]["items"],$items[1].":")===false) msg($items[0]."<br/><a href=\"g.php?sid=$sid\">Гм... Понятно</a>",$tchar[0]);
+	if ($items[1] && strpos($loc_i[$loc][$login]["items"],$items[1].":")===false) msg($items[0]."<br/><a href=\"g.php?sid=$sid\">Р“Рј... РџРѕРЅСЏС‚РЅРѕ</a>",$tchar[0]);
 	}
 
 $owner=$loc_i[$loc][$speak]["owner"];
-if (!$owner || !isset($loc_i[$loc][substr($owner,0,strpos($owner,"|"))])) {$loc_i[$loc][$speak]["owner"]=$login."|".$login."||"; msg($loc_i[$loc][$speak]["in"]."<br/><a href=\"g.php?sid=$sid\">Хорошо, следуй за мной</a>",$tchar[0]);}
+if (!$owner || !isset($loc_i[$loc][substr($owner,0,strpos($owner,"|"))])) {$loc_i[$loc][$speak]["owner"]=$login."|".$login."||"; msg($loc_i[$loc][$speak]["in"]."<br/><a href=\"g.php?sid=$sid\">РҐРѕСЂРѕС€Рѕ, СЃР»РµРґСѓР№ Р·Р° РјРЅРѕР№</a>",$tchar[0]);}
 else if (substr($owner,0,strpos($owner,"|"))==$login) {
 	if (isset($loc_i[$loc][$speak]["ok"]) && substr($loc_i[$loc][$speak]["ok"],0,strpos($loc_i[$loc][$speak]["ok"]," | "))==$loc) {
 		$items=explode(" | ",$loc_i[$loc][$speak]["ok"]);
@@ -19,10 +19,10 @@ else if (substr($owner,0,strpos($owner,"|"))==$login) {
 			}
 		addnpc($speak,$loc,"");
 		unset($loc_i[$loc][$speak]);
-		msg($items[1]."<br/><a href=\"g.php?sid=$sid\">Ну ладно, прощай</a>",$tchar[0]);
+		msg($items[1]."<br/><a href=\"g.php?sid=$sid\">РќСѓ Р»Р°РґРЅРѕ, РїСЂРѕС‰Р°Р№</a>",$tchar[0]);
 		} else {
 			unset($loc_i[$loc][$speak]["owner"]); 
-			msg($loc_i[$loc][$speak]["out"]."<br/><a href=\"g.php?sid=$sid\">Мне пора, прощай</a>",$tchar[0]);
+			msg($loc_i[$loc][$speak]["out"]."<br/><a href=\"g.php?sid=$sid\">РњРЅРµ РїРѕСЂР°, РїСЂРѕС‰Р°Р№</a>",$tchar[0]);
 			}
 	}
-else {$tc=explode("|",$loc_i[$loc][substr($owner,0,strpos($owner,"|"))]["char"]); msg("Извини, ".$char[0].", но я сейчас следую за ".$tc[0].", с тобой могу пойти только если ".$tc[0]." откажется провожать меня или я потеряю его из вида.<br/><a href=\"g.php?sid=$sid\">Понятно, пока</a>",$tchar[0]);}
+else {$tc=explode("|",$loc_i[$loc][substr($owner,0,strpos($owner,"|"))]["char"]); msg("РР·РІРёРЅРё, ".$char[0].", РЅРѕ СЏ СЃРµР№С‡Р°СЃ СЃР»РµРґСѓСЋ Р·Р° ".$tc[0].", СЃ С‚РѕР±РѕР№ РјРѕРіСѓ РїРѕР№С‚Рё С‚РѕР»СЊРєРѕ РµСЃР»Рё ".$tc[0]." РѕС‚РєР°Р¶РµС‚СЃСЏ РїСЂРѕРІРѕР¶Р°С‚СЊ РјРµРЅСЏ РёР»Рё СЏ РїРѕС‚РµСЂСЏСЋ РµРіРѕ РёР· РІРёРґР°.<br/><a href=\"g.php?sid=$sid\">РџРѕРЅСЏС‚РЅРѕ, РїРѕРєР°</a>",$tchar[0]);}

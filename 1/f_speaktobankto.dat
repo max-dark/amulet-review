@@ -1,17 +1,17 @@
 <?php
-// $to в банк
+// $to РІ Р±Р°РЅРє
 		if (strpos($to,"_")!==false) $ti=substr($to,0,strpos($to,"_")); else $ti=$to;
-		if (substr($to,0,5)=="i.rr.") $item=explode("|","руна|50"); else if (file_exists("items/".$ti)) $item=explode("|",implode("",file("items/".$ti))); else die("err: no items/".$to);
+		if (substr($to,0,5)=="i.rr.") $item=explode("|","СЂСѓРЅР°|50"); else if (file_exists("items/".$ti)) $item=explode("|",implode("",file("items/".$ti))); else die("err: no items/".$to);
 		$count=intval(preg_replace('/.*'.$to.':(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]));
-		if ($count==0) msg("У вас нет ".$item[0],$tchar[0]);
-		if ($count>1 && !$num) {		// кол-во
-			$stmp="<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"".$count."\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$to&num=$(num)\">Отправить</a>";
+		if ($count==0) msg("РЈ РІР°СЃ РЅРµС‚ ".$item[0],$tchar[0]);
+		if ($count>1 && !$num) {		// РєРѕР»-РІРѕ
+			$stmp="<p>РЈРєР°Р¶РёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"".$count."\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$to&num=$(num)\">РћС‚РїСЂР°РІРёС‚СЊ</a>";
 			msg($stmp,$tchar[0],1,"","num",$count);
 			}
 		if (!$num || $num<1) $num=1;
 		if ($num>$count) $num=$count;
-		if ($to=="i.money" && intval(preg_replace('/.*i.money:(\d+).*/',"\\1",$loc_i[$loc][$login]["bank"]))+$num>70000) msg("Извините, в банке можно хранить не более 70000 монет");
+		if ($to=="i.money" && intval(preg_replace('/.*i.money:(\d+).*/',"\\1",$loc_i[$loc][$login]["bank"]))+$num>70000) msg("РР·РІРёРЅРёС‚Рµ, РІ Р±Р°РЅРєРµ РјРѕР¶РЅРѕ С…СЂР°РЅРёС‚СЊ РЅРµ Р±РѕР»РµРµ 70000 РјРѕРЅРµС‚");
 		if ($speak=="n.t.bankir") additem($loc,$login,"","i.money","20","items","items",1,0,1);
 		if ($speak=="n.p.bankir") additem($loc,$login,"","i.money","200","items","items",1,0,1);
 		additem($loc,$login,$login,$to,$num,"items","bank",0,-1,1);
-		msg("Вы положили в банк ".$num." ".$item[0]."<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">Продолжить</a>");
+		msg("Р’С‹ РїРѕР»РѕР¶РёР»Рё РІ Р±Р°РЅРє ".$num." ".$item[0]."<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">РџСЂРѕРґРѕР»Р¶РёС‚СЊ</a>");

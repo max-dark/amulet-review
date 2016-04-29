@@ -1,5 +1,5 @@
 <?php
-// ñëó÷àéíîå äâèæåíèå
+// ÑÐ»ÑƒÑ‡Ð°Ð¹Ð½Ð¾Ðµ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ðµ
 				if ($char[10]) $move=explode(":",$char[10]);
 				if ($char[12]) $steps=explode(":",$char[12]);
 				$b=0;
@@ -9,7 +9,7 @@
 					if (!isset($loc_tt[$k]["d"])) loadloc($k);
 					$loc1=explode("|",$loc_tt[$k]["d"]);
 					if ($locai[1]==$loc1[1] || $b) {
-						$move[3]=time()+rand($move[1],$move[2]);	// ñëåä. õîä
+						$move[3]=time()+rand($move[1],$move[2]);	// ÑÐ»ÐµÐ´. Ñ…Ð¾Ð´
 						$char[10]=implode(":",$move);
 						$loc_i[$i][$j]["char"]=implode("|",$char);
 						$blt=1; 

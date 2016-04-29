@@ -1,30 +1,30 @@
 <?php
-// ÂÒÎË Û·ËÎË
+// –µ—Å–ª–∏ —É–±–∏–ª–∏
 					$fchar[7]=""; $loc_i[$loc][$from]["char"]=implode("|",$fchar);
-					addjournal($loc,"all",$tchar[0]." ÔÓ„Ë·",$to);
-					// ÚÛÔ
+					addjournal($loc,"all",$tchar[0]." –ø–æ–≥–∏–±",$to);
+					// —Ç—Ä—É–ø
 					$id = "i.s.d.".$to.".".rand(5,99);
 					while(isset($loc_i[$loc][$id])) $id = "i.s.d.".$to.".".rand(5,99);
-					$item="ÚÛÔ (".$tchar[0].")|";
+					$item="—Ç—Ä—É–ø (".$tchar[0].")|";
 					if ($tcrim || substr($to,0,4)=="n.a." || (substr($loc,0,2)=="c." && substr($loc,3)!=".in")) $item.="1|"; else $item.="0|";
 					$item.=time()+$g_destroy."|";
 					if (strpos($loc_i[$loc][$to]["items"],"i.q.pjpt:")===false || substr($to,0,2)!="u.") {
-						// ÔÂ‰ÏÂÚ˚
+						// –ø—Ä–µ–¥–º–µ—Ç—ã
 						if ($loc_i[$loc][$to]["items"]) $item.=str_replace("|",",",$loc_i[$loc][$to]["items"])."|"; else $item.="|";
 						$pjpt=0;
-						} else {$pjpt=1; addjournal($loc,"all",$tchar[0]." ÒÔ‡Ò‡ÂÚ Ò‚ÓË ‚Â˘Ë ÔÂÓÏ Ê‡-ÔÚËˆ˚!",$to); addjournal($loc,$to,"¬˚ ÒÔ‡ÒÎË Ò‚ÓË ‚Â˘Ë ÔÂÓÏ Ê‡-ÔÚËˆ˚!"); additem($loc,$to,"","i.q.pjpt",1);$item.="|";}
-					// ¯ÍÛ‡ Ë Ú.‰.
+						} else {$pjpt=1; addjournal($loc,"all",$tchar[0]." —Å–ø–∞—Å–∞–µ—Ç —Å–≤–æ–∏ –≤–µ—â–∏ –ø–µ—Ä–æ–º –∂–∞—Ä-–ø—Ç–∏—Ü—ã!",$to); addjournal($loc,$to,"–í—ã —Å–ø–∞—Å–ª–∏ —Å–≤–æ–∏ –≤–µ—â–∏ –ø–µ—Ä–æ–º –∂–∞—Ä-–ø—Ç–∏—Ü—ã!"); additem($loc,$to,"","i.q.pjpt",1);$item.="|";}
+					// —à–∫—É—Ä–∞ –∏ —Ç.–¥.
 					if ($loc_i[$loc][$to]["osvej"]) $item.=str_replace("|",",",$loc_i[$loc][$to]["osvej"]);
 					$loc_i[$loc][$id]=$item;
-	// Û·ËÈˆ‡
+	// —É–±–∏–π—Ü–∞
 	if (substr($to,0,2)=="u." && substr($from,0,2)=="u." && $from!=$to && $tchar[7]!=$from && !$tcrim && (!$clan1 || ($clan1 && $clan1!=$clan)) && !$wife) {
 		$loc_i[$loc][$from]["char"]=implode("|",$fchar);
-		docrim($loc,$from,"Û·ËÈˆ‡");
+		docrim($loc,$from,"—É–±–∏–π—Ü–∞");
 		$fchar=explode("|",$loc_i[$loc][$from]["char"]);
 		}
-					// ÒÚ‡ÚÛÒ Ë„ÓÍ‡
+					// —Å—Ç–∞—Ç—É—Å –∏–≥—Ä–æ–∫–∞
 					if (substr($to,0,2)=='u.') {
-						if ($game["floc"]==$loc && $game["fid"]==$to) {addjournal($loc,"all",$tchar[0]." ÔÓÚÂˇÎ ÙÎ‡„!",$to); $loc_i[$loc]["i.flag"]="ÙÎ‡„ ÎË‰ÂÒÚ‚‡|1|0"; $game["fid"]="";}
+						if ($game["floc"]==$loc && $game["fid"]==$to) {addjournal($loc,"all",$tchar[0]." –ø–æ—Ç–µ—Ä—è–ª —Ñ–ª–∞–≥!",$to); $loc_i[$loc]["i.flag"]="—Ñ–ª–∞–≥ –ª–∏–¥–µ—Ä—Å—Ç–≤–∞|1|0"; $game["fid"]="";}
 						$loc_i[$loc][$to]["equip"]="";
 						if(!$pjpt) $loc_i[$loc][$to]["items"]="";
 						$tchar[7]="";
@@ -46,9 +46,9 @@
 							if ($twar[15]) {$tmp=explode(":",$twar[15]); $twar[15]=$from.":".$tmp[1];} else $twar[15]=$from.":";
 							$loc_i[$loc][$to]["war"]=implode("|",$twar);
 							}
-						calcparam($loc,$to);	// ÔÂÂÒ˜ËÚ‡ÂÏ Ô‡‡ÏÂÚ˚
-						addjournal($loc,$to,"¬˚ ÔÓ„Ë·ÎË!");
-						} else {	// npc ÂÒÔ‡‚Ì
+						calcparam($loc,$to);	// –ø–µ—Ä–µ—Å—á–∏—Ç–∞–µ–º –ø–∞—Ä–∞–º–µ—Ç—Ä—ã
+						addjournal($loc,$to,"–í—ã –ø–æ–≥–∏–±–ª–∏!");
+						} else {	// npc —Ä–µ—Å–ø–∞–≤–Ω
 							if ($twar[15]) {
 								$resp=explode(":",$twar[15]);
 								if ($resp[3]) {
@@ -63,14 +63,14 @@
 									addtimer($resp[0],0,rand($resp[1],$resp[2]),$loc_i[$loc][$to],0);
 									} else {if ($tchar[10]) $tt="|".$tchar[10]; else $tt=""; addtimer($resp[0],0,rand($resp[1],$resp[2]),$to."|".$resp[1].":".$resp[2].$tt,0);}
 								}
-							// Û‰‡ÎˇÂÏ npc
+							// —É–¥–∞–ª—è–µ–º npc
 							unset($loc_i[$loc][$to]);
 							}
-					// ÔËÁ‡Í‡ ÌÂ ÔÂÒÎÂ‰ÛÂÚ
+					// –ø—Ä–∏–∑—Ä–∞–∫–∞ –Ω–µ –ø—Ä–µ—Å–ª–µ–¥—É–µ—Ç
 					$fchar[7]="";
 					$loc_i[$loc][$from]["char"]=implode("|",$fchar);
 
-					// ˝ÍÒÔ‡ Ë ÛÓ‚ÂÌ¸
+					// —ç–∫—Å–ø–∞ –∏ —É—Ä–æ–≤–µ–Ω—å
 					if (substr($from,0,2)=='u.') {
 						if (substr($to,0,2)=='u.') {
 							$fwarr=explode("|",$loc_i[$loc][$from]["war"]);
@@ -83,8 +83,8 @@
 						if (substr($to,0,2)!="u.") {	//killedto
 							$skills=split("\|",$loc_i[$loc][$from]["skills"]);
 							$skills[3]+=$twar[13];
-							addjournal($loc,$from,"ŒÔ˚Ú +".intval($twar[13]));
-							if ($skills[3]>$fwar[13]*$g_exp) {$skills[3]=0; $skills[4]+=1; addjournal($loc,$from,"¬˚ ÔÓÎÛ˜ËÎË 1 Ó˜ÍÓ ÓÔ˚Ú‡!");}
+							addjournal($loc,$from,"–û–ø—ã—Ç +".intval($twar[13]));
+							if ($skills[3]>$fwar[13]*$g_exp) {$skills[3]=0; $skills[4]+=1; addjournal($loc,$from,"–í—ã –ø–æ–ª—É—á–∏–ª–∏ 1 –æ—á–∫–æ –æ–ø—ã—Ç–∞!");}
 							$loc_i[$loc][$from]["skills"]=implode("|",$skills);
 							if ($skills[3]==0) calcparam($loc,$from); //levelup
 							}

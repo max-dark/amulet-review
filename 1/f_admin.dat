@@ -1,6 +1,6 @@
 <?php
 
-// сылка воскрешение для админа
+// СЃС‹Р»РєР° РІРѕСЃРєСЂРµС€РµРЅРёРµ РґР»СЏ Р°РґРјРёРЅР°
 if ( $login == $g_admin || $gm == $gm_id )
 {
 		if ( $adm == 'smp' )
@@ -32,7 +32,7 @@ if ( $login == $g_admin || $gm == $gm_id )
 	<br/><a href=\"$PHP_SELF?sid=$sid&adm=play\">play (msg: " . intval( isset( $game["msg"] ) ) .
 						")</a>
 	<br/><a href=\"$PHP_SELF?sid=$sid&adm=blank\">blank world</a>
-	\n</p>\n</card>\n<card id=\"tele\" title=\"Телепорт\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=_begin\">Начало</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1092x474\">Банк</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1284x393\">Кладбище</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x902x254\">Замок</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1486x247\">Пещера</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2169x273\">Ансалон</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1778x493\">Крепость</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2247x786\">Подземелье</a>",
+	\n</p>\n</card>\n<card id=\"tele\" title=\"РўРµР»РµРїРѕСЂС‚\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=_begin\">РќР°С‡Р°Р»Рѕ</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1092x474\">Р‘Р°РЅРє</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1284x393\">РљР»Р°РґР±РёС‰Рµ</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x902x254\">Р—Р°РјРѕРє</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1486x247\">РџРµС‰РµСЂР°</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2169x273\">РђРЅСЃР°Р»РѕРЅ</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1778x493\">РљСЂРµРїРѕСЃС‚СЊ</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2247x786\">РџРѕРґР·РµРјРµР»СЊРµ</a>",
 						$loc, 0 );
 		}
 
@@ -107,7 +107,7 @@ if ( $login == $g_admin || $gm == $gm_id )
 				$f_all = 1;
 				include "f_online.dat";
 				include "f_blank.dat";
-				msg( "Мир обновлен, все игроки переведены в оффлайн." );
+				msg( "РњРёСЂ РѕР±РЅРѕРІР»РµРЅ, РІСЃРµ РёРіСЂРѕРєРё РїРµСЂРµРІРµРґРµРЅС‹ РІ РѕС„С„Р»Р°Р№РЅ." );
 		}
 		if ( $adm == 'locsave' )
 		{
@@ -140,7 +140,7 @@ if ( $login == $g_admin || $gm == $gm_id )
 										echo serialize( $loc_i[$loc][$login] );
 								else
 										msg( $loc_i[$loc][$login][strtolower( $inp )] );
-				msg( "<a href=\"$PHP_SELF?sid=$sid\">В игру</a>" );
+				msg( "<a href=\"$PHP_SELF?sid=$sid\">Р’ РёРіСЂСѓ</a>" );
 		}
 		if ( $adm == 'ban' )
 		{
@@ -153,16 +153,16 @@ if ( $login == $g_admin || $gm == $gm_id )
 						$loc_i[$loc][$login]["magic"] = "";
 				}
 				calcparam( $loc, $login );
-				msg( "Персонаж обнулен" );
+				msg( "РџРµСЂСЃРѕРЅР°Р¶ РѕР±РЅСѓР»РµРЅ" );
 		}
 		if ( $adm == "locmail" )
 		{
 				if ( !$inp )
 						$inp = "romka8@mag.su";
 				if ( @mail( $inp, "location: " . $loc, serialize( $loc_tt[$loc] ), "From: romka8@mag.su\r\nReply-To: romka8@mag.su\r\n" ) )
-						addjournal( $loc, $login, "Текущая локация отправлена на " . $inp );
+						addjournal( $loc, $login, "РўРµРєСѓС‰Р°СЏ Р»РѕРєР°С†РёСЏ РѕС‚РїСЂР°РІР»РµРЅР° РЅР° " . $inp );
 				else
-						addjournal( $loc, $login, "Не удалось отправить письмо на " . $inp );
+						addjournal( $loc, $login, "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ РїРёСЃСЊРјРѕ РЅР° " . $inp );
 		}
 		if ( $adm == 'getibm' )
 				msg( "items: " . $loc_i[$loc][$login]["items"] . "<br/>bank: " . $loc_i[$loc][$login]["bank"] .
@@ -170,7 +170,7 @@ if ( $login == $g_admin || $gm == $gm_id )
 		if ( $adm == 'resp' )
 		{
 				addtimer( $loc, 0, $val, $inp . "|$val:$new" );
-				addjournal( $loc, $login, "Таймер установлен" );
+				addjournal( $loc, $login, "РўР°Р№РјРµСЂ СѓСЃС‚Р°РЅРѕРІР»РµРЅ" );
 		}
 		if ( $adm == 'skillinfo' )
 		{
@@ -180,8 +180,8 @@ if ( $login == $g_admin || $gm == $gm_id )
 		{
 				$game["stop"] = time() + 180;
 				if ( $inp )
-						$game["stopmsg"] = 'Игра обновляется. зайдите позже';
-				msg( "Остановка через 3 минут" );
+						$game["stopmsg"] = 'РРіСЂР° РѕР±РЅРѕРІР»СЏРµС‚СЃСЏ. Р·Р°Р№РґРёС‚Рµ РїРѕР·Р¶Рµ';
+				msg( "РћСЃС‚Р°РЅРѕРІРєР° С‡РµСЂРµР· 3 РјРёРЅСѓС‚" );
 		}
 		if ( $adm == 'play' )
 		{
@@ -189,7 +189,7 @@ if ( $login == $g_admin || $gm == $gm_id )
 				unset( $game["info"] );
 				unset( $game["stop"] );
 				unset( $game["msg"] );
-				msg( "Игра запущена" );
+				msg( "РРіСЂР° Р·Р°РїСѓС‰РµРЅР°" );
 		}
 		if ( $adm == 'guard' )
 		{
@@ -203,7 +203,7 @@ if ( $login == $g_admin || $gm == $gm_id )
 		}
 		if ( $adm == 'filter' && $inp )
 		{
-				$stmp = "<p>Добавить предмет:";
+				$stmp = "<p>Р”РѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚:";
 				$dh = opendir( "items/" );
 				while ( ( $fname = readdir( $dh ) ) !== false )
 						if ( $fname != "." && $fname != ".." && substr( $fname, 0, strlen( $inp ) ) == $inp )
@@ -214,14 +214,14 @@ if ( $login == $g_admin || $gm == $gm_id )
 								$count++;
 						}
 				closedir( $dh );
-				msg( $stmp, "Предметы", 0 );
+				msg( $stmp, "РџСЂРµРґРјРµС‚С‹", 0 );
 		}
 		if ( $adm == 'setgclan' && $inp && $val )
 		{
 				if ( file_exists( "../clans/" . $inp ) )
 						$tmp = unserialize( implode( "", file( "../clans/" . $inp ) ) );
 				else
-						msg( "нет клана" );
+						msg( "РЅРµС‚ РєР»Р°РЅР°" );
 				if ( substr( $val, 0, 2 ) != "u." )
 						$val = "u." . $val;
 				$tmp["g"] = array( $val => "" );
@@ -231,28 +231,28 @@ if ( $login == $g_admin || $gm == $gm_id )
 						fputs( $file, serialize( $tmp ) );
 						fclose( $file );
 				}
-				msg( "Глава клана установлен" );
+				msg( "Р“Р»Р°РІР° РєР»Р°РЅР° СѓСЃС‚Р°РЅРѕРІР»РµРЅ" );
 		}
 		if ( $adm == 'unset' && $to )
 		{
 				if ( isset( $loc_i[$loc][$to] ) )
 				{
 						unset( $loc_i[$loc][$to] );
-						msg( "Объект удален" );
+						msg( "РћР±СЉРµРєС‚ СѓРґР°Р»РµРЅ" );
 				}
 				else
-						msg( "Нет объекта" );
+						msg( "РќРµС‚ РѕР±СЉРµРєС‚Р°" );
 		}
 		if ( $adm == 'reploc' && $inp )
 		{
 				if ( substr( $inp, 0, 2 ) !== "n." )
-						msg( "npc должен начинаться на n. и быть в локации в вами" );
+						msg( "npc РґРѕР»Р¶РµРЅ РЅР°С‡РёРЅР°С‚СЊСЃСЏ РЅР° n. Рё Р±С‹С‚СЊ РІ Р»РѕРєР°С†РёРё РІ РІР°РјРё" );
 				if ( !isset( $loc_i[$loc][$inp] ) )
-						msg( "рядом с вами нет npc с id " . $inp . " (регистр учитывается)" );
+						msg( "СЂСЏРґРѕРј СЃ РІР°РјРё РЅРµС‚ npc СЃ id " . $inp . " (СЂРµРіРёСЃС‚СЂ СѓС‡РёС‚С‹РІР°РµС‚СЃСЏ)" );
 				include ( "npc/" . $inp );
 				if ( gettype( $npc ) !== "array" )
-						msg( "ошибка загрузки npc/" . $inp );
+						msg( "РѕС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё npc/" . $inp );
 				$loc_i[$loc][$inp]["bank"] = $npc["bank"];
-				msg( "Банк у $inp загружен из файла npc/$inp" );
-		} //if($inp==1) $inp=$loc; if(!file_exists("loc_t/".$inp)) msg("Нет локации $inp"); copy("loc_t/".$inp,"loc_i/".$inp); msg("Локация восстановлена");}
+				msg( "Р‘Р°РЅРє Сѓ $inp Р·Р°РіСЂСѓР¶РµРЅ РёР· С„Р°Р№Р»Р° npc/$inp" );
+		} //if($inp==1) $inp=$loc; if(!file_exists("loc_t/".$inp)) msg("РќРµС‚ Р»РѕРєР°С†РёРё $inp"); copy("loc_t/".$inp,"loc_i/".$inp); msg("Р›РѕРєР°С†РёСЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅР°");}
 }

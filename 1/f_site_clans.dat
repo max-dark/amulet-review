@@ -1,14 +1,14 @@
 <?php
 
 if ($clan) {
-	if (!file_exists("../clans/".$clan)) msg("Клан $clan не существует");
+	if (!file_exists("../clans/".$clan)) msg("РљР»Р°РЅ $clan РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 	$tmp=unserialize(implode("",file("../clans/".$clan)));
-	if (!isset($tmp["g"])) msg("Ошибка при загрузке клана $clan, сообщите разработчику.");
-	if ($info) {if ($tmp["i"]) msg($tmp["i"]."<br/><anchor>[Назад]<prev/></anchor>","Инфо о клане ".$clan); else msg("Нет описания");}
+	if (!isset($tmp["g"])) msg("РћС€РёР±РєР° РїСЂРё Р·Р°РіСЂСѓР·РєРµ РєР»Р°РЅР° $clan, СЃРѕРѕР±С‰РёС‚Рµ СЂР°Р·СЂР°Р±РѕС‚С‡РёРєСѓ.");
+	if ($info) {if ($tmp["i"]) msg($tmp["i"]."<br/><anchor>[РќР°Р·Р°Рґ]<prev/></anchor>","РРЅС„Рѕ Рѕ РєР»Р°РЅРµ ".$clan); else msg("РќРµС‚ РѕРїРёСЃР°РЅРёСЏ");}
 	$keys=array_keys($tmp["g"]);
-	$stmp="Глава клана: ".substr($keys[0],2);
-	if ($tmp["i"]) $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan&info=1\">Инфо о клане</a>";
-	$stmp.="<br/>Состав:";
+	$stmp="Р“Р»Р°РІР° РєР»Р°РЅР°: ".substr($keys[0],2);
+	if ($tmp["i"]) $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan&info=1\">РРЅС„Рѕ Рѕ РєР»Р°РЅРµ</a>";
+	$stmp.="<br/>РЎРѕСЃС‚Р°РІ:";
 
 	if (count($tmp["m"])>0) {
 	if (!$start) $start=0;
@@ -18,12 +18,12 @@ if ($clan) {
 			}
 		if ($start) {$stmp.= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan\">^ </a>";}
 		if ($start+$g_list<count($keys)) {if (!$start) $stmp.="\n<br/>"; $stmp.= "<a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan&start=".($start+$g_list)."\">+ (".(count($keys)+1-$start-$g_list).")</a>";}
-		} else $stmp.="<br/>Больше никого в клане нет."; 
+		} else $stmp.="<br/>Р‘РѕР»СЊС€Рµ РЅРёРєРѕРіРѕ РІ РєР»Р°РЅРµ РЅРµС‚."; 
 
-	msg($stmp,"Клан *".$clan."*",0,"none");
+	msg($stmp,"РљР»Р°РЅ *".$clan."*",0,"none");
 	}
 
-	// все кланы
+	// РІСЃРµ РєР»Р°РЅС‹
 
 	$arr=array();
 	$dh = opendir("../clans"); 
@@ -34,15 +34,15 @@ if ($clan) {
 	closedir($dh);
 
 	if (count($arr)>0) {
-		$stmp="<p>Всего кланов: ".count($arr);
+		$stmp="<p>Р’СЃРµРіРѕ РєР»Р°РЅРѕРІ: ".count($arr);
 		arsort($arr);
 		if (!$start) $start=0;
 		$keys=array_keys($arr);
 		for($i=$start;$i<$start+$g_list && $i<count($keys);$i++) {
-			$stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=".$keys[$i]."\">".$keys[$i]."</a> (".$arr[$keys[$i]]." чел.)";
+			$stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=".$keys[$i]."\">".$keys[$i]."</a> (".$arr[$keys[$i]]." С‡РµР».)";
 			}
 		if ($start) {$stmp.= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=clans\">^ </a>";}
 		if ($start+$g_list<count($keys)) {if (!$start) $stmp.="\n<br/>"; $stmp.= "<a href=\"$PHP_SELF?sid=$sid&site=clans&start=".($start+$g_list)."\">+ (".(count($keys)+1-$start-$g_list).")</a>";}
-		} else $stmp="<p>Нет ни одного клана"; 
+		} else $stmp="<p>РќРµС‚ РЅРё РѕРґРЅРѕРіРѕ РєР»Р°РЅР°"; 
 
-	msg($stmp,"Онлайн (Cервер ".implode("",file("server.dat")).")",0,'none');
+	msg($stmp,"РћРЅР»Р°Р№РЅ (CРµСЂРІРµСЂ ".implode("",file("server.dat")).")",0,'none');

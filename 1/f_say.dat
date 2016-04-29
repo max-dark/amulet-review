@@ -1,13 +1,13 @@
 <?php
 
-// ñêàçàòü òåêñò âñåì
+// ÑÐºÐ°Ð·Ð°Ñ‚ÑŒ Ñ‚ÐµÐºÑÑ‚ Ð²ÑÐµÐ¼
 if ( strpos( $say, "/g.php?sid=" ) !== false )
 		$say = substr( $say, 0, strpos( $say, "/g.php?sid=" ) );
 $s = substr( $to, 2 ) . ' ' . $say;
 
 $ok =GetBadWord($s);
 if($ok)
-$s = substr( $to, 2 ) . ' [ÁÈÏ]';
+$s = substr( $to, 2 ) . ' [Ð‘Ð˜ÐŸ]';
 $s = str_replace( '\\', "", $s );
 $s = str_replace( '"', "", $s );
 $s = str_replace( "'", "", $s );
@@ -19,7 +19,7 @@ $s = str_replace( "&", "", $s );
 $say = substr( $s, 0, 250 );
 
 $loc_i[$loc][$login]["macrol"] = "say|$say||";
-// äîáàâèì âñåì, âêëþ÷àÿ ñåáÿ, â æóðíàë ÷òî ñêàçàëè
+// Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ Ð²ÑÐµÐ¼, Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ ÑÐµÐ±Ñ, Ð² Ð¶ÑƒÑ€Ð½Ð°Ð» Ñ‡Ñ‚Ð¾ ÑÐºÐ°Ð·Ð°Ð»Ð¸
 $b = 0;
 if ( $char[8] )
 {
@@ -28,19 +28,19 @@ if ( $char[8] )
 				$b = 1;
 }
 if ( !$char[8] )
-		addjournal( $loc, "all", $char[0] . " ãîâîðèò: " . $say );
+		addjournal( $loc, "all", $char[0] . " Ð³Ð¾Ð²Ð¾Ñ€Ð¸Ñ‚: " . $say );
 else
 		foreach ( array_keys( $loc_i[$loc] ) as $i )
 				if ( substr( $i, 0, 2 ) == 'u.' )
 				{
 						$skills = explode( "|", $loc_i[$loc][$i]["skills"] );
 						if ( $b || rand( 0, 100 ) <= $skills[21] * 20 )
-								addjournal( $loc, $i, $char[0] . " ãîâîðèò: " . $say );
+								addjournal( $loc, $i, $char[0] . " Ð³Ð¾Ð²Ð¾Ñ€Ð¸Ñ‚: " . $say );
 						else
 						{
-								$stmp = preg_replace( "/[A-ZÀ-ß]/", "O", $say );
-								$stmp = preg_replace( "/[a-zà-ÿ]/", "o", $stmp );
-								addjournal( $loc, $i, $char[0] . " ãîâîðèò: " . $stmp );
+								$stmp = preg_replace( "/[A-ZÐ-Ð¯]/", "O", $say );
+								$stmp = preg_replace( "/[a-zÐ°-Ñ]/", "o", $stmp );
+								addjournal( $loc, $i, $char[0] . " Ð³Ð¾Ð²Ð¾Ñ€Ð¸Ñ‚: " . $stmp );
 						}
 				}
 ?>

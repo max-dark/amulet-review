@@ -61,7 +61,7 @@ function addjournal( $loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|" )
 				}
 }
 
-function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname = '', $vval =
+function msg( $msg, $title = 'РђРјСѓР»РµС‚ Р”СЂР°РєРѕРЅР°', $journal = 1, $menu = '', $vname = '', $vval =
 		'' )
 { //menu=""|none|main|to
 		global $game, $g_admin, $gm, $login, $loc, $loc_i, $loc_tt, $page_d, $PHP_SELF, $sid,
@@ -78,7 +78,7 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname 
 		{
 				$journal = 0;
 				$page_d = 0;
-				$msg = "Нажмите кнопку Меню";
+				$msg = "РќР°Р¶РјРёС‚Рµ РєРЅРѕРїРєСѓ РњРµРЅСЋ";
 		}
 		if ( $fm2 )
 		{
@@ -101,7 +101,7 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname 
 				$page_j = str_replace( "|", "<br/>", $loc_i[$loc][$login]["journal"] );
 						$loc_i[$loc][$login]["journal"] = "";
 				if ( !$g_j2loc )
-						$page_j = preg_replace( '/<br\/>(Пришел|Пришла) [^<]+/', "", $page_j );
+						$page_j = preg_replace( '/<br\/>(РџСЂРёС€РµР»|РџСЂРёС€Р»Р°) [^<]+/', "", $page_j );
 		}
 
 		$t_g1 = sscanf( microtime(), "%s %s" );
@@ -128,10 +128,10 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname 
 				{
 						$tu = "$PHP_SELF?" . preg_replace( "/(ci|use|say|ca|drop|take|to|adm|cm|go)=/", "c1=", $g_tmp );
 				}
-				$wml .= "<card title=\"Журнал\"><do type=\"accept\" label=\"Дальше\"><go href=\"" . $tu .
-						"\"/></do><p>" . $page_j . "<br/><a href=\"" . $tu . "\">Дальше</a>";
+				$wml .= "<card title=\"Р–СѓСЂРЅР°Р»\"><do type=\"accept\" label=\"Р”Р°Р»СЊС€Рµ\"><go href=\"" . $tu .
+						"\"/></do><p>" . $page_j . "<br/><a href=\"" . $tu . "\">Р”Р°Р»СЊС€Рµ</a>";
 				if ( $tu != "#g" )
-						$wml .= "/<a href=\"" . $tu . ( $fskipj ? "" : "&cj=1" ) . "\">к меню</a>/";
+						$wml .= "/<a href=\"" . $tu . ( $fskipj ? "" : "&cj=1" ) . "\">Рє РјРµРЅСЋ</a>/";
 				$wml .= "</p></card>";
 		}
 
@@ -146,24 +146,24 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname 
 
 				if ( $menu == '' || $menu == 'inv' && $g_menu != 1 )
 				{
-						$wml .= "<do name=\"b1\" type=\"options\" label=\"В игру\"><go href=\"$PHP_SELF?sid=$sid\"/></do>";
-						$wml .= "<do name=\"b2\" type=\"accept\" label=\"Назад\"><prev/></do>";
+						$wml .= "<do name=\"b1\" type=\"options\" label=\"Р’ РёРіСЂСѓ\"><go href=\"$PHP_SELF?sid=$sid\"/></do>";
+						$wml .= "<do name=\"b2\" type=\"accept\" label=\"РќР°Р·Р°Рґ\"><prev/></do>";
 				}
 				$o = 4;
 				if ( $menu == 'main' && $g_menu == 2 && !$fm )
 				{
-						$wml .= "<do name=\"o2\" type=\"options\" label=\"Меню\"><go href=\"$PHP_SELF?sid=$sid&fm=1&cj=1\"/></do>";
+						$wml .= "<do name=\"o2\" type=\"options\" label=\"РњРµРЅСЋ\"><go href=\"$PHP_SELF?sid=$sid&fm=1&cj=1\"/></do>";
 						$menu = '';
 				}
 				if ( $menu == 'main' && $g_menu == 3 && !$fm2 )
 				{
-						$msg = str_replace( "</p></card><card id=\"m\"", "<br/><a href=\"$PHP_SELF?sid=$sid&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"",
+						$msg = str_replace( "</p></card><card id=\"m\"", "<br/><a href=\"$PHP_SELF?sid=$sid&fm2=1&cj=1\">РњРµРЅСЋ</a></p></card><card id=\"m\"",
 								$msg );
 						$menu = '';
 				}
 				if ( ( $menu == 'main' || $fm ) && !$fm2 )
 				{
-						$wml .= "<do name=\"b1\" type=\"options\" label=\"Пeрcoнaж\"><go href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\"/></do>";
+						$wml .= "<do name=\"b1\" type=\"options\" label=\"РџeСЂcoРЅaР¶\"><go href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\"/></do>";
 						if ( !isset( $loc_i[$loc][$login]["macro"] ) )
 								$m = array();
 						else
@@ -177,20 +177,20 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname 
 								}
 				}
 				if ( $menu == 'inv' && $g_menu == 1 )
-						$wml .= "<do name=\"b1\" type=\"options\" label=\"В игру\"><go href=\"$PHP_SELF?sid=$sid\"/></do>";
+						$wml .= "<do name=\"b1\" type=\"options\" label=\"Р’ РёРіСЂСѓ\"><go href=\"$PHP_SELF?sid=$sid\"/></do>";
 				if ( $menu == 'inv' && $g_menu == 1 || $g_menu == 0 && $menu == 'main' || $fm )
 				{
-						$wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\"><go href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\"/></do>";
-						$wml .= "<do name=\"b3\" type=\"options\" label=\"Koнтaкты\"><go href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\"/></do>";
-						$wml .= "<do name=\"b$o\" type=\"options\" label=\"мaкpocы\"><go href=\"$PHP_SELF?sid=$sid&cm=new\"/></do>";
+						$wml .= "<do name=\"b2\" type=\"options\" label=\"CРєaР·aС‚СЊ\"><go href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\"/></do>";
+						$wml .= "<do name=\"b3\" type=\"options\" label=\"KoРЅС‚aРєС‚С‹\"><go href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\"/></do>";
+						$wml .= "<do name=\"b$o\" type=\"options\" label=\"РјaРєpocС‹\"><go href=\"$PHP_SELF?sid=$sid&cm=new\"/></do>";
 						if ( $g_map )
 						{
 								$o++;
-								$wml .= "<do name=\"b$o\" type=\"options\" label=\"Kapтa\"><go href=\"$PHP_SELF?sid=$sid&map=" .
+								$wml .= "<do name=\"b$o\" type=\"options\" label=\"KapС‚a\"><go href=\"$PHP_SELF?sid=$sid&map=" .
 										$g_map . "\"/></do>";
 						}
 						$o++;
-						$wml .= "<do name=\"b$o\" type=\"options\" label=\"Coxpaнить\"><go href=\"$PHP_SELF?sid=$sid&ce=1\"/></do>";
+						$wml .= "<do name=\"b$o\" type=\"options\" label=\"CoxpaРЅРёС‚СЊ\"><go href=\"$PHP_SELF?sid=$sid&ce=1\"/></do>";
 				}
 
 				if ( substr( $msg, 0, 2 ) != "<p" )
@@ -207,21 +207,21 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname 
 		$wml .= "</wml>";
 		$wml = str_replace( "&amp;", "&", $wml );
 		$wml = str_replace( "&", "&amp;", $wml );
-		$wml = strtr( $wml, "КЕНХВАРОСМТехарос", "KEHXBAPOCMTexapoc" );
+		$wml = strtr( $wml, "РљР•РќРҐР’РђР РћРЎРњРўРµС…Р°СЂРѕСЃ", "KEHXBAPOCMTexapoc" );
 
 		echo  $wml;
 		exit;
 }
 
 function doai( $i )
-{ // искусственный интеллект, проверяем локацию с именем $i
+{ // РёСЃРєСѓСЃСЃС‚РІРµРЅРЅС‹Р№ РёРЅС‚РµР»Р»РµРєС‚, РїСЂРѕРІРµСЂСЏРµРј Р»РѕРєР°С†РёСЋ СЃ РёРјРµРЅРµРј $i
 		global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_list, $start, $g_destroy, $g_crim, $g_logout,
 				$login;
 		$g_regen = 30;
 
 		$locai = explode( "|", $loc_tt[$i]["d"] );
 
-		// таймеры
+		// С‚Р°Р№РјРµСЂС‹
 		if ( isset( $loc_t[$i] ) )
 		{
 				foreach ( $loc_t[$i] as $j => $val )
@@ -272,7 +272,7 @@ function doai( $i )
 		if ( $locai[1] == 1 && count( $crim ) > 0 && !$guard )
 				require "f_addguard.dat";
 
-		// по всем объектам
+		// РїРѕ РІСЃРµРј РѕР±СЉРµРєС‚Р°Рј
 		if ( $loc_i[$i] )
 				foreach ( $loc_i[$i] as $j => $val )
 						if ( isset( $loc_i[$i][$j] ) )
@@ -457,11 +457,11 @@ function addnpc( $id, $from = "", $to = "", $gal = 0, $hide = 0 )
 		loadloc( $to );
 		if ( $from && $to && ( !isset( $loc_i[$from] ) || !isset( $loc_i[$to] ) ) )
 				return;
-		$ars = array( "Появился", "исчез", "Пришел", "ушел", "прискакал", "поскакал", "пронесся" );
+		$ars = array( "РџРѕСЏРІРёР»СЃСЏ", "РёСЃС‡РµР·", "РџСЂРёС€РµР»", "СѓС€РµР»", "РїСЂРёСЃРєР°РєР°Р»", "РїРѕСЃРєР°РєР°Р»", "РїСЂРѕРЅРµСЃСЃСЏ" );
 		if ( substr( $id, 0, 2 ) == "u." && ( strpos( $loc_i[$from][$id]["user"], "|f|" ) !== false ||
 				strpos( $loc_i[$to][$id]["user"], "|f|" ) !== false ) )
-				$ars = array( "Появилась", "исчезла", "Пришла", "ушла", "прискакала", "поскакала",
-						"пронеслась" );
+				$ars = array( "РџРѕСЏРІРёР»Р°СЃСЊ", "РёСЃС‡РµР·Р»Р°", "РџСЂРёС€Р»Р°", "СѓС€Р»Р°", "РїСЂРёСЃРєР°РєР°Р»Р°", "РїРѕСЃРєР°РєР°Р»Р°",
+						"РїСЂРѕРЅРµСЃР»Р°СЃСЊ" );
 		$tnpc = "";
 		if ( $from && isset( $loc_i[$from][$id] ) )
 		{
@@ -472,7 +472,7 @@ function addnpc( $id, $from = "", $to = "", $gal = 0, $hide = 0 )
 						if ( $to && array_search( $to, $floc ) )
 						{
 								if ( $gal && $gal != 1 )
-										addjournal( $from, "all", $tchar . " " . $ars[5] . " галопом " . $gal, $id );
+										addjournal( $from, "all", $tchar . " " . $ars[5] . " РіР°Р»РѕРїРѕРј " . $gal, $id );
 								else
 										if ( !$gal )
 												addjournal( $from, "all", $tchar . " " . $ars[3] . " " . $floc[array_search( $to, $floc ) -
@@ -495,14 +495,14 @@ function addnpc( $id, $from = "", $to = "", $gal = 0, $hide = 0 )
 						if ( $from && array_search( $from, $tloc ) )
 						{
 								if ( $gal && $gal != 1 )
-										addjournal( $to, "all", $tchar . " " . $ars[6] . " галопом " . $gal, $id );
+										addjournal( $to, "all", $tchar . " " . $ars[6] . " РіР°Р»РѕРїРѕРј " . $gal, $id );
 								else
 										if ( $gal == 1 )
-												addjournal( $to, "all", $tchar . " " . $ars[4] . " галопом", $id );
+												addjournal( $to, "all", $tchar . " " . $ars[4] . " РіР°Р»РѕРїРѕРј", $id );
 										else
 												addjournal( $to, "all", $ars[2] . " " . $tchar, $id );
 								if ( substr( $id, 0, 2 ) == "n." )
-								{ // история следов npc
+								{ // РёСЃС‚РѕСЂРёСЏ СЃР»РµРґРѕРІ npc
 										$tchar = explode( "|", $tnpc["char"] );
 										$steps = explode( ":", $tchar[12] );
 										if ( count( $steps ) == 0 )
@@ -524,9 +524,9 @@ function addnpc( $id, $from = "", $to = "", $gal = 0, $hide = 0 )
 						if ( $from && substr( $id, 0, 2 ) == "u." )
 						{
 								if ( $floc[1] == 1 && $tloc[1] != 1 )
-										addjournal( $to, $id, "Вы покинули охраняемую территорию" );
+										addjournal( $to, $id, "Р’С‹ РїРѕРєРёРЅСѓР»Рё РѕС…СЂР°РЅСЏРµРјСѓСЋ С‚РµСЂСЂРёС‚РѕСЂРёСЋ" );
 								if ( $floc[1] != 1 && $tloc[1] == 1 )
-										addjournal( $to, $id, "Вы на охраняемой территории" );
+										addjournal( $to, $id, "Р’С‹ РЅР° РѕС…СЂР°РЅСЏРµРјРѕР№ С‚РµСЂСЂРёС‚РѕСЂРёРё" );
 						}
 				}
 		}
@@ -547,7 +547,7 @@ function ressurect( $loc, $to )
 {
 		require "f_ressurect.dat";
 }
-function docrim( $loc, $login, $title = "преступник" )
+function docrim( $loc, $login, $title = "РїСЂРµСЃС‚СѓРїРЅРёРє" )
 {
 		require "f_docrim.dat";
 }

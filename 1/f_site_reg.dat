@@ -1,11 +1,11 @@
 <?php
-$stmp="Пол персонажа:
+$stmp="РџРѕР» РїРµСЂСЃРѕРЅР°Р¶Р°:
 <br/><select name=\"sex\" value=\"m\">
-<option value=\"m\">Муж.</option>
-<option value=\"f\">Жен.</option>
+<option value=\"m\">РњСѓР¶.</option>
+<option value=\"f\">Р–РµРЅ.</option>
 </select>
-<br/>Возраст:
+<br/>Р’РѕР·СЂР°СЃС‚:
 <br/><input name=\"age\" format=\"*N\" maxlength=\"2\"/>
-<br/><a href=\"$PHP_SELF?login=$(login)&p=$(p)&sex=$(sex)&age=$(age)&site=reg2\">Продолжить</a>";
+<br/><a href=\"$PHP_SELF?login=$(login)&p=$(p)&sex=$(sex)&age=$(age)&site=reg2\">РџСЂРѕРґРѕР»Р¶РёС‚СЊ</a>";
 
-msg($stmp,"Регистрация",0,'none');
+msg($stmp,"Р РµРіРёСЃС‚СЂР°С†РёСЏ",0,'none');

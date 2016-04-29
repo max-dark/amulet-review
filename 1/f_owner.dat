@@ -1,7 +1,7 @@
 <?php
-// обработка подчиненных npc
+// РѕР±СЂР°Р±РѕС‚РєР° РїРѕРґС‡РёРЅРµРЅРЅС‹С… npc
 				$owner=explode("|",$loc_i[$i][$j]["owner"]);
-				// хозяин крима крим
+				// С…РѕР·СЏРёРЅ РєСЂРёРјР° РєСЂРёРј
 				if ($char[9] && isset($loc_i[$i][$owner[0]])) docrim($i,$owner[0]);
 				if (!isset($owner[0])) $owner[0]="";
 				if (!isset($owner[1])) $owner[1]="";
@@ -11,11 +11,11 @@
 				if (!isset($owner[5])) $owner[5]=time()+60*60;
 
 				$b=0;
-				// вышло время
+				// РІС‹С€Р»Рѕ РІСЂРµРјСЏ
 				if ($owner[3] && time()>$owner[3] || time()>$owner[5] && substr($i,0,2)!="c.") {
 					$b=1;
 					unset($loc_i[$i][$j]["owner"]);
-					addjournal($loc,$owner[0],$char[0]." покинул вас");
+					addjournal($loc,$owner[0],$char[0]." РїРѕРєРёРЅСѓР» РІР°СЃ");
 					if ($owner[6]) addnpc($j,$i,$owner[6]);
 					else {
 						$ttw=explode("|",$loc_i[$i][$j]["war"]);
@@ -29,10 +29,10 @@
 		if (substr($j,0,5)=="n.he." && time()>$loc_i[$loc][$j]["h_t"] && isset($loc_i[$loc][$owner[0]])) {
 			$tc=explode("|",$loc_i[$loc][$owner[0]]["char"]);
 			if ($tc[1]<$tc[2]) {addjournal($loc,"all",substr($loc_i[$loc][$j]["char"],0,strpos($loc_i[$loc][$j]["char"],"|")).": ".$loc_i[$loc][$j]["h_s"]);$tc[1]+=rand($loc_i[$loc][$j]["h_v1"],$loc_i[$loc][$j]["h_v2"]);$htmp=rand($loc_i[$loc][$j]["h_v1"],$loc_i[$loc][$j]["h_v2"]);
-addjournal($loc,$owner[0],$tchar[0].": жизнь +".$htmp); if ($tc[1]>$tc[2]) $tc[1]=$tc[2]; $loc_i[$loc][$owner[0]]["char"]=implode("|",$tc); $loc_i[$loc][$j]["h_t"]=time()+$loc_i[$loc][$j]["h_p"];}
+addjournal($loc,$owner[0],$tchar[0].": Р¶РёР·РЅСЊ +".$htmp); if ($tc[1]>$tc[2]) $tc[1]=$tc[2]; $loc_i[$loc][$owner[0]]["char"]=implode("|",$tc); $loc_i[$loc][$j]["h_t"]=time()+$loc_i[$loc][$j]["h_p"];}
 			}
 		if (!$b) {
-				// следуем
+				// СЃР»РµРґСѓРµРј
 				if ($owner[1] && !isset($loc_i[$i][$owner[1]])) for ($k=3;$k<count($locai);$k+=2) if (isset($loc_i[$locai[$k]][$owner[1]])) {
 					$bc=1;
 					if (substr($j,0,4)=="n.o.") {
@@ -40,13 +40,13 @@ addjournal($loc,$owner[0],$tchar[0].": жизнь +".$htmp); if ($tc[1]>$tc[2]) $tc[1
 						if ($bc && substr($k,3)!=".in") {
 							$count=0;
 							if($loc_i[$locai[$k]]) foreach(array_keys($loc_i[$locai[$k]]) as $m) if (substr($m,0,4)=="n.o.") $count++;
-							if ($count>=5) {$bc=0; addjournal($locai[$k],$owner[0],$char[0]." говорит: я туда не пойду, там и так полно стражников");}
+							if ($count>=5) {$bc=0; addjournal($locai[$k],$owner[0],$char[0]." РіРѕРІРѕСЂРёС‚: СЏ С‚СѓРґР° РЅРµ РїРѕР№РґСѓ, С‚Р°Рј Рё С‚Р°Рє РїРѕР»РЅРѕ СЃС‚СЂР°Р¶РЅРёРєРѕРІ");}
 							}
 						}
 					if ($bc && substr($owner[1],0,2)=="u.") {$tc=explode("|",$loc_i[$locai[$k]][$owner[1]]["char"]); if ($tc[8]) $bc=0;}
 					if ($bc && substr($j,0,4)!="n.o.") {
 						$count=0;
-						foreach($loc_i[$locai[$k]] as $jn) if (isset($jn["owner"]) && strpos($jn["owner"],$owner[1])!==false) {$count++; if ($count>3) {$bc=0; break;}} //не следуют если больше трех
+						foreach($loc_i[$locai[$k]] as $jn) if (isset($jn["owner"]) && strpos($jn["owner"],$owner[1])!==false) {$count++; if ($count>3) {$bc=0; break;}} //РЅРµ СЃР»РµРґСѓСЋС‚ РµСЃР»Рё Р±РѕР»СЊС€Рµ С‚СЂРµС…
 						}
                           if ($bc) {
 						$char[7]="";
@@ -55,15 +55,15 @@ addjournal($loc,$owner[0],$tchar[0].": жизнь +".$htmp); if ($tc[1]>$tc[2]) $tc[1
 						$char=explode("|",$loc_i[$locai[$k]][$j]["char"]);
 						$char[12]="";
 						$loc_i[$locai[$k]][$j]["char"]=implode("|",$char);
-						$owner[5]=time()+60*60;	// 1 час ждет движения
+						$owner[5]=time()+60*60;	// 1 С‡Р°СЃ Р¶РґРµС‚ РґРІРёР¶РµРЅРёСЏ
 						$loc_i[$locai[$k]][$j]["owner"]=implode("|",$owner);
 						$b=1;
 						break;
 						}
 					}
-				if (!$b) {		//$j не ушел
+				if (!$b) {		//$j РЅРµ СѓС€РµР»
 
-				// охраняем
+				// РѕС…СЂР°РЅСЏРµРј
 				if (substr($j,0,4)!="n.o." && $owner[2] && isset($loc_i[$i][$owner[2]])) {
 					$k1=array_keys($loc_i[$i]);
 					foreach ($k1 as $k) if ($k!=$j && $k!=$owner[2] && $k!=$owner[0] && $k!=$owner[1]) {

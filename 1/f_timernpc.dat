@@ -1,5 +1,5 @@
 <?php
-			//  çàãðóæàåì â $npc èç ïàïêè npc	id|resp_min:resp_max|move_num:time_min:time_max
+			//  Ð·Ð°Ð³Ñ€ÑƒÐ¶Ð°ÐµÐ¼ Ð² $npc Ð¸Ð· Ð¿Ð°Ð¿ÐºÐ¸ npc	id|resp_min:resp_max|move_num:time_min:time_max
 			if (gettype($loc_t[$i][$j])=="array") {$npc=$loc_t[$i][$j]; $tid=$npc["id"]; unset($npc["id"]);}
 			else {
 				$ta=explode("|",$loc_t[$i][$j]); $tid=$ta[0];
@@ -11,7 +11,7 @@
 				if ($ta[2]) {$tchar=explode("|",$npc["char"]); $tchar[10]=$ta[2]; $npc["char"]=implode("|",$tchar);}
 				}
 
-			// ñëó÷. ïðåäìåòû
+			// ÑÐ»ÑƒÑ‡. Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ñ‹
 			if (isset($npc["itemsrnd"])) {
 				$irnd=explode("|",$npc["itemsrnd"]);
 				foreach(array_keys($irnd) as $k) if ($irnd[$k]) {
@@ -22,6 +22,6 @@
 				unset($npc["itemsrnd"]);
 				}
 
-			// ðåñïàâí òåêóùèé
+			// Ñ€ÐµÑÐ¿Ð°Ð²Ð½ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ð¹
 			$loc_i[$i][$tid]=$npc;
 			unset($loc_t[$i][$j]);

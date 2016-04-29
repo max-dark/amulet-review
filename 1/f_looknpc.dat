@@ -1,27 +1,27 @@
 <?php
 		if (isset($loc_i[$loc][$look])) {
-		$char=explode("|",$loc_i[$loc][$look]["char"]);	// для оптимизации
-		$stmp="<p>Тип: ";
-		if (substr($look,0,9)=='n.a.losh.') $stmp.="лошадь, на ней можно ездить, если она принадлежит вам (выберите в меню Говорить, Сесть в седло)";
-		else if (substr($look,0,4)=='n.a.') $stmp.="животное";
-            else if (substr($look,0,4)=='n.m.') $stmp.="гном";
-            else if (substr($look,0,4)=='n.w.') $stmp.="божественаая личность";
-		else if (substr($look,0,4)=='n.c.') $stmp.="монстр";
-		else if (substr($look,0,4)=='n.z.') $stmp.="зомби, поднятый из мертвых с помощью некромантии";
-		else if (substr($look,0,4)=='n.g.') $stmp.="городская стража";
-		else if (substr($look,0,4)=='n.s.') $stmp.="призван с помощью магии";
-		else if (substr($look,0,4)=='n.h.') $stmp.="лекарь, может воскрешать мертвых (для этого надо поговорть с ним)";
-		else $stmp.="человек";
-		if (file_exists("speak/".$look)) $stmp.="<br/>Может с вами говорить";
-		if (substr($look,0,4)=='n.a.' && $char[8])  $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&look=char.tame\">Сложность приручения</a>: ".$char[8];
+		$char=explode("|",$loc_i[$loc][$look]["char"]);	// РґР»СЏ РѕРїС‚РёРјРёР·Р°С†РёРё
+		$stmp="<p>РўРёРї: ";
+		if (substr($look,0,9)=='n.a.losh.') $stmp.="Р»РѕС€Р°РґСЊ, РЅР° РЅРµР№ РјРѕР¶РЅРѕ РµР·РґРёС‚СЊ, РµСЃР»Рё РѕРЅР° РїСЂРёРЅР°РґР»РµР¶РёС‚ РІР°Рј (РІС‹Р±РµСЂРёС‚Рµ РІ РјРµРЅСЋ Р“РѕРІРѕСЂРёС‚СЊ, РЎРµСЃС‚СЊ РІ СЃРµРґР»Рѕ)";
+		else if (substr($look,0,4)=='n.a.') $stmp.="Р¶РёРІРѕС‚РЅРѕРµ";
+            else if (substr($look,0,4)=='n.m.') $stmp.="РіРЅРѕРј";
+            else if (substr($look,0,4)=='n.w.') $stmp.="Р±РѕР¶РµСЃС‚РІРµРЅР°Р°СЏ Р»РёС‡РЅРѕСЃС‚СЊ";
+		else if (substr($look,0,4)=='n.c.') $stmp.="РјРѕРЅСЃС‚СЂ";
+		else if (substr($look,0,4)=='n.z.') $stmp.="Р·РѕРјР±Рё, РїРѕРґРЅСЏС‚С‹Р№ РёР· РјРµСЂС‚РІС‹С… СЃ РїРѕРјРѕС‰СЊСЋ РЅРµРєСЂРѕРјР°РЅС‚РёРё";
+		else if (substr($look,0,4)=='n.g.') $stmp.="РіРѕСЂРѕРґСЃРєР°СЏ СЃС‚СЂР°Р¶Р°";
+		else if (substr($look,0,4)=='n.s.') $stmp.="РїСЂРёР·РІР°РЅ СЃ РїРѕРјРѕС‰СЊСЋ РјР°РіРёРё";
+		else if (substr($look,0,4)=='n.h.') $stmp.="Р»РµРєР°СЂСЊ, РјРѕР¶РµС‚ РІРѕСЃРєСЂРµС€Р°С‚СЊ РјРµСЂС‚РІС‹С… (РґР»СЏ СЌС‚РѕРіРѕ РЅР°РґРѕ РїРѕРіРѕРІРѕСЂС‚СЊ СЃ РЅРёРј)";
+		else $stmp.="С‡РµР»РѕРІРµРє";
+		if (file_exists("speak/".$look)) $stmp.="<br/>РњРѕР¶РµС‚ СЃ РІР°РјРё РіРѕРІРѕСЂРёС‚СЊ";
+		if (substr($look,0,4)=='n.a.' && $char[8])  $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&look=char.tame\">РЎР»РѕР¶РЅРѕСЃС‚СЊ РїСЂРёСЂСѓС‡РµРЅРёСЏ</a>: ".$char[8];
 
 		if ($loc_i[$loc][$look]["owner"]) {
 				$owner=explode("|",$loc_i[$loc][$look]["owner"]);
-				if (isset($loc_i[$loc][$owner[0]])) {$tmp=explode("|",$loc_i[$loc][$owner[0]]["char"]); $stmp.="<br/>Принадлежит ".$tmp[0];}
-				else  $stmp.="<br/>Кому-то принадлежит, но хозяина рядом нет";
+				if (isset($loc_i[$loc][$owner[0]])) {$tmp=explode("|",$loc_i[$loc][$owner[0]]["char"]); $stmp.="<br/>РџСЂРёРЅР°РґР»РµР¶РёС‚ ".$tmp[0];}
+				else  $stmp.="<br/>РљРѕРјСѓ-С‚Рѕ РїСЂРёРЅР°РґР»РµР¶РёС‚, РЅРѕ С…РѕР·СЏРёРЅР° СЂСЏРґРѕРј РЅРµС‚";
 				}
 
-		// что одето
+		// С‡С‚Рѕ РѕРґРµС‚Рѕ
 		if ($loc_i[$loc][$look]["equip"]) {
 			$str="";
 			$sto="";
@@ -34,9 +34,9 @@
 					else {if (!$str) $str=$item[0]; else $str.=", ".$item[0];}
 				} else die("err: no items/".$i);
 			}
-			if ($str) $stmp.="<br/>Держит в руках: ".$str;
-			if ($sto) $stmp.="<br/>Одет: ".$sto;
+			if ($str) $stmp.="<br/>Р”РµСЂР¶РёС‚ РІ СЂСѓРєР°С…: ".$str;
+			if ($sto) $stmp.="<br/>РћРґРµС‚: ".$sto;
 			}
 
 		msg($stmp,$char[0]);
-	} else addjournal($loc,$login,"Не на кого смотреть");
+	} else addjournal($loc,$login,"РќРµ РЅР° РєРѕРіРѕ СЃРјРѕС‚СЂРµС‚СЊ");

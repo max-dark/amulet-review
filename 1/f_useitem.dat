@@ -1,8 +1,8 @@
 <?php
-// использование предметов
+// РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РїСЂРµРґРјРµС‚РѕРІ
 
 		if($use=="i.h") {
-			if(!$char[12]) msg("Вы не на коне");
+			if(!$char[12]) msg("Р’С‹ РЅРµ РЅР° РєРѕРЅРµ");
 			$tc=explode(":",$char[12]);
 			$char[12]="";
 			$loc_i[$loc][$login]["char"]=implode("|",$char);
@@ -15,24 +15,24 @@
 			$npc["char"]=implode("|",$tc1);
 			$npc["owner"]=$login."|".$login."|0|".(time()+60*60)."|1";
 			$loc_i[$loc]["n.a.losh.".rand(99,9999)]=$npc;
-			addjournal($loc,"all",$char[0]." спешился",$login);
-			return;	// $char в g.php
-			//msg("Вы спешились и держите коня за уздечку.");
+			addjournal($loc,"all",$char[0]." СЃРїРµС€РёР»СЃСЏ",$login);
+			return;	// $char РІ g.php
+			//msg("Р’С‹ СЃРїРµС€РёР»РёСЃСЊ Рё РґРµСЂР¶РёС‚Рµ РєРѕРЅСЏ Р·Р° СѓР·РґРµС‡РєСѓ.");
 			}
 
 		
 		if ($use{2}>0 && $use{2}<10) {
 			$tm=explode("|",$loc_i[$loc][$login]["items"]);
 			$tc=intval($use{2})-1;
-			if ($tm[$tc]) {$use=substr($tm[$tc],0,strpos($tm[$tc],":"));$loc_i[$loc][$login]["macrol"]="use|$use|to|$to";} else msg("В вашем рюкзаке нет предмета под номером ".($tc+1));
+			if ($tm[$tc]) {$use=substr($tm[$tc],0,strpos($tm[$tc],":"));$loc_i[$loc][$login]["macrol"]="use|$use|to|$to";} else msg("Р’ РІР°С€РµРј СЂСЋРєР·Р°РєРµ РЅРµС‚ РїСЂРµРґРјРµС‚Р° РїРѕРґ РЅРѕРјРµСЂРѕРј ".($tc+1));
 			}
-		if (strpos($loc_i[$loc][$login]["items"],$use.":")===false) msg("<p>Использовать можно только те предметы, что у вас в рюкзаке");
+		if (strpos($loc_i[$loc][$login]["items"],$use.":")===false) msg("<p>РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ С‚Рµ РїСЂРµРґРјРµС‚С‹, С‡С‚Рѕ Сѓ РІР°СЃ РІ СЂСЋРєР·Р°РєРµ");
 			if (substr($use,0,4)=='i.m.' || substr($use,0,4)=='i.r.') {
 				$scroll=$use;
-				$use="m.".substr($use,4);	// ниже исп. магию
+				$use="m.".substr($use,4);	// РЅРёР¶Рµ РёСЃРї. РјР°РіРёСЋ
 				if (strpos($use,"_")!==false) $ti=substr($use,0,strpos($use,"_")); else $ti=$use;
 				if (file_exists("items/".$ti)) $m=explode("|",implode("",file("items/".$ti))); else die("err: no items/".$use);
-				if ($m[6] && !$to) {$use=$scroll;$list='all';} else require "f_usemagic.dat";	// чтобы вывести список целей
+				if ($m[6] && !$to) {$use=$scroll;$list='all';} else require "f_usemagic.dat";	// С‡С‚РѕР±С‹ РІС‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє С†РµР»РµР№
 			}else 
 			if (substr($use,0,4)=='i.w.' || substr($use,0,4)=='i.a.') include "plugin/i.w.dat";
 			else 
@@ -44,4 +44,4 @@
 			else 
 			if (substr($use,0,4)=="i.ms") include "plugin/i.ms.dat";
 			else if (file_exists("plugin/".$use.".dat")) include "plugin/".$use.".dat";
-			else addjournal($loc,$login,"Никакого эффекта");
+			else addjournal($loc,$login,"РќРёРєР°РєРѕРіРѕ СЌС„С„РµРєС‚Р°");

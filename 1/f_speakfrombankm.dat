@@ -1,8 +1,8 @@
 <?php
-// ïåðåìåùåíèå â áàíêå
+// Ð¿ÐµÑ€ÐµÐ¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð² Ð±Ð°Ð½ÐºÐµ
 	$items=explode("|",$loc_i[$loc][$login]["bank"]);
 	if ($up) {
-		if (strpos($loc_i[$loc][$login]["bank"],$up.":")===false) msg("Íåò òàêîãî ïðåäìåòà");
+		if (strpos($loc_i[$loc][$login]["bank"],$up.":")===false) msg("ÐÐµÑ‚ Ñ‚Ð°ÐºÐ¾Ð³Ð¾ Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ð°");
 		for($i=0;$i<count($items);$i++) if (strpos($items[$i],$up.":")!==false) break;
 		if($i==0) {
 			array_push($items, $items[$i]);
@@ -13,11 +13,11 @@
 				$items[$i]=$tc;
 				}
 		$loc_i[$loc][$login]["bank"]=implode("|",$items);
-		msg("Ïðåäìåò ïåðåäâèíóò ââåðõ.");
+		msg("ÐŸÑ€ÐµÐ´Ð¼ÐµÑ‚ Ð¿ÐµÑ€ÐµÐ´Ð²Ð¸Ð½ÑƒÑ‚ Ð²Ð²ÐµÑ€Ñ….");
 		}
 	if ($down) {
 		$up=$down;
-		if (strpos($loc_i[$loc][$login]["bank"],$up.":")===false) msg("Íåò òàêîãî ïðåäìåòà");
+		if (strpos($loc_i[$loc][$login]["bank"],$up.":")===false) msg("ÐÐµÑ‚ Ñ‚Ð°ÐºÐ¾Ð³Ð¾ Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ð°");
 		for($i=0;$i<count($items);$i++) if (strpos($items[$i],$up.":")!==false) break;
 		if($i==count($items)-1) {
 			array_unshift($items, $items[$i]);
@@ -29,5 +29,5 @@
 				}
 
 		$loc_i[$loc][$login]["bank"]=implode("|",$items);
-		msg("Ïðåäìåò ïåðåäâèíóò âíèç.");
+		msg("ÐŸÑ€ÐµÐ´Ð¼ÐµÑ‚ Ð¿ÐµÑ€ÐµÐ´Ð²Ð¸Ð½ÑƒÑ‚ Ð²Ð½Ð¸Ð·.");
 		}

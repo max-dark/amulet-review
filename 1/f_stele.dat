@@ -1,5 +1,5 @@
 <?php
-// òåëåïîðò ê æåíå/ìóæó
+// Ñ‚ÐµÐ»ÐµÐ¿Ð¾Ñ€Ñ‚ Ðº Ð¶ÐµÐ½Ðµ/Ð¼ÑƒÐ¶Ñƒ
 
 $char = explode("|",$loc_i[$loc][$login]["char"]); 
 if($char[13]) {
@@ -11,7 +11,7 @@ if($char[13]) {
 			loadloc($tmf);
 			$tsc=explode("|",$loc_i[$tmf][$tm[0]]["char"]);
 			$tsm=explode(":",$tsc[13]);
-			if(time()<$tsm[1]) addnpc($login,$loc,$tmf); else addjournal($loc,$login,"Âðåìÿ äëÿ òåëåïîðòà ê ìóæó/æåíå èñòåêëî");
+			if(time()<$tsm[1]) addnpc($login,$loc,$tmf); else addjournal($loc,$login,"Ð’Ñ€ÐµÐ¼Ñ Ð´Ð»Ñ Ñ‚ÐµÐ»ÐµÐ¿Ð¾Ñ€Ñ‚Ð° Ðº Ð¼ÑƒÐ¶Ñƒ/Ð¶ÐµÐ½Ðµ Ð¸ÑÑ‚ÐµÐºÐ»Ð¾");
 			}
-		} else addjournal($loc,$login,"Âàø(à) ìóæ(æåíà) ïîêèíóë(à) èãðó");
+		} else addjournal($loc,$login,"Ð’Ð°Ñˆ(Ð°) Ð¼ÑƒÐ¶(Ð¶ÐµÐ½Ð°) Ð¿Ð¾ÐºÐ¸Ð½ÑƒÐ»(Ð°) Ð¸Ð³Ñ€Ñƒ");
 	}

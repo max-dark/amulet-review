@@ -1,5 +1,5 @@
 <?php
-// ïðîâåðêà âñåõ îíëàéí è óäàëåíèå â îôôëàéí
+// Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð²ÑÐµÑ… Ð¾Ð½Ð»Ð°Ð¹Ð½ Ð¸ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ðµ Ð² Ð¾Ñ„Ñ„Ð»Ð°Ð¹Ð½
 require_once("datafunc.php");
 
 	$count=0;
@@ -14,7 +14,7 @@ require_once("datafunc.php");
 			loadloc($tmp[0]);
 			$res="";
 			if (isset($loc_i[$tmp[0]][$fname])) {
-				if ($game["floc"]==$tmp[0] && $game["fid"]==$fname) {if($tmp[0]=="x1087x543" || $tmp[0]=="x1080x539" || $tmp[0]=="x1080x532" || $tmp[0]=="x1087x528") $loc1="x1095x532"; else $loc1=$tmp[0]; $loc_i[$loc1]["i.flag"]="ôëàã ëèäåðñòâà|1|0"; $game["floc"]=$loc1; $game["fid"]=""; calcparam($tmp[0],$fname);}
+				if ($game["floc"]==$tmp[0] && $game["fid"]==$fname) {if($tmp[0]=="x1087x543" || $tmp[0]=="x1080x539" || $tmp[0]=="x1080x532" || $tmp[0]=="x1087x528") $loc1="x1095x532"; else $loc1=$tmp[0]; $loc_i[$loc1]["i.flag"]="Ñ„Ð»Ð°Ð³ Ð»Ð¸Ð´ÐµÑ€ÑÑ‚Ð²Ð°|1|0"; $game["floc"]=$loc1; $game["fid"]=""; calcparam($tmp[0],$fname);}
 				$auser = $loc_i[$tmp[0]][$fname];
 				$auser["journal"] = "";
 				$auser["loc"] = $tmp[0];
@@ -36,6 +36,6 @@ require_once("datafunc.php");
 
 	if ($count>$g_max) $count=$g_max;
 	$file = fopen ("count.dat", "w");
-	if ($file!==false) {fputs($file,$count." èç ".$g_max);fclose($file);}
+	if ($file!==false) {fputs($file,$count." Ð¸Ð· ".$g_max);fclose($file);}
 
 	$game["lastai"]=time();

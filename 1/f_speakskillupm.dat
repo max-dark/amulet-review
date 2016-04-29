@@ -1,13 +1,13 @@
 <?php
-// магия
-	// проверки
-	if (strpos($loc_i[$loc][$login]["magic"],$skill.":")!==false) msg("<p>У вас уже есть это заклинание",$tchar[0]);
-	if ($min) if ($skills[13]<$min) msg("<p>У вас недостаточный навык магии (надо минимум ".$min.")",$tchar[0]);
-	if ($max) if ($skills[13]>$max) msg("<p>У вас слишком высокий навык магии (максимум ".$max.")",$tchar[0]);
+// РјР°РіРёСЏ
+	// РїСЂРѕРІРµСЂРєРё
+	if (strpos($loc_i[$loc][$login]["magic"],$skill.":")!==false) msg("<p>РЈ РІР°СЃ СѓР¶Рµ РµСЃС‚СЊ СЌС‚Рѕ Р·Р°РєР»РёРЅР°РЅРёРµ",$tchar[0]);
+	if ($min) if ($skills[13]<$min) msg("<p>РЈ РІР°СЃ РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅС‹Р№ РЅР°РІС‹Рє РјР°РіРёРё (РЅР°РґРѕ РјРёРЅРёРјСѓРј ".$min.")",$tchar[0]);
+	if ($max) if ($skills[13]>$max) msg("<p>РЈ РІР°СЃ СЃР»РёС€РєРѕРј РІС‹СЃРѕРєРёР№ РЅР°РІС‹Рє РјР°РіРёРё (РјР°РєСЃРёРјСѓРј ".$max.")",$tchar[0]);
 	if ($cost) {
 		$money=intval(preg_replace('/.*i\.money:(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]));
-		if ($money<$cost) msg("<p>У вас недостаточно денег (надо ".$cost." монет)",$tchar[0]);
+		if ($money<$cost) msg("<p>РЈ РІР°СЃ РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РґРµРЅРµРі (РЅР°РґРѕ ".$cost." РјРѕРЅРµС‚)",$tchar[0]);
 		additem($loc,$login,"","i.money",$cost,"items","items",1,-1,1);
 		}
 	if (!$loc_i[$loc][$login]["magic"]) $loc_i[$loc][$login]["magic"]=$skill.":1"; else $loc_i[$loc][$login]["magic"].="|".$skill.":1";
-	msg("<p>Вы выучили новое заклинание!",$tchar[0]);
+	msg("<p>Р’С‹ РІС‹СѓС‡РёР»Рё РЅРѕРІРѕРµ Р·Р°РєР»РёРЅР°РЅРёРµ!",$tchar[0]);

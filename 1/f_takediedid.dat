@@ -2,11 +2,11 @@
 			$died=explode("|",$loc_i[$loc][$take]);
 			$tcount=intval(preg_replace('/.*'.$id.':(\d+).*/',"\\1",$died[3]));
 			if ($tcount) {
-			// проверим кол-во
+			// РїСЂРѕРІРµСЂРёРј РєРѕР»-РІРѕ
 			if ($all) $num=$tcount;
 			if ($tcount>1 && !$num) {
-				$stmp="<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"".$tcount."\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&id=$id&num=$(num)\">Отправить</a>";
-				msg($stmp,"Взять",1,"","num",$tcount);
+				$stmp="<p>РЈРєР°Р¶РёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"".$tcount."\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&id=$id&num=$(num)\">РћС‚РїСЂР°РІРёС‚СЊ</a>";
+				msg($stmp,"Р’Р·СЏС‚СЊ",1,"","num",$tcount);
 				}
 			if (!$num || $num<1) $num=1;
 			if ($num>$tcount) $num=$tcount;
@@ -14,5 +14,5 @@
 			$char = explode("|",$loc_i[$loc][$login]["char"]);
 			$char[6]=time()+2;
 			$loc_i[$loc][$login]["char"]=implode("|",$char);
-			//$id=0;	// чтобы вывести список оставшихся
-			} else addjournal($loc,$login,"Нет такого предмета");
+			//$id=0;	// С‡С‚РѕР±С‹ РІС‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє РѕСЃС‚Р°РІС€РёС…СЃСЏ
+			} else addjournal($loc,$login,"РќРµС‚ С‚Р°РєРѕРіРѕ РїСЂРµРґРјРµС‚Р°");

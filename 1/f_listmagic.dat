@@ -1,12 +1,12 @@
 <?php
-// список магии
+// СЃРїРёСЃРѕРє РјР°РіРёРё
 
 
-	// в $to цель, если есть
-	if (!$loc_i[$loc][$login]["magic"]) msg("<p>Ваша книга заклинаний пуста, найдите NPC, который согласится учить вас магии.");
+	// РІ $to С†РµР»СЊ, РµСЃР»Рё РµСЃС‚СЊ
+	if (!$loc_i[$loc][$login]["magic"]) msg("<p>Р’Р°С€Р° РєРЅРёРіР° Р·Р°РєР»РёРЅР°РЅРёР№ РїСѓСЃС‚Р°, РЅР°Р№РґРёС‚Рµ NPC, РєРѕС‚РѕСЂС‹Р№ СЃРѕРіР»Р°СЃРёС‚СЃСЏ СѓС‡РёС‚СЊ РІР°СЃ РјР°РіРёРё.");
 	$items=explode("|",$loc_i[$loc][$login]["magic"]);
 	if ($up) {
-		if (strpos($loc_i[$loc][$login]["magic"],$up.":")===false) msg("Нет такого заклинания");
+		if (strpos($loc_i[$loc][$login]["magic"],$up.":")===false) msg("РќРµС‚ С‚Р°РєРѕРіРѕ Р·Р°РєР»РёРЅР°РЅРёСЏ");
 		for($i=0;$i<count($items);$i++) if (strpos($items[$i],$up.":")!==false) break;
 		if($i==0) {
 			array_push($items, $items[$i]);
@@ -17,11 +17,11 @@
 				$items[$i]=$tc;
 				}
 		$loc_i[$loc][$login]["magic"]=implode("|",$items);
-		msg("Заклинание передвинуто вверх.");
+		msg("Р—Р°РєР»РёРЅР°РЅРёРµ РїРµСЂРµРґРІРёРЅСѓС‚Рѕ РІРІРµСЂС….");
 		}
 	if ($down) {
 		$up=$down;
-		if (strpos($loc_i[$loc][$login]["magic"],$up.":")===false) msg("Нет такого заклинания");
+		if (strpos($loc_i[$loc][$login]["magic"],$up.":")===false) msg("РќРµС‚ С‚Р°РєРѕРіРѕ Р·Р°РєР»РёРЅР°РЅРёСЏ");
 		for($i=0;$i<count($items);$i++) if (strpos($items[$i],$up.":")!==false) break;
 		if($i==count($items)-1) {
 			array_unshift($items, $items[$i]);
@@ -32,24 +32,24 @@
 				$items[$i]=$tc;
 				}
 		$loc_i[$loc][$login]["magic"]=implode("|",$items);
-		msg("Заклинание передвинуто вниз.");
+		msg("Р—Р°РєР»РёРЅР°РЅРёРµ РїРµСЂРµРґРІРёРЅСѓС‚Рѕ РІРЅРёР·.");
 		}
 	if ($macro==1) $m="&macros=list&num=$num&name=$name&act=$act#add"; else $m='';
-	$stmp="<p>Ваши заклинания:";
+	$stmp="<p>Р’Р°С€Рё Р·Р°РєР»РёРЅР°РЅРёСЏ:";
 	if (!$start) $start=0;
 	$keys=array_keys($items);
 	for ($i=$start;$i<$start+$g_list && $i<count($keys);$i++) {
 		$k=explode(":",$items[$keys[$i]]);
 		if (file_exists("items/".$k[0])) $item=explode("|",implode("",file("items/".$k[0]))); else die("err: no items/".$k[0]);		
-		if (time()<$k[1]) $item=$item[0]." [осталось ".(round(($k[1]-time())/60)+1)." минут]"; else $item=$item[0];
+		if (time()<$k[1]) $item=$item[0]." [РѕСЃС‚Р°Р»РѕСЃСЊ ".(round(($k[1]-time())/60)+1)." РјРёРЅСѓС‚]"; else $item=$item[0];
 		if ($to) {
 			$stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=".$k[0].$m."\">".$item."</a>";
-			} else {	// в след. экране all выберем цель $to для использования
+			} else {	// РІ СЃР»РµРґ. СЌРєСЂР°РЅРµ all РІС‹Р±РµСЂРµРј С†РµР»СЊ $to РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 				$stmp.="\n<br/><anchor>".$item."<go href=\"#menu\"><setvar name=\"to\" value=\"".$k[0]."\"/></go></anchor>";
 				}
 		}
 	if ($start) {$stmp.= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=magic\">^ </a>";}
 	if ($start+$g_list<count($keys)) {if (!$start) $stmp.="\n<br/>"; $stmp.= "<a href=\"$PHP_SELF?sid=$sid&to=$to&list=magic&start=".($start+$g_list)."\">+ (".(count($keys)-$start-$g_list).")</a>";}
-	// карта меню
-	$stmp.="\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&use=$(to)\">Кастовать</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a href=\"$PHP_SELF?sid=$sid&list=magic&up=$(to)\">Вверх</a> | <a href=\"$PHP_SELF?sid=$sid&list=magic&down=$(to)\">Вниз</a>]\n";
-	msg($stmp,"Магия",1);
+	// РєР°СЂС‚Р° РјРµРЅСЋ
+	$stmp.="\n</p>\n</card>\n<card id=\"menu\" title=\"РњРµРЅСЋ\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&use=$(to)\">РљР°СЃС‚РѕРІР°С‚СЊ</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">РРЅС„Рѕ</a>\n<br/>[<a href=\"$PHP_SELF?sid=$sid&list=magic&up=$(to)\">Р’РІРµСЂС…</a> | <a href=\"$PHP_SELF?sid=$sid&list=magic&down=$(to)\">Р’РЅРёР·</a>]\n";
+	msg($stmp,"РњР°РіРёСЏ",1);

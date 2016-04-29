@@ -14,13 +14,13 @@ if ( $to )
 $stmp .= "
 <input name='say' emptyok='true' type='text' maxlength='250' value=''/>
 <br/>
-<anchor>Сказать
+<anchor>РЎРєР°Р·Р°С‚СЊ
 <go href='?sid=".$sid."' method='post'>
 <postfield name='to' value='$(to)'/>
 <postfield name='say' value='$(say)'/>
 </go></anchor>";
 
 if ( $tt )
-		$stmp .= "<br/><a href='?sid=".$sid."&trade=".$tt."'>Обмен</a>";
+		$stmp .= "<br/><a href='?sid=".$sid."&trade=".$tt."'>РћР±РјРµРЅ</a>";
 
-msg( $stmp, "Сказать", 1 );
+msg( $stmp, "РЎРєР°Р·Р°С‚СЊ", 1 );

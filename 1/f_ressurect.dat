@@ -7,7 +7,7 @@
 			$char[8]=0;
 			$char[5]=time();
 			$loc_i[$loc][$to]["char"]=implode("|",$char);
-			addjournal($loc,"all", $char[0]." воскрес!",$to);
-			addjournal($loc,$to,"Вы воскресли!");
-			} else addjournal($loc,$to,"Вы не призрак");
+			addjournal($loc,"all", $char[0]." РІРѕСЃРєСЂРµСЃ!",$to);
+			addjournal($loc,$to,"Р’С‹ РІРѕСЃРєСЂРµСЃР»Рё!");
+			} else addjournal($loc,$to,"Р’С‹ РЅРµ РїСЂРёР·СЂР°Рє");
 		} 

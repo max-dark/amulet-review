@@ -1,8 +1,8 @@
 <?php
 
-require_once ( 'config.ssp' ); // настройки игры
-require_once ( 'datafunc.php' ); // функции игры
-require_once ( 'game_function.php' ); // игровые функции
+require_once ( 'config.ssp' ); // РЅР°СЃС‚СЂРѕР№РєРё РёРіСЂС‹
+require_once ( 'datafunc.php' ); // С„СѓРЅРєС†РёРё РёРіСЂС‹
+require_once ( 'game_function.php' ); // РёРіСЂРѕРІС‹Рµ С„СѓРЅРєС†РёРё
 
 $tmp = $QUERY_STRING;
 if ( $tmp == '' )
@@ -22,7 +22,7 @@ if ( $sid )
 		$tl = "u." . strtolower( $ts[1] );
 		if ( file_exists( "online/" . $tl ) )
 		{
-				usleep( 300000 ); // задержка выполнения скрипта на 0.3 секунды
+				usleep( 300000 ); // Р·Р°РґРµСЂР¶РєР° РІС‹РїРѕР»РЅРµРЅРёСЏ СЃРєСЂРёРїС‚Р° РЅР° 0.3 СЃРµРєСѓРЅРґС‹
 		}
 }
 
@@ -30,7 +30,7 @@ if ( file_exists( "game.dat" ) )
 {
 		$file_save = fopen( "game.dat", "r+" );
 		if ( !$file_save )
-				msg( "Ошибка загрузки game.dat" );
+				msg( "РћС€РёР±РєР° Р·Р°РіСЂСѓР·РєРё game.dat" );
 		if ( flock( $file_save, 2 ) )
 		{
 				rewind( $file_save );
@@ -42,7 +42,7 @@ if ( file_exists( "game.dat" ) )
 		else
 		{
 				$file_save = "";
-				msg( "Ошибка блокировки game.dat" );
+				msg( "РћС€РёР±РєР° Р±Р»РѕРєРёСЂРѕРІРєРё game.dat" );
 		}
 }
 else
@@ -57,7 +57,7 @@ else
 		else
 		{
 				$file_save = "";
-				msg( "Ошибка создания game.dat" );
+				msg( "РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ game.dat" );
 		}
 }
 if ( $game["msg"] && $gm != $gm_id )
@@ -84,7 +84,7 @@ loadloc( $loc );
 if ( !isset( $loc_i[$loc][$login] ) )
 {
 		@unlink( "online/" . $login );
-		msg( "Нет данных" );
+		msg( "РќРµС‚ РґР°РЅРЅС‹С…" );
 }
 if ( $p != substr( $loc_i[$loc][$login]["user"], 0, strpos( $loc_i[$loc][$login]["user"],
 		"|" ) ) )
@@ -98,24 +98,24 @@ if ( $cnick )
 if ( $go )
 {
 		if ( $loc == "x927x253" && $go == "x902x254" )
-				msg( "Стражник: Стой!" );
+				msg( "РЎС‚СЂР°Р¶РЅРёРє: РЎС‚РѕР№!" );
 		if ( $go == "x1746x545" && strpos( $loc_i[$loc][$login]["items"], "i.q.keykrep" ) === false )
-				msg( "Без ключа не пройти" );
+				msg( "Р‘РµР· РєР»СЋС‡Р° РЅРµ РїСЂРѕР№С‚Рё" );
 		if ( $loc == "x216x1099" && $go == "x138x1380" )
-				msg( "между вами и входом в шахту встает грозный гном, с гиганским двухсторонним топором, на плече. Явно запрещая вам пройти в нутрь" );
+				msg( "РјРµР¶РґСѓ РІР°РјРё Рё РІС…РѕРґРѕРј РІ С€Р°С…С‚Сѓ РІСЃС‚Р°РµС‚ РіСЂРѕР·РЅС‹Р№ РіРЅРѕРј, СЃ РіРёРіР°РЅСЃРєРёРј РґРІСѓС…СЃС‚РѕСЂРѕРЅРЅРёРј С‚РѕРїРѕСЂРѕРј, РЅР° РїР»РµС‡Рµ. РЇРІРЅРѕ Р·Р°РїСЂРµС‰Р°СЏ РІР°Рј РїСЂРѕР№С‚Рё РІ РЅСѓС‚СЂСЊ" );
 		if ( $loc == "x233x2330" && $go == "_begi" && strpos( $loc_i[$loc][$login]["items"],
 				"i.q.keykrep1" ) === false )
-				msg( "А вы симпотично смотритесь ;)" );
+				msg( "Рђ РІС‹ СЃРёРјРїРѕС‚РёС‡РЅРѕ СЃРјРѕС‚СЂРёС‚РµСЃСЊ ;)" );
 		if ( $loc == "x154x1540" && $go == "x155x1540" )
-				msg( "Ангел сверхестественной силой не дает вам двигаться дальше" );
+				msg( "РђРЅРіРµР» СЃРІРµСЂС…РµСЃС‚РµСЃС‚РІРµРЅРЅРѕР№ СЃРёР»РѕР№ РЅРµ РґР°РµС‚ РІР°Рј РґРІРёРіР°С‚СЊСЃСЏ РґР°Р»СЊС€Рµ" );
 		if ( $go == "x393x1167" && ( $game["fid"] == $login ) )
-				msg( "С флагом на борт запрещено!" );
+				msg( "РЎ С„Р»Р°РіРѕРј РЅР° Р±РѕСЂС‚ Р·Р°РїСЂРµС‰РµРЅРѕ!" );
 		if ( $go == "x33x1252" && ( $game["fid"] == $login ) )
-				msg( "С флагом на борт запрещено!" );
+				msg( "РЎ С„Р»Р°РіРѕРј РЅР° Р±РѕСЂС‚ Р·Р°РїСЂРµС‰РµРЅРѕ!" );
 		if ( $go == "x435x1167" && ( $game["fid"] == $login ) )
-				msg( "С флагом на борт запрещено!" );
+				msg( "РЎ С„Р»Р°РіРѕРј РЅР° Р±РѕСЂС‚ Р·Р°РїСЂРµС‰РµРЅРѕ!" );
 		if ( $go == "x287x1252" && ( $game["fid"] == $login ) )
-				msg( "С флагом на борт запрещено!" );
+				msg( "РЎ С„Р»Р°РіРѕРј РЅР° Р±РѕСЂС‚ Р·Р°РїСЂРµС‰РµРЅРѕ!" );
 
 		$loc_c = explode( "|", $loc_tt[$loc]["d"] );
 		$b = array_search( $go, $loc_c );
@@ -147,7 +147,7 @@ if ( $game["fid"] == $login )
 if ( !$game["floc"] || isset( $loc_tt[$game["floc"]] ) && !isset( $loc_i[$game["floc"]]["i.flag"] ) &&
 		!isset( $loc_i[$game["floc"]][$game["fid"]] ) )
 {
-		$loc_i[$loc]["i.flag"] = "флаг лидерства|1|0";
+		$loc_i[$loc]["i.flag"] = "С„Р»Р°Рі Р»РёРґРµСЂСЃС‚РІР°|1|0";
 		$game["floc"] = $loc;
 		$game["fid"] = "";
 }
@@ -166,7 +166,7 @@ for ( $i = 2; $i < count( $loc_c ); $i += 2 )
 if ( !isset( $loc_i[$loc][$login] ) || !$login )
 {
 		@unlink( "online/" . $login );
-		msg( "Нет данных" );
+		msg( "РќРµС‚ РґР°РЅРЅС‹С…" );
 }
 $char = explode( "|", $loc_i[$loc][$login]["char"] );
 
@@ -176,7 +176,7 @@ $ip2 = $loc_i[$loc][$login]["ip"];
 if ( $ip2 && $ip2 != $ip1 && $ip2 != $ip && $gm != $gm_id )
 		include_once ( "f_nip.dat" );
 
-// подгружаемые модули
+// РїРѕРґРіСЂСѓР¶Р°РµРјС‹Рµ РјРѕРґСѓР»Рё
 if ( $cm )
 		if ( $cm > 0 && $cm < 9 )
 		{
@@ -230,12 +230,12 @@ if ( $use )
 		if ( time() > $char[6] )
 		{
 				if ( $char[8] && $login != "u.qv" )
-						msg( "<p>Вы призрак, найдите лекаря или камень воскрешения" );
+						msg( "<p>Р’С‹ РїСЂРёР·СЂР°Рє, РЅР°Р№РґРёС‚Рµ Р»РµРєР°СЂСЏ РёР»Рё РєР°РјРµРЅСЊ РІРѕСЃРєСЂРµС€РµРЅРёСЏ" );
 				if ( substr( $use, 0, 6 ) == 'i.note' || substr( $use, 0, 6 ) == 'i.book' )
 						$look = $use;
 				else
 				{
-						$scroll = 0; // со свитка
+						$scroll = 0; // СЃРѕ СЃРІРёС‚РєР°
 						if ( substr( $use, 0, 2 ) == "i." )
 								include_once "f_useitem.dat";
 						else
@@ -251,10 +251,10 @@ if ( $use )
 				}
 		}
 		else
-				addjournal( $loc, $login, "Вы должны отдохнуть " . round( $char[6] - time() + 1 ) . " сек" );
-} // раньше $list
+				addjournal( $loc, $login, "Р’С‹ РґРѕР»Р¶РЅС‹ РѕС‚РґРѕС…РЅСѓС‚СЊ " . round( $char[6] - time() + 1 ) . " СЃРµРє" );
+} // СЂР°РЅСЊС€Рµ $list
 if ( $look || $look = $ci )
-		include_once "f_look.dat"; // после $take и $use
+		include_once "f_look.dat"; // РїРѕСЃР»Рµ $take Рё $use
 if ( $msg )
 		include_once "f_msg.dat";
 if ( $trade )
@@ -277,22 +277,22 @@ if ( $loc_i[$loc][$login]["msgt"] )
 $stmp .= $char[1] . "/" . $char[2] . " (" . $char[3] . "/" . $char[4] . ")";
 $st = "";
 if ( $char[12] )
-		$st .= " всадник";
+		$st .= " РІСЃР°РґРЅРёРє";
 if ( $char[8] )
-		$st .= " призрак";
+		$st .= " РїСЂРёР·СЂР°Рє";
 if ( $char[9] )
-		$st .= " " . $char[9] . " (" . ( round( ( $char[10] - time() ) / 60 ) + 1 ) . " мин)";
+		$st .= " " . $char[9] . " (" . ( round( ( $char[10] - time() ) / 60 ) + 1 ) . " РјРёРЅ)";
 if ( $game["fid"] == $login )
-		$st .= " c флагом!";
+		$st .= " c С„Р»Р°РіРѕРј!";
 if ( $st )
-		$stmp .= ", вы " . $st;
+		$stmp .= ", РІС‹ " . $st;
 if ( $loc_i[$loc][$login]["def"] )
 {
 		$tdef = explode( "|", $loc_i[$loc][$login]["def"] );
 		if ( time() > $tdef[2] )
 				$loc_i[$loc][$login]["def"] = "";
 		else
-				$stmp .= "<br/>" . $tdef[1] . " (" . ( $tdef[2] - time() ) . " сек)";
+				$stmp .= "<br/>" . $tdef[1] . " (" . ( $tdef[2] - time() ) . " СЃРµРє)";
 }
 if ( substr( $loc, 3 ) == ".in" || substr( $loc, 3 ) == ".gate" )
 		include_once "f_castle.dat";
@@ -310,7 +310,7 @@ if ( !$g_sounds )
 										if ( ( substr( $j, 0, 2 ) == 'u.' ) || substr( $j, 0, 2 ) == 'n.' )
 										{
 												if ( $st == '' )
-														$st = "<br/>Звуки: " . $loc_c[$i];
+														$st = "<br/>Р—РІСѓРєРё: " . $loc_c[$i];
 												else
 														$st .= ", " . $loc_c[$i];
 												break;
@@ -342,21 +342,21 @@ for ( $i = $start; $i < $start + $g_list && $i < count( $keys ); $i++ )
 						$tmp = explode( "|", $loc_i[$loc][$keys[$i]]["char"] );
 						$k = $tmp[0];
 						if ( substr( $keys[$i], 0, 2 ) == "u." && $tmp[12] )
-								$k .= " (всадник)";
+								$k .= " (РІСЃР°РґРЅРёРє)";
 						$st = '';
 						if ( $tmp[1] != $tmp[2] )
 								if ( round( $tmp[1] * 100 / $tmp[2] ) < 100 )
 										$st .= round( $tmp[1] * 100 / $tmp[2] ) . "%";
 						if ( $game["floc"] == $loc && $game["fid"] == $keys[$i] )
-								$st .= " с флагом!";
+								$st .= " СЃ С„Р»Р°РіРѕРј!";
 						if ( substr( $keys[$i], 0, 2 ) == "u." )
 						{
 								if ( $tmp[8] )
-										$st .= " призрак";
+										$st .= " РїСЂРёР·СЂР°Рє";
 								if ( $ti[2] >= 1099 && $ti[2] <= 1370 && $tmp[14] == "t" )
-										$st .= " тамплиер";
+										$st .= " С‚Р°РјРїР»РёРµСЂ";
 								if ( $ti[2] >= 1099 && $ti[2] <= 1370 && $tmp[14] == "p" )
-										$st .= " пират";
+										$st .= " РїРёСЂР°С‚";
 						}
 						if ( $tmp[9] )
 								$st .= " " . $tmp[9];
@@ -366,9 +366,9 @@ for ( $i = $start; $i < $start + $g_list && $i < count( $keys ); $i++ )
 								$tmp1 = explode( "|", $loc_i[$loc][$tmp[7]]["char"] );
 								if ( substr( $tmp[7], 0, 2 ) == "n." || ( substr( $tmp[7], 0, 2 ) == "u." && !$tmp1[8] ) )
 								{
-										$st .= " атакует ";
+										$st .= " Р°С‚Р°РєСѓРµС‚ ";
 										if ( $tmp[7] == $login )
-												$st .= "вас!";
+												$st .= "РІР°СЃ!";
 										else
 												$st .= preg_replace( "/ \*.*?\*/", "", $tmp1[0] );
 								}
@@ -409,18 +409,18 @@ for ( $i = 2; $i < count( $loc_c ); $i += 2 )
 						}
 }
 
-$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">обновить</a>";
+$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">РѕР±РЅРѕРІРёС‚СЊ</a>";
 if ( file_exists( "loc_f/" . $loc ) )
-		$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=1\">Инфo</a>";
+		$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=1\">РРЅС„o</a>";
 if ( $game["fid"] == $login && $game["floc"] == $loc )
-		$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&drop=f\">Бросить флаг</a>";
+		$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&drop=f\">Р‘СЂРѕСЃРёС‚СЊ С„Р»Р°Рі</a>";
 if ( $login == $g_admin || ( $gm_id && $gm == $gm_id ) )
 		$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&adm=rsn\">res</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=smp&fmust=1\">admin</a>";
 
 // MENU
-$stmp .= "</p></card><card id=\"m\" title=\"Меню\"><p><a href=\"$PHP_SELF?sid=$sid&cs=$(to)\">Говорить/Взять</a><br/><a href=\"$PHP_SELF?sid=$sid&ca=$(to)\">Атаковать</a>";
+$stmp .= "</p></card><card id=\"m\" title=\"РњРµРЅСЋ\"><p><a href=\"$PHP_SELF?sid=$sid&cs=$(to)\">Р“РѕРІРѕСЂРёС‚СЊ/Р’Р·СЏС‚СЊ</a><br/><a href=\"$PHP_SELF?sid=$sid&ca=$(to)\">РђС‚Р°РєРѕРІР°С‚СЊ</a>";
 $b = "<br/>";
-$ts = array( "", "", "m", "магия", "i", "предмет", "p", "прием" );
+$ts = array( "", "", "m", "РјР°РіРёСЏ", "i", "РїСЂРµРґРјРµС‚", "p", "РїСЂРёРµРј" );
 for ( $i = 0; $i < strlen( $g_smenu ); $i += 2 )
 		if ( $ts[$g_smenu{$i} * 2] )
 		{
@@ -431,7 +431,7 @@ for ( $i = 0; $i < strlen( $g_smenu ); $i += 2 )
 						$stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$g_smenu{$i} * 2] . "." . $j .
 								"\">" . $j . "</a>";
 		}
-$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=$(to)\">Инфo</a>";
+$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=$(to)\">РРЅС„o</a>";
 
 if ( strpos( $loc_c[0], "*" ) !== false )
 		$loc_c[0] = substr( $loc_c[0], 0, strpos( $loc_c[0], "*" ) );

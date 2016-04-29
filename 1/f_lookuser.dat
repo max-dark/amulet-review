@@ -5,18 +5,18 @@
 		$stmp="<p>";
 
 		$user=explode("|",$loc_i[$loc][$look]["user"]);
-		if ($user[2]=='f') $stmp.="Женщ."; else $stmp.="Мужч.";
-		$stmp.=", ".$user[3]." лет";
-//		$stmp.=" (<a href=\"http://mag.su/magmail/profile.php?p=1&login=".substr($login,2)."&pass=$p&to=".substr($look,2)."\">анкета</a>)";
+		if ($user[2]=='f') $stmp.="Р–РµРЅС‰."; else $stmp.="РњСѓР¶С‡.";
+		$stmp.=", ".$user[3]." Р»РµС‚";
+//		$stmp.=" (<a href=\"http://mag.su/magmail/profile.php?p=1&login=".substr($login,2)."&pass=$p&to=".substr($look,2)."\">Р°РЅРєРµС‚Р°</a>)";
 
-		// холост/женат
+		// С…РѕР»РѕСЃС‚/Р¶РµРЅР°С‚
 		if($char[13]) {$tt=explode(":",$char[13]);$tt=$tt[0];} else $tt="";
-		if($tt && $user[2]=="m")  $stmp.=", женат на ".substr($tt,2);
-		if($tt && $user[2]=="f")  $stmp.=", замужем за ".substr($tt,2);
-		//if(!$user[10] && $user[2]=="m")  $stmp.=", холост";
-		//if(!$user[10] && $user[2]=="f")  $stmp.=", не замужем";
+		if($tt && $user[2]=="m")  $stmp.=", Р¶РµРЅР°С‚ РЅР° ".substr($tt,2);
+		if($tt && $user[2]=="f")  $stmp.=", Р·Р°РјСѓР¶РµРј Р·Р° ".substr($tt,2);
+		//if(!$user[10] && $user[2]=="m")  $stmp.=", С…РѕР»РѕСЃС‚";
+		//if(!$user[10] && $user[2]=="f")  $stmp.=", РЅРµ Р·Р°РјСѓР¶РµРј";
 
-		//новичок или опытный игрок
+		//РЅРѕРІРёС‡РѕРє РёР»Рё РѕРїС‹С‚РЅС‹Р№ РёРіСЂРѕРє
 		$stmp.="<br/>";
 		$war=explode("|",$loc_i[$loc][$look]["war"]);
 		$sk=explode("|",$loc_i[$loc][$look]["skills"]);
@@ -24,73 +24,73 @@
 		for($i=0;$i<count($sk);$i++) if ($i!=3 && $i!=4) $lev+=$sk[$i];
 		$lev=round(($lev-5)*100/($g_attr+$g_skills));
 
-		if ($lev<5) 		 $stmp.="Новичок";
-		if ($lev>=5  && $lev<10) $stmp.="Начинающий";
-		if ($lev>=10 && $lev<20) $stmp.="Умелый";
-		if ($lev>=20 && $lev<30) $stmp.="Опытный";
-		if ($lev>=30 && $lev<40) $stmp.="Искусный";
-		if ($lev>=40 && $lev<50) $stmp.="Профессионал";
-		if ($lev>=50 && $lev<60) $stmp.="Известный";
-		if ($lev>=60 && $lev<70) $stmp.="Знаменитый";
-		if ($lev>=70 && $lev<80) $stmp.="Мастер";
-		if ($lev>=80 && $lev<90) $stmp.="Грандмастер";
-		if ($lev>=90) 		 $stmp.="Лорд";
+		if ($lev<5) 		 $stmp.="РќРѕРІРёС‡РѕРє";
+		if ($lev>=5  && $lev<10) $stmp.="РќР°С‡РёРЅР°СЋС‰РёР№";
+		if ($lev>=10 && $lev<20) $stmp.="РЈРјРµР»С‹Р№";
+		if ($lev>=20 && $lev<30) $stmp.="РћРїС‹С‚РЅС‹Р№";
+		if ($lev>=30 && $lev<40) $stmp.="РСЃРєСѓСЃРЅС‹Р№";
+		if ($lev>=40 && $lev<50) $stmp.="РџСЂРѕС„РµСЃСЃРёРѕРЅР°Р»";
+		if ($lev>=50 && $lev<60) $stmp.="РР·РІРµСЃС‚РЅС‹Р№";
+		if ($lev>=60 && $lev<70) $stmp.="Р—РЅР°РјРµРЅРёС‚С‹Р№";
+		if ($lev>=70 && $lev<80) $stmp.="РњР°СЃС‚РµСЂ";
+		if ($lev>=80 && $lev<90) $stmp.="Р“СЂР°РЅРґРјР°СЃС‚РµСЂ";
+		if ($lev>=90) 		 $stmp.="Р›РѕСЂРґ";
 
-		// титул
+		// С‚РёС‚СѓР»
 		$arr_best=array(
-8=>"боец",
-9=>"воин",
-10=>"лучник",
-13=>"маг",
-5=>"монах",
-7=>"укротитель",
-17=>"маскировщик",
-21=>"спиритуалист",
-30=>"повар",
-24=>"рудокоп",
-25=>"кузнец",
-26=>"лесоруб",
-27=>"плотник",
-28=>"ювелир",
-29=>"рыболов",
-22=>"лекарь",
-23=>"алхимик",
-31=>"некромант",
-6=>"вор",
-32=>"друид", 
+8=>"Р±РѕРµС†",
+9=>"РІРѕРёРЅ",
+10=>"Р»СѓС‡РЅРёРє",
+13=>"РјР°Рі",
+5=>"РјРѕРЅР°С…",
+7=>"СѓРєСЂРѕС‚РёС‚РµР»СЊ",
+17=>"РјР°СЃРєРёСЂРѕРІС‰РёРє",
+21=>"СЃРїРёСЂРёС‚СѓР°Р»РёСЃС‚",
+30=>"РїРѕРІР°СЂ",
+24=>"СЂСѓРґРѕРєРѕРї",
+25=>"РєСѓР·РЅРµС†",
+26=>"Р»РµСЃРѕСЂСѓР±",
+27=>"РїР»РѕС‚РЅРёРє",
+28=>"СЋРІРµР»РёСЂ",
+29=>"СЂС‹Р±РѕР»РѕРІ",
+22=>"Р»РµРєР°СЂСЊ",
+23=>"Р°Р»С…РёРјРёРє",
+31=>"РЅРµРєСЂРѕРјР°РЅС‚",
+6=>"РІРѕСЂ",
+32=>"РґСЂСѓРёРґ", 
 );
 
 		$maxid=8;
 		$maxval=0;
 		foreach(array_keys($arr_best) as $i) if ($sk[$i]>=$maxval) {$maxid=$i;$maxval=$sk[$i];}
-		if ($maxval==0) $stmp.=" боец"; else $stmp.=" ".$arr_best[$maxid];
+		if ($maxval==0) $stmp.=" Р±РѕРµС†"; else $stmp.=" ".$arr_best[$maxid];
 
-		// сильный и т.д.
+		// СЃРёР»СЊРЅС‹Р№ Рё С‚.Рґ.
 		$good=array();
 		$bad=array();
-		if ($sk[0]>3) $good[]="сильный";
-		if ($sk[0]==1) $bad[]="слабый";
-		if ($sk[1]>3) $good[]="ловкий";
-		if ($sk[1]==1) $bad[]="медлительный";
-		if ($sk[2]>3) $good[]="умный";
-		if ($sk[2]==1) $bad[]="не очень умный";
+		if ($sk[0]>3) $good[]="СЃРёР»СЊРЅС‹Р№";
+		if ($sk[0]==1) $bad[]="СЃР»Р°Р±С‹Р№";
+		if ($sk[1]>3) $good[]="Р»РѕРІРєРёР№";
+		if ($sk[1]==1) $bad[]="РјРµРґР»РёС‚РµР»СЊРЅС‹Р№";
+		if ($sk[2]>3) $good[]="СѓРјРЅС‹Р№";
+		if ($sk[2]==1) $bad[]="РЅРµ РѕС‡РµРЅСЊ СѓРјРЅС‹Р№";
 		if (count($bad)>0 || count($good)>0) $stmp.="<br/>";
-		if (count($good)==3) $stmp.=$good[0].", ".$good[1]." и ".$good[2];
-		if (count($good)==2) $stmp.=$good[0]." и ".$good[1];
+		if (count($good)==3) $stmp.=$good[0].", ".$good[1]." Рё ".$good[2];
+		if (count($good)==2) $stmp.=$good[0]." Рё ".$good[1];
 		if (count($good)==1) $stmp.=$good[0];
-		if (count($good)>0 && count($bad)>0) $stmp.=", но ";
-		if (count($bad)==3) $stmp.=$bad[0].", ".$bad[1]." и ".$bad[2];
-		if (count($bad)==2) $stmp.=$bad[0]." и ".$bad[1];
+		if (count($good)>0 && count($bad)>0) $stmp.=", РЅРѕ ";
+		if (count($bad)==3) $stmp.=$bad[0].", ".$bad[1]." Рё ".$bad[2];
+		if (count($bad)==2) $stmp.=$bad[0]." Рё ".$bad[1];
 		if (count($bad)==1) $stmp.=$bad[0];
 
-		if (count($bad)==0 && count($good)==0) $stmp.="<br/>Телосложение среднее";
+		if (count($bad)==0 && count($good)==0) $stmp.="<br/>РўРµР»РѕСЃР»РѕР¶РµРЅРёРµ СЃСЂРµРґРЅРµРµ";
 
 		if (strpos($char[0],"*")===false) $clan=""; else $clan=substr($char[0],strpos($char[0],"*")+1,strrpos($char[0],"*")-strpos($char[0],"*")-1);
-		if ($clan) $stmp.="<br/>Состоит в клане <a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan\">".$clan."</a>";
+		if ($clan) $stmp.="<br/>РЎРѕСЃС‚РѕРёС‚ РІ РєР»Р°РЅРµ <a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan\">".$clan."</a>";
 
-		if ($game["floc"]==$loc && $game["fid"]==$look) $stmp.="<br/>Держит в руках флаг лидерства (нападение не будет преступлением)";
+		if ($game["floc"]==$loc && $game["fid"]==$look) $stmp.="<br/>Р”РµСЂР¶РёС‚ РІ СЂСѓРєР°С… С„Р»Р°Рі Р»РёРґРµСЂСЃС‚РІР° (РЅР°РїР°РґРµРЅРёРµ РЅРµ Р±СѓРґРµС‚ РїСЂРµСЃС‚СѓРїР»РµРЅРёРµРј)";
 
-		// что одето
+		// С‡С‚Рѕ РѕРґРµС‚Рѕ
 		if ($loc_i[$loc][$look]["equip"]) {
 			$str="";
 			$sto="";
@@ -104,9 +104,9 @@
 					else {if (!$str) $str=$item[0]; else $str.=", ".$item[0];}
 				} else die("err: no items/".$i);
 			}
-			if ($str) $stmp.="<br/>Держит в руках: ".$str;
-			if ($sto) $stmp.="<br/>Одет: ".$sto;
+			if ($str) $stmp.="<br/>Р”РµСЂР¶РёС‚ РІ СЂСѓРєР°С…: ".$str;
+			if ($sto) $stmp.="<br/>РћРґРµС‚: ".$sto;
 			}
 
 		msg($stmp,$char[0]);
-	} else addjournal($loc,$login,"Не на кого смотреть");
+	} else addjournal($loc,$login,"РќРµ РЅР° РєРѕРіРѕ СЃРјРѕС‚СЂРµС‚СЊ");

@@ -2,11 +2,11 @@
 function alt($s) {
 	global $ttans,$letters;  
 	if ($ttans) {
-		$letters=array("jo"=>"¸","je"=>"ı","ju"=>"ş","ja"=>"ÿ","zh"=>"æ","ch"=>"÷","sh"=>"ø","JO"=>"¨","JE"=>"İ","JU"=>"Ş","JA"=>"ß","ZH"=>"Æ","CH"=>"×","SH"=>"Ø");
+		$letters=array("jo"=>"Ñ‘","je"=>"Ñ","ju"=>"Ñ","ja"=>"Ñ","zh"=>"Ğ¶","ch"=>"Ñ‡","sh"=>"Ñˆ","JO"=>"Ğ","JE"=>"Ğ­","JU"=>"Ğ®","JA"=>"Ğ¯","ZH"=>"Ğ–","CH"=>"Ğ§","SH"=>"Ğ¨");
 		$s=strtr($s,$letters);
 		$s = preg_replace("/(j|J)_(a|A|u|U|o|O|e|E)/","\\1\\2",$s);
 		$s = preg_replace("/(z|Z|c|C|s|S)_(h|H)/","\\1\\2",$s);
-		$s=strtr($s,"wxq'ertyuiopasdfghjklzcvbnmWQXERTYUIOPASDFGHJKLZCVBNM",'ùúüüåğòûóèîïàñäôãõéêëçöâáíìÙÜÚÅĞÒÛÓÈÎÏÀÑÄÔÃÕÉÊËÇÖÂÁÍÌ');
+		$s=strtr($s,"wxq'ertyuiopasdfghjklzcvbnmWQXERTYUIOPASDFGHJKLZCVBNM",'Ñ‰ÑŠÑŒÑŒĞµÑ€Ñ‚Ñ‹ÑƒĞ¸Ğ¾Ğ¿Ğ°ÑĞ´Ñ„Ğ³Ñ…Ğ¹ĞºĞ»Ğ·Ñ†Ğ²Ğ±Ğ½Ğ¼Ğ©Ğ¬ĞªĞ•Ğ Ğ¢Ğ«Ğ£Ğ˜ĞĞŸĞĞ¡Ğ”Ğ¤Ğ“Ğ¥Ğ™ĞšĞ›Ğ—Ğ¦Ğ’Ğ‘ĞĞœ');
 		}
 	$ttans=!$ttans;
 	return $s;

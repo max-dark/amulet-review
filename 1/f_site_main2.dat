@@ -1,14 +1,14 @@
 <?php
 $stmp="<p align=\"center\">
-<a href=\"/1/pay.php?login=$nn\">Пополнить баланс</a>
-<br/><a href=\"/1/gamereg.php?log=old&amp;nn=$nn&amp;pass=$pass\">Сменить пароль</a>
-<br/><a href=\"/1/sendpass.php?nn=$nn\">Я забыл пароль</a>
+<a href=\"/1/pay.php?login=$nn\">РџРѕРїРѕР»РЅРёС‚СЊ Р±Р°Р»Р°РЅСЃ</a>
+<br/><a href=\"/1/gamereg.php?log=old&amp;nn=$nn&amp;pass=$pass\">РЎРјРµРЅРёС‚СЊ РїР°СЂРѕР»СЊ</a>
+<br/><a href=\"/1/sendpass.php?nn=$nn\">РЇ Р·Р°Р±С‹Р» РїР°СЂРѕР»СЊ</a>
 </p>
-<p><a href=\"$PHP_SELF\">Назад</a>
+<p><a href=\"$PHP_SELF\">РќР°Р·Р°Рґ</a>
 ";
 if ($pi) {
 	require($GLOBALS["DOCUMENT_ROOT"]."/javainc.ssp");
 	$stmp.="</p><p align=\"center\"><br/><small><a href=\"$homeurl\">$home </a> 2004<br/></small>\n";
 	}
 if ($_SERVER["REMOTE_ADDR"]=="193.201.231.2") $stmp.="<br/><small><a href=\"http://wap.megawap.ru\">wap.megawap.ru</a></small>\n"; else if ($_SERVER["REMOTE_ADDR"]=="62.118.250.193") $stmp.="<br/><small><a href=\"http://wap.mts.ru\">wap.mts.ru</a></small>\n";
-msg($stmp,"Ваш аккаунт",0,'none');
+msg($stmp,"Р’Р°С€ Р°РєРєР°СѓРЅС‚",0,'none');
