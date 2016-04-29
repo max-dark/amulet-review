@@ -1,5 +1,12 @@
 <?php
 
+function get($arr, $key) {
+    return (
+        array_key_exists($key, $arr) ?
+        $arr[$key] : false
+    );
+}
+
 function savegame()
 {
 		global $game, $file_save, $login, $loc, $loc_i, $loc_t, $loc_tt;
@@ -94,7 +101,7 @@ function msg( $msg, $title = 'Амулет Дракона', $journal = 1, $menu 
 				if ( $g_joff )
 						$loc_i[$loc][$login]["journal"] = preg_replace( '/(\||^)[^:!]*(\||$)/', "|", $loc_i[$loc][$login]["journal"] );
 		$page_j = "";
-		if ( $game["journal"] && $login != $g_admin && $gm != $gm_id )
+		if ( get($game, "journal") && $login != $g_admin && $gm != $gm_id )
 				$page_j = $game["journal"];
 		if ( $journal == 1 && $loc_i[$loc][$login]["journal"] )
 		{

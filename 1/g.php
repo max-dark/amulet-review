@@ -68,7 +68,7 @@ else
 				msg( "Ошибка создания game.dat" );
 		}
 }
-if ( $game["msg"] && $gm != $gm_id )
+if ( get($game, "msg") && $gm != $gm_id )
 		msg( $game["msg"] );
 if ( $site )
 		include_once "f_site_" . preg_replace( '/\W/', "", $site ) . ".dat";
