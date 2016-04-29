@@ -1,6 +1,12 @@
 <?php
 // карта, передается map=x123x456 и для картики img=1 bw=1|2|3, f=x123x456 место флага
-$tmp=$QUERY_STRING;if($tmp=='') $tmp=$_SERVER["QUERY_STRING"];
+$QUERY_STRING = (
+    array_key_exists('QUERY_STRING', $_SERVER) ?
+        $_SERVER["QUERY_STRING"]
+    :
+        ''
+);
+$tmp=$QUERY_STRING;
 $tmp=urldecode($tmp);
 parse_str($tmp);
 

@@ -4,12 +4,20 @@ require_once ( 'config.ssp' ); // настройки игры
 require_once ( 'datafunc.php' ); // функции игры
 require_once ( 'game_function.php' ); // игровые функции
 
+$QUERY_STRING = (
+    array_key_exists('QUERY_STRING', $_SERVER) ?
+        $_SERVER["QUERY_STRING"]
+    :
+        ''
+);
+
 $tmp = $QUERY_STRING;
-if ( $tmp == '' )
-		$tmp = $_SERVER["QUERY_STRING"];
 $g_tmp = $tmp;
 $tmp = urldecode( $tmp );
 parse_str( $tmp );
+
+if(!isset($sid)) $sid = '';
+if(!isset($site)) $site = '';
 
 if ( $sid && substr( $sid, 0, 2 ) != "u." )
 		$sid = "u." . $sid;
