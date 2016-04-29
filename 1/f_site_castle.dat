@@ -1,43 +1,43 @@
 <?php
 
-	$stmp="<b>Замок Луен</b>:";
-	$tmp=unserialize(implode("",file("loc_i/c.3.gate")));
-	if ($tmp["d"]) {
-		$d=explode("|",$tmp["d"]);
-		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+$stmp = "<b>Замок Луен</b>:";
+$tmp = unserialize(implode("", file("loc_i/c.3.gate")));
+if ($tmp["d"]) {
+    $d = explode("|", $tmp["d"]);
+    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
+    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
+} else $stmp .= " [ошибка загрузки]";
 
-	$stmp.="<br/><b>Замок Мирра</b>:";
-	$tmp=unserialize(implode("",file("loc_i/c.2.gate")));
-	if ($tmp["d"]) {
-		$d=explode("|",$tmp["d"]);
-		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+$stmp .= "<br/><b>Замок Мирра</b>:";
+$tmp = unserialize(implode("", file("loc_i/c.2.gate")));
+if ($tmp["d"]) {
+    $d = explode("|", $tmp["d"]);
+    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
+    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
+} else $stmp .= " [ошибка загрузки]";
 
-	$stmp.="<br/><b>Замок Санкастар</b>:";
-	$tmp=unserialize(implode("",file("loc_i/c.1.gate")));
-	if ($tmp["d"]) {
-		$d=explode("|",$tmp["d"]);
-		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+$stmp .= "<br/><b>Замок Санкастар</b>:";
+$tmp = unserialize(implode("", file("loc_i/c.1.gate")));
+if ($tmp["d"]) {
+    $d = explode("|", $tmp["d"]);
+    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
+    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
+} else $stmp .= " [ошибка загрузки]";
 
-	$stmp.="<br/><b>Замок Танатос</b>:";
-	$tmp=unserialize(implode("",file("loc_i/c.4.gate")));
-	if ($tmp["d"]) {
-		$d=explode("|",$tmp["d"]);
-		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+$stmp .= "<br/><b>Замок Танатос</b>:";
+$tmp = unserialize(implode("", file("loc_i/c.4.gate")));
+if ($tmp["d"]) {
+    $d = explode("|", $tmp["d"]);
+    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
+    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
+} else $stmp .= " [ошибка загрузки]";
 
-     $stmp.="<br/><b>Замок Вилло</b>:";
-	$tmp=unserialize(implode("",file("loc_i/c.5.gate")));
-	if ($tmp["d"]) {
-		$d=explode("|",$tmp["d"]);
-		if (strpos($d[0],"*")===false) $clanc=""; else $clanc=substr($d[0],strpos($d[0],"*")+1,strrpos($d[0],"*")-strpos($d[0],"*")-1);
-		if ($clanc) $stmp.=" принадлежит клану ".$clanc; else $stmp.=" никому не принадлежит";
-		} else $stmp.=" [ошибка загрузки]";
+$stmp .= "<br/><b>Замок Вилло</b>:";
+$tmp = unserialize(implode("", file("loc_i/c.5.gate")));
+if ($tmp["d"]) {
+    $d = explode("|", $tmp["d"]);
+    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
+    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
+} else $stmp .= " [ошибка загрузки]";
 
-	msg($stmp,"Онлайн (Cервер ".implode("",file("server.dat")).")",0,'none');
+msg($stmp, "Онлайн (Cервер " . implode("", file("server.dat")) . ")", 0, 'none');

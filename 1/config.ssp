@@ -1,14 +1,14 @@
 <?php
 
-header( "Expires: Thu, 01 Jan 2010 00:00:01 GMT" );
-header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . " GMT" );
-header( "Cache-Control: no-cache, no-store, must-revalidate, max-age=0" );
-header( "Pragma: no-cache" );
-header( "Content-type:text/vnd.wap.wml;charset=utf-8" );
+header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Content-type:text/vnd.wap.wml;charset=utf-8");
 //header( "Content-type:text/vnd.wap.wml" );
 echo "<?xml version='1.0'?><!DOCTYPE wml PUBLIC '-//WAPFORUM//DTD WML 1.3//EN' 'http://www.wapforum.org/DTD/wml13.dtd'>";
 
-$starttime = microtime( 1 );
+$starttime = microtime(1);
 
 //=========================
 $server = 'localhost';
@@ -47,32 +47,28 @@ $loc_i = array();
 $loc_t = array();
 $loc_tt = array();
 //==================================ПЕРЕХОД В REGISTER_GLOBALS OFF!!!!!!
-$cnt_get = count( $_GET );
-if ( $cnt_get )
-{
-		$key = array_keys( $_GET );
-		$vals = array_values( $_GET );
-		for ( $i = 0; $i < $cnt_get; $i++ )
-		{
-				if ( !$vals[$i] )
-						continue;
-				if ( !preg_match( "|^[-a-z0-9_\.]+$|i", $vals[$i] ) )
-						exit( 'Вы используете запрещенные символы ' . $v[0] );
-				eval( '$' . $key[$i] . '="' . $vals[$i] . '";' );
-		}
-		unset( $cnt_get, $key, $vals );
+$cnt_get = count($_GET);
+if ($cnt_get) {
+    $key = array_keys($_GET);
+    $vals = array_values($_GET);
+    for ($i = 0; $i < $cnt_get; $i++) {
+        if (!$vals[$i])
+            continue;
+        if (!preg_match("|^[-a-z0-9_\.]+$|i", $vals[$i]))
+            exit('Вы используете запрещенные символы ' . $v[0]);
+        eval('$' . $key[$i] . '="' . $vals[$i] . '";');
+    }
+    unset($cnt_get, $key, $vals);
 }
 //------------------------------
-$cnt_post = count( $_POST );
-if ( $cnt_post )
-{
-		$key = array_keys( $_POST );
-		$vals = array_values( $_POST );
-		for ( $i = 0; $i < $cnt_post; $i++ )
-		{
-				eval( '$' . $key[$i] . '="' . $vals[$i] . '";' );
-		}
-		unset( $cnt_post, $key, $vals );
+$cnt_post = count($_POST);
+if ($cnt_post) {
+    $key = array_keys($_POST);
+    $vals = array_values($_POST);
+    for ($i = 0; $i < $cnt_post; $i++) {
+        eval('$' . $key[$i] . '="' . $vals[$i] . '";');
+    }
+    unset($cnt_post, $key, $vals);
 }
 //===============================================================
 

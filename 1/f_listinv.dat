@@ -1,52 +1,57 @@
 <?php
 // список инвентори
-	$items=explode("|",$loc_i[$loc][$login]["items"]);
-	if ($up || $down) include "f_listinvm.dat";
+$items = explode("|", $loc_i[$loc][$login]["items"]);
+if ($up || $down) include "f_listinvm.dat";
 
-	// в $to цель, если есть
-	$stmp="<p>";
-	if (!$to && !$start) {
-		$stmp.="<a href=\"#char\">Меню</a>";
-		$war=explode("|",$loc_i[$loc][$login]["war"]);
-		$stmp.="<br/>Урон: ".$war[1]."-".$war[2]." [".$war[0]."%]<br/>Броня: ".($war[5]+$war[8]);
-		} else {
-			$stmp.="Выберите предмет: ";
-			}
-	if ($loc_i[$loc][$login]["items"]=="") $stmp.="<br/>У вас нет ни одного предмета"; else {
+// в $to цель, если есть
+$stmp = "<p>";
+if (!$to && !$start) {
+    $stmp .= "<a href=\"#char\">Меню</a>";
+    $war = explode("|", $loc_i[$loc][$login]["war"]);
+    $stmp .= "<br/>Урон: " . $war[1] . "-" . $war[2] . " [" . $war[0] . "%]<br/>Броня: " . ($war[5] + $war[8]);
+} else {
+    $stmp .= "Выберите предмет: ";
+}
+if ($loc_i[$loc][$login]["items"] == "") $stmp .= "<br/>У вас нет ни одного предмета"; else {
 
-	$items=explode("|",$loc_i[$loc][$login]["items"]);
+    $items = explode("|", $loc_i[$loc][$login]["items"]);
 
-	if (!$start) $start=0;
-	$keys=array_keys($items);
+    if (!$start) $start = 0;
+    $keys = array_keys($items);
 
-	for ($i=$start;$i<$start+$g_list && $i<count($keys);$i++) if ($items[$keys[$i]]) {
-		$k=explode(":",$items[$keys[$i]]);
-		if (strpos($k[0],"_")!==false) $tk=substr($k[0],0,strpos($k[0],"_")); else $tk=$k[0];
-		if (substr($k[0],0,5)=="i.rr.") $item=explode("|","руна|50"); else if (file_exists("items/".$tk)) $item=explode("|",implode("",file("items/".$tk))); else die("err: no items/".$k[0]);
-		$item=$item[0];
-		if (strpos($k[0],"..")!==false) $item.=" *";
-		if ($k[1]>1) $item.=" (".$k[1].")";
-		$tbp=strpos($loc_i[$loc][$login]["equip"],$k[0]);
-		if ($tbp!==false && ($loc_i[$loc][$login]["equip"]{$tbp+strlen($k[0])}=="|" || $loc_i[$loc][$login]["equip"]{$tbp+strlen($k[0])}=="")) $item.=" [одето]";
-		if ($to) {
-			$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=".$k[0]."\">".$item."</a>";
-			} else {	// основное меню
-				$stmp.="\n<br/><anchor>".$item."<go href=\"#menu\"><setvar name=\"to\" value=\"".$k[0]."\"/></go></anchor>";
-				}
-		}
-	if ($start) {$stmp.= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=inv\">^ </a>";}
-	if ($start+$g_list<count($keys)) {if (!$start) $stmp.="\n<br/>"; $stmp.= "<a href=\"$PHP_SELF?sid=$sid&list=inv&start=".($start+$g_list)."\">+ (".(count($keys)-$start-$g_list).")</a>";}
+    for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) if ($items[$keys[$i]]) {
+        $k = explode(":", $items[$keys[$i]]);
+        if (strpos($k[0], "_") !== false) $tk = substr($k[0], 0, strpos($k[0], "_")); else $tk = $k[0];
+        if (substr($k[0], 0, 5) == "i.rr.") $item = explode("|", "руна|50"); else if (file_exists("items/" . $tk)) $item = explode("|", implode("", file("items/" . $tk))); else die("err: no items/" . $k[0]);
+        $item = $item[0];
+        if (strpos($k[0], "..") !== false) $item .= " *";
+        if ($k[1] > 1) $item .= " (" . $k[1] . ")";
+        $tbp = strpos($loc_i[$loc][$login]["equip"], $k[0]);
+        if ($tbp !== false && ($loc_i[$loc][$login]["equip"]{$tbp + strlen($k[0])} == "|" || $loc_i[$loc][$login]["equip"]{$tbp + strlen($k[0])} == "")) $item .= " [одето]";
+        if ($to) {
+            $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=" . $k[0] . "\">" . $item . "</a>";
+        } else {    // основное меню
+            $stmp .= "\n<br/><anchor>" . $item . "<go href=\"#menu\"><setvar name=\"to\" value=\"" . $k[0] . "\"/></go></anchor>";
+        }
+    }
+    if ($start) {
+        $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=inv\">^ </a>";
+    }
+    if ($start + $g_list < count($keys)) {
+        if (!$start) $stmp .= "\n<br/>";
+        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=inv&start=" . ($start + $g_list) . "\">+ (" . (count($keys) - $start - $g_list) . ")</a>";
+    }
 
-	// меню
-	$stmp.="\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&use=$(to)\">Использовать</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&drop=$(to)\">Бросить</a>";
-	if (isset($loc_i[$loc][$loc_i[$loc][$login]["trade"]["to"]])) $stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&trade=add&id=$(to)\">Добавить в обмен</a>";
-	$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&from=$login&look=$(to)\">Инфо</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&from=$login&list=inv&up=$(to)\">[Вверх</a> | <a href=\"$PHP_SELF?sid=$sid&from=$login&list=inv&down=$(to)\">Вниз</a>]";
+    // меню
+    $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&use=$(to)\">Использовать</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&drop=$(to)\">Бросить</a>";
+    if (isset($loc_i[$loc][$loc_i[$loc][$login]["trade"]["to"]])) $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&trade=add&id=$(to)\">Добавить в обмен</a>";
+    $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&from=$login&look=$(to)\">Инфо</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&from=$login&list=inv&up=$(to)\">[Вверх</a> | <a href=\"$PHP_SELF?sid=$sid&from=$login&list=inv&down=$(to)\">Вниз</a>]";
 
-	}// items!=""
+}// items!=""
 
-	// персонаж
-	$stmp.="\n</p>\n</card>\n<card id=\"char\" title=\"Меню\">\n<p>";
-	$stmp.="<a href=\"$PHP_SELF?sid=$sid&list=magic\">Магия</a><br/><a href=\"$PHP_SELF?sid=$sid&list=skill\">Навыки</a><br/><a href=\"$PHP_SELF?sid=$sid&list=priem\">Приемы</a><br/><a href=\"$PHP_SELF?sid=$sid&cnick=1\">Настройки</a><br/><a href=\"$PHP_SELF?sid=$sid&look=$login\">О себе</a>";
-	if ($char[12]) $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&use=i.h\">Покинуть седло</a>";
+// персонаж
+$stmp .= "\n</p>\n</card>\n<card id=\"char\" title=\"Меню\">\n<p>";
+$stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=magic\">Магия</a><br/><a href=\"$PHP_SELF?sid=$sid&list=skill\">Навыки</a><br/><a href=\"$PHP_SELF?sid=$sid&list=priem\">Приемы</a><br/><a href=\"$PHP_SELF?sid=$sid&cnick=1\">Настройки</a><br/><a href=\"$PHP_SELF?sid=$sid&look=$login\">О себе</a>";
+if ($char[12]) $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=i.h\">Покинуть седло</a>";
 
-	msg($stmp,"[".date("H:i",time())."] Предметы ",1,'inv');
+msg($stmp, "[" . date("H:i", time()) . "] Предметы ", 1, 'inv');

@@ -1,13 +1,13 @@
 <?php
 
-if ( !preg_match( '|^[-0-9a-z_]+$|i', $nn ) )
-		msg( "Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none' );
+if (!preg_match('|^[-0-9a-z_]+$|i', $nn))
+    msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
 openDB();
-$sqlSel = "select * from `users` where `nick` = '".$nn."'";
-$result = mysql_query( $sqlSel ) or die( mysql_error() );
-$Count = mysql_num_rows( $result );
-if ( $Count != 0 )
-		msg( 'Этот логин уже занят.<br /><anchor>Назад<prev/></anchor>', 'Ошибка', 0, 'none' );
+$sqlSel = "select * from `users` where `nick` = '" . $nn . "'";
+$result = mysql_query($sqlSel) or die(mysql_error());
+$Count = mysql_num_rows($result);
+if ($Count != 0)
+    msg('Этот логин уже занят.<br /><anchor>Назад<prev/></anchor>', 'Ошибка', 0, 'none');
 mysql_close();
 $stmp = '
 </p><p align="center">            
@@ -34,6 +34,6 @@ $stmp = '
 <postfield name="age" value="$(age)"/>
 </go>
 </anchor>';
-msg( $stmp, "Регистрация", 0, "none" );
+msg($stmp, "Регистрация", 0, "none");
 
 ?>

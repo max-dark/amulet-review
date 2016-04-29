@@ -155,100 +155,90 @@ $bw[] = "драцхи";
 $bw[] = "дпачи";
 $bw[] = "дпацхи";
 
-$change2 = array( chr( 195 ) . chr( 132 ) => "a", chr( 195 ) . chr( 133 ) => "a", chr( 195 ) .
-		chr( 134 ) => "a", chr( 195 ) . chr( 160 ) => "a", chr( 195 ) . chr( 164 ) => "a", chr( 195 ) .
-		chr( 165 ) => "a", chr( 195 ) . chr( 168 ) => "e", chr( 195 ) . chr( 169 ) => "e", chr( 195 ) .
-		chr( 137 ) => "e", chr( 206 ) . chr( 148 ) => "d", chr( 195 ) . chr( 150 ) => "o", chr( 195 ) .
-		chr( 182 ) => "o", chr( 195 ) . chr( 184 ) => "o", chr( 195 ) . chr( 178 ) => "o", chr( 195 ) .
-		chr( 152 ) => "o", chr( 195 ) . chr( 152 ) => "i", chr( 195 ) . chr( 145 ) => "i", chr( 206 ) .
-		chr( 155 ) => "l", chr( 206 ) . chr( 160 ) => "p", chr( 207 ) . chr( 128 ) => "p", chr( 195 ) .
-		chr( 156 ) => "u", chr( 195 ) . chr( 188 ) => "u", chr( 195 ) . chr( 185 ) => "u", chr( 195 ) .
-		chr( 159 ) => "b", );
+$change2 = array(chr(195) . chr(132) => "a", chr(195) . chr(133) => "a", chr(195) .
+chr(134) => "a", chr(195) . chr(160) => "a", chr(195) . chr(164) => "a", chr(195) .
+chr(165) => "a", chr(195) . chr(168) => "e", chr(195) . chr(169) => "e", chr(195) .
+chr(137) => "e", chr(206) . chr(148) => "d", chr(195) . chr(150) => "o", chr(195) .
+chr(182) => "o", chr(195) . chr(184) => "o", chr(195) . chr(178) => "o", chr(195) .
+chr(152) => "o", chr(195) . chr(152) => "i", chr(195) . chr(145) => "i", chr(206) .
+chr(155) => "l", chr(206) . chr(160) => "p", chr(207) . chr(128) => "p", chr(195) .
+chr(156) => "u", chr(195) . chr(188) => "u", chr(195) . chr(185) => "u", chr(195) .
+chr(159) => "b",);
 
 
-function GetBadWord( $s ) // Возвращает первое плохое слово или пустую строку
+function GetBadWord($s) // Возвращает первое плохое слово или пустую строку
 
 {
-		global $gw, $bw, $change2;
-		$s = strtr( $s, $change2 );
-		//  $s=iconv("UTF-8","windows-1251",$s);
-		$s = str_replace( "&amp;", "я", $s );
-		$s = str_replace( "&apos;", "ь", $s );
-		$s = str_replace( "&lt;", "<", $s );
-		$s = str_replace( "&gt;", ">", $s );
+    global $gw, $bw, $change2;
+    $s = strtr($s, $change2);
+    //  $s=iconv("UTF-8","windows-1251",$s);
+    $s = str_replace("&amp;", "я", $s);
+    $s = str_replace("&apos;", "ь", $s);
+    $s = str_replace("&lt;", "<", $s);
+    $s = str_replace("&gt;", ">", $s);
 
-		$s = str_replace( "_", "", $s );
-		$s = str_replace( "-", "", $s );
-		$s = str_replace( "+", "", $s );
-		$s = str_replace( "*", "", $s );
-		$s = str_replace( "^", "", $s );
-		$s = str_replace( "~", "", $s );
-		$s = str_replace( "'", "", $s );
-		$s = str_replace( "`", "", $s );
-		$s = str_replace( ":", "", $s );
-		$s = str_replace( "=", "", $s );
+    $s = str_replace("_", "", $s);
+    $s = str_replace("-", "", $s);
+    $s = str_replace("+", "", $s);
+    $s = str_replace("*", "", $s);
+    $s = str_replace("^", "", $s);
+    $s = str_replace("~", "", $s);
+    $s = str_replace("'", "", $s);
+    $s = str_replace("`", "", $s);
+    $s = str_replace(":", "", $s);
+    $s = str_replace("=", "", $s);
 
-		// Пробелы убираем интеллектуально
-		$bspos = 0;
-		$s = " $s ";
-		for ( $i = 1; $i < strlen( $s ); $i++ )
-		{
-				$ch = $s[$i];
-				if ( ( $ch == " " ) or ( $ch == "," ) or ( $ch == "." ) )
-				{
-						if ( ( $i - $bspos ) > 3 )
-						{
-								$s[$bspos] = " ";
-						}
-						else
-						{
-								$s[$i] = "-";
-						}
-						$bspos = $i;
-				}
-		}
-		$s = str_replace( "-", "", trim( $s ) );
-		$s_out = $s;
+    // Пробелы убираем интеллектуально
+    $bspos = 0;
+    $s = " $s ";
+    for ($i = 1; $i < strlen($s); $i++) {
+        $ch = $s[$i];
+        if (($ch == " ") or ($ch == ",") or ($ch == ".")) {
+            if (($i - $bspos) > 3) {
+                $s[$bspos] = " ";
+            } else {
+                $s[$i] = "-";
+            }
+            $bspos = $i;
+        }
+    }
+    $s = str_replace("-", "", trim($s));
+    $s_out = $s;
 
-		$s = strtolower( $s );
+    $s = strtolower($s);
 
-		// Преобразуем кириллицу в нижний регистр
-		$s = strtr( $s, 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя' );
-		// Преобразуем возможные замены в кириллицу
-		$s = strtr( $s, 'a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9',
-				'ааббцвгдежззийклмноопрсстуфхххцчшуяя' );
-		// Удаление правильных слов
-		for ( $i = 0; $i < Count( $gw ); $i++ )
-		{
-				$pos = strpos( $s, $gw[$i] );
-				while ( $pos !== false )
-				{
-						$s = substr( $s, 0, $pos ) . substr( $s, $pos + strlen( $gw[$i] ) );
-						$s_out = substr( $s_out, 0, $pos ) . substr( $s_out, $pos + strlen( $gw[$i] ) );
-						$pos = strpos( $s, $gw[$i] );
-				}
-		}
+    // Преобразуем кириллицу в нижний регистр
+    $s = strtr($s, 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя');
+    // Преобразуем возможные замены в кириллицу
+    $s = strtr($s, 'a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9',
+        'ааббцвгдежззийклмноопрсстуфхххцчшуяя');
+    // Удаление правильных слов
+    for ($i = 0; $i < Count($gw); $i++) {
+        $pos = strpos($s, $gw[$i]);
+        while ($pos !== false) {
+            $s = substr($s, 0, $pos) . substr($s, $pos + strlen($gw[$i]));
+            $s_out = substr($s_out, 0, $pos) . substr($s_out, $pos + strlen($gw[$i]));
+            $pos = strpos($s, $gw[$i]);
+        }
+    }
 
-		$s = " $s";
-		$s_out = " $s_out";
+    $s = " $s";
+    $s_out = " $s_out";
 
-		for ( $i = 0; $i < Count( $bw ); $i++ )
-		{
-				$pos = strpos( $s, $bw[$i] );
-				if ( $pos !== false )
-				{
-						$pos = $pos - 5;
-						if ( $pos < 0 )
-						{
-								$pos = 0;
-						}
-						$s = substr( $s_out, $pos, strlen( $bw[$i] ) + 10 );
+    for ($i = 0; $i < Count($bw); $i++) {
+        $pos = strpos($s, $bw[$i]);
+        if ($pos !== false) {
+            $pos = $pos - 5;
+            if ($pos < 0) {
+                $pos = 0;
+            }
+            $s = substr($s_out, $pos, strlen($bw[$i]) + 10);
 
-						return $s;
-						exit;
-				}
-		}
-		return "";
+            return $s;
+            exit;
+        }
+    }
+    return "";
 }
 
 ?>

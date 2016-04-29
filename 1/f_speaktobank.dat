@@ -1,24 +1,29 @@
 <?php
-	if ($speak=="n.t.bankir" && $char[14]!="t") msg("Извини, услуги банка только для вступивших в Орден Тамплиера.");
-	if ($speak=="n.p.bankir" && $char[14]!="p") msg("Ха, ты не не один из нас. Вначале стань настоящим пиратом, тогда и поговорим.");
-	// список
-	$items=explode("|",$loc_i[$loc][$login]["items"]);
+if ($speak == "n.t.bankir" && $char[14] != "t") msg("Извини, услуги банка только для вступивших в Орден Тамплиера.");
+if ($speak == "n.p.bankir" && $char[14] != "p") msg("Ха, ты не не один из нас. Вначале стань настоящим пиратом, тогда и поговорим.");
+// список
+$items = explode("|", $loc_i[$loc][$login]["items"]);
 
-	if (!$items) msg("У вас нет ни одного предмета",$tchar[0]);
-	$stmp="<p>Выберите предмет:";
-	if (!$start) $start=0;
-	$keys=array_keys($items);
-	for ($i=$start;$i<$start+$g_list && $i<count($keys);$i++) if ($items[$keys[$i]]) {
-		$k=explode(":",$items[$keys[$i]]);
-		if (strpos($k[0],"_")!==false) $ti=substr($k[0],0,strpos($k[0],"_")); else $ti=$k[0];
-		if (substr($k[0],0,5)=="i.rr.") $item=explode("|","руна|50"); else if (file_exists("items/".$ti)) $item=explode("|",implode("",file("items/".$ti))); else die("err: no items/".$k[0]);
-		$item=$item[0];
-		if (strpos($k[0],"..")!==false) $item.=" *";
-		if ($k[1]>1) $item.=" (".$k[1].")";
-		if (strpos($loc_i[$loc][$login]["equip"],$k[0])!==false) $item.=" [одето]";
-		$stmp.="\n<br/><anchor>".$item."<go href=\"#menu\"><setvar name=\"to\" value=\"".$k[0]."\"/></go></anchor>";
-		}
-	if ($start) {$stmp.= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";}
-	if ($start+$g_list<count($keys)) {if (!$start) $stmp.="\n<br/>"; $stmp.= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=".($start+$g_list)."\">+ (".(count($keys)-$start-$g_list).")</a>";}
-	$stmp.="\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Положить в банк</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
-	msg($stmp,$tchar[0]);
+if (!$items) msg("У вас нет ни одного предмета", $tchar[0]);
+$stmp = "<p>Выберите предмет:";
+if (!$start) $start = 0;
+$keys = array_keys($items);
+for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) if ($items[$keys[$i]]) {
+    $k = explode(":", $items[$keys[$i]]);
+    if (strpos($k[0], "_") !== false) $ti = substr($k[0], 0, strpos($k[0], "_")); else $ti = $k[0];
+    if (substr($k[0], 0, 5) == "i.rr.") $item = explode("|", "руна|50"); else if (file_exists("items/" . $ti)) $item = explode("|", implode("", file("items/" . $ti))); else die("err: no items/" . $k[0]);
+    $item = $item[0];
+    if (strpos($k[0], "..") !== false) $item .= " *";
+    if ($k[1] > 1) $item .= " (" . $k[1] . ")";
+    if (strpos($loc_i[$loc][$login]["equip"], $k[0]) !== false) $item .= " [одето]";
+    $stmp .= "\n<br/><anchor>" . $item . "<go href=\"#menu\"><setvar name=\"to\" value=\"" . $k[0] . "\"/></go></anchor>";
+}
+if ($start) {
+    $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
+}
+if ($start + $g_list < count($keys)) {
+    if (!$start) $stmp .= "\n<br/>";
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" . (count($keys) - $start - $g_list) . ")</a>";
+}
+$stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Положить в банк</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
+msg($stmp, $tchar[0]);

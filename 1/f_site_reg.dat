@@ -1,5 +1,5 @@
 <?php
-$stmp="Пол персонажа:
+$stmp = "Пол персонажа:
 <br/><select name=\"sex\" value=\"m\">
 <option value=\"m\">Муж.</option>
 <option value=\"f\">Жен.</option>
@@ -8,4 +8,4 @@ $stmp="Пол персонажа:
 <br/><input name=\"age\" format=\"*N\" maxlength=\"2\"/>
 <br/><a href=\"$PHP_SELF?login=$(login)&p=$(p)&sex=$(sex)&age=$(age)&site=reg2\">Продолжить</a>";
 
-msg($stmp,"Регистрация",0,'none');
+msg($stmp, "Регистрация", 0, 'none');
