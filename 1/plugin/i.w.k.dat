@@ -5,7 +5,7 @@
 					if ($died[3]) $died[3].=",".$died[4]; else $died[3]=$died[4];
 					$died[4]="";
 					$loc_i[$loc][$to]=implode("|",$died);
-					addjournal($loc,$login,"Вы освежевали ".$died[0]);
+					addjournal($loc,$login,"Р’С‹ РѕСЃРІРµР¶РµРІР°Р»Рё ".$died[0]);
 					if (rand(1,100)<5) addexp($loc,$login,1);
-					} else addjournal($loc,$login,"На трупе нет трофеев");
-				} else addjournal($loc,$login,"Нож можно использовать для разделки только трупов");
+					} else addjournal($loc,$login,"РќР° С‚СЂСѓРїРµ РЅРµС‚ С‚СЂРѕС„РµРµРІ");
+				} else addjournal($loc,$login,"РќРѕР¶ РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РґР»СЏ СЂР°Р·РґРµР»РєРё С‚РѕР»СЊРєРѕ С‚СЂСѓРїРѕРІ");

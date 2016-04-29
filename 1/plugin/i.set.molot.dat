@@ -1,19 +1,19 @@
 <?php
-// делаем из руды i.ruda
+// РґРµР»Р°РµРј РёР· СЂСѓРґС‹ i.ruda
 
 $arr=array(	// id, name, dificalt -%, count_logs, 
-10=>array("i.a.k.ring",		"кольцо",			0,	1),
-11=>array("i.a.n.br",		"браслет",			0,	1),
-1=>array("i.w.k.kor",		"короткий нож",		0,	1),
-2=>array("i.w.s.short",		"короткий меч",		20,	4),
-3=>array("i.w.t.plotnik",	"плотницкий топор",	20,	4),
-4=>array("i.w.s.kach",		"качественный меч",	50,	8),
-5=>array("i.w.s.master",	"меч мастера",		70,	20),
-6=>array("i.a.s.krugl",		"круглый щит",		10,	5),
-7=>array("i.a.s.prochn",	"прочный щит",		40,	10),
-8=>array("i.a.b.mkol",		"медная кольчуга",	50,	10),
-9=>array("i.a.b.sborn",		"сборный доспех",		75,	30),
-12=>array("i.a.b.mag",		"роба магистра",		75,	30),
+10=>array("i.a.k.ring",		"РєРѕР»СЊС†Рѕ",			0,	1),
+11=>array("i.a.n.br",		"Р±СЂР°СЃР»РµС‚",			0,	1),
+1=>array("i.w.k.kor",		"РєРѕСЂРѕС‚РєРёР№ РЅРѕР¶",		0,	1),
+2=>array("i.w.s.short",		"РєРѕСЂРѕС‚РєРёР№ РјРµС‡",		20,	4),
+3=>array("i.w.t.plotnik",	"РїР»РѕС‚РЅРёС†РєРёР№ С‚РѕРїРѕСЂ",	20,	4),
+4=>array("i.w.s.kach",		"РєР°С‡РµСЃС‚РІРµРЅРЅС‹Р№ РјРµС‡",	50,	8),
+5=>array("i.w.s.master",	"РјРµС‡ РјР°СЃС‚РµСЂР°",		70,	20),
+6=>array("i.a.s.krugl",		"РєСЂСѓРіР»С‹Р№ С‰РёС‚",		10,	5),
+7=>array("i.a.s.prochn",	"РїСЂРѕС‡РЅС‹Р№ С‰РёС‚",		40,	10),
+8=>array("i.a.b.mkol",		"РјРµРґРЅР°СЏ РєРѕР»СЊС‡СѓРіР°",	50,	10),
+9=>array("i.a.b.sborn",		"СЃР±РѕСЂРЅС‹Р№ РґРѕСЃРїРµС…",		75,	30),
+12=>array("i.a.b.mag",		"СЂРѕР±Р° РјР°РіРёСЃС‚СЂР°",		75,	30),
 );
 
 if (isset($loc_i[$loc]["i.s.nakov"])) {
@@ -21,8 +21,8 @@ $skills=explode("|",$loc_i[$loc][$login]["skills"]);
 function tsret($s) {if($s>0) return $s; else return 0;}
 
 if (!$to || !isset($arr[$to])) {
-	$stmp="Выберите что сделать:";
-	foreach(array_keys($arr) as $i) $stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&to=$i\">".$arr[$i][1]." (".$arr[$i][3]." руды, шанс: ".tsret($skills[25]*20-$arr[$i][2])."%)</a>";
+	$stmp="Р’С‹Р±РµСЂРёС‚Рµ С‡С‚Рѕ СЃРґРµР»Р°С‚СЊ:";
+	foreach(array_keys($arr) as $i) $stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&to=$i\">".$arr[$i][1]." (".$arr[$i][3]." СЂСѓРґС‹, С€Р°РЅСЃ: ".tsret($skills[25]*20-$arr[$i][2])."%)</a>";
 	msg($stmp);
 	}
 
@@ -30,17 +30,17 @@ if ($skills[25]*20-$arr[$to][2]>0) {
 	$char[6]=time()+15;
 	$loc_i[$loc][$login]["char"]=implode("|",$char);
 
-	additem($loc,$login,"","i.ruda",$arr[$to][3],"items","items",1,0,1);	// удаляем руду
+	additem($loc,$login,"","i.ruda",$arr[$to][3],"items","items",1,0,1);	// СѓРґР°Р»СЏРµРј СЂСѓРґСѓ
 
 	if (rand(0,100)<$skills[25]*20-$arr[$to][2]) {
-		addjournal($loc,$login,"Вы сделали ".$arr[$to][1]); 
-		addjournal($loc,"all",$char[0]." сделал ".$arr[$to][1],$login);
+		addjournal($loc,$login,"Р’С‹ СЃРґРµР»Р°Р»Рё ".$arr[$to][1]); 
+		addjournal($loc,"all",$char[0]." СЃРґРµР»Р°Р» ".$arr[$to][1],$login);
 		additem($loc,"",$login,$arr[$to][0]."_".substr($login,2)."_",1);
 		if (round($arr[$to][2]/10)) addexp($loc,$login,round($arr[$to][2]/10));
 		} else {
-			addjournal($loc,$login,"Вы не смогли сделать ".$arr[$to][1]); 
-			addjournal($loc,"all",$char[0]." не смог сделать ".$arr[$to][1],$login);
+			addjournal($loc,$login,"Р’С‹ РЅРµ СЃРјРѕРіР»Рё СЃРґРµР»Р°С‚СЊ ".$arr[$to][1]); 
+			addjournal($loc,"all",$char[0]." РЅРµ СЃРјРѕРі СЃРґРµР»Р°С‚СЊ ".$arr[$to][1],$login);
 			}
 
-} else addjournal($loc,$login,"Ваш навык кузнеца слишком низок, вам нужно вначале его повысить");
-} else addjournal($loc,$login,"Чтобы ковать металл, рядом с вами должна быть наковальня");
+} else addjournal($loc,$login,"Р’Р°С€ РЅР°РІС‹Рє РєСѓР·РЅРµС†Р° СЃР»РёС€РєРѕРј РЅРёР·РѕРє, РІР°Рј РЅСѓР¶РЅРѕ РІРЅР°С‡Р°Р»Рµ РµРіРѕ РїРѕРІС‹СЃРёС‚СЊ");
+} else addjournal($loc,$login,"Р§С‚РѕР±С‹ РєРѕРІР°С‚СЊ РјРµС‚Р°Р»Р», СЂСЏРґРѕРј СЃ РІР°РјРё РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РЅР°РєРѕРІР°Р»СЊРЅСЏ");

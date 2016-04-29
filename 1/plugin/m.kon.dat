@@ -1,16 +1,16 @@
 <?php
-// âûáèâàåò âñàäíèêà èç ñåäëà
+// Ð²Ñ‹Ð±Ð¸Ð²Ð°ÐµÑ‚ Ð²ÑÐ°Ð´Ð½Ð¸ÐºÐ° Ð¸Ð· ÑÐµÐ´Ð»Ð°
 
 if (isset($loc_i[$loc][$to]) && substr($to,0,2)=='u.' && $to!=$login) {
 	$tchar=explode("|",$loc_i[$loc][$to]["char"]);
 	if ($tchar[12]) {
-		if (!$tatk) {	// åñëè ìàãèåé, òî àòàêóåì, ÷òîáû ïîñ÷èòàòü êðèì, ïðè ïðèåìå íåò
+		if (!$tatk) {	// ÐµÑÐ»Ð¸ Ð¼Ð°Ð³Ð¸ÐµÐ¹, Ñ‚Ð¾ Ð°Ñ‚Ð°ÐºÑƒÐµÐ¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾ÑÑ‡Ð¸Ñ‚Ð°Ñ‚ÑŒ ÐºÑ€Ð¸Ð¼, Ð¿Ñ€Ð¸ Ð¿Ñ€Ð¸ÐµÐ¼Ðµ Ð½ÐµÑ‚
 			$mchar=explode("|",$loc_i[$loc][$login]["char"]);
 			$ttime=$mchar[6];
 			$mchar[6]=0;
 			$loc_i[$loc][$login]["char"]=implode("|",$mchar);
 			$war=explode("|",$loc_i[$loc][$login]["war"]);
-			$war[0]=100; $war[1]=0; $war[2]=0; $war[3]=7; $war[4]=0;  $war[12]="óäàðîì"; $war[14]=""; 
+			$war[0]=100; $war[1]=0; $war[2]=0; $war[3]=7; $war[4]=0;  $war[12]="ÑƒÐ´Ð°Ñ€Ð¾Ð¼"; $war[14]=""; 
 			$war=implode("|",$war);
 			attack($loc,$login,$to,$war);
 			$mchar=explode("|",$loc_i[$loc][$login]["char"]);
@@ -30,7 +30,7 @@ if (isset($loc_i[$loc][$to]) && substr($to,0,2)=='u.' && $to!=$login) {
 		$npc["char"]=implode("|",$tc1);
 		$npc["owner"]=$to."|".$to."|0|".(time()+60*60)."|1";
 		$loc_i[$loc]["n.a.losh.".rand(99,9999)]=$npc;
-		addjournal($loc,"all",$tchar[0]." âûáèò èç ñåäëà",$to);
-		addjournal($loc,$to,"Âû âûáèòû èç ñåäëà!");
-		}else addjournal($loc,$login,"Âûáèòü èç ñåäëà ìîæíî òîëüêî âñàäíèêà");
-	}else addjournal($loc,$login,"Âûáèòü èç ñåäëà ìîæíî òîëüêî èãðîêîâ");
+		addjournal($loc,"all",$tchar[0]." Ð²Ñ‹Ð±Ð¸Ñ‚ Ð¸Ð· ÑÐµÐ´Ð»Ð°",$to);
+		addjournal($loc,$to,"Ð’Ñ‹ Ð²Ñ‹Ð±Ð¸Ñ‚Ñ‹ Ð¸Ð· ÑÐµÐ´Ð»Ð°!");
+		}else addjournal($loc,$login,"Ð’Ñ‹Ð±Ð¸Ñ‚ÑŒ Ð¸Ð· ÑÐµÐ´Ð»Ð° Ð¼Ð¾Ð¶Ð½Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð²ÑÐ°Ð´Ð½Ð¸ÐºÐ°");
+	}else addjournal($loc,$login,"Ð’Ñ‹Ð±Ð¸Ñ‚ÑŒ Ð¸Ð· ÑÐµÐ´Ð»Ð° Ð¼Ð¾Ð¶Ð½Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¸Ð³Ñ€Ð¾ÐºÐ¾Ð²");

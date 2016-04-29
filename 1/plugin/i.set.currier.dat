@@ -1,13 +1,13 @@
 <?php
 
-// инструменты кожевника, изготавливают одежду для магов из шкур и кислоты.
+// РёРЅСЃС‚СЂСѓРјРµРЅС‚С‹ РєРѕР¶РµРІРЅРёРєР°, РёР·РіРѕС‚Р°РІР»РёРІР°СЋС‚ РѕРґРµР¶РґСѓ РґР»СЏ РјР°РіРѕРІ РёР· С€РєСѓСЂ Рё РєРёСЃР»РѕС‚С‹.
 
 $arr=array(	// id, name, dificalt -%, count, need_title, need_id
-1=>array("i.a.h.wolf",			"голова волка",		      65,	1,	"шкура волка", "i.h.s.wolf"),
-2=>array("i.a.h.whitewolf",	      "голова белого волка",	    	85,   1,    "шкура белого волка", "i.h.s.whitewolf"),
-3=>array("i.a.p.ogr",			"лапы огра",	            70,	2,	"шкуры огра", "i.h.s.ogr"),
-4=>array("i.a.l.ogr",               "ноги огра",	           	65,	2,	"шкуры огра", "i.h.s.ogr"),
-5=>array("i.a.b.troll",		      "дубленная кожа тролля",	80,	3,	"шкуры тролля", "i.h.s.troll"),
+1=>array("i.a.h.wolf",			"РіРѕР»РѕРІР° РІРѕР»РєР°",		      65,	1,	"С€РєСѓСЂР° РІРѕР»РєР°", "i.h.s.wolf"),
+2=>array("i.a.h.whitewolf",	      "РіРѕР»РѕРІР° Р±РµР»РѕРіРѕ РІРѕР»РєР°",	    	85,   1,    "С€РєСѓСЂР° Р±РµР»РѕРіРѕ РІРѕР»РєР°", "i.h.s.whitewolf"),
+3=>array("i.a.p.ogr",			"Р»Р°РїС‹ РѕРіСЂР°",	            70,	2,	"С€РєСѓСЂС‹ РѕРіСЂР°", "i.h.s.ogr"),
+4=>array("i.a.l.ogr",               "РЅРѕРіРё РѕРіСЂР°",	           	65,	2,	"С€РєСѓСЂС‹ РѕРіСЂР°", "i.h.s.ogr"),
+5=>array("i.a.b.troll",		      "РґСѓР±Р»РµРЅРЅР°СЏ РєРѕР¶Р° С‚СЂРѕР»Р»СЏ",	80,	3,	"С€РєСѓСЂС‹ С‚СЂРѕР»Р»СЏ", "i.h.s.troll"),
 );
 
 
@@ -15,28 +15,28 @@ $skills=explode("|",$loc_i[$loc][$login]["skills"]);
 
 function tsret($s) {if($s>0) return $s; else return 0;}
 if (!$to || !isset($arr[$to])) {
-	$stmp="Выберите что сделать:";
-	foreach(array_keys($arr) as $i) $stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&to=$i\">".$arr[$i][1]." (".$arr[$i][3]." ".$arr[$i][4].", шанс: ".tsret($skills[32]*20-$arr[$i][2])."%)</a>";
+	$stmp="Р’С‹Р±РµСЂРёС‚Рµ С‡С‚Рѕ СЃРґРµР»Р°С‚СЊ:";
+	foreach(array_keys($arr) as $i) $stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&to=$i\">".$arr[$i][1]." (".$arr[$i][3]." ".$arr[$i][4].", С€Р°РЅСЃ: ".tsret($skills[32]*20-$arr[$i][2])."%)</a>";
 	msg($stmp);
 	}
 
 if ($skills[32]*20-$arr[$to][2]>0) {
-	if (additem($loc,$login,"","i.acid","count")==0) msg("Необходима кислота");
+	if (additem($loc,$login,"","i.acid","count")==0) msg("РќРµРѕР±С…РѕРґРёРјР° РєРёСЃР»РѕС‚Р°");
 	$char[6]=time();
 	$loc_i[$loc][$login]["char"]=implode("|",$char);
 
-	additem($loc,$login,"",$arr[$to][5],$arr[$to][3],"items","items",1,0,1);	// удаляем ингридиенты
-	additem($loc,$login,"","i.acid",1,"items","items",1,0,1);			// кислоту
+	additem($loc,$login,"",$arr[$to][5],$arr[$to][3],"items","items",1,0,1);	// СѓРґР°Р»СЏРµРј РёРЅРіСЂРёРґРёРµРЅС‚С‹
+	additem($loc,$login,"","i.acid",1,"items","items",1,0,1);			// РєРёСЃР»РѕС‚Сѓ
 	if (rand(0,100)<$skills[32]*20-$arr[$to][2]) {
-		addjournal($loc,$login,"Вы сделали ".$arr[$to][1]); 
-		addjournal($loc,"all",$char[0]." сделал ".$arr[$to][1],$login);
+		addjournal($loc,$login,"Р’С‹ СЃРґРµР»Р°Р»Рё ".$arr[$to][1]); 
+		addjournal($loc,"all",$char[0]." СЃРґРµР»Р°Р» ".$arr[$to][1],$login);
            additem($loc,"",$login,$arr[$to][0]."_".substr($login,2)."_",1);
 		
 		if (round($arr[$to][2]/10)) addexp($loc,$login,round(rand(0,$arr[$to][2]/10)));
 		} else {
 			
-			addjournal($loc,$login,"у вас не получилось сделать".$arr[$to][1]); 
-			addjournal($loc,"all",$char[0]." не смог сделать ".$arr[$to][1],$login);
+			addjournal($loc,$login,"Сѓ РІР°СЃ РЅРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ СЃРґРµР»Р°С‚СЊ".$arr[$to][1]); 
+			addjournal($loc,"all",$char[0]." РЅРµ СЃРјРѕРі СЃРґРµР»Р°С‚СЊ ".$arr[$to][1],$login);
 			}
 
-} else addjournal($loc,$login,"Ваш навык кожевника слишком низок");
+} else addjournal($loc,$login,"Р’Р°С€ РЅР°РІС‹Рє РєРѕР¶РµРІРЅРёРєР° СЃР»РёС€РєРѕРј РЅРёР·РѕРє");

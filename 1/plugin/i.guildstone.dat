@@ -1,55 +1,55 @@
 <?php
-// камень гильдии
+// РєР°РјРµРЅСЊ РіРёР»СЊРґРёРё
 
 	$tc=explode("|",$loc_i[$loc][$login]["char"]); 
 	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
 	if ($clan && file_exists("../clans/".$clan)) $tmp=unserialize(implode("",file("../clans/".$clan))); else $tmp=array(); 
 
-if (isset($tmp["g"][$login])) {	// гилдмастер
+if (isset($tmp["g"][$login])) {	// РіРёР»РґРјР°СЃС‚РµСЂ
 	if ($to) {
-		if (substr($to,0,2)!="u." || !isset($loc_i[$loc][$to])) msg("Приглашать в свой клан можно только игроков");
-		if ($to==$login) msg("Нельзя приглашать в клан самого себя");
+		if (substr($to,0,2)!="u." || !isset($loc_i[$loc][$to])) msg("РџСЂРёРіР»Р°С€Р°С‚СЊ РІ СЃРІРѕР№ РєР»Р°РЅ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ РёРіСЂРѕРєРѕРІ");
+		if ($to==$login) msg("РќРµР»СЊР·СЏ РїСЂРёРіР»Р°С€Р°С‚СЊ РІ РєР»Р°РЅ СЃР°РјРѕРіРѕ СЃРµР±СЏ");
 		$tc1=explode("|",$loc_i[$loc][$to]["char"]); 
 		if (strpos($tc1[0],"*")===false) $clan1=""; else $clan1=substr($tc1[0],strpos($tc1[0],"*")+1,strrpos($tc1[0],"*")-strpos($tc1[0],"*")-1);
-		if ($clan1==$clan && !$glava) msg($tc1[0]." и так в вашем клане");
-		if ($clan1 && !$glava || $glava && $clan1!=$clan) msg($tc1[0]." состоит в клане ".$clan1.", а приглашать в свой можно только тех, кто не состоит ни в одном клане");
-		// приглашаем...
+		if ($clan1==$clan && !$glava) msg($tc1[0]." Рё С‚Р°Рє РІ РІР°С€РµРј РєР»Р°РЅРµ");
+		if ($clan1 && !$glava || $glava && $clan1!=$clan) msg($tc1[0]." СЃРѕСЃС‚РѕРёС‚ РІ РєР»Р°РЅРµ ".$clan1.", Р° РїСЂРёРіР»Р°С€Р°С‚СЊ РІ СЃРІРѕР№ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ С‚РµС…, РєС‚Рѕ РЅРµ СЃРѕСЃС‚РѕРёС‚ РЅРё РІ РѕРґРЅРѕРј РєР»Р°РЅРµ");
+		// РїСЂРёРіР»Р°С€Р°РµРј...
 		if ($glava) {
 			$tmp["wg"][$to]="";
-			addjournal($loc,$to,$tc[0]." приглашает вас быть главой его клана"); 
-			addjournal($loc,$login,$tc1[0]." приглашен быть главой вашего клана, передайте ему камень гильдии, чтобы он использовал его на вас"); 
+			addjournal($loc,$to,$tc[0]." РїСЂРёРіР»Р°С€Р°РµС‚ РІР°СЃ Р±С‹С‚СЊ РіР»Р°РІРѕР№ РµРіРѕ РєР»Р°РЅР°"); 
+			addjournal($loc,$login,$tc1[0]." РїСЂРёРіР»Р°С€РµРЅ Р±С‹С‚СЊ РіР»Р°РІРѕР№ РІР°С€РµРіРѕ РєР»Р°РЅР°, РїРµСЂРµРґР°Р№С‚Рµ РµРјСѓ РєР°РјРµРЅСЊ РіРёР»СЊРґРёРё, С‡С‚РѕР±С‹ РѕРЅ РёСЃРїРѕР»СЊР·РѕРІР°Р» РµРіРѕ РЅР° РІР°СЃ"); 
 			}else {
 				$tmp["w"][$to]="";
-				addjournal($loc,$to,$tc[0]." приглашает вас в свой клан"); 
-				addjournal($loc,$login,$tc1[0]." приглашен в ваш клан, передайте ему камень гильдии, чтобы он использовал его на вас"); 
+				addjournal($loc,$to,$tc[0]." РїСЂРёРіР»Р°С€Р°РµС‚ РІР°СЃ РІ СЃРІРѕР№ РєР»Р°РЅ"); 
+				addjournal($loc,$login,$tc1[0]." РїСЂРёРіР»Р°С€РµРЅ РІ РІР°С€ РєР»Р°РЅ, РїРµСЂРµРґР°Р№С‚Рµ РµРјСѓ РєР°РјРµРЅСЊ РіРёР»СЊРґРёРё, С‡С‚РѕР±С‹ РѕРЅ РёСЃРїРѕР»СЊР·РѕРІР°Р» РµРіРѕ РЅР° РІР°СЃ"); 
 				}
 		$file = fopen ("../clans/".$clan, "w"); 
 		if ($file!==false) {fputs($file,serialize($tmp));fclose($file);}
 		} else {
-			if ($del) {		// удаление из гильдии
+			if ($del) {		// СѓРґР°Р»РµРЅРёРµ РёР· РіРёР»СЊРґРёРё
 				$b=0;
-				if (isset($tmp["m"][$del])) {$b=1; unset($tmp["m"][$del]); addjournal($loc,$del,"Вы выгнаны из клана ".$clan."! При следующем логине надпись о вашем клане исчезнет");}
+				if (isset($tmp["m"][$del])) {$b=1; unset($tmp["m"][$del]); addjournal($loc,$del,"Р’С‹ РІС‹РіРЅР°РЅС‹ РёР· РєР»Р°РЅР° ".$clan."! РџСЂРё СЃР»РµРґСѓСЋС‰РµРј Р»РѕРіРёРЅРµ РЅР°РґРїРёСЃСЊ Рѕ РІР°С€РµРј РєР»Р°РЅРµ РёСЃС‡РµР·РЅРµС‚");}
 				if (isset($tmp["w"][$del])) {$b=1; unset($tmp["w"][$del]);}
 				if (isset($tmp["wg"][$del])) {$b=1; unset($tmp["wg"][$del]);}
 				if ($b) { 
 					$file = fopen ("../clans/".$clan, "w"); 
 					if ($file!==false) {fputs($file,serialize($tmp));fclose($file);}
-					msg("Вы выгнали из клана/удалили из рекрутов ".substr($del,2));
-					} else msg(substr($del,2)." нет в вашем клане");
+					msg("Р’С‹ РІС‹РіРЅР°Р»Рё РёР· РєР»Р°РЅР°/СѓРґР°Р»РёР»Рё РёР· СЂРµРєСЂСѓС‚РѕРІ ".substr($del,2));
+					} else msg(substr($del,2)." РЅРµС‚ РІ РІР°С€РµРј РєР»Р°РЅРµ");
 				}
-			if ($info) {	// инфо о клане
+			if ($info) {	// РёРЅС„Рѕ Рѕ РєР»Р°РЅРµ
 				if ($write) {
 					if ($clear) $write=""; else {
 					if ($translit) {include "f_translit.dat"; $write=trans($write);} 
-					// UTF-8 русские буквы
+					// UTF-8 СЂСѓСЃСЃРєРёРµ Р±СѓРєРІС‹
 					$s=$write;
-					$s=str_replace("\xd0\x81","Ё",$s);
-					$s=str_replace("\xd1\x91","ё",$s);
+					$s=str_replace("\xd0\x81","РЃ",$s);
+					$s=str_replace("\xd1\x91","С‘",$s);
 					$s=preg_replace("/\xd0([\x90-\xbf])/e","chr(ord('\\1')+48)",$s);
 					$s=preg_replace("/\xd1([\x80-\x8f])/e","chr(ord('\\1')+112)",$s);
 
 					$s=str_replace('\\',"",$s);
-					$s=preg_replace('/([^ -}А-я#])|\$|"|\'|&/e',"",$s);
+					$s=preg_replace('/([^ -}Рђ-СЏ#])|\$|"|\'|&/e',"",$s);
 					$s=str_replace("|","",$s);
 					$s=str_replace("<","",$s);
 					$s=str_replace(">","",$s);
@@ -58,57 +58,57 @@ if (isset($tmp["g"][$login])) {	// гилдмастер
 					$tmp["i"]=$write; 
 					$file = fopen ("../clans/".$clan, "w"); 
 					if ($file!==false) {fputs($file,serialize($tmp));fclose($file);}
-					msg("Описание клана сохранено");
+					msg("РћРїРёСЃР°РЅРёРµ РєР»Р°РЅР° СЃРѕС…СЂР°РЅРµРЅРѕ");
 					}
-				msg("Введите описание своего клана:<br/><input name=\"write\" value=\"".$tmp["i"]."\"/><br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select><a href=\"$PHP_SELF?sid=$sid&use=$use&info=1&write=$(write)&translit=$(translit)\">Сохранить</a>");
+				msg("Р’РІРµРґРёС‚Рµ РѕРїРёСЃР°РЅРёРµ СЃРІРѕРµРіРѕ РєР»Р°РЅР°:<br/><input name=\"write\" value=\"".$tmp["i"]."\"/><br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">РўСЂР°РЅСЃР»РёС‚</option></select><a href=\"$PHP_SELF?sid=$sid&use=$use&info=1&write=$(write)&translit=$(translit)\">РЎРѕС…СЂР°РЅРёС‚СЊ</a>");
 				}
-			if (!$cadd) {	// меню
-				$stmp="<p>[<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1\">Пригласить</a>]";
-				$stmp.=" [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&glava=1\">Сделать главой</a>]";
-				$stmp.=" [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&info=1\">Инфо о клане</a> (<a href=\"$PHP_SELF?sid=$sid&use=$use&info=1&write=1&clear=1\">очистить</a>)]";
+			if (!$cadd) {	// РјРµРЅСЋ
+				$stmp="<p>[<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1\">РџСЂРёРіР»Р°СЃРёС‚СЊ</a>]";
+				$stmp.=" [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&glava=1\">РЎРґРµР»Р°С‚СЊ РіР»Р°РІРѕР№</a>]";
+				$stmp.=" [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&info=1\">РРЅС„Рѕ Рѕ РєР»Р°РЅРµ</a> (<a href=\"$PHP_SELF?sid=$sid&use=$use&info=1&write=1&clear=1\">РѕС‡РёСЃС‚РёС‚СЊ</a>)]";
 				if ($tmp["m"]) {
-					$stmp.="<br/>Состав (выберите, чтобы выгнать):";
+					$stmp.="<br/>РЎРѕСЃС‚Р°РІ (РІС‹Р±РµСЂРёС‚Рµ, С‡С‚РѕР±С‹ РІС‹РіРЅР°С‚СЊ):";
 					if (!$start) $start=0;
 					$keys=array_keys($tmp["m"]);
 					for($i=$start;$i<count($keys) && $i<$start+$g_list;$i++) $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&del=".$keys[$i]."\">".substr($keys[$i],2)."</a>";
 					$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=".($start+$g_list)."\">+</a>";
-					} else $stmp.="<br/>В вашем клане, кроме вас, никого нет.";
+					} else $stmp.="<br/>Р’ РІР°С€РµРј РєР»Р°РЅРµ, РєСЂРѕРјРµ РІР°СЃ, РЅРёРєРѕРіРѕ РЅРµС‚.";
 				if ($tmp["wg"]) {
-					$stmp.="<br/><br/>Ожидают, чтобы стать главой вашего клана:";
+					$stmp.="<br/><br/>РћР¶РёРґР°СЋС‚, С‡С‚РѕР±С‹ СЃС‚Р°С‚СЊ РіР»Р°РІРѕР№ РІР°С€РµРіРѕ РєР»Р°РЅР°:";
 					if (!$start) $start=0;
 					$keys=array_keys($tmp["wg"]);
 					for($i=$start;$i<count($keys) && $i<$start+$g_list;$i++) $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&del=".$keys[$i]."\">".substr($keys[$i],2)."</a>";
 					$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=".($start+$g_list)."\">+</a>";
 					}
 				if ($tmp["w"]) {
-					$stmp.="<br/><br/>Рекруты (ожидают вступления):";
+					$stmp.="<br/><br/>Р РµРєСЂСѓС‚С‹ (РѕР¶РёРґР°СЋС‚ РІСЃС‚СѓРїР»РµРЅРёСЏ):";
 					if (!$start) $start=0;
 					$keys=array_keys($tmp["w"]);
 					for($i=$start;$i<count($keys) && $i<$start+$g_list;$i++) $stmp.="<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&del=".$keys[$i]."\">".substr($keys[$i],2)."</a>";
 					$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=".($start+$g_list)."\">+</a>";
-					} else $stmp.="<br/>Список рекрутов пуст.";
+					} else $stmp.="<br/>РЎРїРёСЃРѕРє СЂРµРєСЂСѓС‚РѕРІ РїСѓСЃС‚.";
 				$stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone\">^</a>";
 				msg($stmp);
-				}else $list='all';	// ниже выведем список
+				}else $list='all';	// РЅРёР¶Рµ РІС‹РІРµРґРµРј СЃРїРёСЃРѕРє
 			}
-	}else {		// if (!$clan) ни в одном клане
+	}else {		// if (!$clan) РЅРё РІ РѕРґРЅРѕРј РєР»Р°РЅРµ
 		if ($to) {
-			if (substr($to,0,2)!="u." || !isset($loc_i[$loc][$to])) msg("Вы должны были выбрать игрока");
-			if (substr($to,0,2)==$login) msg("Нельзя выбирать самого себя");
+			if (substr($to,0,2)!="u." || !isset($loc_i[$loc][$to])) msg("Р’С‹ РґРѕР»Р¶РЅС‹ Р±С‹Р»Рё РІС‹Р±СЂР°С‚СЊ РёРіСЂРѕРєР°");
+			if (substr($to,0,2)==$login) msg("РќРµР»СЊР·СЏ РІС‹Р±РёСЂР°С‚СЊ СЃР°РјРѕРіРѕ СЃРµР±СЏ");
 
 			$tc=explode("|",$loc_i[$loc][$to]["char"]); 
 			if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
 			if ($clan && file_exists("../clans/".$clan)) $tmp=unserialize(implode("",file("../clans/".$clan))); else $tmp=array(); 
-			if (!isset($tmp["g"][$to])) msg("Выбирать можно только главу клана");
-			if (!isset($tmp["w"][$login]) && !isset($tmp["wg"][$login])) msg("Вы не числитесь в списках рекрутов клана ".$clan.", обратитесь к главе этого клана");
+			if (!isset($tmp["g"][$to])) msg("Р’С‹Р±РёСЂР°С‚СЊ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ РіР»Р°РІСѓ РєР»Р°РЅР°");
+			if (!isset($tmp["w"][$login]) && !isset($tmp["wg"][$login])) msg("Р’С‹ РЅРµ С‡РёСЃР»РёС‚РµСЃСЊ РІ СЃРїРёСЃРєР°С… СЂРµРєСЂСѓС‚РѕРІ РєР»Р°РЅР° ".$clan.", РѕР±СЂР°С‚РёС‚РµСЃСЊ Рє РіР»Р°РІРµ СЌС‚РѕРіРѕ РєР»Р°РЅР°");
 
-			// вступаем в клан $clan
+			// РІСЃС‚СѓРїР°РµРј РІ РєР»Р°РЅ $clan
 			if (isset($tmp["wg"][$login])) $b=1; else $b=0;
 			if ($b) {
 				unset($tmp["wg"][$login]);
 				$keys=array_keys($tmp["g"]);
-				$tmp["m"][$keys[0]]=$tmp["g"][$keys[0]];// бывший глава рядовым
-				unset($tmp["g"]);	// удаляем старого главу клана
+				$tmp["m"][$keys[0]]=$tmp["g"][$keys[0]];// Р±С‹РІС€РёР№ РіР»Р°РІР° СЂСЏРґРѕРІС‹Рј
+				unset($tmp["g"]);	// СѓРґР°Р»СЏРµРј СЃС‚Р°СЂРѕРіРѕ РіР»Р°РІСѓ РєР»Р°РЅР°
 				$tmp["g"][$login]=$p;
 				}else {
 					unset($tmp["w"][$login]);
@@ -120,9 +120,9 @@ if (isset($tmp["g"][$login])) {	// гилдмастер
 			if(strpos($tc[0],"*")!==false) $tc[0]=substr($tc[0],0,strpos($tc[0],"*")-1);
 			$tc[0].=" *".$clan."*";
 			$loc_i[$loc][$login]["char"]=implode("|",$tc);
-			if ($b) addjournal($loc,$to,$tc[0]." теперь глава вашего клана!"); else addjournal($loc,$to,$tc[0]." вступил в ваш клан!");
-			if ($b) msg("Поздравляем, вы теперь глава клана ".$clan.", рекомендуем <a href=\"$PHP_SELF?sid=$sid&logout=1\">сохранить персонажа</a>."); else msg("Поздравляем, вы зачислены в клан ".$clan.", рекомендуем <a href=\"$PHP_SELF?sid=$sid&logout=1\">сохранить персонажа</a>.");
+			if ($b) addjournal($loc,$to,$tc[0]." С‚РµРїРµСЂСЊ РіР»Р°РІР° РІР°С€РµРіРѕ РєР»Р°РЅР°!"); else addjournal($loc,$to,$tc[0]." РІСЃС‚СѓРїРёР» РІ РІР°С€ РєР»Р°РЅ!");
+			if ($b) msg("РџРѕР·РґСЂР°РІР»СЏРµРј, РІС‹ С‚РµРїРµСЂСЊ РіР»Р°РІР° РєР»Р°РЅР° ".$clan.", СЂРµРєРѕРјРµРЅРґСѓРµРј <a href=\"$PHP_SELF?sid=$sid&logout=1\">СЃРѕС…СЂР°РЅРёС‚СЊ РїРµСЂСЃРѕРЅР°Р¶Р°</a>."); else msg("РџРѕР·РґСЂР°РІР»СЏРµРј, РІС‹ Р·Р°С‡РёСЃР»РµРЅС‹ РІ РєР»Р°РЅ ".$clan.", СЂРµРєРѕРјРµРЅРґСѓРµРј <a href=\"$PHP_SELF?sid=$sid&logout=1\">СЃРѕС…СЂР°РЅРёС‚СЊ РїРµСЂСЃРѕРЅР°Р¶Р°</a>.");
 			} else $list='all';
-		}//else msg("Вы состоите в клане ".$clan.", чтобы использовать камень гильдии надо быть либо главой клана, либо не состоять ни в одном клане");
+		}//else msg("Р’С‹ СЃРѕСЃС‚РѕРёС‚Рµ РІ РєР»Р°РЅРµ ".$clan.", С‡С‚РѕР±С‹ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РєР°РјРµРЅСЊ РіРёР»СЊРґРёРё РЅР°РґРѕ Р±С‹С‚СЊ Р»РёР±Рѕ РіР»Р°РІРѕР№ РєР»Р°РЅР°, Р»РёР±Рѕ РЅРµ СЃРѕСЃС‚РѕСЏС‚СЊ РЅРё РІ РѕРґРЅРѕРј РєР»Р°РЅРµ");
 
 

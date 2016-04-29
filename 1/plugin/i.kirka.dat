@@ -1,21 +1,21 @@
 <?php
-// äîáû÷à ğóäû
+// Ğ´Ğ¾Ğ±Ñ‹Ñ‡Ğ° Ñ€ÑƒĞ´Ñ‹
 
 $art=array(
-array("i.i.ag",	"àãàò",	"5"), 
-array("i.i.az",	"àìàçîíèò",	"5"), 
-array("i.i.am",	"àìåòèñò",	"5"), 
-array("i.i.do",	"äîëåğèò",	"5"), 
-array("i.i.dy",	"äûì÷àòûé êâàğö",	"5"), 
-array("i.i.zm",	"çìååâèê",	"5"), 
-array("i.i.ku",	"êóíöèò",	"5"), 
-array("i.i.ma",	"ìàëàõèò",	"5"), 
-array("i.i.me",	"ìåëüõèîğ",	"5"), 
-array("i.i.ne",	"íåôğèò",	"5"), 
-array("i.i.ob",	"îáñèäèàí",	"5"), 
-array("i.i.on",	"îíèêñ",	"5"), 
-array("i.i.sa",	"ñàïôèğ",	"5"), 
-array("i.i.hr",	"õğèçîëèò",	"5"), 
+array("i.i.ag",	"Ğ°Ğ³Ğ°Ñ‚",	"5"), 
+array("i.i.az",	"Ğ°Ğ¼Ğ°Ğ·Ğ¾Ğ½Ğ¸Ñ‚",	"5"), 
+array("i.i.am",	"Ğ°Ğ¼ĞµÑ‚Ğ¸ÑÑ‚",	"5"), 
+array("i.i.do",	"Ğ´Ğ¾Ğ»ĞµÑ€Ğ¸Ñ‚",	"5"), 
+array("i.i.dy",	"Ğ´Ñ‹Ğ¼Ñ‡Ğ°Ñ‚Ñ‹Ğ¹ ĞºĞ²Ğ°Ñ€Ñ†",	"5"), 
+array("i.i.zm",	"Ğ·Ğ¼ĞµĞµĞ²Ğ¸Ğº",	"5"), 
+array("i.i.ku",	"ĞºÑƒĞ½Ñ†Ğ¸Ñ‚",	"5"), 
+array("i.i.ma",	"Ğ¼Ğ°Ğ»Ğ°Ñ…Ğ¸Ñ‚",	"5"), 
+array("i.i.me",	"Ğ¼ĞµĞ»ÑŒÑ…Ğ¸Ğ¾Ñ€",	"5"), 
+array("i.i.ne",	"Ğ½ĞµÑ„Ñ€Ğ¸Ñ‚",	"5"), 
+array("i.i.ob",	"Ğ¾Ğ±ÑĞ¸Ğ´Ğ¸Ğ°Ğ½",	"5"), 
+array("i.i.on",	"Ğ¾Ğ½Ğ¸ĞºÑ",	"5"), 
+array("i.i.sa",	"ÑĞ°Ğ¿Ñ„Ğ¸Ñ€",	"5"), 
+array("i.i.hr",	"Ñ…Ñ€Ğ¸Ğ·Ğ¾Ğ»Ğ¸Ñ‚",	"5"), 
 );
 
 if (isset($loc_i[$loc]["i.s.rudnik"])) {
@@ -30,22 +30,22 @@ if ($skills[24]>0) {
 		$tree[1]--;
 		if ($tree[1]==0) $tree[5]=time()+$tree[3];
 		$loc_i[$loc]["i.s.rudnik"]=implode("|",$tree);
-		addjournal($loc,$login,"Âû äîáûëè íåìíîãî ğóäû"); 
-		addjournal($loc,"all",$char[0]." äîáûë íåìíîãî ğóäû",$login);
+		addjournal($loc,$login,"Ğ’Ñ‹ Ğ´Ğ¾Ğ±Ñ‹Ğ»Ğ¸ Ğ½ĞµĞ¼Ğ½Ğ¾Ğ³Ğ¾ Ñ€ÑƒĞ´Ñ‹"); 
+		addjournal($loc,"all",$char[0]." Ğ´Ğ¾Ğ±Ñ‹Ğ» Ğ½ĞµĞ¼Ğ½Ğ¾Ğ³Ğ¾ Ñ€ÑƒĞ´Ñ‹",$login);
 		additem($loc,"",$login,"i.ruda",1);
-		// ñàìîöâåòû
+		// ÑĞ°Ğ¼Ğ¾Ñ†Ğ²ĞµÑ‚Ñ‹
 		$tc=explode("x",$loc);
             if ($tc[2]>=1099 || $loc=="c.5.gate") {
 			$rnd=rand(0,count($art)-1);
 			if(rand(0,100)<$art[$rnd][2]) {
-				addjournal($loc,$login,"Âû íàøëè ".$art[$rnd][1]."!"); 
-				addjournal($loc,"all",$char[0]." íàøåë ".$art[$rnd][1]."!",$login);
+				addjournal($loc,$login,"Ğ’Ñ‹ Ğ½Ğ°ÑˆĞ»Ğ¸ ".$art[$rnd][1]."!"); 
+				addjournal($loc,"all",$char[0]." Ğ½Ğ°ÑˆĞµĞ» ".$art[$rnd][1]."!",$login);
 				additem($loc,"",$login,$art[$rnd][0],1);
 				}
 			}
 		if (rand(1,100)<30) addexp($loc,$login,1);
-		} else {addjournal($loc,$login,"Âàì íå óäàëîñü äîáûòü ğóäó"); addjournal($loc,"all",$char[0]." ïûòàëñÿ äîáûòü ğóäó",$login);}
-	} else addjournal($loc,$login,"Â æèëå íåò áîëüøå ğóäû! Æäèòå ïîêà ïîÿâèòñÿ ñíîâà");
-} else addjournal($loc,$login,"Âàø íàâûê ğóäîêîïà ğàâåí 0, âû íå óìååòå äîáûâàòü ğóäó");
-} else addjournal($loc,$login,"Ğÿäîì íåò ğóäíîé æèëû");
+		} else {addjournal($loc,$login,"Ğ’Ğ°Ğ¼ Ğ½Ğµ ÑƒĞ´Ğ°Ğ»Ğ¾ÑÑŒ Ğ´Ğ¾Ğ±Ñ‹Ñ‚ÑŒ Ñ€ÑƒĞ´Ñƒ"); addjournal($loc,"all",$char[0]." Ğ¿Ñ‹Ñ‚Ğ°Ğ»ÑÑ Ğ´Ğ¾Ğ±Ñ‹Ñ‚ÑŒ Ñ€ÑƒĞ´Ñƒ",$login);}
+	} else addjournal($loc,$login,"Ğ’ Ğ¶Ğ¸Ğ»Ğµ Ğ½ĞµÑ‚ Ğ±Ğ¾Ğ»ÑŒÑˆĞµ Ñ€ÑƒĞ´Ñ‹! Ğ–Ğ´Ğ¸Ñ‚Ğµ Ğ¿Ğ¾ĞºĞ° Ğ¿Ğ¾ÑĞ²Ğ¸Ñ‚ÑÑ ÑĞ½Ğ¾Ğ²Ğ°");
+} else addjournal($loc,$login,"Ğ’Ğ°Ñˆ Ğ½Ğ°Ğ²Ñ‹Ğº Ñ€ÑƒĞ´Ğ¾ĞºĞ¾Ğ¿Ğ° Ñ€Ğ°Ğ²ĞµĞ½ 0, Ğ²Ñ‹ Ğ½Ğµ ÑƒĞ¼ĞµĞµÑ‚Ğµ Ğ´Ğ¾Ğ±Ñ‹Ğ²Ğ°Ñ‚ÑŒ Ñ€ÑƒĞ´Ñƒ");
+} else addjournal($loc,$login,"Ğ ÑĞ´Ğ¾Ğ¼ Ğ½ĞµÑ‚ Ñ€ÑƒĞ´Ğ½Ğ¾Ğ¹ Ğ¶Ğ¸Ğ»Ñ‹");
 

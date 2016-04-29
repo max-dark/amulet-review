@@ -1,14 +1,14 @@
 <?php
 			$equip=$loc_i[$loc][$login]["equip"];
-			// åñëè â ðóêàõ íîæ è åñòü $to, òî îñâåæåâàíèå
+			// ÐµÑÐ»Ð¸ Ð² Ñ€ÑƒÐºÐ°Ñ… Ð½Ð¾Ð¶ Ð¸ ÐµÑÑ‚ÑŒ $to, Ñ‚Ð¾ Ð¾ÑÐ²ÐµÐ¶ÐµÐ²Ð°Ð½Ð¸Ðµ
 			if ($to && substr($use,0,6)=='i.w.k.') {
 				include "plugin/i.w.k.dat";
-				}else // ðóáêà äåðåâüåâ
+				}else // Ñ€ÑƒÐ±ÐºÐ° Ð´ÐµÑ€ÐµÐ²ÑŒÐµÐ²
 			if ($to && substr($use,0,6)=='i.w.t.') {
 				include "plugin/i.w.t.dat";
 				}else {
 				if (strpos($use,"_")!==false) $ti=substr($use,0,strpos($use,"_")); else $ti=$use;
-				if (strpos($equip,$ti)===false) {	// îäåâàåì
+				if (strpos($equip,$ti)===false) {	// Ð¾Ð´ÐµÐ²Ð°ÐµÐ¼
 					if (substr($use,0,4)=='i.w.') {
 						if (strpos($equip,"i.w.")===false) {if (!$equip) $equip=$use; else if ($equip{strlen($equip)-1}=="|") $equip.=$use; else $equip.="|".$use;}
 							else {$equip=preg_replace('/i\.w\.[^|]+/',$use,$equip);}
@@ -20,5 +20,5 @@
 					} else $equip=preg_replace('/'.$ti.'[^|]*\|?/',"",$equip);
 				$loc_i[$loc][$login]["equip"]=$equip;
 				calcparam($loc,$login);
-				if (!$list) $list='inv';	// òîëüêî åñëè íå âçÿëè íîæ
+				if (!$list) $list='inv';	// Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÑÐ»Ð¸ Ð½Ðµ Ð²Ð·ÑÐ»Ð¸ Ð½Ð¾Ð¶
 				}

@@ -1,20 +1,20 @@
 <?php
-// делаем луки из веток i.log
+// РґРµР»Р°РµРј Р»СѓРєРё РёР· РІРµС‚РѕРє i.log
 
 $arr=array(	// id, name, dificalt -%, count_logs, 
-1=>array("i.w.r.b.detsk",	"детский лук",		0,	1),
-2=>array("i.w.r.b.short",	"короткий лук",		10,	2),
-3=>array("i.w.r.b.samod",	"самодельный лук",	20,	4),
-4=>array("i.w.r.b.prochn",	"прочный лук",		40,	8),
-5=>array("i.w.r.b.kach",	"качественный лук",	50,	12),
-6=>array("i.w.r.b.master",	"лук мастера",		70,	20),
+1=>array("i.w.r.b.detsk",	"РґРµС‚СЃРєРёР№ Р»СѓРє",		0,	1),
+2=>array("i.w.r.b.short",	"РєРѕСЂРѕС‚РєРёР№ Р»СѓРє",		10,	2),
+3=>array("i.w.r.b.samod",	"СЃР°РјРѕРґРµР»СЊРЅС‹Р№ Р»СѓРє",	20,	4),
+4=>array("i.w.r.b.prochn",	"РїСЂРѕС‡РЅС‹Р№ Р»СѓРє",		40,	8),
+5=>array("i.w.r.b.kach",	"РєР°С‡РµСЃС‚РІРµРЅРЅС‹Р№ Р»СѓРє",	50,	12),
+6=>array("i.w.r.b.master",	"Р»СѓРє РјР°СЃС‚РµСЂР°",		70,	20),
 );
 
 $skills=explode("|",$loc_i[$loc][$login]["skills"]);
 function tsret($s) {if($s>0) return $s; else return 0;}
 if (!$to || !isset($arr[$to])) {
-	$stmp="Выберите что сделать:";
-	foreach(array_keys($arr) as $i) $stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&to=$i\">".$arr[$i][1]." (".$arr[$i][3]." веток, шанс: ".tsret($skills[27]*20-$arr[$i][2])."%)</a>";
+	$stmp="Р’С‹Р±РµСЂРёС‚Рµ С‡С‚Рѕ СЃРґРµР»Р°С‚СЊ:";
+	foreach(array_keys($arr) as $i) $stmp.="\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&to=$i\">".$arr[$i][1]." (".$arr[$i][3]." РІРµС‚РѕРє, С€Р°РЅСЃ: ".tsret($skills[27]*20-$arr[$i][2])."%)</a>";
 	msg($stmp);
 	}
 
@@ -22,17 +22,17 @@ if ($skills[27]*20-$arr[$to][2]>0) {
 	$char[6]=time()+15;
 	$loc_i[$loc][$login]["char"]=implode("|",$char);
 
-	additem($loc,$login,"","i.log",$arr[$to][3],"items","items",1,0,1);	// удаляем ветки
-	additem($loc,$login,"","i.set.bow",1,"items","items",1,0,1);		// удаляем тетиву
+	additem($loc,$login,"","i.log",$arr[$to][3],"items","items",1,0,1);	// СѓРґР°Р»СЏРµРј РІРµС‚РєРё
+	additem($loc,$login,"","i.set.bow",1,"items","items",1,0,1);		// СѓРґР°Р»СЏРµРј С‚РµС‚РёРІСѓ
 
 	if (rand(0,100)<$skills[27]*20-$arr[$to][2]) {
-		addjournal($loc,$login,"Вы сделали ".$arr[$to][1]); 
-		addjournal($loc,"all",$char[0]." сделал ".$arr[$to][1],$login);
+		addjournal($loc,$login,"Р’С‹ СЃРґРµР»Р°Р»Рё ".$arr[$to][1]); 
+		addjournal($loc,"all",$char[0]." СЃРґРµР»Р°Р» ".$arr[$to][1],$login);
 		additem($loc,"",$login,$arr[$to][0]."_".substr($login,2)."_",1);
 		if (round($arr[$to][2]/10)) addexp($loc,$login,round($arr[$to][2]/10));
 		} else {
-			addjournal($loc,$login,"Вы не смогли сделать ".$arr[$to][1]); 
-			addjournal($loc,"all",$char[0]." не смог сделать ".$arr[$to][1],$login);
+			addjournal($loc,$login,"Р’С‹ РЅРµ СЃРјРѕРіР»Рё СЃРґРµР»Р°С‚СЊ ".$arr[$to][1]); 
+			addjournal($loc,"all",$char[0]." РЅРµ СЃРјРѕРі СЃРґРµР»Р°С‚СЊ ".$arr[$to][1],$login);
 			}
 
-} else addjournal($loc,$login,"Ваш навык плотника слишком низок, чтобы делать луки");
+} else addjournal($loc,$login,"Р’Р°С€ РЅР°РІС‹Рє РїР»РѕС‚РЅРёРєР° СЃР»РёС€РєРѕРј РЅРёР·РѕРє, С‡С‚РѕР±С‹ РґРµР»Р°С‚СЊ Р»СѓРєРё");

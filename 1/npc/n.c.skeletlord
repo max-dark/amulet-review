@@ -1,7 +1,7 @@
 <?php 
 $npc=array( 
-'char'=>'cêeëeò-ëopä|42|42|1|1||||||||', 
-'war'=>'80|4|8|4||2|5|40|4|20|||ìe÷oì|14||', 
+'char'=>'cÐºeÐ»eÑ‚-Ð»opÐ´|42|42|1|1||||||||', 
+'war'=>'80|4|8|4||2|5|40|4|20|||Ð¼eÑ‡oÐ¼|14||', 
 'items'=>'i.w.s.polutorn:1|i.a.s.wood:1', 
 'equip'=>'i.w.s.polutorn|i.a.s.wood', 
 'itemsrnd'=>'i.money:90:12:26|i.a.b.bone:10:0:1|i.a.h.bone:8:0:1|i.a.p.bone:8:0:1|i.a.l.bone:8:0:1|i.a.b.bdosp:6:0:1|i.w.t.battle:10:0:1|i.med.s:8:0:1', 

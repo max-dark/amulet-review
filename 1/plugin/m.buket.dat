@@ -1,4 +1,4 @@
 <?php
-// áóêåò öâåòîâ
+// Ð±ÑƒÐºÐµÑ‚ Ñ†Ð²ÐµÑ‚Ð¾Ð²
 $arr = "roftphlgvadibjeknmxs";
 additem($loc,"",$login,"i.bc.".$arr{rand(0,strlen($arr)-1)},1);

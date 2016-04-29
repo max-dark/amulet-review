@@ -5,69 +5,69 @@ if (!$do) {
 	$tw=explode("|",$loc_i[$loc][$login]["war"]);
 
 	msg ("
-1. <a href=\"#say\">Сказать всем</a><br/>
-2. <a href=\"#pers\">Персонаж</a><br/>
-3. <a href=\"#tele\">Телепорт</a><br/>
-4. <a href=\"#sum\">Призвать</a><br/>
-5. <a href=\"#it\">Предмет</a><br/>
-6. <a href=\"$PHP_SELF?sid=$sid&use=$use&do=res\">Воскреснуть</a>
+1. <a href=\"#say\">РЎРєР°Р·Р°С‚СЊ РІСЃРµРј</a><br/>
+2. <a href=\"#pers\">РџРµСЂСЃРѕРЅР°Р¶</a><br/>
+3. <a href=\"#tele\">РўРµР»РµРїРѕСЂС‚</a><br/>
+4. <a href=\"#sum\">РџСЂРёР·РІР°С‚СЊ</a><br/>
+5. <a href=\"#it\">РџСЂРµРґРјРµС‚</a><br/>
+6. <a href=\"$PHP_SELF?sid=$sid&use=$use&do=res\">Р’РѕСЃРєСЂРµСЃРЅСѓС‚СЊ</a>
 
-</p></card><card id=\"sum\" title=\"Призвать\"><p>
+</p></card><card id=\"sum\" title=\"РџСЂРёР·РІР°С‚СЊ\"><p>
 <input name=\"tsum\" emptyok=\"true\" type=\"text\" value=\"n.c.orc:1:1\"/>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=sum&tsum=$(tsum)&tsi=$(tsi)&tso=$(tso)&tr=$(tr)&tqn=$(tqn)\">Призвать</a>(id_name_weapon:count:follow)
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=listid\">[Список id]</a>
-<br/><select name=\"tr\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
-<br/>Предметы (например: i.money:2000|i.w.s.short:1): <input name=\"tsi\" emptyok=\"true\" type=\"text\" value=\"\"/>
-<br/>При освежевании: <input name=\"tso\" emptyok=\"true\" type=\"text\" value=\"\"/>
-<br/><br/>Сделать NPC мирным (диалог при найме | при отказе | в локации, куда надо отвести | id локации | отдать предметы: i.money:2000|i.w.s.short:1 | не разговаривать, если нет предмета | id предмета) : <input name=\"tqn\" emptyok=\"true\" type=\"text\" value=\"\"/>
-<br/>Обязательны только диалоги при найме и отказе (учтите, с обеих сторон от | должны быть пробелы).
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=sum&tsum=$(tsum)&tsi=$(tsi)&tso=$(tso)&tr=$(tr)&tqn=$(tqn)\">РџСЂРёР·РІР°С‚СЊ</a>(id_name_weapon:count:follow)
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=listid\">[РЎРїРёСЃРѕРє id]</a>
+<br/><select name=\"tr\" multiple=\"true\" value=\"1\"><option value=\"1\">РўСЂР°РЅСЃР»РёС‚</option></select>
+<br/>РџСЂРµРґРјРµС‚С‹ (РЅР°РїСЂРёРјРµСЂ: i.money:2000|i.w.s.short:1): <input name=\"tsi\" emptyok=\"true\" type=\"text\" value=\"\"/>
+<br/>РџСЂРё РѕСЃРІРµР¶РµРІР°РЅРёРё: <input name=\"tso\" emptyok=\"true\" type=\"text\" value=\"\"/>
+<br/><br/>РЎРґРµР»Р°С‚СЊ NPC РјРёСЂРЅС‹Рј (РґРёР°Р»РѕРі РїСЂРё РЅР°Р№РјРµ | РїСЂРё РѕС‚РєР°Р·Рµ | РІ Р»РѕРєР°С†РёРё, РєСѓРґР° РЅР°РґРѕ РѕС‚РІРµСЃС‚Рё | id Р»РѕРєР°С†РёРё | РѕС‚РґР°С‚СЊ РїСЂРµРґРјРµС‚С‹: i.money:2000|i.w.s.short:1 | РЅРµ СЂР°Р·РіРѕРІР°СЂРёРІР°С‚СЊ, РµСЃР»Рё РЅРµС‚ РїСЂРµРґРјРµС‚Р° | id РїСЂРµРґРјРµС‚Р°) : <input name=\"tqn\" emptyok=\"true\" type=\"text\" value=\"\"/>
+<br/>РћР±СЏР·Р°С‚РµР»СЊРЅС‹ С‚РѕР»СЊРєРѕ РґРёР°Р»РѕРіРё РїСЂРё РЅР°Р№РјРµ Рё РѕС‚РєР°Р·Рµ (СѓС‡С‚РёС‚Рµ, СЃ РѕР±РµРёС… СЃС‚РѕСЂРѕРЅ РѕС‚ | РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РїСЂРѕР±РµР»С‹).
 
-</p></card><card id=\"it\" title=\"Предмет\"><p>
+</p></card><card id=\"it\" title=\"РџСЂРµРґРјРµС‚\"><p>
 <input name=\"tit\" emptyok=\"true\" type=\"text\" value=\"i.w.\"/>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=filter&inp=$(tit)\">Список (id)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=geti&inp=$(tit)\">Артефакт (id_master_..am..do:count:npc)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=getms&inp=$(tit)\">Свиток призыва (id_name)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=listit\">[помощь]</a>
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=filter&inp=$(tit)\">РЎРїРёСЃРѕРє (id)</a>
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=geti&inp=$(tit)\">РђСЂС‚РµС„Р°РєС‚ (id_master_..am..do:count:npc)</a>
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=getms&inp=$(tit)\">РЎРІРёС‚РѕРє РїСЂРёР·С‹РІР° (id_name)</a>
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=listit\">[РїРѕРјРѕС‰СЊ]</a>
 
-</p></card><card id=\"pers\" title=\"Персонаж\"><p>
-Имя: <input name=\"name\" emptyok=\"true\" type=\"text\" value=\"".$tc[0]."\"/>
-Описание: <input name=\"sdesc\" emptyok=\"true\" type=\"text\" value=\"Opisanie otsutstvuet\"/>
-<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
-<br/>Жизнь: <input name=\"slife\" emptyok=\"true\" value=\"".$tc[1]."\"/>
-<br/>Мана: <input name=\"smana\" emptyok=\"true\" value=\"".$tc[3]."\"/>
-<br/>Меткость: <input name=\"shit\" emptyok=\"true\" value=\"".$tw[0]."\"/>%
-<br/>Скорость: <input name=\"sspeed\" emptyok=\"true\" value=\"".$tw[3]."\"/> сек
-<br/>Урон min: <input name=\"sdmin\" emptyok=\"true\" value=\"".$tw[1]."\"/>
-<br/>Урон max: <input name=\"sdmax\" emptyok=\"true\" value=\"".$tw[2]."\"/>
-Чем бьет: <input name=\"sweap\" emptyok=\"true\" type=\"text\" value=\"".$tw[12]."\"/>
-<br/>Броня: <input name=\"sarm\" emptyok=\"true\" value=\"".$tw[5]."\"/>
-<br/>Сопр.магии: <input name=\"sres\" emptyok=\"true\" value=\"".$tw[10]."\"/>%
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=set&name=$(name)&translit=$(translit)&slife=$(slife)&shit=$(shit)&sspeed=$(sspeed)&sdmin=$(sdmin)&sdmax=$(sdmax)&sarm=$(sarm)&sres=$(sres)&sweap=$(sweap)&smana=$(smana)&sdesc=$(sdesc)\">Отправить</a>
+</p></card><card id=\"pers\" title=\"РџРµСЂСЃРѕРЅР°Р¶\"><p>
+РРјСЏ: <input name=\"name\" emptyok=\"true\" type=\"text\" value=\"".$tc[0]."\"/>
+РћРїРёСЃР°РЅРёРµ: <input name=\"sdesc\" emptyok=\"true\" type=\"text\" value=\"Opisanie otsutstvuet\"/>
+<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">РўСЂР°РЅСЃР»РёС‚</option></select>
+<br/>Р–РёР·РЅСЊ: <input name=\"slife\" emptyok=\"true\" value=\"".$tc[1]."\"/>
+<br/>РњР°РЅР°: <input name=\"smana\" emptyok=\"true\" value=\"".$tc[3]."\"/>
+<br/>РњРµС‚РєРѕСЃС‚СЊ: <input name=\"shit\" emptyok=\"true\" value=\"".$tw[0]."\"/>%
+<br/>РЎРєРѕСЂРѕСЃС‚СЊ: <input name=\"sspeed\" emptyok=\"true\" value=\"".$tw[3]."\"/> СЃРµРє
+<br/>РЈСЂРѕРЅ min: <input name=\"sdmin\" emptyok=\"true\" value=\"".$tw[1]."\"/>
+<br/>РЈСЂРѕРЅ max: <input name=\"sdmax\" emptyok=\"true\" value=\"".$tw[2]."\"/>
+Р§РµРј Р±СЊРµС‚: <input name=\"sweap\" emptyok=\"true\" type=\"text\" value=\"".$tw[12]."\"/>
+<br/>Р‘СЂРѕРЅСЏ: <input name=\"sarm\" emptyok=\"true\" value=\"".$tw[5]."\"/>
+<br/>РЎРѕРїСЂ.РјР°РіРёРё: <input name=\"sres\" emptyok=\"true\" value=\"".$tw[10]."\"/>%
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=set&name=$(name)&translit=$(translit)&slife=$(slife)&shit=$(shit)&sspeed=$(sspeed)&sdmin=$(sdmin)&sdmax=$(sdmax)&sarm=$(sarm)&sres=$(sres)&sweap=$(sweap)&smana=$(smana)&sdesc=$(sdesc)\">РћС‚РїСЂР°РІРёС‚СЊ</a>
 
 </p></card><card id=\"say\" title=\"Say all\"><p>
-<input name=\"text\" emptyok=\"true\" type=\"text\" maxlength=\"140\"/>\n<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
-<br/><anchor>Отправить<go href=\"$PHP_SELF?sid=$sid&use=$use&do=say\" method=\"get\">
+<input name=\"text\" emptyok=\"true\" type=\"text\" maxlength=\"140\"/>\n<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">РўСЂР°РЅСЃР»РёС‚</option></select>
+<br/><anchor>РћС‚РїСЂР°РІРёС‚СЊ<go href=\"$PHP_SELF?sid=$sid&use=$use&do=say\" method=\"get\">
 <postfield name=\"text\" value=\"$(text)\"/>
 <postfield name=\"translit\" value=\"$(translit)\"/>
 </go></anchor>
 
 </p></card><card id=\"tele\" title=\"Teleport\"><p>
 <input name=\"to\" emptyok=\"true\" type=\"text\" maxlength=\"140\"/>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=$(to)\">Teleport(loc или id:loc)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=portal&to=$(to)\">Портал(loc)</a><br/><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=qv\">База</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1011x396\">Сев.вор</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1259x510\">Вост.вор</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1173x603\">Южн.вор</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1284x393\">Кладбище</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1476x277\">Пещера</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1884x246\">Ансалон</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x147x1227\">Остров центр</a>
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=$(to)\">Teleport(loc РёР»Рё id:loc)</a>
+<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=portal&to=$(to)\">РџРѕСЂС‚Р°Р»(loc)</a><br/><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=qv\">Р‘Р°Р·Р°</a><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1011x396\">РЎРµРІ.РІРѕСЂ</a><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1259x510\">Р’РѕСЃС‚.РІРѕСЂ</a><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1173x603\">Р®Р¶РЅ.РІРѕСЂ</a><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1284x393\">РљР»Р°РґР±РёС‰Рµ</a><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1476x277\">РџРµС‰РµСЂР°</a><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1884x246\">РђРЅСЃР°Р»РѕРЅ</a><br/>
+<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x147x1227\">РћСЃС‚СЂРѕРІ С†РµРЅС‚СЂ</a>
 ",$loc);
 	}
 if ($do=="say") {
 
-	if (!$text) msg("Нет текста для отправки");
+	if (!$text) msg("РќРµС‚ С‚РµРєСЃС‚Р° РґР»СЏ РѕС‚РїСЂР°РІРєРё");
 	if ($translit) {include "f_translit.dat"; $text=trans($text);}
 	$text=tsrus($text);
 	$tl=array();
@@ -75,7 +75,7 @@ if ($do=="say") {
 	while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && $fname!="1.htaccess" && $fname!=".htaccess") {
 		$tmp=file("online/".$fname);
 		$tmp=trim($tmp[0]);
-		if (!isset($tl[$tmp])) {$tl[$tmp]="1"; loadloc($tmp); addjournal($tmp,"all","Всем внимание: ".$text);}
+		if (!isset($tl[$tmp])) {$tl[$tmp]="1"; loadloc($tmp); addjournal($tmp,"all","Р’СЃРµРј РІРЅРёРјР°РЅРёРµ: ".$text);}
 		}
 	closedir($dh);
 	}
@@ -83,9 +83,9 @@ if ($do=="say") {
 if ($do=='tele') {
 	if (strpos($to,":")!==false) {
 		$to=explode(":",$to);
-		if (!isset($loc_i[$loc][$to[0]])) msg("Рядом с вами нет существ с id ".$to[0].", кот. можно телепортировать");
-		if (!file_exists("loc_i/".$to[1])) msg("Локации с id ".$to[1]." не существует");
-		if (substr($to[0],0,2)!="n.") msg ("Телепортировать можно только NPC или игроков"); else addnpc($to[0],$loc,strtolower($to[1]));
+		if (!isset($loc_i[$loc][$to[0]])) msg("Р СЏРґРѕРј СЃ РІР°РјРё РЅРµС‚ СЃСѓС‰РµСЃС‚РІ СЃ id ".$to[0].", РєРѕС‚. РјРѕР¶РЅРѕ С‚РµР»РµРїРѕСЂС‚РёСЂРѕРІР°С‚СЊ");
+		if (!file_exists("loc_i/".$to[1])) msg("Р›РѕРєР°С†РёРё СЃ id ".$to[1]." РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+		if (substr($to[0],0,2)!="n.") msg ("РўРµР»РµРїРѕСЂС‚РёСЂРѕРІР°С‚СЊ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ NPC РёР»Рё РёРіСЂРѕРєРѕРІ"); else addnpc($to[0],$loc,strtolower($to[1]));
 	@mail("romka8@list.ru", "qv teleport ".$to[0].":".$to[1], date("d/m Y H:i",time()));
 	} else {
 			if ($loc=="qv") foreach($loc_i[$loc] as $k=>$val) if (substr($k,0,2)=="n.") addnpc($k,$loc,strtolower($to)); 
@@ -95,14 +95,14 @@ if ($do=='tele') {
 	}
 
 if ($do=='portal') {
-	if (!file_exists("loc_i/".$to)) msg("Локации с id $to не существует");
-	if ($to=="x1087x543" || $to=="x1080x539" || $to=="x1087x528" || $to=="x1080x532") msg("В таверну нельзя телепортироваться");
-	$loc_i[$loc]["i.s.portal_".$to]="портал телепортации|0|".(time()+3*60);	// 3 минуты
-	addjournal($loc,"all",$char[0]." создал портал телепортации");
+	if (!file_exists("loc_i/".$to)) msg("Р›РѕРєР°С†РёРё СЃ id $to РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+	if ($to=="x1087x543" || $to=="x1080x539" || $to=="x1087x528" || $to=="x1080x532") msg("Р’ С‚Р°РІРµСЂРЅСѓ РЅРµР»СЊР·СЏ С‚РµР»РµРїРѕСЂС‚РёСЂРѕРІР°С‚СЊСЃСЏ");
+	$loc_i[$loc]["i.s.portal_".$to]="РїРѕСЂС‚Р°Р» С‚РµР»РµРїРѕСЂС‚Р°С†РёРё|0|".(time()+3*60);	// 3 РјРёРЅСѓС‚С‹
+	addjournal($loc,"all",$char[0]." СЃРѕР·РґР°Р» РїРѕСЂС‚Р°Р» С‚РµР»РµРїРѕСЂС‚Р°С†РёРё");
 	}
 
 if ($do=="set") {
-	if (!$name) msg("Нет имени");
+	if (!$name) msg("РќРµС‚ РёРјРµРЅРё");
 	$tc=explode("|",$loc_i[$loc][$login]["char"]);
 	if ($translit) {include "f_translit.dat"; $name=trans($name); $sweap=trans($sweap); $sdesc=trans($sdesc);}
 	if ($sdesc) $loc_i[$loc][$login]["qvi"]=tsrus($sdesc); else unset($loc_i[$loc][$login]["qvi"]);
@@ -127,7 +127,7 @@ if ($do=="set") {
  }
 
 if ($do=="sum") {
-	if (substr($tsum,0,4)!="n.c." && substr($tsum,0,4)!="n.a.") msg("Призывать можно только на n.c. и n.a.");
+	if (substr($tsum,0,4)!="n.c." && substr($tsum,0,4)!="n.a.") msg("РџСЂРёР·С‹РІР°С‚СЊ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ РЅР° n.c. Рё n.a.");
 	$npc="";
 	$tsum=explode(":",$tsum);
 	if (!$tsum[1]) $tnum=1; else $tnum=$tsum[1];
@@ -138,12 +138,12 @@ if ($do=="sum") {
 	$tfollow=$tsum[2];
 	$tsum=$tsum[0];
 	@include("npc/".$tsum);
-	if (!$npc) msg("Существа с id=$tsum не существует");
+	if (!$npc) msg("РЎСѓС‰РµСЃС‚РІР° СЃ id=$tsum РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 	if ($tr && ($tsq || $tsn || $tqn)) {include "f_translit.dat"; $tsq=trans($tsq);}
 	if ($tsq) {
 		$tsq=trans($tsq);
 		$tsq=tsrus($tsq);
-		if (!$tsq) msg("Нет названия оружия");
+		if (!$tsq) msg("РќРµС‚ РЅР°Р·РІР°РЅРёСЏ РѕСЂСѓР¶РёСЏ");
 		$twar=explode("|",$npc["war"]);
 		$twar[12]=$tsq;
 		$npc["war"]=implode("|",$twar);
@@ -152,7 +152,7 @@ if ($do=="sum") {
 		$tsn=tsrus($tsn);
 		$tsn=trans($tsn);
 		$tc=explode("|",$npc["char"]);
-		if (!$tsn) msg("Нет имени");
+		if (!$tsn) msg("РќРµС‚ РёРјРµРЅРё");
 		$tc[0]=$tsn;
 		$npc["char"]=implode("|",$tc);
 		}
@@ -161,10 +161,10 @@ if ($do=="sum") {
 	if ($tqn) {
 		$tsn.=" | ".$tqn;
 		$tqn = explode(" | ",$tqn);
-		if (!$tqn[0]) msg("Задайте текст, кот. будет показан при согласии проводить NPC");
-		if (!$tqn[1]) msg("Задайте текст, кот. будет показан при отказе проводить NPC");
-		if ($tqn[3] && !$tqn[2]) msg("Если указали локацию куда привести, то нужен и текст, кот. будет показан при разговоре в этой локации");
-		if ($tqn[3] && !file_exists("loc_i/".$tqn[3])) msg("Локации ".$tqn[3].", куда надо проводить NPC не существует");
+		if (!$tqn[0]) msg("Р—Р°РґР°Р№С‚Рµ С‚РµРєСЃС‚, РєРѕС‚. Р±СѓРґРµС‚ РїРѕРєР°Р·Р°РЅ РїСЂРё СЃРѕРіР»Р°СЃРёРё РїСЂРѕРІРѕРґРёС‚СЊ NPC");
+		if (!$tqn[1]) msg("Р—Р°РґР°Р№С‚Рµ С‚РµРєСЃС‚, РєРѕС‚. Р±СѓРґРµС‚ РїРѕРєР°Р·Р°РЅ РїСЂРё РѕС‚РєР°Р·Рµ РїСЂРѕРІРѕРґРёС‚СЊ NPC");
+		if ($tqn[3] && !$tqn[2]) msg("Р•СЃР»Рё СѓРєР°Р·Р°Р»Рё Р»РѕРєР°С†РёСЋ РєСѓРґР° РїСЂРёРІРµСЃС‚Рё, С‚Рѕ РЅСѓР¶РµРЅ Рё С‚РµРєСЃС‚, РєРѕС‚. Р±СѓРґРµС‚ РїРѕРєР°Р·Р°РЅ РїСЂРё СЂР°Р·РіРѕРІРѕСЂРµ РІ СЌС‚РѕР№ Р»РѕРєР°С†РёРё");
+		if ($tqn[3] && !file_exists("loc_i/".$tqn[3])) msg("Р›РѕРєР°С†РёРё ".$tqn[3].", РєСѓРґР° РЅР°РґРѕ РїСЂРѕРІРѕРґРёС‚СЊ NPC РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 
 		if ($tr) {if($tqn[0]) $tqn[0]=trans($tqn[0]); if($tqn[1]) $tqn[1]=trans($tqn[1]); if($tqn[2]) $tqn[2]=trans($tqn[2]); if($tqn[5]) $tqn[5]=trans($tqn[5]);}
 		$tqn[0]=tsrus($tqn[0]);
@@ -187,7 +187,7 @@ if ($do=="sum") {
 	}
 
 if ($do=="listid") {
-	$stmp="Список id:";
+	$stmp="РЎРїРёСЃРѕРє id:";
 	$dh = opendir("npc"); 
 	while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && $fname!="1.htaccess" && $fname!=".htaccess") {
 		if (substr($fname,0,4)=="n.c." || substr($fname,0,4)=="n.a.") $stmp.="<br/>".$fname;
@@ -206,7 +206,7 @@ if ($do=="calc") {
 	}
 
 if ($do=='filter' && $inp) {
-	$stmp="<p>Кол-во: <input name=\"num\" format=\"*N\" maxlength=\"2\" value=\"1\"/>";
+	$stmp="<p>РљРѕР»-РІРѕ: <input name=\"num\" format=\"*N\" maxlength=\"2\" value=\"1\"/>";
 	$dh = opendir("items/"); 
 	while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && substr($fname,0,strlen($inp))==$inp) {
 		$item=explode("|",implode("",file("items/".$fname)));
@@ -214,7 +214,7 @@ if ($do=='filter' && $inp) {
 		$count++;
 		}
 	closedir($dh);
-	msg($stmp,"Предметы",0);
+	msg($stmp,"РџСЂРµРґРјРµС‚С‹",0);
 	} 
 
 if ($do=='add' && $item) {
@@ -226,67 +226,67 @@ if ($do=='geti' && $inp) {
 	$arr=explode(":",$inp);
 
 	if (strpos($arr[0],"_")!==false) $fn=substr($arr[0],0,strpos($arr[0],"_")); else $fn=$arr[0];
-	if (!file_exists("items/".$fn)) msg("Предмета с id ".$arr[0]." не существует");
+	if (!file_exists("items/".$fn)) msg("РџСЂРµРґРјРµС‚Р° СЃ id ".$arr[0]." РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 
 	if (strpos($arr[0],"..")!==false) {
-		if (substr($arr[0],0,4)!="i.a." && substr($arr[0],0,4)!="i.w.") msg("Создавать артефакты можно только на основе одежды i.a. или оружия i.w.");
-		if (strpos($arr[0],"_")===false) msg("В артефактах с самоцветами обязательно надо указать имя мастера, любое слово англ. буквами.");
+		if (substr($arr[0],0,4)!="i.a." && substr($arr[0],0,4)!="i.w.") msg("РЎРѕР·РґР°РІР°С‚СЊ Р°СЂС‚РµС„Р°РєС‚С‹ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ РЅР° РѕСЃРЅРѕРІРµ РѕРґРµР¶РґС‹ i.a. РёР»Рё РѕСЂСѓР¶РёСЏ i.w.");
+		if (strpos($arr[0],"_")===false) msg("Р’ Р°СЂС‚РµС„Р°РєС‚Р°С… СЃ СЃР°РјРѕС†РІРµС‚Р°РјРё РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РЅР°РґРѕ СѓРєР°Р·Р°С‚СЊ РёРјСЏ РјР°СЃС‚РµСЂР°, Р»СЋР±РѕРµ СЃР»РѕРІРѕ Р°РЅРіР». Р±СѓРєРІР°РјРё.");
 		$xF = preg_match_all("/\.\.(\w\w)/",$arr[0],$regF);
-		for($j=0;$j<$xF;$j++) if (!file_exists("items/i.i.".$regF[1][$j])) msg("Самоцвет ".$regF[1][$j]." не существует");
+		for($j=0;$j<$xF;$j++) if (!file_exists("items/i.i.".$regF[1][$j])) msg("РЎР°РјРѕС†РІРµС‚ ".$regF[1][$j]." РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 		}
 
-	if (strpos($arr[0]," ")!==false) msg("В id не должно быть пробелов");
-	if (!$arr[1]) msg("Надо указать количество count");
+	if (strpos($arr[0]," ")!==false) msg("Р’ id РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїСЂРѕР±РµР»РѕРІ");
+	if (!$arr[1]) msg("РќР°РґРѕ СѓРєР°Р·Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ count");
 	
-	if ($arr[2] && ((substr($arr[2],0,2)!="n." && substr($arr[2],0,2)!="u.") || !isset($loc_i[$loc][$arr[2]]))) msg("Третьим параметром должен быть id NPC или игрока рядом с вами, учитывая регистр, которому передать предмет. Если не указано, то себе.");
+	if ($arr[2] && ((substr($arr[2],0,2)!="n." && substr($arr[2],0,2)!="u.") || !isset($loc_i[$loc][$arr[2]]))) msg("РўСЂРµС‚СЊРёРј РїР°СЂР°РјРµС‚СЂРѕРј РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ id NPC РёР»Рё РёРіСЂРѕРєР° СЂСЏРґРѕРј СЃ РІР°РјРё, СѓС‡РёС‚С‹РІР°СЏ СЂРµРіРёСЃС‚СЂ, РєРѕС‚РѕСЂРѕРјСѓ РїРµСЂРµРґР°С‚СЊ РїСЂРµРґРјРµС‚. Р•СЃР»Рё РЅРµ СѓРєР°Р·Р°РЅРѕ, С‚Рѕ СЃРµР±Рµ.");
 
-	if (!$arr[2]) additem($loc,"",$login,$arr[0],$arr[1]);	else {additem($loc,"",$arr[2],$arr[0],$arr[1]); addjournal($loc,$login,"Предмет ".$arr[0].":".$arr[1]." добавлен к NPC ".$arr[2]);}
+	if (!$arr[2]) additem($loc,"",$login,$arr[0],$arr[1]);	else {additem($loc,"",$arr[2],$arr[0],$arr[1]); addjournal($loc,$login,"РџСЂРµРґРјРµС‚ ".$arr[0].":".$arr[1]." РґРѕР±Р°РІР»РµРЅ Рє NPC ".$arr[2]);}
  @mail("romka8@list.ru", "qv addi ".$inp, date("d/m Y H:i",time()));	}
 
 if ($do=='addi' && $inp) {
 	$arr=explode(":",$inp);
 	if (strpos($arr[0],"_")!==false) $fn=substr($arr[0],0,strpos($arr[0],"_")); else $fn=$arr[0];
-	if (!file_exists("items/".$fn)) msg("Предмета с id ".$arr[0]." не существует");
-	if (!$arr[2] || (substr($arr[2],0,2)!="n." && substr($arr[2],0,2)!="u.") || !isset($loc_i[$loc][$arr[2]])) msg("Третьим параметром должен быть id NPC или игрока рядом с вами, учитывая регистр");
+	if (!file_exists("items/".$fn)) msg("РџСЂРµРґРјРµС‚Р° СЃ id ".$arr[0]." РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
+	if (!$arr[2] || (substr($arr[2],0,2)!="n." && substr($arr[2],0,2)!="u.") || !isset($loc_i[$loc][$arr[2]])) msg("РўСЂРµС‚СЊРёРј РїР°СЂР°РјРµС‚СЂРѕРј РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ id NPC РёР»Рё РёРіСЂРѕРєР° СЂСЏРґРѕРј СЃ РІР°РјРё, СѓС‡РёС‚С‹РІР°СЏ СЂРµРіРёСЃС‚СЂ");
 
 	additem($loc,"",$arr[2],$arr[0],$arr[1]);
-	addjournal($loc,$login,"Предмет ".$arr[0].":".$arr[1]." добавлен к NPC ".$arr[2]);
+	addjournal($loc,$login,"РџСЂРµРґРјРµС‚ ".$arr[0].":".$arr[1]." РґРѕР±Р°РІР»РµРЅ Рє NPC ".$arr[2]);
 	@mail("romka8@list.ru", "qv addi NPC ".$inp, date("d/m Y H:i",time()));
  }
 
 if ($do=='getms' && $inp) {
-	if (substr($inp,0,4)!="n.c." && substr($inp,0,4)!="n.a.") msg("Свитки призыва можно создавать только на основе id монстров или животных, т.е. n.c.xxx или n.a.xxx");
+	if (substr($inp,0,4)!="n.c." && substr($inp,0,4)!="n.a.") msg("РЎРІРёС‚РєРё РїСЂРёР·С‹РІР° РјРѕР¶РЅРѕ СЃРѕР·РґР°РІР°С‚СЊ С‚РѕР»СЊРєРѕ РЅР° РѕСЃРЅРѕРІРµ id РјРѕРЅСЃС‚СЂРѕРІ РёР»Рё Р¶РёРІРѕС‚РЅС‹С…, С‚.Рµ. n.c.xxx РёР»Рё n.a.xxx");
 	$inp=preg_replace('/([^.A-z])/',"",$inp);
 	if (strpos($inp,"_")!==false) $id=substr($inp,0,strpos($inp,"_")); else $id=$inp;
-	if (!file_exists("npc/".$id)) msg("id ".$id." не существует");
+	if (!file_exists("npc/".$id)) msg("id ".$id." РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 	additem($loc,"",$login,"i.ms_".$inp,1);
  @mail("romka8@list.ru", "qv addms ".$inp, date("d/m Y H:i",time()));
 	}
 
 
-if ($do=='listit') msg("i.w. - оружие (i.w.s. - мечи, i.w.k. - ножи, i.w.r. - стрелковое и т.д.)
-<br/>i.a. - броня (i.a.b. - на тело, i.a.h. - на голову и т.д.)
-<br/>i.q. - квестовые предметы
-<br/>i.f. - еда (i.f.b. - элексиры)
-<br/>i.h. - охотничье трофеи
-<br/>i.i. - самоцветы
-<br/>i.m. - свитки
-<br/>i.r. - руны
-<br/>i.s. - стационарные (НЕ ИСПОЛЬЗОВАТЬ!)
-<br/><br/>Если создаете артефакт, то обязательно указывать мастера (любое слово англ. буквами), для инкрустации доступны самоцветы: ag, am, az, do, dy, hr, ku, ma, me, ne, ob, on, sa, zm (перед каждым самоцветом обязательно две точки, напр.: ..ag..am..az). Инкрустировать можно любое количество любых самоцветов (или ни одного, а только имя мастера), но не злоупотребляйте нестандартными артефактами, они должны быть редкими, обоснованными и логичными (в том числе по балансу).
-<br/>Если указан третий параметр npc, то предмет добавляется NPC или игроку рядом с вами с таким id (регистр учитывается, а имя мастера и самоцветы можно не писать), например: i.money:2000:n.Lukas или i.w.s.p_Natan_:1:n.Lukas
-<br/>Свиток призыва можно создать на основе id любого монстра (n.c.xxx) или животного (n.a.xxx) и при желании задать имя name, но только транслитом.
+if ($do=='listit') msg("i.w. - РѕСЂСѓР¶РёРµ (i.w.s. - РјРµС‡Рё, i.w.k. - РЅРѕР¶Рё, i.w.r. - СЃС‚СЂРµР»РєРѕРІРѕРµ Рё С‚.Рґ.)
+<br/>i.a. - Р±СЂРѕРЅСЏ (i.a.b. - РЅР° С‚РµР»Рѕ, i.a.h. - РЅР° РіРѕР»РѕРІСѓ Рё С‚.Рґ.)
+<br/>i.q. - РєРІРµСЃС‚РѕРІС‹Рµ РїСЂРµРґРјРµС‚С‹
+<br/>i.f. - РµРґР° (i.f.b. - СЌР»РµРєСЃРёСЂС‹)
+<br/>i.h. - РѕС…РѕС‚РЅРёС‡СЊРµ С‚СЂРѕС„РµРё
+<br/>i.i. - СЃР°РјРѕС†РІРµС‚С‹
+<br/>i.m. - СЃРІРёС‚РєРё
+<br/>i.r. - СЂСѓРЅС‹
+<br/>i.s. - СЃС‚Р°С†РёРѕРЅР°СЂРЅС‹Рµ (РќР• РРЎРџРћР›Р¬Р—РћР’РђРўР¬!)
+<br/><br/>Р•СЃР»Рё СЃРѕР·РґР°РµС‚Рµ Р°СЂС‚РµС„Р°РєС‚, С‚Рѕ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ СѓРєР°Р·С‹РІР°С‚СЊ РјР°СЃС‚РµСЂР° (Р»СЋР±РѕРµ СЃР»РѕРІРѕ Р°РЅРіР». Р±СѓРєРІР°РјРё), РґР»СЏ РёРЅРєСЂСѓСЃС‚Р°С†РёРё РґРѕСЃС‚СѓРїРЅС‹ СЃР°РјРѕС†РІРµС‚С‹: ag, am, az, do, dy, hr, ku, ma, me, ne, ob, on, sa, zm (РїРµСЂРµРґ РєР°Р¶РґС‹Рј СЃР°РјРѕС†РІРµС‚РѕРј РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґРІРµ С‚РѕС‡РєРё, РЅР°РїСЂ.: ..ag..am..az). РРЅРєСЂСѓСЃС‚РёСЂРѕРІР°С‚СЊ РјРѕР¶РЅРѕ Р»СЋР±РѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р»СЋР±С‹С… СЃР°РјРѕС†РІРµС‚РѕРІ (РёР»Рё РЅРё РѕРґРЅРѕРіРѕ, Р° С‚РѕР»СЊРєРѕ РёРјСЏ РјР°СЃС‚РµСЂР°), РЅРѕ РЅРµ Р·Р»РѕСѓРїРѕС‚СЂРµР±Р»СЏР№С‚Рµ РЅРµСЃС‚Р°РЅРґР°СЂС‚РЅС‹РјРё Р°СЂС‚РµС„Р°РєС‚Р°РјРё, РѕРЅРё РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ СЂРµРґРєРёРјРё, РѕР±РѕСЃРЅРѕРІР°РЅРЅС‹РјРё Рё Р»РѕРіРёС‡РЅС‹РјРё (РІ С‚РѕРј С‡РёСЃР»Рµ РїРѕ Р±Р°Р»Р°РЅСЃСѓ).
+<br/>Р•СЃР»Рё СѓРєР°Р·Р°РЅ С‚СЂРµС‚РёР№ РїР°СЂР°РјРµС‚СЂ npc, С‚Рѕ РїСЂРµРґРјРµС‚ РґРѕР±Р°РІР»СЏРµС‚СЃСЏ NPC РёР»Рё РёРіСЂРѕРєСѓ СЂСЏРґРѕРј СЃ РІР°РјРё СЃ С‚Р°РєРёРј id (СЂРµРіРёСЃС‚СЂ СѓС‡РёС‚С‹РІР°РµС‚СЃСЏ, Р° РёРјСЏ РјР°СЃС‚РµСЂР° Рё СЃР°РјРѕС†РІРµС‚С‹ РјРѕР¶РЅРѕ РЅРµ РїРёСЃР°С‚СЊ), РЅР°РїСЂРёРјРµСЂ: i.money:2000:n.Lukas РёР»Рё i.w.s.p_Natan_:1:n.Lukas
+<br/>РЎРІРёС‚РѕРє РїСЂРёР·С‹РІР° РјРѕР¶РЅРѕ СЃРѕР·РґР°С‚СЊ РЅР° РѕСЃРЅРѕРІРµ id Р»СЋР±РѕРіРѕ РјРѕРЅСЃС‚СЂР° (n.c.xxx) РёР»Рё Р¶РёРІРѕС‚РЅРѕРіРѕ (n.a.xxx) Рё РїСЂРё Р¶РµР»Р°РЅРёРё Р·Р°РґР°С‚СЊ РёРјСЏ name, РЅРѕ С‚РѕР»СЊРєРѕ С‚СЂР°РЅСЃР»РёС‚РѕРј.
 ");
 
 function tsrus($s) {
 	if (!$s) return $s;
-	// UTF-8 русские буквы
-	$s=str_replace("\xd0\x81","Ё",$s);
-	$s=str_replace("\xd1\x91","ё",$s);
+	// UTF-8 СЂСѓСЃСЃРєРёРµ Р±СѓРєРІС‹
+	$s=str_replace("\xd0\x81","РЃ",$s);
+	$s=str_replace("\xd1\x91","С‘",$s);
 	$s=preg_replace("/\xd0([\x90-\xbf])/e","chr(ord('\\1')+48)",$s);
 	$s=preg_replace("/\xd1([\x80-\x8f])/e","chr(ord('\\1')+112)",$s);
 	$s=str_replace('\\',"",$s);
-	$s=preg_replace('/([^ -}А-я#])|\$|&/e',"",$s);
+	$s=preg_replace('/([^ -}Рђ-СЏ#])|\$|&/e',"",$s);
 	$s=str_replace("|","",$s);
 	$s=str_replace("<","",$s);
 	$s=str_replace(">","",$s);

@@ -1,14 +1,14 @@
 <?php
-// óâåëè÷èâàåò áðîíþ öåëè íà int
+// ÑƒÐ²ÐµÐ»Ð¸Ñ‡Ð¸Ð²Ð°ÐµÑ‚ Ð±Ñ€Ð¾Ð½ÑŽ Ñ†ÐµÐ»Ð¸ Ð½Ð° int
 
 if (isset($loc_i[$loc][$to]) && substr($to,0,2)=='u.') {
-	calcparam($loc,$to);	// ÷òîáû ïîñòîÿííî íå óâåëè÷èâàòü êàæäûé ðàç, ñáèâàåò ýôôåêò çàêëèíàíèÿ Ñèëà
+	calcparam($loc,$to);	// Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾ Ð½Ðµ ÑƒÐ²ÐµÐ»Ð¸Ñ‡Ð¸Ð²Ð°Ñ‚ÑŒ ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ñ€Ð°Ð·, ÑÐ±Ð¸Ð²Ð°ÐµÑ‚ ÑÑ„Ñ„ÐµÐºÑ‚ Ð·Ð°ÐºÐ»Ð¸Ð½Ð°Ð½Ð¸Ñ Ð¡Ð¸Ð»Ð°
 	$twar=explode("|",$loc_i[$loc][$to]["war"]);
 	$skills=explode("|",$loc_i[$loc][$login]["skills"]);
 
 	$twar[5]+=$skills[2];
 	$loc_i[$loc][$to]["war"]=implode("|",$twar);
-	addjournal($loc,$to,"Áðîíÿ +".$skills[2]);
-	if ($to!=$login) addjournal($loc,$login,$tchar[0].": áðîíÿ +".$skills[2]);
-	} else addjournal($loc,$login,"Äåéñòâóåò òîëüêî íà ëþäåé");
+	addjournal($loc,$to,"Ð‘Ñ€Ð¾Ð½Ñ +".$skills[2]);
+	if ($to!=$login) addjournal($loc,$login,$tchar[0].": Ð±Ñ€Ð¾Ð½Ñ +".$skills[2]);
+	} else addjournal($loc,$login,"Ð”ÐµÐ¹ÑÑ‚Ð²ÑƒÐµÑ‚ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð½Ð° Ð»ÑŽÐ´ÐµÐ¹");
 

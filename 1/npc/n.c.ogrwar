@@ -1,7 +1,7 @@
 <?php 
 $npc=array( 
-'char'=>'oãp-âoèí|75|75|1|1||||||||', 
-'war'=>'80|14|20|4||4|5||||||äóáèíoé|32||', 
+'char'=>'oÐ³p-Ð²oÐ¸Ð½|75|75|1|1||||||||', 
+'war'=>'80|14|20|4||4|5||||||Ð´ÑƒÐ±Ð¸Ð½oÐ¹|32||', 
 'items'=>'i.a.b.mpanc:1|i.w.u.dubinabig:1', 
 'equip'=>'i.a.b.mpanc|i.w.u.dubinabig', 
 'itemsrnd'=>'i.money:70:4:16|i.w.r.molot:30:1:2|i.w.s.kriv:40:0:1',

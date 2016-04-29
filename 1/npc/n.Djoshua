@@ -1,7 +1,7 @@
 <?php 
 $npc=array( 
-'char'=>'Äæoøóa|100|100|100|100||||||||', 
-'war'=>'80|4|9|5||||||5|20|20|êóëaêaìè|||x1191x467:1:2', 
+'char'=>'Ð”Ð¶oÑˆÑƒa|100|100|100|100||||||||', 
+'war'=>'80|4|9|5||||||5|20|20|ÐºÑƒÐ»aÐºaÐ¼Ð¸|||x1191x467:1:2', 
 'items'=>'i.money:8', 
 'bank'=>'90:1:4=i.magicbook:1|90:1:4=i.rr.empty:1|90:1:3=i.m.mark:1|90:1:6=i.m.portal:1|90:1:8=i.m.recall:1|70:1:2=i.r.mark:1|80:1:3=i.r.recall:1|80:1:3=i.r.portal:1|90:1:1=i.w.k.smage:1|80:1:1=i.w.u.jmage:1|50:1:1=i.w.u.smage:1|40:1:1=i.w.u.pmage:1|90:0:1=i.a.e.mage:1|80:0:1=i.a.b.rmage:1|40:1:1=i.a.b.mmage:1|40:1:1=i.a.b.tmage:1|95:6:18=i.m.createfood:1|95:12:24=i.m.heal:1|70:2:6=i.m.heal.great:1|90:12:28=i.m.w.arrow:1|80:8:18=i.m.w.firearrow:1|80:6:12=i.m.w.icefirst:1|70:4:8=i.m.w.firebolt:1|60:2:8=i.m.w.iceray:1|50:1:6=i.m.w.firestreem:1|90:6:12=i.m.w.lighting:1|80:2:6=i.m.w.a.watergross:1|60:1:4=i.m.w.a.earthquake:1|90:6:24=i.m.s.wolf:1|80:4:8=i.m.s.skeleton:1|70:4:6=i.m.s.golem:1|60:1:2=i.m.s.demon:1|90:6:14=i.m.charm:1|80:4:8=i.m.charm.enemy:1|80:2:12=i.m.peace:1|60:2:6=i.m.silence:1|40:1:2=i.m.maddnes:1|80:1:4=i.m.ressurect:1|95:4:8=i.r.createfood:1|90:2:4=i.r.heal:1|70:1:4=i.r.heal.great:1|90:4:6=i.r.w.arrow:1|90:1:8=i.r.w.firearrow:1|80:1:6=i.r.w.icefirst:1|70:1:4=i.r.w.firebolt:1|60:2:8=i.r.w.iceray:1|40:1:2=i.r.w.firestreem:1|70:2:6=i.r.w.lighting:1|80:1:4=i.r.w.a.watergross:1|60:1:4=i.r.w.a.earthquake:1|90:3:6=i.r.s.wolf:1|80:2:4=i.r.s.skeleton:1|70:1:4=i.r.s.golem:1|50:1:2=i.r.s.demon:1|90:1:4=i.r.charm:1|70:1:4=i.r.charm.enemy:1|70:2:3=i.r.peace:1|60:1:4=i.r.silence:1|40:1:2=i.r.maddnes:1|80:1:4=i.r.ressurect:1', 
 );

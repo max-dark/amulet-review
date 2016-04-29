@@ -3,7 +3,7 @@
 function tsret($s) {if($s>0) return $s; else return 0;}
 
 $war=explode("|",$loc_i[$loc][$login]["war"]);
-if($loss) $war[0]=0; else $war[0]=100; $war[1]=tsret($magic[4]-10+$skills[2]*2); $war[2]=$magic[5]+$skills[2]*2; $war[3]=$magic[8]; $war[4]=0;  $war[12]="магией"; $war[14]=""; 
+if($loss) $war[0]=0; else $war[0]=100; $war[1]=tsret($magic[4]-10+$skills[2]*2); $war[2]=$magic[5]+$skills[2]*2; $war[3]=$magic[8]; $war[4]=0;  $war[12]="РјР°РіРёРµР№"; $war[14]=""; 
 $war=implode("|",$war);
 
 $arr=array();
@@ -25,9 +25,9 @@ foreach($keys as $to)  {
 if ($use=='m.w.vamp' && !$loss) {	
 	$tchar=explode("|",$loc_i[$loc][$login]["char"]);
 	if (!$tchar[8]) {
-		$heal=rand(2,$magic[4]);	// лечит
+		$heal=rand(2,$magic[4]);	// Р»РµС‡РёС‚
 		if ($tchar[1]+$heal>$tchar[2]) $heal=$tchar[2]-$tchar[1];
-		if ($heal>0) {$tchar[1]+=$heal; $loc_i[$loc][$login]["char"]=implode("|",$tchar); addjournal($loc,$login,"Жизнь +".$heal);}
+		if ($heal>0) {$tchar[1]+=$heal; $loc_i[$loc][$login]["char"]=implode("|",$tchar); addjournal($loc,$login,"Р–РёР·РЅСЊ +".$heal);}
 		}
 	}
-} else addjournal($loc,$login,"Заклинание не эффективно");
+} else addjournal($loc,$login,"Р—Р°РєР»РёРЅР°РЅРёРµ РЅРµ СЌС„С„РµРєС‚РёРІРЅРѕ");

@@ -1,5 +1,5 @@
 <?php
-// i.log + 5 перьев = 5 стрел
+// i.log + 5 РїРµСЂСЊРµРІ = 5 СЃС‚СЂРµР»
 
 $cp=intval(preg_replace('/.*'."i.h.p.".'[^:]+:(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]));
 if (intval(preg_replace('/.*'."i.log".':(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]))>0 && $cp>=5) {
@@ -9,18 +9,18 @@ if ($skills[27]>0) {
 	$char[6]=time()+6;
 	$loc_i[$loc][$login]["char"]=implode("|",$char);
 
-	additem($loc,$login,"",preg_replace('/.*(i\.h\.p\.[^:]+):\d+.*/',"\\1",$loc_i[$loc][$login]["items"]),5,"items","items",1,0,1);		// удаляем 5 перьев
+	additem($loc,$login,"",preg_replace('/.*(i\.h\.p\.[^:]+):\d+.*/',"\\1",$loc_i[$loc][$login]["items"]),5,"items","items",1,0,1);		// СѓРґР°Р»СЏРµРј 5 РїРµСЂСЊРµРІ
 
 	if (rand(1,100)<$skills[27]*20) {
 		additem($loc,$login,"","i.log",1);
-//		addjournal($loc,$login,"Вы сделали 5 стрел"); 
-		addjournal($loc,"all",$char[0]." сделал 5 стрел",$login);
+//		addjournal($loc,$login,"Р’С‹ СЃРґРµР»Р°Р»Рё 5 СЃС‚СЂРµР»"); 
+		addjournal($loc,"all",$char[0]." СЃРґРµР»Р°Р» 5 СЃС‚СЂРµР»",$login);
 		additem($loc,"",$login,"i.arrow",5);
 		} else {
-			addjournal($loc,$login,"Вы не смогли сделать стрелы"); 
-			addjournal($loc,"all",$char[0]." пытался сделать стрелы",$login);
+			addjournal($loc,$login,"Р’С‹ РЅРµ СЃРјРѕРіР»Рё СЃРґРµР»Р°С‚СЊ СЃС‚СЂРµР»С‹"); 
+			addjournal($loc,"all",$char[0]." РїС‹С‚Р°Р»СЃСЏ СЃРґРµР»Р°С‚СЊ СЃС‚СЂРµР»С‹",$login);
 			}
 
-} else addjournal($loc,$login,"Ваш навык плотника равен 0, вы не умеете делать стрелы");
-} else addjournal($loc,$login,"Чтобы делать стрелы, нужна ветка от дерева и 5 перьев");
+} else addjournal($loc,$login,"Р’Р°С€ РЅР°РІС‹Рє РїР»РѕС‚РЅРёРєР° СЂР°РІРµРЅ 0, РІС‹ РЅРµ СѓРјРµРµС‚Рµ РґРµР»Р°С‚СЊ СЃС‚СЂРµР»С‹");
+} else addjournal($loc,$login,"Р§С‚РѕР±С‹ РґРµР»Р°С‚СЊ СЃС‚СЂРµР»С‹, РЅСѓР¶РЅР° РІРµС‚РєР° РѕС‚ РґРµСЂРµРІР° Рё 5 РїРµСЂСЊРµРІ");
 

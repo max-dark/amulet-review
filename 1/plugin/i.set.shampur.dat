@@ -1,5 +1,5 @@
 <?php
-// æàðèì ñûðîå ìÿñî íà êîñòðå
+// Ð¶Ð°Ñ€Ð¸Ð¼ ÑÑ‹Ñ€Ð¾Ðµ Ð¼ÑÑÐ¾ Ð½Ð° ÐºÐ¾ÑÑ‚Ñ€Ðµ
 
 if (intval(preg_replace('/.*'."i.f.meat".':(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]))>0) {
 if (isset($loc_i[$loc]["i.s.fire"])) {
@@ -11,10 +11,10 @@ if ($skills[30]>0) {
 	additem($loc,$login,"","i.f.meat",1);
 	if (rand(1,100)<$skills[30]*20) {
 		additem($loc,"",$login,"i.f.meat.fried",1);
-		addjournal($loc,$login,"Âû ïîäæàðèëè ìÿñî íà êîñòðå"); 
-		addjournal($loc,"all",$char[0]." ïîäæàðèë ìÿñî íà êîñòðå",$login);
+		addjournal($loc,$login,"Ð’Ñ‹ Ð¿Ð¾Ð´Ð¶Ð°Ñ€Ð¸Ð»Ð¸ Ð¼ÑÑÐ¾ Ð½Ð° ÐºÐ¾ÑÑ‚Ñ€Ðµ"); 
+		addjournal($loc,"all",$char[0]." Ð¿Ð¾Ð´Ð¶Ð°Ñ€Ð¸Ð» Ð¼ÑÑÐ¾ Ð½Ð° ÐºÐ¾ÑÑ‚Ñ€Ðµ",$login);
 		if (rand(1,100)<5) addexp($loc,$login,1);
-		} else {addjournal($loc,$login,"Âàì íå óäàëîñü íà êîñòðå ìÿñî, îíî ïîäãîðåëî"); addjournal($loc,"all",$char[0]." íå ñìîã ïðèãîòîâèòü íà êîñòðå ìÿñî",$login);}
-} else addjournal($loc,$login,"Âàø íàâûê ïðèãîòîâëåíèÿ ïèùè ðàâåí 0, âû íå óìååòå ãîòîâèòü ïèùó");
-} else addjournal($loc,$login,"Âíà÷àëå íàéäèòå èëè ðàçâåäèòå êîñòåð.");
-} else addjournal($loc,$login,"Ó âàñ íåò ñûðîãî ìÿñà");
+		} else {addjournal($loc,$login,"Ð’Ð°Ð¼ Ð½Ðµ ÑƒÐ´Ð°Ð»Ð¾ÑÑŒ Ð½Ð° ÐºÐ¾ÑÑ‚Ñ€Ðµ Ð¼ÑÑÐ¾, Ð¾Ð½Ð¾ Ð¿Ð¾Ð´Ð³Ð¾Ñ€ÐµÐ»Ð¾"); addjournal($loc,"all",$char[0]." Ð½Ðµ ÑÐ¼Ð¾Ð³ Ð¿Ñ€Ð¸Ð³Ð¾Ñ‚Ð¾Ð²Ð¸Ñ‚ÑŒ Ð½Ð° ÐºÐ¾ÑÑ‚Ñ€Ðµ Ð¼ÑÑÐ¾",$login);}
+} else addjournal($loc,$login,"Ð’Ð°Ñˆ Ð½Ð°Ð²Ñ‹Ðº Ð¿Ñ€Ð¸Ð³Ð¾Ñ‚Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð¿Ð¸Ñ‰Ð¸ Ñ€Ð°Ð²ÐµÐ½ 0, Ð²Ñ‹ Ð½Ðµ ÑƒÐ¼ÐµÐµÑ‚Ðµ Ð³Ð¾Ñ‚Ð¾Ð²Ð¸Ñ‚ÑŒ Ð¿Ð¸Ñ‰Ñƒ");
+} else addjournal($loc,$login,"Ð’Ð½Ð°Ñ‡Ð°Ð»Ðµ Ð½Ð°Ð¹Ð´Ð¸Ñ‚Ðµ Ð¸Ð»Ð¸ Ñ€Ð°Ð·Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾ÑÑ‚ÐµÑ€.");
+} else addjournal($loc,$login,"Ð£ Ð²Ð°Ñ Ð½ÐµÑ‚ ÑÑ‹Ñ€Ð¾Ð³Ð¾ Ð¼ÑÑÐ°");

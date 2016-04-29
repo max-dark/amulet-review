@@ -1,15 +1,15 @@
 <?php
-// óðîí âñåì âîêðóã ïî 150
+// ÑƒÑ€Ð¾Ð½ Ð²ÑÐµÐ¼ Ð²Ð¾ÐºÑ€ÑƒÐ³ Ð¿Ð¾ 150
 
 	$war=explode("|",$loc_i[$loc][$login]["war"]);
-	$war[0]=100; $war[1]=0; $war[2]=90; $war[3]=10; $war[4]=0;  $war[12]="ïîðîøêîì ñìåðòè"; $war[14]=""; 
+	$war[0]=100; $war[1]=0; $war[2]=90; $war[3]=10; $war[4]=0;  $war[12]="Ð¿Ð¾Ñ€Ð¾ÑˆÐºÐ¾Ð¼ ÑÐ¼ÐµÑ€Ñ‚Ð¸"; $war[14]=""; 
 	$war=implode("|",$war);
 
 	$char[6]=time()+10;
 	$loc_i[$loc][$login]["char"]=implode("|",$char);
 
 	additem($loc,$login,"","i.q.pdeath",1,"items","items",1,0,1);
-	if($loc=="x2375x934") addjournal($loc,"all","[ãðîìîâîé ãîëîñ] ÊÀÊ ÒÛ ÑÌÅÅØÜ ÌÅÍß ÒÐÅÂÎÆÈÒÜ, ".strtoupper(substr($login,2))."?");
+	if($loc=="x2375x934") addjournal($loc,"all","[Ð³Ñ€Ð¾Ð¼Ð¾Ð²Ð¾Ð¹ Ð³Ð¾Ð»Ð¾Ñ] ÐšÐÐš Ð¢Ð« Ð¡ÐœÐ•Ð•Ð¨Ð¬ ÐœÐ•ÐÐ¯ Ð¢Ð Ð•Ð’ÐžÐ–Ð˜Ð¢Ð¬, ".strtoupper(substr($login,2))."?");
 
 	foreach(array_keys($loc_i[$loc]) as $to) if (substr($to,0,2)!='i.' && $to!=$login) {
 		attack($loc,$login,$to,$war,0,1);

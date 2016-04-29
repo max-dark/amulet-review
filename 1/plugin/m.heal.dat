@@ -18,13 +18,13 @@ if ($use=="m.heal.all") {
 if (count($arr)>0) {
 foreach(array_keys($arr) as $to) {
 	$tchar=explode("|",$loc_i[$loc][$to]["char"]);
-	$heal=rand(tsret($magic[4]-10+$skills[2]*2),$magic[5]+$skills[2]*2);	// только не повреждает, а лечит
+	$heal=rand(tsret($magic[4]-10+$skills[2]*2),$magic[5]+$skills[2]*2);	// С‚РѕР»СЊРєРѕ РЅРµ РїРѕРІСЂРµР¶РґР°РµС‚, Р° Р»РµС‡РёС‚
 	if ($tchar[1]+$heal>$tchar[2]) $heal=$tchar[2]-$tchar[1];
 	$tchar[1]+=$heal;
 	if ($heal>0) $loc_i[$loc][$to]["char"]=implode("|",$tchar);
-	addjournal($loc,$to,"Жизнь +".$heal);
-	if ($to!=$login) addjournal($loc,$login,$tchar[0].": жизнь +".$heal);
-	// если лечим крима, сами станомся кримом
-	if ($to!=$login) if (!$char[9]) if ($tchar[9] || substr($to,0,4)=='n.c.') docrim($loc,$login,"лечил преступника");
+	addjournal($loc,$to,"Р–РёР·РЅСЊ +".$heal);
+	if ($to!=$login) addjournal($loc,$login,$tchar[0].": Р¶РёР·РЅСЊ +".$heal);
+	// РµСЃР»Рё Р»РµС‡РёРј РєСЂРёРјР°, СЃР°РјРё СЃС‚Р°РЅРѕРјСЃСЏ РєСЂРёРјРѕРј
+	if ($to!=$login) if (!$char[9]) if ($tchar[9] || substr($to,0,4)=='n.c.') docrim($loc,$login,"Р»РµС‡РёР» РїСЂРµСЃС‚СѓРїРЅРёРєР°");
 	} 
-}else addjournal($loc,$login,"Некого лечить");
+}else addjournal($loc,$login,"РќРµРєРѕРіРѕ Р»РµС‡РёС‚СЊ");

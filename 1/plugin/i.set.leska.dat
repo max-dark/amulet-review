@@ -1,5 +1,5 @@
 <?php
-// i.log = удочка
+// i.log = СѓРґРѕС‡РєР°
 
 if (intval(preg_replace('/.*'."i.log".':(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]))>0) {
 
@@ -8,18 +8,18 @@ if ($skills[27]>0) {
 	$char[6]=time()+10;
 	$loc_i[$loc][$login]["char"]=implode("|",$char);
 
-	additem($loc,$login,"","i.log",1);		// удаляем 1 ветку
+	additem($loc,$login,"","i.log",1);		// СѓРґР°Р»СЏРµРј 1 РІРµС‚РєСѓ
 
 	if (rand(0,100)<$skills[27]*20) {
-		addjournal($loc,$login,"Вы сделали удочку"); 
-		addjournal($loc,"all",$char[0]." сделал удочку",$login);
+		addjournal($loc,$login,"Р’С‹ СЃРґРµР»Р°Р»Рё СѓРґРѕС‡РєСѓ"); 
+		addjournal($loc,"all",$char[0]." СЃРґРµР»Р°Р» СѓРґРѕС‡РєСѓ",$login);
 		additem($loc,"",$login,"i.fishman",1);
 		additem($loc,$login,"","i.set.leska",1);
 		} else {
-			addjournal($loc,$login,"Вы не смогли сделать удочку"); 
-			addjournal($loc,"all",$char[0]." пытался сделать удочку",$login);
+			addjournal($loc,$login,"Р’С‹ РЅРµ СЃРјРѕРіР»Рё СЃРґРµР»Р°С‚СЊ СѓРґРѕС‡РєСѓ"); 
+			addjournal($loc,"all",$char[0]." РїС‹С‚Р°Р»СЃСЏ СЃРґРµР»Р°С‚СЊ СѓРґРѕС‡РєСѓ",$login);
 			}
 
-} else addjournal($loc,$login,"Ваш навык плотника равен 0, вы не умеете делать удочки");
-} else addjournal($loc,$login,"Чтобы cделать удочку, нужна ветка от дерева");
+} else addjournal($loc,$login,"Р’Р°С€ РЅР°РІС‹Рє РїР»РѕС‚РЅРёРєР° СЂР°РІРµРЅ 0, РІС‹ РЅРµ СѓРјРµРµС‚Рµ РґРµР»Р°С‚СЊ СѓРґРѕС‡РєРё");
+} else addjournal($loc,$login,"Р§С‚РѕР±С‹ cРґРµР»Р°С‚СЊ СѓРґРѕС‡РєСѓ, РЅСѓР¶РЅР° РІРµС‚РєР° РѕС‚ РґРµСЂРµРІР°");
 

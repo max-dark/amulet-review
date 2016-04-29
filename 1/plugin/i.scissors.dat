@@ -1,18 +1,18 @@
 <?php
-// разрезает первое в инвентори платье на 3 бинта, брюки, рубашку и юбку на 2. навык не нужен
+// СЂР°Р·СЂРµР·Р°РµС‚ РїРµСЂРІРѕРµ РІ РёРЅРІРµРЅС‚РѕСЂРё РїР»Р°С‚СЊРµ РЅР° 3 Р±РёРЅС‚Р°, Р±СЂСЋРєРё, СЂСѓР±Р°С€РєСѓ Рё СЋР±РєСѓ РЅР° 2. РЅР°РІС‹Рє РЅРµ РЅСѓР¶РµРЅ
 
 if ($to) {
 	if (file_exists("items/".$to)) $item=explode("|",implode("",file("items/".$to))); else die("err: no items/".$to);
-	if (intval(preg_replace('/.*'.$to.':(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]))<1) msg("У вас нет ".$item[0].", чтобы разрезать его ножницами");
+	if (intval(preg_replace('/.*'.$to.':(\d+).*/',"\\1",$loc_i[$loc][$login]["items"]))<1) msg("РЈ РІР°СЃ РЅРµС‚ ".$item[0].", С‡С‚РѕР±С‹ СЂР°Р·СЂРµР·Р°С‚СЊ РµРіРѕ РЅРѕР¶РЅРёС†Р°РјРё");
 	$c=0;
 	if ($to=='i.polotno') $c=6;  else if (substr($to,0,6)=='i.a.w.') $c=2; else if (substr($to,0,6)=='i.a.r.') $c=3; else if (substr($to,0,6)=='i.a.e.') $c=3; else if (substr($to,0,6)=='i.a.b.') $c=3;
 
 	if ($c>0) {
-		addjournal($loc,$login,"Вы разрезали ".$item[0]." на $c бинта"); 
-		addjournal($loc,"all",$char[0]." разрезал ".$item[0]." на $c бинта",$login);
+		addjournal($loc,$login,"Р’С‹ СЂР°Р·СЂРµР·Р°Р»Рё ".$item[0]." РЅР° $c Р±РёРЅС‚Р°"); 
+		addjournal($loc,"all",$char[0]." СЂР°Р·СЂРµР·Р°Р» ".$item[0]." РЅР° $c Р±РёРЅС‚Р°",$login);
 		additem($loc,$login,"",$to,1);
 		additem($loc,"",$login,"i.bint",$c);
-		}else addjournal($loc,$login,"Ножницами резать можно только ткань или одежду"); 
+		}else addjournal($loc,$login,"РќРѕР¶РЅРёС†Р°РјРё СЂРµР·Р°С‚СЊ РјРѕР¶РЅРѕ С‚РѕР»СЊРєРѕ С‚РєР°РЅСЊ РёР»Рё РѕРґРµР¶РґСѓ"); 
 
-	}else $list='all';	// выведем ниже список целей
+	}else $list='all';	// РІС‹РІРµРґРµРј РЅРёР¶Рµ СЃРїРёСЃРѕРє С†РµР»РµР№
 
