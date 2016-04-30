@@ -61,4 +61,3 @@ if ($eclan) {
     closedir($dh);
     die("no");
 }
-?>
