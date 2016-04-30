@@ -42,7 +42,7 @@ else if (substr($look, 0, 5) == 'i.rr.') {
 } else if (substr($tlook, 0, 5) == 'i.ms_') {
     $stmp .= "После использования этого свитка рядом появится <b>";
     if (strpos(substr($tlook, 5), "_") !== false) {
-        include "f_translit.dat";
+        include "f_translit.inc";
         $stmp .= trans(substr($tlook, strrpos($tlook, "_") + 1));
     } else {
         $npc = "";

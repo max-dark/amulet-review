@@ -69,7 +69,7 @@ if ($do == "say") {
 
     if (!$text) msg("Нет текста для отправки");
     if ($translit) {
-        include "f_translit.dat";
+        include "f_translit.inc";
         $text = trans($text);
     }
     $text = tsrus($text);
@@ -112,7 +112,7 @@ if ($do == "set") {
     if (!$name) msg("Нет имени");
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
     if ($translit) {
-        include "f_translit.dat";
+        include "f_translit.inc";
         $name = trans($name);
         $sweap = trans($sweap);
         $sdesc = trans($sdesc);
@@ -159,7 +159,7 @@ if ($do == "sum") {
     @include("npc/" . $tsum);
     if (!$npc) msg("Существа с id=$tsum не существует");
     if ($tr && ($tsq || $tsn || $tqn)) {
-        include "f_translit.dat";
+        include "f_translit.inc";
         $tsq = trans($tsq);
     }
     if ($tsq) {

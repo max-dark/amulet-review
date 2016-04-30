@@ -98,7 +98,7 @@ if ($msg) {
         if (!$text) msg("Нет текста для отправки");
         if (strpos($text, "/g.php?sid=") !== false) $text = substr($text, 0, strpos($text, "/g.php?sid="));
         if ($translit) {
-            include "f_translit.dat";
+            include "f_translit.inc";
             $text = trans($text);
         }
 

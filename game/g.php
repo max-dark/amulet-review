@@ -190,7 +190,7 @@ if ($cm)
                 if ($m[2])
                     eval('$' . $m[2] . "=\"" . $m[3] . "\";");
     } else
-        include_once "f_macro.dat";
+        include_once "f_macro.inc";
 
 if ($adm && file_exists("f_admin.inc"))
     include_once "f_admin.inc";
@@ -198,11 +198,11 @@ if ($speak || $speak = $cs)
     if (substr($speak, 0, 2) == "i.")
         $take = $speak;
     else
-        include_once "f_speak.dat";
+        include_once "f_speak.inc";
 if ($take)
-    include_once "f_take.dat";
+    include_once "f_take.inc";
 if ($say)
-    include_once "f_say.dat";
+    include_once "f_say.inc";
 if ($ca) {
     $loc_i[$loc][$login]["macrol"] = "ca|$ca||";
     $char[7] = $ca;
@@ -242,9 +242,9 @@ if ($use) {
 if ($look || $look = $ci)
     include_once "f_look.inc"; // после $take и $use
 if ($msg)
-    include_once "f_msg.dat";
+    include_once "f_msg.inc";
 if ($trade)
-    include_once "f_trade.dat";
+    include_once "f_trade.inc";
 if ($cl == "i")
     $cl = "inv";
 if ($cl == "m")
@@ -254,7 +254,7 @@ if ($cl == "p")
 if ($list || $list = $cl)
     include_once "f_list" . $list . ".dat";
 if ($map)
-    include_once "f_map.dat";
+    include_once "f_map.inc";
 
 // MAIN PAGE
 $stmp = "";

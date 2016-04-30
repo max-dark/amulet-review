@@ -60,7 +60,7 @@ if ($clanc) {    // инфа
         if ($ctext == 1) $stmp .= "<br/><input name=\"ctext\" type=\"text\" value=\"$to\"/>\n<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select><anchor>Сохранить<go href=\"$PHP_SELF?sid=$sid\" method=\"post\"><postfield name=\"ctext\" value=\"$(ctext)\"/><postfield name=\"translit\" value=\"$(translit)\"/></go></anchor>";
         else if ($ctext) {
             if ($translit == 1) {
-                include "f_translit.dat";
+                include "f_translit.inc";
                 $ctext = trans($ctext);
             }
             $ctext = preg_replace('/([^ ,!.?А-я#])|\$|&/e', "", $ctext);

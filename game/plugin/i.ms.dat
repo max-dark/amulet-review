@@ -16,7 +16,7 @@ $npc = "";
 $tc = explode("|", $npc["char"]);
 
 if ($name) {
-    include "f_translit.dat";
+    include "f_translit.inc";
     $name = trans($name);
     if (!$name || $name == " ") msg("Неверное имя");
     $tc[0] = $name;

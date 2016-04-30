@@ -121,7 +121,7 @@ if ($id == 'name') {    // расстаться
     if ($new != "") {
         if (strlen($new) > 10) msg("Имя должно быть не длиннее 10 символов");
         if ($tr) {
-            include "f_translit.dat";
+            include "f_translit.inc";
             $new = trans($new);
         }
         $s = $new;
