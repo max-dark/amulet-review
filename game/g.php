@@ -16,13 +16,19 @@ $g_tmp = $tmp;
 $tmp = urldecode($tmp);
 parse_str($tmp);
 
-if (!isset($sid)) $sid = '';
-if (!isset($site)) $site = '';
+if (!isset($sid)) {
+    $sid = '';
+}
+if (!isset($site)) {
+    $site = '';
+}
 
-if ($sid && substr($sid, 0, 2) != "u.")
+if ($sid && substr($sid, 0, 2) != "u.") {
     $sid = "u." . $sid;
-if ((!$sid && !$site) || !$tmp)
+}
+if ((!$sid && !$site) || !$tmp) {
     $site = 'main';
+}
 
 if ($sid) {
     $ts = explode(".", $sid);
@@ -34,14 +40,16 @@ if ($sid) {
 
 if (file_exists("game.dat")) {
     $file_save = fopen("game.dat", "r+");
-    if (!$file_save)
+    if (!$file_save) {
         msg("Ошибка загрузки game.dat");
+    }
     if (flock($file_save, 2)) {
         rewind($file_save);
         $game = fread($file_save, 65535);
         $game = unserialize($game);
-        if (gettype($game) != "array")
+        if (gettype($game) != "array") {
             $game = array();
+        }
     } else {
         $file_save = "";
         msg("Ошибка блокировки game.dat");
@@ -57,19 +65,24 @@ if (file_exists("game.dat")) {
         msg("Ошибка создания game.dat");
     }
 }
-if (get($game, "msg") && $gm != $gm_id)
+if (get($game, "msg") && $gm != $gm_id) {
     msg($game["msg"]);
-if ($site)
+}
+if ($site) {
     include_once "f_site_" . preg_replace('/\W/', "", $site) . ".dat";
-if (time() > $game["lastai"] + 240)
+}
+if (time() > $game["lastai"] + 240) {
     include_once "f_online.inc";
+}
 $sid = explode(".", $sid);
 $login = "u." . strtolower($sid[1]);
-if (!$p)
+if (!$p) {
     $p = $sid[2];
+}
 $sid = substr($login, 2) . "." . $p . "." . chr(rand(97, 122));
-if ($gm == $gm_id)
+if ($gm == $gm_id) {
     $sid .= "&gm=" . $gm_id;
+}
 if (!file_exists("online/" . $login)) {
     $f_c = 1;
     include_once "f_site_connect2.dat";
@@ -81,37 +94,50 @@ if (!isset($loc_i[$loc][$login])) {
     @unlink("online/" . $login);
     msg("Нет данных");
 }
-if ($p != substr($loc_i[$loc][$login]["user"], 0, strpos($loc_i[$loc][$login]["user"],
-        "|"))
-)
+$wtf = $loc_i[$loc][$login]["user"];
+if ($p != substr($wtf, 0, strpos($$wtf, "|"))
+) {
     include_once("f_npass.dat");
+}
+unset($wtf);
 
-if ($loc_i[$loc][$login]["o"])
+if ($loc_i[$loc][$login]["o"]) {
     list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map,
-        $g_smf, $g_ch) = explode("|", $loc_i[$loc][$login]["o"]);
-if ($cnick)
+            $g_smf, $g_ch) = explode("|", $loc_i[$loc][$login]["o"]);
+}
+if ($cnick) {
     include_once "f_cnick.inc";
+}
 if ($go) {
-    if ($loc == "x927x253" && $go == "x902x254")
+    if ($loc == "x927x253" && $go == "x902x254") {
         msg("Стражник: Стой!");
-    if ($go == "x1746x545" && strpos($loc_i[$loc][$login]["items"], "i.q.keykrep") === false)
+    }
+    if ($go == "x1746x545" && strpos($loc_i[$loc][$login]["items"], "i.q.keykrep") === false) {
         msg("Без ключа не пройти");
-    if ($loc == "x216x1099" && $go == "x138x1380")
+    }
+    if ($loc == "x216x1099" && $go == "x138x1380") {
         msg("между вами и входом в шахту встает грозный гном, с гиганским двухсторонним топором, на плече. Явно запрещая вам пройти в нутрь");
-    if ($loc == "x233x2330" && $go == "_begi" && strpos($loc_i[$loc][$login]["items"],
-            "i.q.keykrep1") === false
-    )
+    }
+    if ($loc == "x233x2330" && $go == "_begi" &&
+            strpos($loc_i[$loc][$login]["items"], "i.q.keykrep1") === false
+        ) {
         msg("А вы симпотично смотритесь ;)");
-    if ($loc == "x154x1540" && $go == "x155x1540")
+    }
+    if ($loc == "x154x1540" && $go == "x155x1540") {
         msg("Ангел сверхестественной силой не дает вам двигаться дальше");
-    if ($go == "x393x1167" && ($game["fid"] == $login))
+    }
+    if ($go == "x393x1167" && ($game["fid"] == $login)) {
         msg("С флагом на борт запрещено!");
-    if ($go == "x33x1252" && ($game["fid"] == $login))
+    }
+    if ($go == "x33x1252" && ($game["fid"] == $login)) {
         msg("С флагом на борт запрещено!");
-    if ($go == "x435x1167" && ($game["fid"] == $login))
+    }
+    if ($go == "x435x1167" && ($game["fid"] == $login)) {
         msg("С флагом на борт запрещено!");
-    if ($go == "x287x1252" && ($game["fid"] == $login))
+    }
+    if ($go == "x287x1252" && ($game["fid"] == $login)) {
         msg("С флагом на борт запрещено!");
+    }
 
     $loc_c = explode("|", $loc_tt[$loc]["d"]);
     $b = array_search($go, $loc_c);
@@ -121,23 +147,22 @@ if ($go) {
         $b = 0;
         $char = explode("|", $loc_i[$loc][$login]["char"]);
         $skills = explode("|", $loc_i[$loc][$login]["skills"]);
-        if (rand(1, 100) <= $skills[17] * 8)
-            $hide = 1;
-        else
-            $hide = 0;
+        $hide = (rand(1, 100) <= $skills[17] * 8) ? 1 : 0;
         if ($gal && $char[12]) {
             $loc_c = explode("|", $loc_tt[$go]["d"]);
             $b = array_search($tgo, $loc_c);
         }
-        if (!$b)
+        if (!$b) {
             $tgo = "";
+        }
         addnpc($login, $loc, $go, $tgo, $hide);
         if ($b)
             addnpc($login, $loc, $loc_c[$b + 1], 1, $hide);
     }
 }
-if ($game["fid"] == $login)
+if ($game["fid"] == $login) {
     $game["floc"] = $loc;
+}
 if (!$game["floc"] || isset($loc_tt[$game["floc"]]) && !isset($loc_i[$game["floc"]]["i.flag"]) &&
     !isset($loc_i[$game["floc"]][$game["fid"]])
 ) {
@@ -145,17 +170,21 @@ if (!$game["floc"] || isset($loc_tt[$game["floc"]]) && !isset($loc_i[$game["floc
     $game["floc"] = $loc;
     $game["fid"] = "";
 }
-if ($ctele)
+if ($ctele) {
     include_once "f_castle.inc";
-if ($stele)
+}
+if ($stele) {
     include_once "f_stele.inc";
+}
 
 $loc_c = explode("|", $loc_tt[$loc]["d"]);
-for ($i = 2; $i < count($loc_c); $i += 2)
+for ($i = 2; $i < count($loc_c); $i += 2) {
     loadloc($loc_c[$i + 1]);
+}
 doai($loc);
-for ($i = 2; $i < count($loc_c); $i += 2)
+for ($i = 2; $i < count($loc_c); $i += 2) {
     doai($loc_c[$i + 1]);
+}
 
 if (!isset($loc_i[$loc][$login]) || !$login) {
     @unlink("online/" . $login);
@@ -163,11 +192,13 @@ if (!isset($loc_i[$loc][$login]) || !$login) {
 }
 $char = explode("|", $loc_i[$loc][$login]["char"]);
 
-if ($ce)
+if ($ce) {
     include_once "f_logout.inc";
+}
 $ip2 = $loc_i[$loc][$login]["ip"];
-if ($ip2 && $ip2 != $ip1 && $ip2 != $ip && $gm != $gm_id)
+if ($ip2 && $ip2 != $ip1 && $ip2 != $ip && $gm != $gm_id) {
     include_once("f_nip.dat");
+}
 
 // подгружаемые модули
 if ($cm)
