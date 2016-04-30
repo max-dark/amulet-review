@@ -235,7 +235,6 @@ function GetBadWord($s) // Возвращает первое плохое сло
             $s = substr($s_out, $pos, strlen($bw[$i]) + 10);
 
             return $s;
-            exit;
         }
     }
     return "";
