@@ -101,6 +101,7 @@ function SetData($login, $pass, $data)
     $sqlUpd = "update users set names='$Names', vals='$Values' where nick = '$login'";
     mysql_query($sqlUpd) or die(mysql_error());
     mysql_close();
+    return "";
 }
 
 function GetData($login, $pass, &$data, $srv = 0)
