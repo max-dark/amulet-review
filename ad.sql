@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `vals` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
   PRIMARY KEY (`ind`),
   KEY `nick` (`nick`(10))
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Дамп данных таблицы `users`

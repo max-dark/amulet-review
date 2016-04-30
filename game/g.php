@@ -51,7 +51,7 @@ if (file_exists("game.dat")) {
     if ($file_save && flock($file_save, 2)) {
         $f_all = 1;
         include_once "f_online.inc";
-        include_once "f_blank.dat";
+        include_once "f_blank.inc";
     } else {
         $file_save = "";
         msg("Ошибка создания game.dat");
