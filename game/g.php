@@ -1,6 +1,6 @@
 <?php
 
-require_once('config.ssp'); // настройки игры
+require_once('config.php'); // настройки игры
 require_once('datafunc.php'); // функции игры
 require_once('game_function.php'); // игровые функции
 
@@ -50,7 +50,7 @@ if (file_exists("game.dat")) {
     $file_save = fopen("game.dat", "w+");
     if ($file_save && flock($file_save, 2)) {
         $f_all = 1;
-        include_once "f_online.dat";
+        include_once "f_online.inc";
         include_once "f_blank.dat";
     } else {
         $file_save = "";
@@ -62,7 +62,7 @@ if (get($game, "msg") && $gm != $gm_id)
 if ($site)
     include_once "f_site_" . preg_replace('/\W/', "", $site) . ".dat";
 if (time() > $game["lastai"] + 240)
-    include_once "f_online.dat";
+    include_once "f_online.inc";
 $sid = explode(".", $sid);
 $login = "u." . strtolower($sid[1]);
 if (!$p)
@@ -192,8 +192,8 @@ if ($cm)
     } else
         include_once "f_macro.dat";
 
-if ($adm && file_exists("f_admin.dat"))
-    include_once "f_admin.dat";
+if ($adm && file_exists("f_admin.inc"))
+    include_once "f_admin.inc";
 if ($speak || $speak = $cs)
     if (substr($speak, 0, 2) == "i.")
         $take = $speak;

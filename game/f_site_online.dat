@@ -1,5 +1,5 @@
 <?php
-if (time() > $game["lastai"] + 240) include "f_online.dat";    // обновим список
+if (time() > $game["lastai"] + 240) include "f_online.inc";    // обновим список
 $g_list = 10;
 $stmp = "";
 if (!$start) $start = 0;

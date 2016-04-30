@@ -1,7 +1,7 @@
 <?php
 
 $NOT_SET = "NOT_SET";
-require("antimat.ssp"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)
+require("antimat.inc"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)
 
 function InitParam($N, $V)
 {

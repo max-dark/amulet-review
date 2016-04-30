@@ -247,7 +247,7 @@ function doai($i)
             }
     }
     if ($locai[1] == 1 && count($crim) > 0 && !$guard)
-        require "f_addguard.dat";
+        require "f_addguard.inc";
 
     // по всем объектам
     if ($loc_i[$i])
@@ -486,41 +486,41 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
 
 function rndname()
 {
-    require "f_rndname.dat";
+    require "f_rndname.inc";
     return $stmp;
 }
 
 function ressurect($loc, $to)
 {
-    require "f_ressurect.dat";
+    require "f_ressurect.inc";
 }
 
 function docrim($loc, $login, $title = "преступник")
 {
-    require "f_docrim.dat";
+    require "f_docrim.inc";
 }
 
 function calcparam($loc, $login)
 {
     if ($login != "u.qv")
-        require "f_calcparam.dat";
+        require "f_calcparam.inc";
 }
 
 function additem($loc, $from, $to, $item, $count = 1, $ft = "items", $tt = "items", $journal =
 1, $time_delete = -1, $msg = 0)
 {
-    require "f_additem.dat";
+    require "f_additem.inc";
     return $res;
 }
 
 function addtimer($loct, $curr, $time, $text = "old", $delete = 1)
 {
-    require "f_addtimer.dat";
+    require "f_addtimer.inc";
 }
 
 function addexp($loc, $to, $exp)
 {
-    require "f_addexp.dat";
+    require "f_addexp.inc";
 }
 
 function calcser($s)

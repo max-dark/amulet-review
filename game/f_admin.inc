@@ -94,7 +94,7 @@ if ($login == $g_admin || $gm == $gm_id) {
     }
     if ($adm == 'blank') {
         $f_all = 1;
-        include "f_online.dat";
+        include "f_online.inc";
         include "f_blank.dat";
         msg("Мир обновлен, все игроки переведены в оффлайн.");
     }
