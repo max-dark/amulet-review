@@ -8,10 +8,12 @@ fclose($file);
 
 $dh = opendir("loc_i/");
 //	while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && $fname!=".htaccess" && $fname!="1.htaccess") {
-while (($fname = readdir($dh)) !== false) if ($fname != "." && $fname != ".." && $fname != ".htaccess" && $fname != "1.htaccess" && substr($fname, 0, 2) != "c.") {
-    loadloc($fname);
-    $loc_i[$fname] = array();    // очищаем все предметы и таймеры, ниже назначим новые
-    unset($loc_t[$fname]);
+while (($fname = readdir($dh)) !== false) {
+    if ($fname != "." && $fname != ".." && $fname != ".htaccess" && $fname != "1.htaccess" && substr($fname, 0, 2) != "c.") {
+        loadloc($fname);
+        $loc_i[$fname] = array();    // очищаем все предметы и таймеры, ниже назначим новые
+        unset($loc_t[$fname]);
+    }
 }
 closedir($dh);
 
