@@ -8,5 +8,3 @@ $stmp = "<p align=\"center\">
 </p><p><anchor>Назад<prev/></anchor>
 ";
 msg($stmp, "Статистика", 0, 'none');
-
-?>

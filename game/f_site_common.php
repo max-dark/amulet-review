@@ -14,4 +14,3 @@ if ($login)
         die("no");
 if ($count)
     die(@implode("", @file("count.dat")));
-?>

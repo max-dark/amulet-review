@@ -408,5 +408,3 @@ if (strpos($loc_c[0], "*") !== false)
     $loc_c[0] = substr($loc_c[0], 0, strpos($loc_c[0], "*"));
 msg($stmp, $loc_c[0], 1, 'main');
 exit;
-
-?>

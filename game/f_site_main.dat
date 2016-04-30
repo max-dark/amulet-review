@@ -17,5 +17,3 @@ $stmp .= "</a>
 <br/><a href='g.php?site=main3&r=" . rand(1, 99) . "'>Статистика</a>
 <br/><a href='../f_faq.php?'>Помощь</a>";
 msg($stmp, $GAME_NAME, 0, 'none');
-
-?>

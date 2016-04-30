@@ -23,5 +23,3 @@ $stmp[$start - 1] .= "<br/></p></card><card id=\"page\" title=\"Перейти\"
 $stmp = $stmp[$start - 1] . "<br/><anchor>[Назад]<prev/></anchor>";
 
 msg($stmp);
-
-?>

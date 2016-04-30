@@ -76,5 +76,3 @@ if (file_exists($fntmp)) {
 
 msg("Регистрация завершена<br/><a href=\"f_connect.php?login=$nn&p=$pass\">Начать игру</a>",
     "Регистрация", 0, 'none');
-
-?>

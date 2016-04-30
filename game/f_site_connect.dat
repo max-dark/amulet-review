@@ -50,5 +50,3 @@ include_once('f_site_connect2.dat');
 if (filesize("online/" . $login) == 1 || strpos($s, "cnick=1") === false)
     @unlink("online/" . $login);
 exit;
-
-?>

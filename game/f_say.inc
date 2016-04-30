@@ -40,4 +40,3 @@ else
                 addjournal($loc, $i, $char[0] . " говорит: " . $stmp);
             }
         }
-?>

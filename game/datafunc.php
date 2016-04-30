@@ -160,5 +160,3 @@ function SetUser($login, $oldpass, $newpass)
     mysql_close();
     return "";
 }
-
-?>

@@ -239,5 +239,3 @@ function GetBadWord($s) // Возвращает первое плохое сло
     }
     return "";
 }
-
-?>

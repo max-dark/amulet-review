@@ -527,5 +527,3 @@ function calcser($s)
 {
     return "s:" . strlen($s) . ":\"" . $s . "\";";
 }
-
-?>
