@@ -90,7 +90,7 @@ if ($loc_i[$loc][$login]["o"])
     list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map,
         $g_smf, $g_ch) = explode("|", $loc_i[$loc][$login]["o"]);
 if ($cnick)
-    include_once "f_cnick.dat";
+    include_once "f_cnick.inc";
 if ($go) {
     if ($loc == "x927x253" && $go == "x902x254")
         msg("Стражник: Стой!");
@@ -146,9 +146,9 @@ if (!$game["floc"] || isset($loc_tt[$game["floc"]]) && !isset($loc_i[$game["floc
     $game["fid"] = "";
 }
 if ($ctele)
-    include_once "f_castle.dat";
+    include_once "f_castle.inc";
 if ($stele)
-    include_once "f_stele.dat";
+    include_once "f_stele.inc";
 
 $loc_c = explode("|", $loc_tt[$loc]["d"]);
 for ($i = 2; $i < count($loc_c); $i += 2)
@@ -164,7 +164,7 @@ if (!isset($loc_i[$loc][$login]) || !$login) {
 $char = explode("|", $loc_i[$loc][$login]["char"]);
 
 if ($ce)
-    include_once "f_logout.dat";
+    include_once "f_logout.inc";
 $ip2 = $loc_i[$loc][$login]["ip"];
 if ($ip2 && $ip2 != $ip1 && $ip2 != $ip && $gm != $gm_id)
     include_once("f_nip.dat");
@@ -211,7 +211,7 @@ if ($ca) {
     $char = explode("|", $loc_i[$loc][$login]["char"]);
 }
 if ($drop)
-    include_once "f_drop.dat";
+    include_once "f_drop.inc";
 if ($use) {
     $loc_i[$loc][$login]["macrol"] = "use|$use|to|$to";
     if ($char[6] - time() > 120)
@@ -240,7 +240,7 @@ if ($use) {
         addjournal($loc, $login, "Вы должны отдохнуть " . round($char[6] - time() + 1) . " сек");
 } // раньше $list
 if ($look || $look = $ci)
-    include_once "f_look.dat"; // после $take и $use
+    include_once "f_look.inc"; // после $take и $use
 if ($msg)
     include_once "f_msg.dat";
 if ($trade)
@@ -280,7 +280,7 @@ if ($loc_i[$loc][$login]["def"]) {
         $stmp .= "<br/>" . $tdef[1] . " (" . ($tdef[2] - time()) . " сек)";
 }
 if (substr($loc, 3) == ".in" || substr($loc, 3) == ".gate")
-    include_once "f_castle.dat";
+    include_once "f_castle.inc";
 
 // SOUNDS
 if (!$g_sounds) {

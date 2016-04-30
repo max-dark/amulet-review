@@ -332,7 +332,7 @@ function doai($i)
                         if ($char[7] && !$owner[1] && !isset($loc_i[$i][$char[7]])) {
                             $b = 0;
                             if (substr($j, 0, 4) != "n.o." && $j != "n.a.b.jarpt.1")
-                                require "f_goto.dat";
+                                require "f_goto.inc";
                             if ($b)
                                 continue;
                             else

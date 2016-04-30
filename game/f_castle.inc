@@ -35,7 +35,7 @@ if ($ctele) {
     return;
 }
 if (substr($loc, 3, 3) == ".in") {
-    include "f_castlein.dat";
+    include "f_castlein.inc";
     return;
 }
 
