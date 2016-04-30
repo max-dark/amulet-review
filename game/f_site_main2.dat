@@ -1,10 +1,5 @@
 <?php
-$stmp = "<p align=\"center\">
-<a href=\"/1/pay.php?login=$nn\">Пополнить баланс</a>
-<br/><a href=\"/1/gamereg.php?log=old&amp;nn=$nn&amp;pass=$pass\">Сменить пароль</a>
-<br/><a href=\"/1/sendpass.php?nn=$nn\">Я забыл пароль</a>
-</p>
-<p><a href=\"$PHP_SELF\">Назад</a>
+$stmp = ">Назад</a>
 ";
 if ($pi) {
     require($GLOBALS["DOCUMENT_ROOT"] . "/javainc.ssp");
