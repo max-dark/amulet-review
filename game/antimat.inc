@@ -213,7 +213,7 @@ function GetBadWord($s) // Возвращает первое плохое сло
     $s = strtr($s, 'a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9',
         'ааббцвгдежззийклмноопрсстуфхххцчшуяя');
     // Удаление правильных слов
-    for ($i = 0; $i < Count($gw); $i++) {
+    for ($i = 0; $i < count($gw); $i++) {
         $pos = strpos($s, $gw[$i]);
         while ($pos !== false) {
             $s = substr($s, 0, $pos) . substr($s, $pos + strlen($gw[$i]));
@@ -225,7 +225,7 @@ function GetBadWord($s) // Возвращает первое плохое сло
     $s = " $s";
     $s_out = " $s_out";
 
-    for ($i = 0; $i < Count($bw); $i++) {
+    for ($i = 0; $i < count($bw); $i++) {
         $pos = strpos($s, $bw[$i]);
         if ($pos !== false) {
             $pos = $pos - 5;
