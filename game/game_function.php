@@ -379,10 +379,11 @@ function doai($i)
 function attack($loc, $from, $to, $magic = '', $answer = 1, $rmagic = 0, $priem = "", $ptitle =
 "")
 {
-    global $attackf;
-    if (!$attackf)
-        $attackf = implode('', file("f_attackf.dat"));
-    eval($attackf);
+//    global $attackf;
+//    if (!$attackf)
+//        $attackf = implode('', file("f_attackf.inc"));
+//    eval($attackf);
+    require 'f_attackf.inc';
 }
 
 function loadloc($loc)
