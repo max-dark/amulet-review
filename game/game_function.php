@@ -1,5 +1,13 @@
 <?php
+require_once('modules/globals.php');
 
+/**
+ * Получить значение по ключу
+ * возвращает false, если ключа в массиве нет
+ * @param $arr array Массив
+ * @param $key mixed Ключ
+ * @return mixed
+ */
 function get($arr, $key)
 {
     return (
@@ -52,7 +60,7 @@ function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
     global $loc_i, $login;
     if (!$loc_i[$loc])
         return;
-    $msg = preg_replace("/ \*.*?\*/", "", $msg);
+    $msg = preg_replace('/ \*.*?\*/', '', $msg);
     foreach ($loc_i[$loc] as $i => $val)
         if (substr($i, 0, 2) == "u." && ($i == $to || $to == "all") && $i != $no1 && $i != $no2) {
             $loc_i[$loc][$i]["journal"] .= $cont . $msg;

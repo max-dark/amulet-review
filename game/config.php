@@ -1,5 +1,5 @@
 <?php
-
+require_once('modules/globals.php');
 header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
@@ -16,8 +16,8 @@ $user = 'game'; // пользователь базы
 $dbpass = 'pass';     // пароль пользователя
 $dbname = 'amulet'; // имя базы
 //=========================
-
-$SERVER_URL = 'http://vostanie.hostik.in/'; //путь к игре
+/* @var string $SERVER_URL урл*/
+$SERVER_URL = 'http://ip6-localhost:8000/'; //путь к игре
 $PHP_SELF = 'g.php'; //   мотор игры
 $GAME_NAME = 'Моя игра';
 $g_max = 100; //   максимум игроков

@@ -1,5 +1,5 @@
 <?php
-
+require_once('modules/globals.php');
 require_once('config.php'); // настройки игры
 require_once('datafunc.php'); // функции игры
 require_once('game_function.php'); // игровые функции
@@ -16,14 +16,11 @@ $g_tmp = $tmp;
 $tmp = urldecode($tmp);
 parse_str($tmp);
 
-if (!isset($sid)) {
-    $sid = '';
-}
-if (!isset($site)) {
-    $site = '';
-}
-
+/*
+ * Если индификатор пользователя установлен и не начинается с префикса 'u.'
+ * */
 if ($sid && substr($sid, 0, 2) != "u.") {
+    // добавить префикс
     $sid = "u." . $sid;
 }
 if ((!$sid && !$site) || !$tmp) {
@@ -37,8 +34,9 @@ if ($sid) {
         usleep(300000); // задержка выполнения скрипта на 0.3 секунды
     }
 }
-
+// если есть сохраненное состояние
 if (file_exists("game.dat")) {
+    // загрузить состояние
     $file_save = fopen("game.dat", "r+");
     if (!$file_save) {
         msg("Ошибка загрузки game.dat");
@@ -55,6 +53,7 @@ if (file_exists("game.dat")) {
         msg("Ошибка блокировки game.dat");
     }
 } else {
+    // создать файл состояния
     $file_save = fopen("game.dat", "w+");
     if ($file_save && flock($file_save, 2)) {
         $f_all = 1;

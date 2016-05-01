@@ -1,4 +1,5 @@
 <?php
+require_once('modules/globals.php');
 // карта, передается map=x123x456 и для картики img=1 bw=1|2|3, f=x123x456 место флага
 $QUERY_STRING = (
 array_key_exists('QUERY_STRING', $_SERVER) ?

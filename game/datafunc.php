@@ -1,5 +1,5 @@
 <?php
-
+require_once('modules/globals.php');
 $NOT_SET = "NOT_SET";
 require("antimat.inc"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)
 
