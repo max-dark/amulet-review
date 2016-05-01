@@ -54,7 +54,7 @@ if ($cnt_get) {
     for ($i = 0; $i < $cnt_get; $i++) {
         if (!$vals[$i])
             continue;
-        if (!preg_match("|^[-a-z0-9_\.]+$|i", $vals[$i]))
+        if (!preg_match('|^[-a-z0-9_\.]+$|i', $vals[$i]))
             exit('Вы используете запрещенные символы ' . $v[0]);
         eval('$' . $key[$i] . '="' . $vals[$i] . '";');
     }
