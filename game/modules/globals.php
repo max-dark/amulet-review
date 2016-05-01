@@ -18,3 +18,17 @@ $gm = '';
 $game = [];
 /** @var array $char Массив характеристик персонажа */
 $char = [];
+/** @var string $gwanted */
+$gwanted = '';
+/** @var string $swanted */
+$swanted = '';
+/** @var string $gclan */
+$gclan = '';
+/** @var string $inclan */
+$inclan = '';
+/** @var string $dclan */
+$dclan = '';
+/** @var string $sclan */
+$sclan = '';
+/** @var string $eclan */
+$eclan = '';

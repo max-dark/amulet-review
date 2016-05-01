@@ -1,5 +1,5 @@
 <?php
-
+require_once ('game/modules/globals.php');
 // список у Санчеса
 if ($gwanted)
     die(@implode("", @file("wanted.dat")));
@@ -13,7 +13,7 @@ if ($swanted) {
 
 // кланы
 
-if ($gclan) {
+if ($gclan) { // вывод клана
     if (!file_exists("clans/" . $gclan))
         die("none");
     else
@@ -45,7 +45,7 @@ if ($sclan) {
     } else
         die("err:");
 }
-if ($dclan) {
+if ($dclan) { // удалить клан
     unlink("clans/" . $dclan);
     die("ok:");
 }
