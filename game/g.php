@@ -103,19 +103,19 @@ if (!isset($loc_i[$loc][$login])) {
     @unlink("online/" . $login);
     msg("Нет данных");
 }
-$wtf = $loc_i[$loc][$login]["user"];
-if ($p != substr($wtf, 0, strpos($$wtf, "|"))
+$wtf_user = $loc_i[$loc][$login]["user"];
+if ($p != substr($wtf_user, 0, strpos($wtf_user, "|"))
 ) {
     include_once("f_npass.dat");
 }
-unset($wtf);
+unset($wtf_user);
 
-$wtf_o = $loc_i[$loc][$login]["o"];
-if ($wtf_o) {
+$wtf_options = $loc_i[$loc][$login]["o"];
+if ($wtf_options) {
     list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map,
-            $g_smf, $g_ch) = explode("|", $wtf_o);
+            $g_smf, $g_ch) = explode("|", $wtf_options);
 }
-unset($wtf_o);
+unset($wtf_options);
 
 if ($cnick) { // перейти к настрийкам
     include_once "f_cnick.inc";
