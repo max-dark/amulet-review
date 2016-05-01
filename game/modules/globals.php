@@ -8,7 +8,7 @@
 $adm = '';
 /** @var string $login Имя пользователя */
 $login = '';
-/** @var string $sid Индификатор пользователя в формате префикс.ник.рандом */
+/** @var string $sid Индификатор пользователя в формате login.password.randchar */
 $sid = '';
 /** @var string $site Страница для  перехода */
 $site = '';
