@@ -1,7 +1,7 @@
 <?php
 // кастинг заклинаний && $login!="u.qv"  && substr($use,0,4)=='i.r.'
 $tet = substr($use, 0, 4);
-$macr = explode("|", $loc_i[$loc][$login][macrol]);
+$macr = explode("|", $loc_i[$loc][$login]['macrol']);
 if ((strpos($loc_i[$loc][$login]["items"], "i.magicbook:") === false) && $login != "u.qv" && substr($use, 6, 8) != 'godanger' && substr($use, 4, 4) != 'holy' && substr($macr[1], 0, 2) != 'i.' && (substr($use, 0, 4) == 'm.w.' || substr($use, 0, 4) == 'm.s.'))
     msg("Чтобы использовать заклинание, у вас в  рюкзаке должна быть книга магии! $macr[1]  ");
 //if (substr($use,0,4)=="i.r.") msg("ок");
