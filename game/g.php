@@ -23,13 +23,17 @@ if ($sid && substr($sid, 0, 2) != "u.") {
     // добавить префикс
     $sid = "u." . $sid;
 }
-if ((!$sid && !$site) || !$tmp) {
+if ((!$sid && !$site) // если не заданы логин и страница перехода
+    || !$tmp // или строка запроса пуста
+    ) {
+    // установить страницу перехода на форму логина
     $site = 'main';
 }
-
+// если задан пользователь
 if ($sid) {
     $ts = explode(".", $sid);
     $tl = "u." . strtolower($ts[1]);
+    // и этот пользователь в сети...
     if (file_exists("online/" . $tl)) {
         usleep(300000); // задержка выполнения скрипта на 0.3 секунды
     }
@@ -64,13 +68,19 @@ if (file_exists("game.dat")) {
         msg("Ошибка создания game.dat");
     }
 }
+// если игра на обслуживании(?) и мы не админ
 if (get($game, "msg") && $gm != $gm_id) {
+    // вывести сообщение
     msg($game["msg"]);
 }
+// если задана страница перехода
 if ($site) {
+    // выполнить ее
     include_once "f_site_" . preg_replace('/\W/', "", $site) . ".dat";
 }
+// Если время вышло
 if (time() > $game["lastai"] + 240) {
+    // провести зачистку
     include_once "f_online.inc";
 }
 $sid = explode(".", $sid);
@@ -100,11 +110,14 @@ if ($p != substr($wtf, 0, strpos($$wtf, "|"))
 }
 unset($wtf);
 
-if ($loc_i[$loc][$login]["o"]) {
+$wtf_o = $loc_i[$loc][$login]["o"];
+if ($wtf_o) {
     list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map,
-            $g_smf, $g_ch) = explode("|", $loc_i[$loc][$login]["o"]);
+            $g_smf, $g_ch) = explode("|", $wtf_o);
 }
-if ($cnick) {
+unset($wtf_o);
+
+if ($cnick) { // перейти к настрийкам
     include_once "f_cnick.inc";
 }
 if ($go) {
