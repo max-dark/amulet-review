@@ -76,10 +76,14 @@ if ($tfound == 2) {
         $loc = "x1229x582";
     if (substr($loc, 0, 2) == "c.")
         $loc = substr($loc, 0, 4) . "in";
-    if ($loc == "x1087x543" || $loc == "x1080x539" || $loc == "x1087x528" || $loc ==
-        "x1080x532"
-    )
+    // если последняя лока была одной из комнат в таверне
+    if (in_array($loc, [
+        "x1087x543", "x1080x539",
+        "x1087x528", "x1080x532"
+        ])) {
+        // выйти в коридор
         $loc = "x1095x532";
+    }
     $auser["journal"] = "";
     $auser["magic"] = str_replace("m.n", "m.roj", $auser["magic"]);
     $auser["items"] = str_replace("i.ms_n.a.b.jarpt", "xren_vam", $auser["items"]);
