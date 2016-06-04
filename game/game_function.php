@@ -218,11 +218,11 @@ function doai($i)
         foreach ($loc_t[$i] as $j => $val)
             if (time() > $j) {
                 if (gettype($loc_t[$i][$j]) == "array" || substr($loc_t[$i][$j], 0, 2) == "n.") {
-                    require "f_timernpc.dat";
+                    require "f_timernpc.inc";
                     continue;
                 }
                 if (substr($loc_t[$i][$j], 0, 2) == "i.") {
-                    require "f_timeritem.dat";
+                    require "f_timeritem.inc";
                     continue;
                 }
                 $loct = $i;
