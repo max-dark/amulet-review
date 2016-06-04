@@ -55,6 +55,15 @@ function savegame()
     @ignore_user_abort(false);
 }
 
+/**
+ * @brief Отправка сообщения
+ * @param string $loc локация
+ * @param string $to  кому сообщение. all - отправка всем
+ * @param string $msg сообщение
+ * @param string $no1 исключение из доставки
+ * @param string $no2 исключение из доставки
+ * @param string $cont разделитель
+ */
 function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
 {
     global $loc_i, $login;
