@@ -4,7 +4,7 @@ global $g_destroy, $loc_i;
 if ($count != "count") {
     $count = intval($count);
     if (gettype($count) != "integer" || $count == 0) {
-        msg("Количество равно " . $count);
+        if ($msg) msg("Количество равно " . $count);
         if ($journal && $to) addjournal($loc, $to, "Количество равно " . $count);
         $res = 0;
         return 0;
