@@ -185,10 +185,13 @@ if ($stele) {
     include_once "f_stele.inc";
 }
 
+// получаем список окружающих локаций локаций
 $loc_c = explode("|", $loc_tt[$loc]["d"]);
+// подгружаем локи
 for ($i = 2; $i < count($loc_c); $i += 2) {
     loadloc($loc_c[$i + 1]);
 }
+// запускаем обновление в текущей и соседних
 doai($loc);
 for ($i = 2; $i < count($loc_c); $i += 2) {
     doai($loc_c[$i + 1]);
