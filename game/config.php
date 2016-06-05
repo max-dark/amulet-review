@@ -16,7 +16,7 @@ $user = 'game'; // пользователь базы
 $dbpass = 'pass';     // пароль пользователя
 $dbname = 'amulet'; // имя базы
 //=========================
-/* @var string $SERVER_URL урл*/
+/** @var string $SERVER_URL урл*/
 $SERVER_URL = 'http://ip6-localhost:8000/'; //путь к игре
 $PHP_SELF = 'g.php'; //   мотор игры
 $GAME_NAME = 'Моя игра';
@@ -43,8 +43,11 @@ $g_attr_one = 5;
 $g_skills = 50;
 $g_skills_one = 5;
 $g_ch = 0;
+/** @var array $loc_i предметы в текущей локе */
 $loc_i = array();
+/** @var array $loc_t таймеры в текущей локе */
 $loc_t = array();
+/** @var array $loc_tt текущая локация */
 $loc_tt = array();
 //==================================ПЕРЕХОД В REGISTER_GLOBALS OFF!!!!!!
 $cnt_get = count($_GET);
