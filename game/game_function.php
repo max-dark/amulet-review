@@ -85,6 +85,17 @@ function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
         }
 }
 
+/** Выводит страницу пользователю
+ * Требует писец как много глобальных значений
+ * Вызывает savegame
+ * Завершает выполнение скрипта(exit в конце)
+ * @param string $msg Сообщение
+ * @param string $title название игры
+ * @param int $journal флаг, что нужно выводить журнал
+ * @param string $menu тип меню. возможные значения (""|none|main|to)
+ * @param string $vname имя переменной для вставки в страницу
+ * @param string $vval значение переменной vname
+ */
 function msg($msg, $title = 'Амулет Дракона', $journal = 1, $menu = '', $vname = '', $vval =
 '')
 { //menu=""|none|main|to
