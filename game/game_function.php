@@ -565,6 +565,10 @@ function docrim($loc, $login, $title = "преступник")
     require "f_docrim.inc";
 }
 
+/**Пересчет характеристик персонажа
+ * @param string $loc локация
+ * @param string $login персонаж
+ */
 function calcparam($loc, $login)
 {
     if ($login != "u.qv")
