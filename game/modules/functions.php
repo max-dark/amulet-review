@@ -2,9 +2,9 @@
 /**
  * Вызывает $callback для каждого элемента(кроме списка $exclude) в $dirname
  *
- * @param $dirname string directory for scan
- * @param $callback callable callback
- * @param $exclude array list to exclude
+ * @param string $dirname directory for scan
+ * @param callable $callback callback
+ * @param array $exclude list to exclude
  */
 function dir_foreach($dirname, $callback, $exclude = []) {
     $dh = opendir($dirname);
