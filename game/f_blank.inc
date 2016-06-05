@@ -1,4 +1,20 @@
 <?php
+
+/**
+ * @param string $fname
+ * @return bool
+ */
+function is_castle($fname)
+{
+    return substr($fname, 0, 2) == "c.";
+}
+
+$excluded = [
+    ".", "..",
+    ".htaccess", "1.htaccess"
+];
+$skip_castles = isset($creset);
+
 // мир по умолчанию
 
 $game = array("lastai" => 1);
@@ -7,13 +23,15 @@ fputs($file, serialize($game));
 fclose($file);
 
 $dh = opendir("loc_i/");
-//	while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && $fname!=".htaccess" && $fname!="1.htaccess") {
+
 while (($fname = readdir($dh)) !== false) {
-    if ($fname != "." && $fname != ".." && $fname != ".htaccess" && $fname != "1.htaccess" && substr($fname, 0, 2) != "c.") {
-        loadloc($fname);
-        $loc_i[$fname] = array();    // очищаем все предметы и таймеры, ниже назначим новые
-        unset($loc_t[$fname]);
+    if (in_array($fname, $excluded)) continue;
+    if (is_castle($fname)) {
+        if ($skip_castles) continue;
     }
+    loadloc($fname);
+    $loc_i[$fname] = array();    // очищаем все предметы и таймеры, ниже назначим новые
+    unset($loc_t[$fname]);
 }
 closedir($dh);
 
