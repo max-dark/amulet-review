@@ -457,6 +457,13 @@ function loadloc($loc)
     }
 }
 
+/** Перемещение НПС(?)
+ * @param string $id индификатор
+ * @param string $from откуда
+ * @param string $to куда
+ * @param int $gal флаг перемещения галопом
+ * @param int $hide флаг скрытного перемещения
+ */
 function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
 {
     global $loc_i, $loc, $login, $page_d, $loc_tt, $g_j2go, $game;
