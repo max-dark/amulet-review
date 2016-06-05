@@ -607,6 +607,11 @@ function addtimer($loct, $curr, $time, $text = "old", $delete = 1)
     require "f_addtimer.inc";
 }
 
+/**Добавляет экспу
+ * @param string $loc локация
+ * @param string $to логин
+ * @param int $exp количество
+ */
 function addexp($loc, $to, $exp)
 {
     require "f_addexp.inc";
