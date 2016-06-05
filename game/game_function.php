@@ -617,6 +617,10 @@ function addexp($loc, $to, $exp)
     require "f_addexp.inc";
 }
 
+/**Вспомогательная функция для перерасчета длины строк в файлах состояния
+ * @param string $s строка для перерачета
+ * @return string
+ */
 function calcser($s)
 {
     return "s:" . strlen($s) . ":\"" . $s . "\";";
