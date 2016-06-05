@@ -232,6 +232,9 @@ function msg($msg, $title = 'Амулет Дракона', $journal = 1, $menu =
     exit;
 }
 
+/**"ИИ". Обновление состояния в локации
+ * @param string $i локация
+ */
 function doai($i)
 { // искусственный интеллект, проверяем локацию с именем $i
     global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_list, $start, $g_destroy, $g_crim, $g_logout,
