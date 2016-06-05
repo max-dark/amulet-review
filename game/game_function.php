@@ -502,6 +502,9 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
     }
 }
 
+/**Генерация случайного имени
+ * @return string
+ */
 function rndname()
 {
     require "f_rndname.inc";
