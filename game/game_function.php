@@ -406,6 +406,16 @@ function doai($i)
             }
 }
 
+/**
+ * @param string $loc Локация
+ * @param string $from кто атакует
+ * @param string $to кого атакуют
+ * @param string $magic тип магии(?)
+ * @param int $answer флаг что атака в ответ(?)
+ * @param int $rmagic хз
+ * @param string $priem тип приема(?)
+ * @param string $ptitle название приема(?)
+ */
 function attack($loc, $from, $to, $magic = '', $answer = 1, $rmagic = 0, $priem = "", $ptitle =
 "")
 {
