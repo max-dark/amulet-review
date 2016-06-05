@@ -555,6 +555,11 @@ function ressurect($loc, $to)
     require "f_ressurect.inc";
 }
 
+/**Превращает персонажа в преступника
+ * @param string $loc локация
+ * @param string $login логин
+ * @param string $title "звание"
+ */
 function docrim($loc, $login, $title = "преступник")
 {
     require "f_docrim.inc";
