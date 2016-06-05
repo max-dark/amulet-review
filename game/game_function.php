@@ -575,6 +575,19 @@ function calcparam($loc, $login)
         require "f_calcparam.inc";
 }
 
+/** Добавление вещи в инвентарь
+ * @param string $loc локация
+ * @param string $from от кого
+ * @param string $to кому
+ * @param string $item что
+ * @param mixed $count количество либо 'count' для авторасчета
+ * @param string $ft откуда брать items|bank
+ * @param string $tt куда добавлять  items|bank
+ * @param int $journal флаг занесения в журнал
+ * @param int $time_delete время действия
+ * @param int $msg флаг вывода сообщения
+ * @return int флаг успеха(?)
+ */
 function additem($loc, $from, $to, $item, $count = 1, $ft = "items", $tt = "items", $journal =
 1, $time_delete = -1, $msg = 0)
 {
