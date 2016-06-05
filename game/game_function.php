@@ -395,6 +395,10 @@ function attack($loc, $from, $to, $magic = '', $answer = 1, $rmagic = 0, $priem 
     require 'f_attackf.inc';
 }
 
+/**Подгружает локацию $loc
+ * ВНИМАНИЕ: изменяет глобальные переменные $loc_i, $loc_t, $loc_tt
+ * @param string $loc
+ */
 function loadloc($loc)
 {
     global $loc_i, $loc_t, $loc_tt;
