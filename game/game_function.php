@@ -546,6 +546,10 @@ function rndname()
     return $stmp;
 }
 
+/** Воскрешение персонажа
+ * @param string $loc локация
+ * @param string $to кого
+ */
 function ressurect($loc, $to)
 {
     require "f_ressurect.inc";
