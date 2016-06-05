@@ -13,7 +13,7 @@ $excluded = [
     ".", "..",
     ".htaccess", "1.htaccess"
 ];
-$skip_castles = isset($creset);
+$skip_castles = !isset($creset);
 
 // мир по умолчанию
 
