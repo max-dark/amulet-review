@@ -16,12 +16,16 @@ function get($arr, $key)
     );
 }
 
+/** Запись состояния
+ *
+ */
 function savegame()
 {
     global $game, $file_save, $login, $loc, $loc_i, $loc_t, $loc_tt;
     @ignore_user_abort(true);
     @set_time_limit(30);
     if ($file_save) {
+        // сохраняем измененные локации
         foreach ($loc_tt as $i => $val) {
             $arr = array();
             $arr["d"] = $loc_tt[$i]["d"];
@@ -37,6 +41,7 @@ function savegame()
                 }
             }
         }
+        // сохраняем локацию пользователя
         if ($login && $loc && isset($loc_i[$loc][$login])) {
             $file = fopen("online/" . $login, "w");
             if ($file !== false) {
@@ -44,8 +49,10 @@ function savegame()
                 fclose($file);
             }
         }
+        // обновление глобального состояния
         rewind($file_save);
         ftruncate($file_save, 0);
+        // обновить кому принадлежит флаг
         if ($login && $game["fid"] == $login)
             $game["floc"] = $loc;
         fputs($file_save, serialize($game));
