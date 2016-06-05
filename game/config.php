@@ -8,41 +8,71 @@ header("Content-type:text/vnd.wap.wml;charset=utf-8");
 //header( "Content-type:text/vnd.wap.wml" );
 echo "<?xml version='1.0'?><!DOCTYPE wml PUBLIC '-//WAPFORUM//DTD WML 1.3//EN' 'http://www.wapforum.org/DTD/wml13.dtd'>";
 
+/** @var int $starttime */
 $starttime = microtime(1);
 
 //=========================
+/** @var string $server */
 $server = 'localhost';
+/** @var string $user */
 $user = 'game'; // пользователь базы
+/** @var string $dbpass */
 $dbpass = 'pass';     // пароль пользователя
+/** @var string $dbname */
 $dbname = 'amulet'; // имя базы
 //=========================
 /** @var string $SERVER_URL урл*/
 $SERVER_URL = 'http://ip6-localhost:8000/'; //путь к игре
+/** @var string $PHP_SELF */
 $PHP_SELF = 'g.php'; //   мотор игры
+/** @var string $GAME_NAME */
 $GAME_NAME = 'Моя игра';
+/** @var int $g_max */
 $g_max = 100; //   максимум игроков
+/** @var string $g_admin */
 $g_admin = 'u.user'; //  логин админа
+/** @var string $gm_id */
 $gm_id = 'hrenvam'; // вход админом
+
+/** @var int $gg_list хз что, вроде не используется */
 $gg_list = 5;
+//Размер списков (3..30):($g_list)
 $g_list = 5;
+//Размер страницы (700..15000):($g_size)
 $g_size = 2200;
+//Тип меню: 0 - полное, 1 - сокращенное, 2 - на отдельной странице,
+//3 - в виде ссылок (если не видно обычное меню):($g_menu)
 $g_menu = 0;
+//Пункты в меню (0-откл,1-магия,2-предмет,3-прием) и кол-во горячих клавиш для каждого пункта (0..9),
+//порядок произвольный. Пример: 332110($g_smenu)
 $g_smenu = '301021';
+//Сообщать о приходящих (1-вкл,0-выкл):($g_j2loc)
 $g_j2loc = 1;
+//Описание локаций (1-вкл,0-выкл):($g_j2go)
 $g_j2go = 1;
+//Отключить журнал (1-да,0-нет):($g_joff)
 $g_joff = 0;
+//Маленький шрифт (1-да,0-нет):($g_smf)
 $g_smf = 0;
+//Карта: 0 - нет, 1 - ч/б, 2 - цветная JPEG, 3 - цветная PNG:($g_map)
 $g_map = 3;
+//Звуки рядом с выходами (1-вкл,0-выкл):($g_sounds)
 $g_sounds = 0;
+//Кодировка (0-utf-8,1-windows-1251,2-koi8r):($g_ch)
+// примечание: вроде не используется
+$g_ch = 0;
+
+/** @var int $g_logout время до логоута */
 $g_logout = 300;
+/** @var int $g_destroy время */
 $g_destroy = 600;
+/** @var int $g_crim время */
 $g_crim = 1800;
 $g_exp = 10;
 $g_attr = 12;
 $g_attr_one = 5;
 $g_skills = 50;
 $g_skills_one = 5;
-$g_ch = 0;
 /** @var array $loc_i предметы в текущей локе */
 $loc_i = array();
 /** @var array $loc_t таймеры в текущей локе */
