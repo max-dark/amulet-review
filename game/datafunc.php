@@ -77,6 +77,7 @@ function openDB()
     if (!$sesDB) return "База данных недоступна. Повторите через 5мин";
     $ok = @mysql_select_db($dbname, $sesDB);
     if (!$ok) return "База данных недоступна. Повторите через 5мин";
+    mysql_set_charset('utf8');
     return "";
 }
 
