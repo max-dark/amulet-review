@@ -595,6 +595,13 @@ function additem($loc, $from, $to, $item, $count = 1, $ft = "items", $tt = "item
     return $res;
 }
 
+/**Добавление/обновление таймера
+ * @param string $loct локация
+ * @param int $curr текущий таймер
+ * @param int $time период
+ * @param string $text текст для установки или old для использования старого
+ * @param int $delete флаг удаления текущего
+ */
 function addtimer($loct, $curr, $time, $text = "old", $delete = 1)
 {
     require "f_addtimer.inc";
