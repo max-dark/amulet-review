@@ -68,6 +68,7 @@ $g_logout = 300;
 $g_destroy = 600;
 /** @var int $g_crim время */
 $g_crim = 1800;
+/** @var int $g_exp множитель для экспы */
 $g_exp = 10;
 $g_attr = 12;
 $g_attr_one = 5;
