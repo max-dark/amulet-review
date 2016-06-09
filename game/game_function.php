@@ -406,26 +406,7 @@ function doai($i)
             }
 }
 
-/**
- * @param string $loc Локация
- * @param string $from кто атакует
- * @param string $to кого атакуют
- * @param string $magic тип магии(?)
- * @param int $answer флаг что атака в ответ(?)
- * @param int $rmagic хз
- * @param string $priem тип приема(?)
- * @param string $ptitle название приема(?)
- */
-function attack($loc, $from, $to, $magic = '', $answer = 1, $rmagic = 0, $priem = "", $ptitle =
-"")
-{
-//    global $attackf;
-//    if (!$attackf)
-//        $attackf = implode('', file("f_attackf.inc"));
-//    eval($attackf);
-    require 'f_attackf.inc';
-}
-
+require 'f_attackf.inc';
 /**Подгружает локацию $loc
  * ВНИМАНИЕ: изменяет глобальные переменные $loc_i, $loc_t, $loc_tt
  * @param string $loc
