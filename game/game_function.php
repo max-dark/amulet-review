@@ -1,6 +1,15 @@
 <?php
 require_once('modules/globals.php');
 
+require "f_rndname.inc";
+require "f_ressurect.inc";
+require "f_calcparam.inc";
+require "f_docrim.inc";
+require "f_additem.inc";
+require "f_addtimer.inc";
+require "f_addexp.inc";
+require 'f_attackf.inc';
+
 /**
  * Получить значение по ключу
  * возвращает false, если ключа в массиве нет
@@ -262,9 +271,10 @@ function doai($i)
     }
     $crim = array();
     $users = array();
+    $guard = 0;
     $ti = explode("x", $i);
     if ($loc_i[$i]) {
-        foreach ($loc_i[$i] as $j => $val)
+        foreach ($loc_i[$i] as $j => $val) {
             if ($j != "u.qv") {
                 if (substr($j, 0, 2) == 'u.') {
                     $uc = explode("|", $loc_i[$i][$j]["char"]);
@@ -283,13 +293,14 @@ function doai($i)
                 if (substr($j, 0, 4) == "n.g.")
                     $guard = 1;
             }
+        }
     }
     if ($locai[1] == 1 && count($crim) > 0 && !$guard)
         require "f_addguard.inc";
 
     // по всем объектам
-    if ($loc_i[$i])
-        foreach ($loc_i[$i] as $j => $val)
+    if ($loc_i[$i]) {
+        foreach ($loc_i[$i] as $j => $val) {
             if (isset($loc_i[$i][$j])) {
                 if (substr($j, 0, 2) == 'i.') {
                     if ($j == "i.flag" && $game["floc"] != $i) {
@@ -336,6 +347,7 @@ function doai($i)
                             substr($j, 0, 4) != 'n.s.' && substr($j, 0, 4) != 'n.o.' && substr($j, 0, 4) !=
                             'n.z.'
                         ) {
+                            $b = 0;
                             require "f_run.dat";
                             if ($b)
                                 continue;
@@ -404,9 +416,9 @@ function doai($i)
                     continue;
                 }
             }
+        }
+    }
 }
-
-require 'f_attackf.inc';
 /**Подгружает локацию $loc
  * ВНИМАНИЕ: изменяет глобальные переменные $loc_i, $loc_t, $loc_tt
  * @param string $loc
@@ -525,63 +537,6 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
     }
 }
 
-require "f_rndname.inc";
-require "f_ressurect.inc";
-require "f_calcparam.inc";
-
-
-/**Превращает персонажа в преступника
- * @param string $loc локация
- * @param string $login логин
- * @param string $title "звание"
- */
-function docrim($loc, $login, $title = "преступник")
-{
-    require "f_docrim.inc";
-}
-
-
-/** Добавление вещи в инвентарь
- * @param string $loc локация
- * @param string $from от кого
- * @param string $to кому
- * @param string $item что
- * @param mixed $count количество либо 'count' для авторасчета
- * @param string $ft откуда брать items|bank
- * @param string $tt куда добавлять  items|bank
- * @param int $journal флаг занесения в журнал
- * @param int $time_delete время действия
- * @param int $msg флаг вывода сообщения
- * @return int флаг успеха(?)
- */
-function additem($loc, $from, $to, $item, $count = 1, $ft = "items", $tt = "items", $journal =
-1, $time_delete = -1, $msg = 0)
-{
-    require "f_additem.inc";
-    return $res;
-}
-
-/**Добавление/обновление таймера
- * @param string $loct локация
- * @param int $curr текущий таймер
- * @param int $time период
- * @param string $text текст для установки или old для использования старого
- * @param int $delete флаг удаления текущего
- */
-function addtimer($loct, $curr, $time, $text = "old", $delete = 1)
-{
-    require "f_addtimer.inc";
-}
-
-/**Добавляет экспу
- * @param string $loc локация
- * @param string $to логин
- * @param int $exp количество
- */
-function addexp($loc, $to, $exp)
-{
-    require "f_addexp.inc";
-}
 
 /**Вспомогательная функция для перерасчета длины строк в файлах состояния
  * @param string $s строка для перерачета
