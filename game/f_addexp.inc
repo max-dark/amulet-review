@@ -3,8 +3,8 @@
 global $loc_i, $g_exp;
 if (intval($exp) == 0) return;
 if (substr($to, 0, 2) == "u.") {
-    $skills = split("\|", $loc_i[$loc][$to]["skills"]);
-    $war = split("\|", $loc_i[$loc][$to]["war"]);
+    $skills = explode("|", $loc_i[$loc][$to]["skills"]);
+    $war = explode("|", $loc_i[$loc][$to]["war"]);
     $skills[3] += $exp;
     addjournal($loc, $to, "Опыт +" . intval($exp));
     if ($skills[3] > $war[13] * $g_exp) {
