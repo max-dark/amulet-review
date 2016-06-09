@@ -76,7 +76,7 @@ if (substr($to, 0, 2) == 'u.') {
             $tchar[12] = "";
             $loc_i[$loc][$to]["char"] = implode("|", $tchar);
             $loc_i[$loc][$to]["id"] = $to;
-            $npc = "";
+            $npc = [];
             include "npc/" . $to;
             $loc_i[$loc][$to]["items"] = $npc["items"];
             $loc_i[$loc][$to]["equip"] = $npc["equip"];
@@ -108,7 +108,7 @@ if (substr($from, 0, 2) == 'u.') {
         $loc_i[$loc][$from]["war"] = implode("|", $fwarr);
     }
     if (substr($to, 0, 2) != "u.") {    //killedto
-        $skills = split("\|", $loc_i[$loc][$from]["skills"]);
+        $skills = explode("|", $loc_i[$loc][$from]["skills"]);
         $skills[3] += $twar[13];
         addjournal($loc, $from, "Опыт +" . intval($twar[13]));
         if ($skills[3] > $fwar[13] * $g_exp) {
@@ -117,6 +117,8 @@ if (substr($from, 0, 2) == 'u.') {
             addjournal($loc, $from, "Вы получили 1 очко опыта!");
         }
         $loc_i[$loc][$from]["skills"] = implode("|", $skills);
-        if ($skills[3] == 0) calcparam($loc, $from); //levelup
+        if ($skills[3] == 0) {
+            calcparam($loc, $from); //levelup
+        }
     }
 }
