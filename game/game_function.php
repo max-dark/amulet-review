@@ -544,16 +544,10 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
     }
 }
 
-    require "f_rndname.inc";
+require "f_rndname.inc";
+require "f_ressurect.inc";
+require "f_calcparam.inc";
 
-/** Воскрешение персонажа
- * @param string $loc локация
- * @param string $to кого
- */
-function ressurect($loc, $to)
-{
-    require "f_ressurect.inc";
-}
 
 /**Превращает персонажа в преступника
  * @param string $loc локация
@@ -565,8 +559,6 @@ function docrim($loc, $login, $title = "преступник")
     require "f_docrim.inc";
 }
 
-
-require "f_calcparam.inc";
 
 /** Добавление вещи в инвентарь
  * @param string $loc локация
