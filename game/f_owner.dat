@@ -59,13 +59,15 @@ if (!$b) {
         }
         if ($bc && substr($j, 0, 4) != "n.o.") {
             $count = 0;
-            foreach ($loc_i[$locai[$k]] as $jn) if (isset($jn["owner"]) && strpos($jn["owner"], $owner[1]) !== false) {
-                $count++;
-                if ($count > 3) {
-                    $bc = 0;
-                    break;
-                }
-            } //не следуют если больше трех
+            foreach ($loc_i[$locai[$k]] as $jn) {
+                if (isset($jn["owner"]) && strpos($jn["owner"], $owner[1]) !== false) {
+                    $count++;
+                    if ($count > 3) {
+                        $bc = 0;
+                        break;
+                    }
+                } //не следуют если больше трех
+            }
         }
         if ($bc) {
             $char[7] = "";
