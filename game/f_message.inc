@@ -123,7 +123,8 @@ function msg(
         }
         $o = 4;
         if ($menu_type == 'main' && $g_menu == 2 && !$fm) {
-            $wml .= "<do name=\"o2\" type=\"options\" label=\"Меню\"><go href=\"$PHP_SELF?sid=$sid&fm=1&cj=1\"/></do>";
+            $wml .= "<do name=\"o2\" type=\"options\" label=\"Меню\">" .
+                "<go href=\"$PHP_SELF?sid=$sid&fm=1&cj=1\"/></do>";
             $menu_type = '';
         }
         if ($menu_type == 'main' && $g_menu == 3 && !$fm2) {
@@ -134,7 +135,8 @@ function msg(
             $menu_type = '';
         }
         if (($menu_type == 'main' || $fm) && !$fm2) {
-            $wml .= "<do name=\"b1\" type=\"options\" label=\"Пeрcoнaж\"><go href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\"/></do>";
+            $wml .= "<do name=\"b1\" type=\"options\" label=\"Пeрcoнaж\">" .
+                "<go href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\"/></do>";
             if (!isset($loc_i[$loc][$login]["macro"]))
                 $m = [];
             else
@@ -142,7 +144,8 @@ function msg(
             for ($i = 1; $i < 9; $i++)
                 if ($m[$i - 1]) {
                     $mn = explode("|", $m[$i - 1]);
-                    $wml .= "<do name=\"b$o\" type=\"options\" label=\"" . $mn[4] . "\"><go href=\"$PHP_SELF?sid=$sid&cm=$i\"/></do>";
+                    $wml .= "<do name=\"b$o\" type=\"options\" label=\"" . $mn[4] . "\">" .
+                        "<go href=\"$PHP_SELF?sid=$sid&cm=$i\"/></do>";
                     $o++;
                 }
         }
