@@ -8,7 +8,7 @@ class DB {
     private static $link = null;
 
     /**
-     * @param array|null $config database config
+     * @param array|null $config database config(server, dbname, login, password)
      * @return \PDO link to database
      * @throws \PDOException if connect fail
      */
