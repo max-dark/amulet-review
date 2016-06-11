@@ -1,5 +1,4 @@
 <?php
-require_once ('modules/globals.php');
 require_once ('modules/database.php');
 
 $NOT_SET = "NOT_SET";

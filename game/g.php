@@ -1,5 +1,4 @@
 <?php
-require_once('modules/globals.php');
 require_once('config.php'); // настройки игры
 require_once('datafunc.php'); // функции игры
 require_once('game_function.php'); // игровые функции

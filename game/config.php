@@ -1,5 +1,4 @@
 <?php
-require_once('modules/globals.php');
 header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");

@@ -1,5 +1,4 @@
 <?php
-require_once ('game/modules/globals.php');
 // список у Санчеса
 if ($gwanted)
     die(@implode("", @file("wanted.dat")));

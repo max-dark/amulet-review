@@ -1,5 +1,4 @@
 <?php
-require_once('modules/globals.php');
 
 // сылка воскрешение для админа
 if ($login == $g_admin || $gm == $gm_id) {

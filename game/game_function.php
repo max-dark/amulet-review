@@ -1,5 +1,4 @@
 <?php
-require_once 'modules/globals.php';
 require_once 'f_message.inc';
 require_once "f_rndname.inc";
 require_once "f_ressurect.inc";
