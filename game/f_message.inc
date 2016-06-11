@@ -36,28 +36,9 @@ function msg(
     if ($fm2) {
         $show_journal = 0;
         $page_d = 0;
-        // меню в виде ссылок на отдельной странице
 
-        $message = 'Главное меню:' .
-            "<br/><a href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\">Пepcoнaж</a>";
-        if (!isset($loc_i[$loc][$login]["macro"]))
-            $m = [];
-        else
-            $m = explode("/", $loc_i[$loc][$login]["macro"]);
-        for ($i = 1; $i < 9; $i++) {
-            if ($m[$i - 1]) {
-                $mn = explode("|", $m[$i - 1]);
-                $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&cm=$i\">" . $mn[4] . "</a>";
-            }
-        }
-        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\">Cкaзaть</a>" .
-            "<br/><a href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\">Koнтaкты</a>" .
-            "<br/><a href=\"$PHP_SELF?sid=$sid&cm=new\">мaкpocы</a>";
-        if ($g_map) {
-            $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&map=" . $g_map . "\">Kapтa</a>";
-        }
-        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&ce=1\">Coxpaнить</a>" .
-            "<br/><br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a>";
+        // меню в виде ссылок на отдельной странице
+        $message = menu_links($PHP_SELF, $sid, $loc_i[$loc][$login], $g_map);
     }
     if ($cj)
         $skip_journal = 1;
@@ -195,4 +176,46 @@ function msg(
 
     echo $wml;
     exit;
+}
+
+/**
+ * @param string $PHP_SELF
+ * @param string $sid
+ * @param array $current_user
+ * @param $map_type
+ * @return string
+ */
+function menu_links($PHP_SELF, $sid, $current_user, $map_type)
+{
+    $url_base = "$PHP_SELF?sid=$sid";
+    $message = sprintf(
+        'Главное меню:<br/><a href="%s&cl=i&cj=1">Пepcoнaж</a>',
+        $url_base);
+    if (!isset($current_user["macro"]))
+        $macro_list = [];
+    else
+        $macro_list = explode("/", $current_user["macro"]);
+    for ($i = 1; $i < 9; $i++) {
+        if ($macro_list[$i - 1]) {
+            $current_macro = explode("|", $macro_list[$i - 1]);
+            $message .= sprintf(
+                '<br/><a href="%s&cm=%d">%s</a>',
+                $url_base, $i, $current_macro[4]
+            );
+        }
+    }
+    $message .=
+        sprintf('<br/><a href="%s&cs=1&cj=1">Cкaзaть</a>',   $url_base) .
+        sprintf('<br/><a href="%s&msg=1&cj=1">Koнтaкты</a>', $url_base) .
+        sprintf('<br/><a href="%s&cm=new">мaкpocы</a>',      $url_base);
+    if ($map_type) {
+        $message .= sprintf(
+            "<br/><a href=\"%s&map=%d\">Kapтa</a>",
+            $url_base, $map_type
+        );
+    }
+    $message .=
+        sprintf("<br/><a href=\"%s&ce=1\">Coxpaнить</a>", $url_base) .
+        sprintf("<br/><br/><a href=\"%s\">В игру</a>",    $url_base);
+    return $message;
 }
