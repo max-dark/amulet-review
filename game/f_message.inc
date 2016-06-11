@@ -19,7 +19,7 @@ function msg(
 {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $page_d, $PHP_SELF, $sid,
            $gm_id, $g_size, $g_list, $skip_journal, $cj, $t_g, $g_menu, $fm, $fm2, $g_j2loc, $g_joff, $g_smf,
-           $g_map, $g_tmp;
+           $g_map, $g_query_string;
 
     $wml = "<wml>";
     if (!$login) {
@@ -93,7 +93,7 @@ function msg(
         if ($bsize)
             $tmp_url = "#g";
         else {
-            $tmp_url = "$PHP_SELF?" . preg_replace("/(ci|use|say|ca|drop|take|to|adm|cm|go)=/", "c1=", $g_tmp);
+            $tmp_url = "$PHP_SELF?" . preg_replace("/(ci|use|say|ca|drop|take|to|adm|cm|go)=/", "c1=", $g_query_string);
         }
         $wml .= '<card title="Журнал">' .
             '<do type="accept" label="Дальше">' .

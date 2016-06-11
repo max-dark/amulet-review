@@ -12,7 +12,7 @@ array_key_exists('QUERY_STRING', $_SERVER) ?
 );
 
 $tmp = $QUERY_STRING;
-$g_tmp = $tmp;
+$g_query_string = $tmp;
 $tmp = urldecode($tmp);
 parse_str($tmp);
 
