@@ -18,7 +18,7 @@ function msg(
 )
 {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $page_d, $PHP_SELF, $sid,
-           $gm_id, $g_size, $g_list, $fskipj, $cj, $t_g, $g_menu, $fm, $fm2, $g_j2loc, $g_joff, $g_smf,
+           $gm_id, $g_size, $g_list, $skip_journal, $cj, $t_g, $g_menu, $fm, $fm2, $g_j2loc, $g_joff, $g_smf,
            $g_map, $g_tmp;
 
     $wml = "<wml>";
@@ -58,52 +58,59 @@ function msg(
         $message .= "<br/><br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a>";
     }
     if ($cj)
-        $fskipj = 1;
-    if ($fskipj)
+        $skip_journal = 1;
+    if ($skip_journal)
         $show_journal = 0;
     else
         if ($g_joff)
             $loc_i[$loc][$login]["journal"] = preg_replace('/(\||^)[^:!]*(\||$)/', "|", $loc_i[$loc][$login]["journal"]);
-    $page_j = "";
+    $page_journal = "";
     if (get($game, "journal") && $login != $g_admin && $gm != $gm_id)
-        $page_j = $game["journal"];
+        $page_journal = $game["journal"];
     if ($show_journal == 1 && $loc_i[$loc][$login]["journal"]) {
-        $page_j = str_replace("|", "<br/>", $loc_i[$loc][$login]["journal"]);
+        $page_journal = str_replace("|", "<br/>", $loc_i[$loc][$login]["journal"]);
         $loc_i[$loc][$login]["journal"] = "";
         if (!$g_j2loc)
-            $page_j = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/', "", $page_j);
+            $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/', "", $page_journal);
     }
 
     $t_g1 = sscanf(microtime(), "%s %s");
     $t_g1 = $t_g1[1] + $t_g1[0];
     $game["tmid"] = ($game["tmid"] + $t_g1 - $t_g) / 2;
     savegame();
-    if ($page_j && $show_journal) {
-        $page_j = explode("<br/>", $page_j);
-        if (count($page_j) > $g_list)
-            array_splice($page_j, 0, count($page_j) - $g_list);
-        $page_j = implode("<br/>", $page_j);
+    if ($page_journal && $show_journal) {
+        $page_journal = explode("<br/>", $page_journal);
+        if (count($page_journal) > $g_list)
+            array_splice($page_journal, 0, count($page_journal) - $g_list);
+        $page_journal = implode("<br/>", $page_journal);
     }
     if ($page_d && file_exists("loc_f/" . $loc))
-        $page_j .= "<br/>" . implode("", file("loc_f/" . $loc));
-    strlen($wml . $message . $page_j) < $g_size ? $bsize = 1 : $bsize = 0;
-    if ($page_j && substr($page_j, 0, 5) == "<br/>")
-        $page_j = substr($page_j, 5);
-    if ($page_j && $show_journal) {
+        $page_journal .= "<br/>" . file_get_contents("loc_f/" . $loc);
+    $bsize = strlen($wml . $message . $page_journal) < $g_size;
+    if ($page_journal && substr($page_journal, 0, 5) == "<br/>")
+        $page_journal = substr($page_journal, 5);
+    if ($page_journal && $show_journal) {
         if ($bsize)
-            $tu = "#g";
+            $tmp_url = "#g";
         else {
-            $tu = "$PHP_SELF?" . preg_replace("/(ci|use|say|ca|drop|take|to|adm|cm|go)=/", "c1=", $g_tmp);
+            $tmp_url = "$PHP_SELF?" . preg_replace("/(ci|use|say|ca|drop|take|to|adm|cm|go)=/", "c1=", $g_tmp);
         }
-        $wml .= "<card title=\"Журнал\"><do type=\"accept\" label=\"Дальше\"><go href=\"" . $tu .
-            "\"/></do><p>" . $page_j . "<br/><a href=\"" . $tu . "\">Дальше</a>";
-        if ($tu != "#g")
-            $wml .= "/<a href=\"" . $tu . ($fskipj ? "" : "&cj=1") . "\">к меню</a>/";
+        $wml .= '<card title="Журнал">' .
+            '<do type="accept" label="Дальше">' .
+                '<go href="' . $tmp_url . '"/>' .
+            '</do>' .
+            '<p>' .
+                $page_journal .
+                '<br/><a href="' . $tmp_url . '">Дальше</a>';
+        if ($tmp_url != "#g") {
+            $tmp_url .= ($skip_journal ? "" : "&cj=1");
+            $wml .= '/<a href="' . $tmp_url . '">к меню</a>/';
+        }
         $wml .= "</p></card>";
     }
 
-    if ($bsize || !$show_journal || !$page_j) {
-        $wml .= "<card id=\"g\" title=\"" . $page_title . "\"";
+    if ($bsize || !$show_journal || !$page_journal) {
+        $wml .= '<card id="g" title="' . $page_title . '"';
         if ($menu_type == 'main')
             $wml .= " ontimer=\"$PHP_SELF?sid=$sid\"><timer value=\"600\"/";
         $wml .= ">";
@@ -127,7 +134,7 @@ function msg(
         if (($menu_type == 'main' || $fm) && !$fm2) {
             $wml .= "<do name=\"b1\" type=\"options\" label=\"Пeрcoнaж\"><go href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\"/></do>";
             if (!isset($loc_i[$loc][$login]["macro"]))
-                $m = array();
+                $m = [];
             else
                 $m = explode("/", $loc_i[$loc][$login]["macro"]);
             for ($i = 1; $i < 9; $i++)
@@ -159,8 +166,11 @@ function msg(
         $wml .= "" . $message . "</card>";
     };
     if ($g_smf && strpos($wml, "<input") === false)
-        $wml = preg_replace(array("'(<p [^>]*>)'", "'<p>'", "'</p>'"), array("\\1<small>",
-            "<p><small>", "</small></p>"), $wml);
+        $wml = preg_replace(
+            ["'(<p [^>]*>)'",      "'<p>'",       "'</p>'"],
+            [   "\\1<small>", "<p><small>", "</small></p>"],
+            $wml
+        );
 
     $wml .= "</wml>";
     $wml = str_replace("&amp;", "&", $wml);
