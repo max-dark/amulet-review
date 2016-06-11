@@ -7,7 +7,7 @@
  * @param string $msg Сообщение
  * @param string $title название игры
  * @param int $journal флаг, что нужно выводить журнал
- * @param string $menu тип меню. возможные значения (""|none|main|to)
+ * @param string $menu тип меню. возможные значения (""|none|main|to|inv)
  * @param string $vname имя переменной для вставки в страницу
  * @param string $vval значение переменной vname
  */
