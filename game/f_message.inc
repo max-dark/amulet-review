@@ -179,22 +179,22 @@ function msg(
 }
 
 /**
- * @param string $PHP_SELF
+ * @param string $script_name
  * @param string $sid
  * @param array $current_user
  * @param $map_type
  * @return string
  */
-function menu_links($PHP_SELF, $sid, $current_user, $map_type)
+function menu_links($script_name, $sid, $current_user, $map_type)
 {
-    $url_base = "$PHP_SELF?sid=$sid";
+    $url_base = "$script_name?sid=$sid";
     $message = sprintf(
         'Главное меню:<br/><a href="%s&cl=i&cj=1">Пepcoнaж</a>',
         $url_base);
-    if (!isset($current_user["macro"]))
+    if (!isset($current_user['macro']))
         $macro_list = [];
     else
-        $macro_list = explode("/", $current_user["macro"]);
+        $macro_list = explode("/", $current_user['macro']);
     for ($i = 1; $i < 9; $i++) {
         if ($macro_list[$i - 1]) {
             $current_macro = explode("|", $macro_list[$i - 1]);
@@ -210,12 +210,12 @@ function menu_links($PHP_SELF, $sid, $current_user, $map_type)
         sprintf('<br/><a href="%s&cm=new">мaкpocы</a>',      $url_base);
     if ($map_type) {
         $message .= sprintf(
-            "<br/><a href=\"%s&map=%d\">Kapтa</a>",
+            '<br/><a href="%s&map=%d">Kapтa</a>',
             $url_base, $map_type
         );
     }
     $message .=
-        sprintf("<br/><a href=\"%s&ce=1\">Coxpaнить</a>", $url_base) .
-        sprintf("<br/><br/><a href=\"%s\">В игру</a>",    $url_base);
+        sprintf('<br/><a href="%s&ce=1">Coxpaнить</a>', $url_base) .
+        sprintf('<br/><br/><a href="%s">В игру</a>',    $url_base);
     return $message;
 }
