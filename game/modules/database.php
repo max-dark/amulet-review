@@ -16,7 +16,7 @@ class DB {
         if (is_null(self::$link)) {
             if (is_array($config)) {
                 self::$link = new \PDO(
-                    sprintf('mysql:%s;dbname=%s;charset=utf8',
+                    sprintf('mysql:host=%s;dbname=%s;charset=utf8',
                         $config['server'],
                         $config['dbname']
                     ),
