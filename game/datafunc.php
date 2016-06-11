@@ -164,10 +164,9 @@ function SetData($login, $pass, $data)
  * Возвращает пустую строку в случае успеха (данные возвращаются в $data) или сообщение об ошибке.
  * @param string $login
  * @param string $pass
- * @param string $data
  * @return string
  */
-function GetData($login, $pass, &$data)
+function GetData($login, $pass)
 {
     global $error, $NOT_SET;
     if (empty($login)) return "Логин не задан";
@@ -177,15 +176,16 @@ function GetData($login, $pass, &$data)
     $error = openDB();
     if ($error != "") return $error;
 
-    list($ok, $result) = checkpass($login, $pass, "`names`,`vals`");
-    if ($ok != "")
-        return $ok;
-    InitParam($result["names"], $result["vals"]);
-    $data = GetParam("gamedata");
-    if ($data == $NOT_SET)
-        return "Данные не найдены";
+    list($message, $result) = checkpass($login, $pass, "`names`,`vals`");
+    $data = [];
+    if ($message == "") {
+        InitParam($result["names"], $result["vals"]);
+        $data = GetParam("gamedata");
+        if ($data == $NOT_SET)
+            $message = "Данные не найдены";
+    }
 
-    return "";
+    return [$message, $data];
 }
 
 /**

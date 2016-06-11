@@ -22,7 +22,7 @@ if ($file !== false) {
     msg("Ошибка создания файла");
 
 // получаем данные с основного сервера
-$res = GetData(substr($login, 2), $p, $data, 1);
+list($res, $data) = GetData(substr($login, 2), $p);
 if ($res)
     msg($res, 'Проверка входа', 0, 'none');
 $auser = unserialize($data);
