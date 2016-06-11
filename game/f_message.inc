@@ -36,8 +36,8 @@ function msg(
         $page_d = 0;
         // меню в виде ссылок на отдельной странице
 
-        $message = 'Главное меню:';
-        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\">Пepcoнaж</a>";
+        $message = 'Главное меню:' .
+            "<br/><a href=\"$PHP_SELF?sid=$sid&cl=i&cj=1\">Пepcoнaж</a>";
         if (!isset($loc_i[$loc][$login]["macro"]))
             $m = [];
         else
@@ -48,14 +48,14 @@ function msg(
                 $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&cm=$i\">" . $mn[4] . "</a>";
             }
         }
-        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\">Cкaзaть</a>";
-        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\">Koнтaкты</a>";
-        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&cm=new\">мaкpocы</a>";
+        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\">Cкaзaть</a>" .
+            "<br/><a href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\">Koнтaкты</a>" .
+            "<br/><a href=\"$PHP_SELF?sid=$sid&cm=new\">мaкpocы</a>";
         if ($g_map) {
             $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&map=" . $g_map . "\">Kapтa</a>";
         }
-        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&ce=1\">Coxpaнить</a>";
-        $message .= "<br/><br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a>";
+        $message .= "<br/><a href=\"$PHP_SELF?sid=$sid&ce=1\">Coxpaнить</a>" .
+            "<br/><br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a>";
     }
     if ($cj)
         $skip_journal = 1;
@@ -127,7 +127,9 @@ function msg(
             $menu_type = '';
         }
         if ($menu_type == 'main' && $g_menu == 3 && !$fm2) {
-            $message = str_replace("</p></card><card id=\"m\"", "<br/><a href=\"$PHP_SELF?sid=$sid&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"",
+            $message = str_replace(
+                "</p></card><card id=\"m\"",
+                "<br/><a href=\"$PHP_SELF?sid=$sid&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"",
                 $message);
             $menu_type = '';
         }
@@ -145,18 +147,27 @@ function msg(
                 }
         }
         if ($menu_type == 'inv' && $g_menu == 1)
-            $wml .= "<do name=\"b1\" type=\"options\" label=\"В игру\"><go href=\"$PHP_SELF?sid=$sid\"/></do>";
-        if ($menu_type == 'inv' && $g_menu == 1 || $g_menu == 0 && $menu_type == 'main' || $fm) {
-            $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\"><go href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\"/></do>";
-            $wml .= "<do name=\"b3\" type=\"options\" label=\"Koнтaкты\"><go href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\"/></do>";
-            $wml .= "<do name=\"b$o\" type=\"options\" label=\"мaкpocы\"><go href=\"$PHP_SELF?sid=$sid&cm=new\"/></do>";
+            $wml .= "<do name=\"b1\" type=\"options\" label=\"В игру\">" .
+                "<go href=\"$PHP_SELF?sid=$sid\"/></do>";
+        if (
+            ($menu_type == 'inv'  && $g_menu == 1) ||
+            ($menu_type == 'main' && $g_menu == 0) ||
+            $fm
+        ) {
+            $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
+                "<go href=\"$PHP_SELF?sid=$sid&cs=1&cj=1\"/></do>" .
+                "<do name=\"b3\" type=\"options\" label=\"Koнтaкты\">" .
+                "<go href=\"$PHP_SELF?sid=$sid&msg=1&cj=1\"/></do>" .
+                "<do name=\"b$o\" type=\"options\" label=\"мaкpocы\">" .
+                "<go href=\"$PHP_SELF?sid=$sid&cm=new\"/></do>";
             if ($g_map) {
                 $o++;
-                $wml .= "<do name=\"b$o\" type=\"options\" label=\"Kapтa\"><go href=\"$PHP_SELF?sid=$sid&map=" .
-                    $g_map . "\"/></do>";
+                $wml .= "<do name=\"b$o\" type=\"options\" label=\"Kapтa\">" .
+                    "<go href=\"$PHP_SELF?sid=$sid&map=" . $g_map . "\"/></do>";
             }
             $o++;
-            $wml .= "<do name=\"b$o\" type=\"options\" label=\"Coxpaнить\"><go href=\"$PHP_SELF?sid=$sid&ce=1\"/></do>";
+            $wml .= "<do name=\"b$o\" type=\"options\" label=\"Coxpaнить\">" .
+                "<go href=\"$PHP_SELF?sid=$sid&ce=1\"/></do>";
         }
 
         if (substr($message, 0, 2) != "<p")
@@ -175,7 +186,6 @@ function msg(
     $wml .= "</wml>";
     $wml = str_replace("&amp;", "&", $wml);
     $wml = str_replace("&", "&amp;", $wml);
-    //$wml = strtr( $wml, "КЕНХВАРОСМТехарос", "KEHXBAPOCMTexapoc" );
 
     echo $wml;
     exit;
