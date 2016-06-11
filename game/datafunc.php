@@ -13,11 +13,16 @@ function InitParam($N, $V)
 function GetParam($Name)
 {
     global $Names, $Values, $NOT_SET;
+    
     $Name = strtolower($Name);
     $Nlist = explode(":", $Names);
-    for ($i = 0; $i < count($Nlist); $i++) if ($Nlist[$i] == $Name) break;
-    if ($i == count($Nlist)) return $NOT_SET;
+    for ($i = 0; $i < count($Nlist); $i++)
+        if ($Nlist[$i] == $Name)
+            break;
+    if ($i == count($Nlist))
+        return $NOT_SET;
     $Vlist = explode(":", $Values);
+    
     return stripslashes(str_replace("!~!", ":", $Vlist[$i]));
 }
 
@@ -28,7 +33,9 @@ function SetParam($Name, $Value)
     $Nlist = explode(":", $Names);
     $Name = strtolower($Name);
     $Value = addslashes(str_replace(":", "!~!", $Value));
-    for ($i = 0; $i < count($Nlist); $i++) if ($Nlist[$i] == $Name) break;
+    for ($i = 0; $i < count($Nlist); $i++)
+        if ($Nlist[$i] == $Name)
+            break;
 
     if ($i == count($Nlist) and ($Value != $NOT_SET)) { // Добавляем имя и значение
         $Names .= ":$Name";
@@ -50,17 +57,21 @@ function SetParam($Name, $Value)
 function checkpass($nick, $pass, $fields, &$result, $skippass = 0)
 { //
     global $PassDelay;
-    if ($fields == "") $fields = "pass,lastrefr";
-    else if ($fields !== "*") $fields .= ",pass,lastrefr";
+    if ($fields == "")
+        $fields = "pass,lastrefr";
+    else if ($fields !== "*")
+        $fields .= ",pass,lastrefr";
 
     $now = time();
     $sql = "select $fields from users where nick='$nick'";
     $result = mysql_query($sql) or die(mysql_error());
-    if (mysql_num_rows($result) != 1) return "Логин не найден";
+    if (mysql_num_rows($result) != 1)
+        return "Логин не найден";
 
     $row = mysql_fetch_array($result);
     $dt = $PassDelay - $now + $row['lastrefr'];
-    if ($dt > 0) return "Повторите через $dt" . "sec";
+    if ($dt > 0)
+        return "Повторите через $dt" . "sec";
 
     if ($row['pass'] != $pass && !$skippass) {
         $sql = "update users set lastrefr=$now where nick='$nick'";
@@ -74,9 +85,11 @@ function openDB()
 {
     global $server, $user, $dbpass, $dbname;
     $sesDB = @mysql_connect($server, $user, $dbpass);
-    if (!$sesDB) return "База данных недоступна. Повторите через 5мин";
+    if (!$sesDB)
+        return "База данных недоступна. Повторите через 5мин";
     $ok = @mysql_select_db($dbname, $sesDB);
-    if (!$ok) return "База данных недоступна. Повторите через 5мин";
+    if (!$ok)
+        return "База данных недоступна. Повторите через 5мин";
     mysql_set_charset('utf8');
     return "";
 }
@@ -94,7 +107,8 @@ function SetData($login, $pass, $data)
     if ($error != "") return $error;
 
     $ok = checkpass($login, $pass, "names,vals", $result, 1);    // сохраняет без пароля!
-    if ($ok != "") return $ok;
+    if ($ok != "")
+        return $ok;
     InitParam(mysql_result($result, 0, "names"), mysql_result($result, 0, "vals"));
 
     SetParam('gamedata', $data);
