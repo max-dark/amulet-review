@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modules/constants.php';
+
 /** Выводит страницу пользователю
  * Требует писец как много глобальных значений
  * Вызывает savegame
@@ -117,17 +119,18 @@ function msg(
         if ($var_name)
             $wml .= "<onevent type=\"onenterforward\"><refresh><setvar name=\"$var_name\" value=\"$var_value\"/></refresh></onevent>";
 
-        if ($menu_type == '' || $menu_type == 'inv' && $g_menu != 1) {
-            $wml .= "<do name=\"b1\" type=\"options\" label=\"В игру\"><go href=\"$PHP_SELF?sid=$sid\"/></do>";
+        if (($menu_type == '' || $menu_type == 'inv') && $g_menu != Menu::mode_short) {
+            $wml .= "<do name=\"b1\" type=\"options\" label=\"В игру\">" .
+                "<go href=\"$PHP_SELF?sid=$sid\"/></do>";
             $wml .= "<do name=\"b2\" type=\"accept\" label=\"Назад\"><prev/></do>";
         }
         $o = 4;
-        if ($menu_type == 'main' && $g_menu == 2 && !$fm) {
+        if ($menu_type == 'main' && $g_menu == Menu::mode_page && !$fm) {
             $wml .= "<do name=\"o2\" type=\"options\" label=\"Меню\">" .
                 "<go href=\"$PHP_SELF?sid=$sid&fm=1&cj=1\"/></do>";
             $menu_type = '';
         }
-        if ($menu_type == 'main' && $g_menu == 3 && !$fm2) {
+        if ($menu_type == 'main' && $g_menu == Menu::mode_links && !$fm2) {
             $message = str_replace(
                 "</p></card><card id=\"m\"",
                 "<br/><a href=\"$PHP_SELF?sid=$sid&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"",
@@ -149,12 +152,12 @@ function msg(
                     $o++;
                 }
         }
-        if ($menu_type == 'inv' && $g_menu == 1)
+        if ($menu_type == 'inv' && $g_menu == Menu::mode_short)
             $wml .= "<do name=\"b1\" type=\"options\" label=\"В игру\">" .
                 "<go href=\"$PHP_SELF?sid=$sid\"/></do>";
         if (
-            ($menu_type == 'inv'  && $g_menu == 1) ||
-            ($menu_type == 'main' && $g_menu == 0) ||
+            ($menu_type == 'inv'  && $g_menu == Menu::mode_short) ||
+            ($menu_type == 'main' && $g_menu == Menu::mode_full ) ||
             $fm
         ) {
             $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
