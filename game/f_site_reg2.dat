@@ -23,11 +23,15 @@ if ($sex != 'm' && $sex != 'f')
 
 $now = time();
 openDB();
-$sqllogin = "insert into `users` (regtime,nick,pass,email) values ('" . $now . "', '" . $nn .
-    "', '" . $pass . "','" . $email . "')";
-mysql_query($sqllogin) or die(mysql_error());
-mysql_close();
-
+$sqllogin = /** @lang MySQL */
+    'insert into ' .
+    '`users` (regtime,nick,pass,email) ' .
+    'values (?, ?, ?, ?)';
+DB::link()
+    ->prepare($sqllogin)
+    ->execute([
+        $now, $nn, $pass, $email
+    ]);
 $loc = "_begin"; // начальная локация
 
 // создаем игрока
