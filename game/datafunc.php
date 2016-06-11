@@ -1,5 +1,7 @@
 <?php
-require_once('modules/globals.php');
+require_once ('modules/globals.php');
+require_once ('modules/database.php');
+
 $NOT_SET = "NOT_SET";
 require("antimat.inc"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)
 
@@ -54,48 +56,82 @@ function SetParam($Name, $Value)
 }
 
 
-function checkpass($nick, $pass, $fields, &$result, $skippass = 0)
-{ //
+/**
+ * Получение массива параметров для пользователя $nick
+ * @param string $nick
+ * @param string $pass
+ * @param string $fields
+ * @param bool $skippass
+ * @return array [message, result]
+ */
+function checkpass($nick, $pass, $fields, $skippass = false)
+{
     global $PassDelay;
     if ($fields == "")
-        $fields = "pass,lastrefr";
+        $fields = "`pass`,`lastrefr`";
     else if ($fields !== "*")
-        $fields .= ",pass,lastrefr";
+        $fields .= ",`pass`,`lastrefr`";
 
     $now = time();
-    $sql = "select $fields from users where nick='$nick'";
-    $result = mysql_query($sql) or die(mysql_error());
-    if (mysql_num_rows($result) != 1)
-        return "Логин не найден";
-
-    $row = mysql_fetch_array($result);
-    $dt = $PassDelay - $now + $row['lastrefr'];
-    if ($dt > 0)
-        return "Повторите через $dt" . "sec";
-
-    if ($row['pass'] != $pass && !$skippass) {
-        $sql = "update users set lastrefr=$now where nick='$nick'";
-        mysql_query($sql) or die(mysql_error());
-        return "Неверный пароль";
+    $result = [];
+    $message = '';
+    $sql = "select $fields from `users` where `nick` = :nickname";
+    $query = DB::link()->prepare($sql);
+    $query->execute([
+        ':nickname' => $nick
+    ]);
+    if ($query->rowCount() != 1) {
+        $message = "Логин не найден";
     }
-    return "";
+    else {
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        $dt = $PassDelay - $now + $result['lastrefr'];
+        if ($dt > 0) {
+            $message = "Повторите через $dt sec";
+        }
+        else if ($result['pass'] != $pass && !$skippass) {
+            $sql = "update `users` set `lastrefr` = :lastrefr where `nick` = :nickname";
+            $query = DB::link()->prepare($sql);
+            $query->execute([
+                ':lastrefr' => $now,
+                ':nickname' => $nick
+            ]);
+            $message = "Неверный пароль";
+        }
+    }
+    return [$message, $result];
 }
 
+/**
+ * @return string error message
+ */
 function openDB()
 {
     global $server, $user, $dbpass, $dbname;
-    $sesDB = @mysql_connect($server, $user, $dbpass);
-    if (!$sesDB)
-        return "База данных недоступна. Повторите через 5мин";
-    $ok = @mysql_select_db($dbname, $sesDB);
-    if (!$ok)
-        return "База данных недоступна. Повторите через 5мин";
-    mysql_set_charset('utf8');
-    return "";
+    $msg = '';
+    try {
+        DB::link([
+            'server'   => $server,
+            'dbname'   => $dbname,
+            'login'    => $user,
+            'password' => $dbpass,
+        ]);
+    }
+    catch (PDOException $e) {
+        $msg =  defined('DEBUG') ? $e->getMessage() : "База данных недоступна. Повторите через 5мин";
+    }
+    return $msg;
 }
 
+/**
+ * Возвращает пустую строку в случае успеха или сообщение об ошибке.
+ * @param string $login
+ * @param string $pass
+ * @param mixed  $data
+ * @return string error message
+ */
 function SetData($login, $pass, $data)
-{ // Возвращает пустую строку в случае успеха или сообщение об ошибке.
+{
     global $error, $Names, $Values;
     if (empty($login)) return "Логин не задан";
     if (empty($pass)) return "Пароль не задан";
@@ -106,22 +142,34 @@ function SetData($login, $pass, $data)
     $error = openDB();
     if ($error != "") return $error;
 
-    $ok = checkpass($login, $pass, "names,vals", $result, 1);    // сохраняет без пароля!
+    list($ok, $result) = checkpass($login, $pass, '`names`,`vals`',  true);    // сохраняет без пароля!
     if ($ok != "")
         return $ok;
-    InitParam(mysql_result($result, 0, "names"), mysql_result($result, 0, "vals"));
+    InitParam($result["names"], $result["vals"]);
 
     SetParam('gamedata', $data);
 
-    $sqlUpd = "update users set names='$Names', vals='$Values' where nick = '$login'";
-    mysql_query($sqlUpd) or die(mysql_error());
-    mysql_close();
+    $sqlUpd = 'update `users` set `names` = :vnames, `vals` = :vals where `nick` = :nickname';
+    DB::link()
+        ->prepare($sqlUpd)
+        ->execute([
+            ':vnames'   => $Names,
+            ':vals'     => $Values,
+            ':nickname' => $login
+        ]);
     return "";
 }
 
-function GetData($login, $pass, &$data, $srv = 0)
-{ // Возвращает пустую строку в случае успеха (данные возвращаются в $data) или сообщение об ошибке.
-    global $error, $Names, $Values, $NOT_SET;
+/**
+ * Возвращает пустую строку в случае успеха (данные возвращаются в $data) или сообщение об ошибке.
+ * @param string $login
+ * @param string $pass
+ * @param string $data
+ * @return string
+ */
+function GetData($login, $pass, &$data)
+{
+    global $error, $NOT_SET;
     if (empty($login)) return "Логин не задан";
     if (empty($pass)) return "Пароль не задан";
 
@@ -129,25 +177,33 @@ function GetData($login, $pass, &$data, $srv = 0)
     $error = openDB();
     if ($error != "") return $error;
 
-    $ok = checkpass($login, $pass, "names,vals", $result);
-    if ($ok != "") return $ok;
-    InitParam(mysql_result($result, 0, "names"), mysql_result($result, 0, "vals"));
-    mysql_close();
+    list($ok, $result) = checkpass($login, $pass, "`names`,`vals`");
+    if ($ok != "")
+        return $ok;
+    InitParam($result["names"], $result["vals"]);
     $data = GetParam("gamedata");
-    if ($data == $NOT_SET) return "Данные не найдены";
+    if ($data == $NOT_SET)
+        return "Данные не найдены";
 
     return "";
 }
 
+/**
+ * Регистрация нового пользователя (oldpass = "") или смена пароля.
+ * Возвращает пустую строку в случае успеха или сообщение об ошибке.
+ * @param string $login
+ * @param string $oldpass
+ * @param string $newpass
+ * @return string
+ */
 function SetUser($login, $oldpass, $newpass)
-{ // Регистрация нового пользователя (oldpass = "") или смена пароля.
-    // Возвращает пустую строку в случае успеха или сообщение об ошибке.
+{
     global $RegStatus, $DefRefrInt, $DefMessLim, $CommonMode;
 
     if (empty($login)) return "Логин не задан";
     if (empty($newpass)) return "Пароль не задан";
-    if (!ValidNN($login)) return "Неверный синтаксис в логине";
-    if (!ValidPass($newpass)) return "Неверный синтаксис в пароле";
+    //if (!ValidNN($login)) return "Неверный синтаксис в логине";
+    //if (!ValidPass($newpass)) return "Неверный синтаксис в пароле";
 
     $login = substr($login, 0, 10);
     $newpass = substr($newpass, 0, 10);
@@ -159,19 +215,42 @@ function SetUser($login, $oldpass, $newpass)
     if ($error != "") return $error;
 
     if ($oldpass != "") {
-        $ok = checkpass($login, $oldpass, "", $result);
+        $ok = checkpass($login, $oldpass, "")[0];
         if ($ok != "") return $ok;
-        $sqlUpd = "update users set pass='$newpass' where nick = '$login' and pass='$oldpass'";
-        mysql_query($sqlUpd) or die(mysql_error());
+        $sql = 'update `users` set `pass` = :newpass where `nick` = :login and `pass` = :oldpass';
+        DB::link()
+            ->prepare($sql)
+            ->execute([
+                ':newpass' => $newpass,
+                ':login'   => $login,
+                ':oldpass' => $oldpass
+            ]);
     } else {
-        $sqlSel = "select * from users where nick = '$login'";
-        $result = mysql_query($sqlSel) or die(mysql_error());
-        $Count = mysql_num_rows($result);
-        if ($Count != 0) return "Такой логин уже зарегистирован";
+        $sql = "select * from `users` where `nick` = :nickname";
+        $query = DB::link()->prepare($sql);
+        $query->execute([
+            ':nickname' => $login
+        ]);
+        $Count = $query->rowCount();
+        if ($Count != 0)
+            return "Такой логин уже зарегистирован";
         $now = time();
-        $sqllogin = "insert into users (status,sent,regtime,refrint,messlim,mode,nick,pass) values ('$RegStatus','0', '$now', '$DefRefrInt','$DefMessLim', '$CommonMode','$login', '$newpass')";
-        mysql_query($sqllogin) or die(mysql_error());
+        $sql = 'insert into `users`'.
+            ' (`status`,`sent`,`regtime`,`refrint`,`messlim`,`mode`,`nick`,`pass`)'.
+            ' values (?, ?, ?, ?, ?, ?, ?, ?)';
+        DB::link()
+            ->prepare($sql)
+            ->execute([
+                $RegStatus,
+                '0',
+                $now,
+                $DefRefrInt,
+                $DefMessLim,
+                $CommonMode,
+                $login,
+                $newpass
+            ]);
     }
-    mysql_close();
+
     return "";
 }
