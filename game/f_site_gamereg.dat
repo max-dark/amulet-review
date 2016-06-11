@@ -3,12 +3,14 @@
 if (!preg_match('|^[-0-9a-z_]+$|i', $nn))
     msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
 openDB();
-$sqlSel = "select * from `users` where `nick` = '" . $nn . "'";
-$result = mysql_query($sqlSel) or die(mysql_error());
-$Count = mysql_num_rows($result);
+$sql = "select * from `users` where `nick` = :nickname";
+$query = DB::link()->prepare($sql);
+$query->execute([
+    ':nickname' => $nn
+]);
+$Count = $query->rowCount();
 if ($Count != 0)
     msg('Этот логин уже занят.<br /><anchor>Назад<prev/></anchor>', 'Ошибка', 0, 'none');
-mysql_close();
 $stmp = '
 </p><p align="center">            
 <b>Логин:</b>
