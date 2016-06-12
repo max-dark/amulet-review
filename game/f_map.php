@@ -53,9 +53,12 @@ $stmp = "<p align=\"center\"><img alt=\"map\" src=\"f_map.php?loc=$loc&amp;img=1
 if ($b) $stmp .= " территории Ансалона."; else $stmp .= "основной территории.";
 $stmp .= "<br/><a href=\"f_map.php?info=1\">Помощь</a>";
 
-msg($stmp);
+msg_map($stmp);
 
-function msg($s)
+/**
+ * @param string $page
+ */
+function msg_map($page)
 {
     header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -67,7 +70,7 @@ function msg($s)
 <wml>
 <card title=\"Карта\">";
     echo "
-$s
+$page
 </p>
 </card>
 </wml>";
