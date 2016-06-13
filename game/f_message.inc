@@ -178,7 +178,8 @@ function msg(
     };
     if ($g_smf && strpos($wml, '<input') === false)
         $wml = preg_replace(
-            ["'(<p [^>]*>)'",      "'<p>'",       "'</p>'"],
+            [/** @lang regexp */
+            "'(<p [^>]*>)'",      "'<p>'",       "'</p>'"],
             [   '\\1<small>', '<p><small>', '</small></p>'],
             $wml
         );
