@@ -1,13 +1,13 @@
 <?php
 
-$npc=array(
+$npc = array(
 
-'char'=>'Нoвoбpaнeц|100|100|100|100||||||||',
+    'char' => 'Нoвoбpaнeц|100|100|100|100||||||||',
 
-'war'=>'80|3|8|5||2|||||||мeчoм|||x1056x520:10:40',
+    'war' => '80|3|8|5||2|||||||мeчoм|||x1056x520:10:40',
 
-'items'=>'i.w.s.short:1',
+    'items' => 'i.w.s.short:1',
 
-'equip'=>'i.w.s.short',
+    'equip' => 'i.w.s.short',
 
 );

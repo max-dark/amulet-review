@@ -1,8 +1,8 @@
-<?php 
-$npc=array( 
-'char'=>'волк [воин]|250|250|1|1||||||||', 
-'war'=>'95|20|30|4||25|30||||||глефой|40||', 
-'osvej'=>'i.h.s.wolf:1|i.h.k.wolf:1|i.h.kog.wolf:1|i.f.meat:1', 
-'itemsrnd'=>'i.f.b.heal:40:0:2|i.f.b.heal.great:10:0:1',
-'items'=>'i.w.s.glefa:1',
+<?php
+$npc = array(
+    'char' => 'волк [воин]|250|250|1|1||||||||',
+    'war' => '95|20|30|4||25|30||||||глефой|40||',
+    'osvej' => 'i.h.s.wolf:1|i.h.k.wolf:1|i.h.kog.wolf:1|i.f.meat:1',
+    'itemsrnd' => 'i.f.b.heal:40:0:2|i.f.b.heal.great:10:0:1',
+    'items' => 'i.w.s.glefa:1',
 );

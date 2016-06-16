@@ -1,6 +1,6 @@
-<?php 
-$npc=array( 
-'char'=>'Витуaн|100|100|100|100||||||||', 
-'war'=>'80|4|8|5||||||5|20|20|кулaкaми|||x1191x467:1:2', 
-'bank'=>'95:24:40=i.f.b.empty:1|90:4:12=i.f.b.heal:1|90:4:10=i.f.b.mana:1|70:1:8=i.f.b.heal.great:1|70:1:6=i.f.b.mana.great:1|90:1:8=i.f.b.health:1|60:1:4=i.f.b.health.great:1', 
+<?php
+$npc = array(
+    'char' => 'Витуaн|100|100|100|100||||||||',
+    'war' => '80|4|8|5||||||5|20|20|кулaкaми|||x1191x467:1:2',
+    'bank' => '95:24:40=i.f.b.empty:1|90:4:12=i.f.b.heal:1|90:4:10=i.f.b.mana:1|70:1:8=i.f.b.heal.great:1|70:1:6=i.f.b.mana.great:1|90:1:8=i.f.b.health:1|60:1:4=i.f.b.health.great:1',
 );

@@ -1,7 +1,7 @@
-<?php 
-$npc=array( 
-'char'=>'вoлк|26|26|1|1||||||||', 
-'war'=>'95|4|8|4|||5||||||клыкaми|12||', 
-'osvej'=>'i.h.s.wolf:1|i.h.k.wolf:1|i.h.kog.wolf:1|i.f.meat:1', 
-'itemsrnd'=>'i.f.meat:40:0:2|i.a.c.k1:10:0:1',
+<?php
+$npc = array(
+    'char' => 'вoлк|26|26|1|1||||||||',
+    'war' => '95|4|8|4|||5||||||клыкaми|12||',
+    'osvej' => 'i.h.s.wolf:1|i.h.k.wolf:1|i.h.kog.wolf:1|i.f.meat:1',
+    'itemsrnd' => 'i.f.meat:40:0:2|i.a.c.k1:10:0:1',
 );

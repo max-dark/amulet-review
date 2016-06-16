@@ -1,6 +1,6 @@
-<?php 
-$npc=array( 
-'char'=>'cкopпиoн|10|10|1|1||||||||', 
-'war'=>'70|1|4|4|||5||||||ядoм|3||', 
-'itemsrnd'=>'i.f.fileroot:30:0:2|i.h.jalo:25:0:1',
+<?php
+$npc = array(
+    'char' => 'cкopпиoн|10|10|1|1||||||||',
+    'war' => '70|1|4|4|||5||||||ядoм|3||',
+    'itemsrnd' => 'i.f.fileroot:30:0:2|i.h.jalo:25:0:1',
 );

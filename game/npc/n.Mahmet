@@ -1,6 +1,6 @@
-<?php 
-$npc=array( 
-'char'=>'Мaхмeт|100|100|100|100||||||||', 
-'war'=>'80|4|11|5|||||||||кулaкaми|||', 
-'bank'=>'90:1:4=i.set.shlif:1|80:1:2=i.ring.l:1|80:1:2=i.ring.m:1|80:1:2=i.ring.b:1|80:1:2=i.ring.s:1|80:1:2=i.ring.z:1|80:1:2=i.ring.r:1|80:1:2=i.ring.e:1|80:1:2=i.ring.a:1|80:1:2=i.oj.m:1|80:1:2=i.oj.b:1|80:1:2=i.oj.s:1|80:1:2=i.oj.z:1|80:1:2=i.oj.a:1|80:1:2=i.med.w:1|80:1:2=i.med.m:1|80:1:2=i.med.b:1|80:1:2=i.med.s:1|80:1:2=i.med.z:1|80:1:2=i.c.rubin.good:1|70:1:2=i.c.emerald.good:1|90:1:2=i.c.pearl.good:1|90:1:3=i.c.amber.good:1|80:1:1=i.c.adamant.good:1', 
+<?php
+$npc = array(
+    'char' => 'Мaхмeт|100|100|100|100||||||||',
+    'war' => '80|4|11|5|||||||||кулaкaми|||',
+    'bank' => '90:1:4=i.set.shlif:1|80:1:2=i.ring.l:1|80:1:2=i.ring.m:1|80:1:2=i.ring.b:1|80:1:2=i.ring.s:1|80:1:2=i.ring.z:1|80:1:2=i.ring.r:1|80:1:2=i.ring.e:1|80:1:2=i.ring.a:1|80:1:2=i.oj.m:1|80:1:2=i.oj.b:1|80:1:2=i.oj.s:1|80:1:2=i.oj.z:1|80:1:2=i.oj.a:1|80:1:2=i.med.w:1|80:1:2=i.med.m:1|80:1:2=i.med.b:1|80:1:2=i.med.s:1|80:1:2=i.med.z:1|80:1:2=i.c.rubin.good:1|70:1:2=i.c.emerald.good:1|90:1:2=i.c.pearl.good:1|90:1:3=i.c.amber.good:1|80:1:1=i.c.adamant.good:1',
 );

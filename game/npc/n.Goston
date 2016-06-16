@@ -1,6 +1,6 @@
-<?php 
-$npc=array( 
-'char'=>'Гocтoн|100|100|100|100||||||||', 
-'war'=>'80|4|11|5|||||||||кулaкaми|||x1101x558:10:20', 
-'bank'=>'90:12:45=i.arrow:1|90:12:35=i.bolt:1|60:1:5=i.f.meat.fried:1|80:1:4=i.f.apple:1|70:1:3=i.w.k.hunter:1|60:1:1=i.a.b.leather:1|90:1:2=i.f.fish:1|60:1:1=i.a.c.s1:1|80:1:1=i.fishman:1|90:1:45=i.spichka:1|80:1:1=i.set.leska:1|70:1:1=i.set.arrow:1|70:1:1=i.set.bolt:1|95:1:4=i.set.shampur:1|95:1:4=i.set.koptilka:1', 
+<?php
+$npc = array(
+    'char' => 'Гocтoн|100|100|100|100||||||||',
+    'war' => '80|4|11|5|||||||||кулaкaми|||x1101x558:10:20',
+    'bank' => '90:12:45=i.arrow:1|90:12:35=i.bolt:1|60:1:5=i.f.meat.fried:1|80:1:4=i.f.apple:1|70:1:3=i.w.k.hunter:1|60:1:1=i.a.b.leather:1|90:1:2=i.f.fish:1|60:1:1=i.a.c.s1:1|80:1:1=i.fishman:1|90:1:45=i.spichka:1|80:1:1=i.set.leska:1|70:1:1=i.set.arrow:1|70:1:1=i.set.bolt:1|95:1:4=i.set.shampur:1|95:1:4=i.set.koptilka:1',
 );

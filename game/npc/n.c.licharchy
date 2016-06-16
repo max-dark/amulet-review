@@ -1,6 +1,6 @@
-<?php 
-$npc=array( 
-'char'=>'apхилич|90|90|1|1||||||||', 
-'war'=>'95|12|32|4|||5|||20|90|70|мaгиeй|55||', 
-'itemsrnd'=>'i.money:90:55:150|i.m.w.firearrow:100:0:2|i.m.w.lighting:60:0:1', 
+<?php
+$npc = array(
+    'char' => 'apхилич|90|90|1|1||||||||',
+    'war' => '95|12|32|4|||5|||20|90|70|мaгиeй|55||',
+    'itemsrnd' => 'i.money:90:55:150|i.m.w.firearrow:100:0:2|i.m.w.lighting:60:0:1',
 );

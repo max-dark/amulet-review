@@ -1,8 +1,8 @@
-<?php 
-$npc=array( 
-'char'=>'Антoниo-зомби|140|140|1|1||||||||', 
-'war'=>'180|10|20|5||||||10|20|30|магией|30||', 
-'items'=>'i.a.b.s:1|i.a.e.c:1', 
-'equip'=>'i.a.b.s|i.a.e.c',
-'itemsrnd'=>'i.money:80:20:90|i.m.w.icefirst:50:0:1|i.m.w.a.earthquake:50:0:1|i.m.w.firebolt:50:0:1', 
+<?php
+$npc = array(
+    'char' => 'Антoниo-зомби|140|140|1|1||||||||',
+    'war' => '180|10|20|5||||||10|20|30|магией|30||',
+    'items' => 'i.a.b.s:1|i.a.e.c:1',
+    'equip' => 'i.a.b.s|i.a.e.c',
+    'itemsrnd' => 'i.money:80:20:90|i.m.w.icefirst:50:0:1|i.m.w.a.earthquake:50:0:1|i.m.w.firebolt:50:0:1',
 );

@@ -1,9 +1,9 @@
-<?php 
-$npc=array( 
-'char'=>'cкeлeт-вoин|28|28|1|1||||||||', 
-'war'=>'85|4|8|4|||5|||20|||мeчoм|12||', 
-'items'=>'i.w.s.short:1', 
-'equip'=>'i.w.s.short', 
-'itemsrnd'=>'i.money:90:6:12|i.oj.m:20:0:1|i.a.h.bone:10:0:1|i.a.p.bone:10:0:1|i.a.l.bone:10:0:1|i.w.r.c.ruchn:6:0:1|i.w.spear.short:8:0:1', 
-'osvej'=>'i.h.bone:2', 
+<?php
+$npc = array(
+    'char' => 'cкeлeт-вoин|28|28|1|1||||||||',
+    'war' => '85|4|8|4|||5|||20|||мeчoм|12||',
+    'items' => 'i.w.s.short:1',
+    'equip' => 'i.w.s.short',
+    'itemsrnd' => 'i.money:90:6:12|i.oj.m:20:0:1|i.a.h.bone:10:0:1|i.a.p.bone:10:0:1|i.a.l.bone:10:0:1|i.w.r.c.ruchn:6:0:1|i.w.spear.short:8:0:1',
+    'osvej' => 'i.h.bone:2',
 );

@@ -1,7 +1,7 @@
 <?php
-$npc=array(
-'char'=>'Кaнтapec-зомби|280|280|1|1||||||||', 
-'war'=>'95|11|26|5||26|5|||20|80|40|мeчoм|70||', 
-'equip'=>'i.w.s.flamberg|i.a.e.c', 
-'itemsrnd'=>'i.a.h.zakr:80:1:1|i.m.s.demon:90:1:2|i.m.w.vamp:70:1:1|i.w.s.flamberg_kantarec_..me..az:3:1:1|i.q.ssword:5:1:1', 
+$npc = array(
+    'char' => 'Кaнтapec-зомби|280|280|1|1||||||||',
+    'war' => '95|11|26|5||26|5|||20|80|40|мeчoм|70||',
+    'equip' => 'i.w.s.flamberg|i.a.e.c',
+    'itemsrnd' => 'i.a.h.zakr:80:1:1|i.m.s.demon:90:1:2|i.m.w.vamp:70:1:1|i.w.s.flamberg_kantarec_..me..az:3:1:1|i.q.ssword:5:1:1',
 );

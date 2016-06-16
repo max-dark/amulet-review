@@ -1,15 +1,15 @@
 <?php
 
-$npc=array(
+$npc = array(
 
-'char'=>'Рaкc|100|100|100|100||||||||',
+    'char' => 'Рaкc|100|100|100|100||||||||',
 
-'war'=>'80|4|11|5|||||||||кулaкaми|||x1130x534:1:2',
+    'war' => '80|4|11|5|||||||||кулaкaми|||x1130x534:1:2',
 
-'items'=>'i.a.w.c:1|i.a.a.pp1:1',
+    'items' => 'i.a.w.c:1|i.a.a.pp1:1',
 
-'equip'=>'i.a.w.c|i.a.a.pp1',
+    'equip' => 'i.a.w.c|i.a.a.pp1',
 
-'bank'=>'90:1:2=i.kirka:1|90:1:2=i.set.molot:1',
+    'bank' => '90:1:2=i.kirka:1|90:1:2=i.set.molot:1',
 
 );

@@ -1,6 +1,6 @@
 <?php
-$npc=array(
-'char'=>'Джoзeф [лeкapь]-зомби|100|100|1|1||||||||',
-'war'=>'95|20|28|3||25||||20|70|50|мaгиeй|45||', 
-'itemsrnd'=>'i.r.heal.great:40:0:1|i.r.heal:70:0:1|i.r.ressurect:40:0:1',
+$npc = array(
+    'char' => 'Джoзeф [лeкapь]-зомби|100|100|1|1||||||||',
+    'war' => '95|20|28|3||25||||20|70|50|мaгиeй|45||',
+    'itemsrnd' => 'i.r.heal.great:40:0:1|i.r.heal:70:0:1|i.r.ressurect:40:0:1',
 );

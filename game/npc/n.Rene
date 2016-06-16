@@ -1,13 +1,13 @@
 <?php
 
-$npc=array(
+$npc = array(
 
-'char'=>'Рeнe|100|100|100|100||||||||',
+    'char' => 'Рeнe|100|100|100|100||||||||',
 
-'war'=>'90|9|24|5||6|10||||||мeчoм|||x1056x504:1:2',
+    'war' => '90|9|24|5||6|10||||||мeчoм|||x1056x504:1:2',
 
-'items'=>'i.a.b.latndosp:1|i.a.e.s:1|i.w.s.dvuruchn:1',
+    'items' => 'i.a.b.latndosp:1|i.a.e.s:1|i.w.s.dvuruchn:1',
 
-'equip'=>'i.a.b.latndosp|i.a.e.s|i.w.s.dvuruchn',
+    'equip' => 'i.a.b.latndosp|i.a.e.s|i.w.s.dvuruchn',
 
 );

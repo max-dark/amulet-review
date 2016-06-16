@@ -1,8 +1,8 @@
 <?php
-$npc=array(
-'char'=>'Лopд Хaгeн-зомби|280|280|1|1||||||||', 
-'war'=>'95|11|26|5||26|5|||20|80|40|мeчoм|70||', 
-'items'=>'i.w.s.p:1|i.a.e.p:1', 
-'equip'=>'i.w.s.dvuruchn|i.a.e.c', 
-'itemsrnd'=>'i.a.h.zakr:80:1:1|i.m.s.demon:90:1:2|i.m.w.vamp:70:1:1', 
+$npc = array(
+    'char' => 'Лopд Хaгeн-зомби|280|280|1|1||||||||',
+    'war' => '95|11|26|5||26|5|||20|80|40|мeчoм|70||',
+    'items' => 'i.w.s.p:1|i.a.e.p:1',
+    'equip' => 'i.w.s.dvuruchn|i.a.e.c',
+    'itemsrnd' => 'i.a.h.zakr:80:1:1|i.m.s.demon:90:1:2|i.m.w.vamp:70:1:1',
 );

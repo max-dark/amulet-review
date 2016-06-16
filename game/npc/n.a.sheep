@@ -1,11 +1,11 @@
 <?php
 
-$npc=array(
+$npc = array(
 
-'char'=>'oвцa|12|12|1|1||||1||||',
+    'char' => 'oвцa|12|12|1|1||||1||||',
 
-'war'=>'60|1|4|5|||||||||кoпытaми|3||',
+    'war' => '60|1|4|5|||||||||кoпытaми|3||',
 
-'osvej'=>'i.h.s.sheep:1|i.h.kop.sheep:1|i.f.meat:1',
+    'osvej' => 'i.h.s.sheep:1|i.h.kop.sheep:1|i.f.meat:1',
 
 );
