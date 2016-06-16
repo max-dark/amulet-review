@@ -70,9 +70,6 @@ function msg(
             $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/', '', $page_journal);
     }
 
-    $t_g1 = sscanf(microtime(), '%s %s');
-    $t_g1 = $t_g1[1] + $t_g1[0];
-    $game['tmid'] = ($game['tmid'] + $t_g1 - $t_g) / 2;
     savegame();
     if ($page_journal && $show_journal) {
         $page_journal = explode('<br/>', $page_journal);
