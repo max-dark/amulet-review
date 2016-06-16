@@ -14,7 +14,7 @@ require_once 'modules/constants.php';
  * @param string $message Сообщение
  * @param string $page_title название игры
  * @param int $show_journal флаг, что нужно выводить журнал
- * @param string $menu_type тип меню. возможные значения (""|none|main|to|inv)
+ * @param string $menu_type тип меню. возможные значения (""|none|main|inv)
  * @param string $var_name имя переменной для вставки в страницу
  * @param string $var_value значение переменной vname
  */
