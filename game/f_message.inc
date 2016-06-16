@@ -1,4 +1,9 @@
 <?php
+/**
+ * Функция вывода страницы
+ * @file /game/f_message.inc
+ * @lang text
+ */
 
 require_once 'modules/constants.php';
 
@@ -178,7 +183,7 @@ function msg(
     };
     if ($g_smf && strpos($wml, '<input') === false)
         $wml = preg_replace(
-            [/** @lang regexp */
+            [
             "'(<p [^>]*>)'",      "'<p>'",       "'</p>'"],
             [   '\\1<small>', '<p><small>', '</small></p>'],
             $wml
