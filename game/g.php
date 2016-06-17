@@ -264,17 +264,25 @@ if ($use) {
             $look = $use;
         else {
             $scroll = 0; // со свитка
-            if (substr($use, 0, 2) == "i.")
-                include_once "f_useitem.dat";
-            else
-                if (substr($use, 0, 2) == "m.")
+            switch (substr($use, 0, 2)) {
+                case "i.": {
+                    include_once "f_useitem.dat";
+                }
+                    break;
+                case "m.": {
                     include_once "f_usemagic.dat";
-                else
-                    if (substr($use, 0, 2) == "p.")
-                        include_once "f_usepriem.dat";
-                    else
-                        if (substr($use, 0, 6) == "skill.")
-                            include_once "f_useskill.dat";
+                }
+                    break;
+                case "p.": {
+                    include_once "f_usepriem.dat";
+                }
+                    break;
+                default:
+                    if (substr($use, 0, 6) == "skill.") {
+                        include_once "f_useskill.dat";
+                    }
+                    break;
+            }
             $char = explode("|", $loc_i[$loc][$login]["char"]);
         }
     } else
@@ -286,12 +294,17 @@ if ($msg)
     include_once "f_msg.inc";
 if ($trade)
     include_once "f_trade.inc";
-if ($cl == "i")
-    $cl = "inv";
-if ($cl == "m")
-    $cl = "magic";
-if ($cl == "p")
-    $cl = "priem";
+switch ($cl) {
+    case "i":
+        $cl = "inv";
+        break;
+    case "m":
+        $cl = "magic";
+        break;
+    case "p":
+        $cl = "priem";
+        break;
+}
 if ($list || $list = $cl)
     include_once "f_list" . $list . ".dat";
 if ($map)
