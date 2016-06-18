@@ -151,3 +151,27 @@ class JpegImage extends Image {
         return imagejpeg($this->getImage(), $file_name);
     }
 }
+
+/**
+ * Class WBMPImage
+ */
+class WBMPImage extends Image {
+    /**
+     * загрузка картинки
+     * @param $file_name
+     * @return resource
+     */
+    public function loadFile($file_name)
+    {
+        return imagecreatefromwbmp($file_name);
+    }
+
+    /** запись картинки в $file_name или STDOUT
+     * @param string|null $file_name
+     * @return bool
+     */
+    public function writeFile($file_name = null)
+    {
+        return imagewbmp($this->getImage(), $file_name);
+    }
+}
