@@ -73,9 +73,33 @@ if (have_key($game, "msg") && $gm != $gm_id) {
     msg($game["msg"]);
 }
 // если задана страница перехода
-if ($site) {
-    // выполнить ее
-    include_once "f_site_" . preg_replace('/\W/', "", $site) . ".dat";
+if (!empty($site)) {
+    /** @var array[] $sites */
+    $sites = array(
+        'castle'   => 'f_site_castle.dat',
+        'clans'    => 'f_site_clans.dat',
+        'common'   => 'f_site_common.php',
+        'connect'  => 'f_site_connect.dat',
+        'connect2' => 'f_site_connect2.dat',
+        'faq'      => 'f_site_faq.php',
+        'flag'     => 'f_site_flag.dat',
+        'gamereg'  => 'f_site_gamereg.dat',
+        'main'     => 'f_site_main.dat',
+        'main2'    => 'f_site_main2.dat',
+        'main3'    => 'f_site_main3.dat',
+        'news'     => 'f_site_news.dat',
+        'online'   => 'f_site_online.dat',
+        'reg'      => 'f_site_reg.dat',
+        'reg2'     => 'f_site_reg2.dat',
+        'rule'     => 'f_site_rule.dat'
+    );
+    if (array_key_exists($site, $sites)) {
+        // выполнить ее
+        require_once $sites[$site];
+    }
+    else {
+        die('Oops: '.$site.' not found');
+    }
 }
 // Если время вышло
 if (time() > $game["lastai"] + 240) {
