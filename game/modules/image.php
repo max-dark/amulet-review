@@ -89,4 +89,32 @@ abstract class Image {
     public function getExtInfo($that) {
         return $this->ext_info[$that];
     }
+
+    /**
+     * @return resource
+     */
+    protected function getImage()
+    {
+        return $this->image;
+    }
+}
+
+class PNGImage extends Image {
+    /**
+     * @param $file_name
+     * @return resource
+     */
+    public function loadFile($file_name)
+    {
+        return imagecreatefrompng($file_name);
+    }
+
+    /** запись картинки в $file_name или STDOUT
+     * @param string|null $file_name
+     * @return bool
+     */
+    public function writeFile($file_name = null)
+    {
+        return imagepng($this->getImage(), $file_name);
+    }
 }
