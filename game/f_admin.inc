@@ -186,7 +186,7 @@ if ($login == $g_admin || $gm == $gm_id) {
         case 'stop':
             $game["stop"] = time() + 180;
             if ($inp)
-                $game["stopmsg"] = 'Игра обновляется. зайдите позже';
+                $game["msg"] = 'Игра обновляется. зайдите позже';
             msg("Остановка через 3 минут");
             break;
         case 'play':
