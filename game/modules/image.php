@@ -75,4 +75,18 @@ abstract class Image {
     public function colorAt($x, $y) {
         return imagecolorat($this->image, $x, $y);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getInfo($that) {
+        return $this->info[$that];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtInfo($that) {
+        return $this->ext_info[$that];
+    }
 }
