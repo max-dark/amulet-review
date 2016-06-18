@@ -61,7 +61,7 @@ function msg(
         }
     }
     $page_journal = "";
-    if (get($game, 'journal') && $login != $g_admin && $gm != $gm_id)
+    if (have_key($game, 'journal') && $login != $g_admin && $gm != $gm_id)
         $page_journal = $game['journal'];
     if ($show_journal == 1 && $loc_i[$loc][$login]['journal']) {
         $page_journal = str_replace('|', '<br/>', $loc_i[$loc][$login]['journal']);

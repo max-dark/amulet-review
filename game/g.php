@@ -68,7 +68,7 @@ if (file_exists("game.dat")) {
     }
 }
 // если игра на обслуживании(?) и мы не админ
-if (get($game, "msg") && $gm != $gm_id) {
+if (have_key($game, "msg") && $gm != $gm_id) {
     // вывести сообщение
     msg($game["msg"]);
 }

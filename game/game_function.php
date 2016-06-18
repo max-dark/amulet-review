@@ -10,18 +10,14 @@ require_once "f_addexp.inc";
 require_once 'f_attackf.inc';
 
 /**
- * Получить значение по ключу
- * возвращает false, если ключа в массиве нет
+ * алиас для array_key_exists
  * @param $arr array Массив
  * @param $key mixed Ключ
- * @return mixed
+ * @return bool
  */
-function get($arr, $key)
+function have_key($arr, $key)
 {
-    return (
-    array_key_exists($key, $arr) ?
-        $arr[$key] : false
-    );
+    return array_key_exists($key, $arr);
 }
 
 /** Запись состояния
