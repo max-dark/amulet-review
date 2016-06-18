@@ -45,15 +45,18 @@ function calculateCoordinates($location)
     /** @noinspection PhpUnusedLocalVariableInspection */
     list($type, $x, $y) = explode("x", $location);
     if ($y > 1101) {
+        // Волчий остров
         $x = round(($x - 20) / 6);
         $y = round(($y - 1101) / 6);
         $type = 2;
     } else
         if ($x > 1650) {
+            // территория Ансалона
             $x = round(($x - 450 - 1200) / 15);
             $y = round($y / 15);
             $type = 1;
         } else {
+            // основная территория
             $x = round(($x - 450) / 12);
             $y = round($y / 12);
             $type = 0;
