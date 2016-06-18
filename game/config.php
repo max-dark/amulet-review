@@ -84,8 +84,8 @@ if ($cnt_get) {
         if (!$vals[$i])
             continue;
         if (!preg_match('|^[-a-z0-9_\.]+$|i', $vals[$i]))
-            exit('Вы используете запрещенные символы ' . $v[0]);
-        eval('$' . $key[$i] . '="' . $vals[$i] . '";');
+            exit('Вы используете запрещенные символы ');
+        $GLOBALS[$key[$i]] = $vals[$i];
     }
     unset($cnt_get, $key, $vals);
 }
@@ -95,7 +95,7 @@ if ($cnt_post) {
     $key = array_keys($_POST);
     $vals = array_values($_POST);
     for ($i = 0; $i < $cnt_post; $i++) {
-        eval('$' . $key[$i] . '="' . $vals[$i] . '";');
+        $GLOBALS[$key[$i]] = $vals[$i];
     }
     unset($cnt_post, $key, $vals);
 }
