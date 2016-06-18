@@ -127,3 +127,27 @@ class PNGImage extends Image {
         return imagepng($this->getImage(), $file_name);
     }
 }
+
+/**
+ * Class JpegImage
+ */
+class JpegImage extends Image {
+    /**
+     * загрузка картинки
+     * @param $file_name
+     * @return resource
+     */
+    public function loadFile($file_name)
+    {
+        return imagecreatefromjpeg($file_name);
+    }
+
+    /** запись картинки в $file_name или STDOUT
+     * @param string|null $file_name
+     * @return bool
+     */
+    public function writeFile($file_name = null)
+    {
+        return imagejpeg($this->getImage(), $file_name);
+    }
+}
