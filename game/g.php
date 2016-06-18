@@ -329,8 +329,9 @@ switch ($cl) {
         $cl = "priem";
         break;
 }
-if ($list || $list = $cl)
+if ($list || $list = $cl) {
     include_once "f_list" . $list . ".dat";
+}
 if (isset($map)) {
     include_once "f_map.inc";
     msg(map_page($loc, $game, $g_map, $PHP_SELF, $sid));
