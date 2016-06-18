@@ -77,6 +77,8 @@ abstract class Image {
     }
 
     /**
+     * информация о картинке
+     * @param string|int $that
      * @return mixed
      */
     public function getInfo($that) {
@@ -84,6 +86,8 @@ abstract class Image {
     }
 
     /**
+     * рассширенная информация о картинке
+     * @param string|int $that
      * @return mixed
      */
     public function getExtInfo($that) {
@@ -91,6 +95,7 @@ abstract class Image {
     }
 
     /**
+     * хендл изображения
      * @return resource
      */
     protected function getImage()
@@ -99,8 +104,12 @@ abstract class Image {
     }
 }
 
+/**
+ * Class PNGImage
+ */
 class PNGImage extends Image {
     /**
+     * загрузка картинки
      * @param $file_name
      * @return resource
      */
