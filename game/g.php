@@ -85,7 +85,6 @@ if (!empty($site)) {
         'flag'     => 'f_site_flag.dat',
         'gamereg'  => 'f_site_gamereg.dat',
         'main'     => 'f_site_main.dat',
-        'main2'    => 'f_site_main2.dat',
         'main3'    => 'f_site_main3.dat',
         'news'     => 'f_site_news.dat',
         'online'   => 'f_site_online.dat',

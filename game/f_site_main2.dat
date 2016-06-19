@@ -1,9 +1,0 @@
-<?php
-$stmp = ">Назад</a>
-";
-if ($pi) {
-    require($GLOBALS["DOCUMENT_ROOT"] . "/javainc.ssp");
-    $stmp .= "</p><p align=\"center\"><br/><small><a href=\"$homeurl\">$home </a> 2004<br/></small>\n";
-}
-if ($_SERVER["REMOTE_ADDR"] == "193.201.231.2") $stmp .= "<br/><small><a href=\"http://wap.megawap.ru\">wap.megawap.ru</a></small>\n"; else if ($_SERVER["REMOTE_ADDR"] == "62.118.250.193") $stmp .= "<br/><small><a href=\"http://wap.mts.ru\">wap.mts.ru</a></small>\n";
-msg($stmp, "Ваш аккаунт", 0, 'none');
