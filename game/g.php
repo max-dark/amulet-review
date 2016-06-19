@@ -72,8 +72,8 @@ if (have_key($game, "msg") && $gm != $gm_id) {
     // вывести сообщение
     msg($game["msg"]);
 }
-// если задана страница перехода
-if (!empty($site)) {
+/** @var string $site */
+if (!empty($site)) { // если задана страница перехода
     /** @var array[] $pages */
     $pages = array(
         'castle'   => 'f_site_castle.dat',
@@ -91,12 +91,12 @@ if (!empty($site)) {
         'reg2'     => 'f_site_reg2.dat'
     );
     if (array_key_exists($site, $pages)) {
-        // выполнить ее
-        require_once $pages[$site];
+        if (file_exists($pages[$site])) {
+            // выполнить ее
+            require_once $pages[$site];
+        }
     }
-    else {
-        die('Oops: '.$site.' not found');
-    }
+    die('Oops: '.$site.' not found');
 }
 // Если время вышло
 if (time() > $game["lastai"] + 240) {
