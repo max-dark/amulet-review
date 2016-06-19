@@ -36,8 +36,8 @@ function msg(
     header("Pragma: no-cache");
     header("Content-type:text/vnd.wap.wml;charset=utf-8");
 
-    $wml = "<?xml version='1.0'?>" .
-        "<!DOCTYPE wml PUBLIC '-//WAPFORUM//DTD WML 1.3//EN' 'http://www.wapforum.org/DTD/wml13.dtd'>";
+    $wml = '<?xml version="1.0"?>' .
+        '<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.3//EN" "http://www.wapforum.org/DTD/wml13.dtd">';
 
     $wml .= "<wml>";
     if (!$login) {

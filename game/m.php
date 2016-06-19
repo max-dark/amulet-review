@@ -28,14 +28,14 @@ function msg_m($page)
     header("Pragma: no-cache");
     header("Content-type: text/vnd.wap.wml;charset=utf-8");
 
-    echo <<<WML
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "https://www.wapforum.org/DTD/wml_1.1.xml">
+    echo <<<XML
+<?xml version="1.0"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.3//EN" "http://www.wapforum.org/DTD/wml13.dtd">
 <wml>
 <card title="Карта">
 <p>$page</p>
 </card>
 </wml>
-WML;
+XML;
     exit(0);
 }
