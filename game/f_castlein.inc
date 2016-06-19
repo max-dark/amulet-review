@@ -15,7 +15,7 @@ if ($clanc) {    // инфа
     if ($stuk) {    // стук в ворота
         if (strpos($d[0], "[") !== false) $tmp = substr($d[0], strpos($d[0], "[") + 1, strpos($d[0], "]") - strpos($d[0], "[") - 1); else $tmp = time() - 1;
         if (time() < $tmp) msg("Стучать можно не чаще чем раз в 3 минуты");
-        $tclan = unserialize(implode("", file("../clans/" . $clanc)));
+        $tclan = unserialize((file_get_contents("../clans/" . $clanc)));
         if ($tclan) {
             $k1 = array_keys($tclan["g"]);
             $tclan["m"][$k1[0]] = 1;//глава

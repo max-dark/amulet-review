@@ -40,7 +40,7 @@ if (!$start) $start = 0;
 $keys = array_keys($items);
 for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
     $k = explode(":", $items[$keys[$i]]);
-    if (file_exists("items/" . $k[0])) $item = explode("|", implode("", file("items/" . $k[0]))); else die("err: no items/" . $k[0]);
+    if (file_exists("items/" . $k[0])) $item = explode("|", (file_get_contents("items/" . $k[0]))); else die("err: no items/" . $k[0]);
     if (time() < $k[1]) $item = $item[0] . " [осталось " . (round(($k[1] - time()) / 60) + 1) . " минут]"; else $item = $item[0];
     if ($to) {
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=" . $k[0] . $m . "\">" . $item . "</a>";

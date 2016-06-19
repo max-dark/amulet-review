@@ -6,7 +6,7 @@ if ($to) {
     if (strpos($loc_i[$loc][$login]["items"], "i.set.shlif:") === false) msg("В вашем рюкзаке должен быть набор ювелира");
     if (strpos($to, "_") !== false) $tk = substr($to, 0, strpos($to, "_")); else $tk = $to;
     if (file_exists("items/" . $tk)) {
-        $title = explode("|", implode("", file("items/" . $tk)));
+        $title = explode("|", (file_get_contents("items/" . $tk)));
         $title = $title[0];
     } else die("no items/" . $to);
     if (intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"])) < 1) msg("У вас нет " . $title);

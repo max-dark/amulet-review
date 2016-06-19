@@ -10,7 +10,7 @@ if ($use == "i.f.b.empty") {
     } else msg("Рядом нет источника воды, чтобы наполнить бутылку водой.");
 }
 
-if (file_exists("items/" . $use)) $item = explode("|", implode("", file("items/" . $use))); else die("err: no items/" . $use);
+if (file_exists("items/" . $use)) $item = explode("|", (file_get_contents("items/" . $use))); else die("err: no items/" . $use);
 $char[6] = time() + 4;
 $loc_i[$loc][$login]["char"] = implode("|", $char);
 if ($item[2]) {

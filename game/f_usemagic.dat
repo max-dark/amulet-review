@@ -17,7 +17,7 @@ if ($use{2} > 0 && $use{2} < 10) {
     } else msg("У вас нет книги магии или в вашей книге заклинаний нет заклинания под номером " . ($tc + 1));
 }
 
-if (file_exists("items/" . $use)) $magic = explode("|", implode("", file("items/" . $use))); else die("err: no items/" . $use);
+if (file_exists("items/" . $use)) $magic = explode("|", (file_get_contents("items/" . $use))); else die("err: no items/" . $use);
 if (!$scroll) if (strpos($loc_i[$loc][$login]["magic"], $use . ":") === false) msg("В вашей книге заклинаний нет " . $magic[0] . ", найдите NPC, который поможет его изучить.");
 
 // нужна ли цель

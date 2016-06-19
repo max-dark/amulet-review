@@ -45,4 +45,4 @@ if ($i > -1) {
 
 $stmp .= "\n<br/><br/><anchor>[Назад]<prev/></anchor>";
 
-msg($stmp, "Онлайн (Cервер " . implode("", file("server.dat")) . ")", 0, 'none');
+msg($stmp, "Онлайн (Cервер " . (file_get_contents("server.dat")) . ")", 0, 'none');

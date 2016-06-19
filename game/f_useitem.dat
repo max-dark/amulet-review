@@ -38,7 +38,7 @@ if (substr($use, 0, 4) == 'i.m.' || substr($use, 0, 4) == 'i.r.') {
     $scroll = $use;
     $use = "m." . substr($use, 4);    // ниже исп. магию
     if (strpos($use, "_") !== false) $ti = substr($use, 0, strpos($use, "_")); else $ti = $use;
-    if (file_exists("items/" . $ti)) $m = explode("|", implode("", file("items/" . $ti))); else die("err: no items/" . $use);
+    if (file_exists("items/" . $ti)) $m = explode("|", (file_get_contents("items/" . $ti))); else die("err: no items/" . $use);
     if ($m[6] && !$to) {
         $use = $scroll;
         $list = 'all';

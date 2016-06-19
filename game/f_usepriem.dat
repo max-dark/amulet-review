@@ -12,7 +12,7 @@ if ($use{2} > 0 && $use{2} < 10) {
     } else msg("У вас нет приема под номером " . ($tc + 1));
 }
 
-if (file_exists("items/" . $use)) $priem = explode("|", implode("", file("items/" . $use))); else die("err: no items/" . $use);
+if (file_exists("items/" . $use)) $priem = explode("|", (file_get_contents("items/" . $use))); else die("err: no items/" . $use);
 if (strpos($loc_i[$loc][$login]["priem"], $use . ":") === false) msg("Вы не знаете прием " . $magic[0] . ", найдите NPC, который поможет его изучить.");
 if ($to == $login || !$to) msg("Нельзя применять прием к самому себе");
 

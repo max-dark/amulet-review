@@ -41,7 +41,7 @@ function calcparam($loc, $login)
                 continue;
             }
             // загружаем предмет
-            $item = explode("|", implode("", file("items/" . $tid)));
+            $item = explode("|", (file_get_contents("items/" . $tid)));
             $str = "0:0:0";
             if (substr($equip[$i], 0, 4) == "i.a." && $item[3]) $str = $item[3];
             if (substr($equip[$i], 0, 4) == "i.w." && $item[4]) $str = $item[4];

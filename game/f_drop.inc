@@ -19,7 +19,7 @@ if ($drop) {            //linkБросить
         // бросаем предмет в локацию
         $tdrop = $drop;
         if (strpos($drop, "_") !== false) $drop = substr($drop, 0, strpos($drop, "_"));
-        if (substr($drop, 0, 5) == "i.rr.") $title = explode("|", "руна|50"); else if (file_exists("items/" . $drop)) $title = explode("|", implode("", file("items/" . $drop))); else die("err: no items/" . $drop);
+        if (substr($drop, 0, 5) == "i.rr.") $title = explode("|", "руна|50"); else if (file_exists("items/" . $drop)) $title = explode("|", (file_get_contents("items/" . $drop))); else die("err: no items/" . $drop);
         // проверим кол-во
         if ($tcount > 1 && !$num) {        // запросим кол-во
             $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $tcount . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&drop=$tdrop&num=$(num)\">Отправить</a>";

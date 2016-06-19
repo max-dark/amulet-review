@@ -36,7 +36,7 @@ function additem(
         $res = 0;
         return 0;
     } else {
-        $title = explode("|", implode("", file("items/" . $tk)));
+        $title = explode("|", (file_get_contents("items/" . $tk)));
     }
     $title = $title[0];
     if ($from && $from != "loc" && !isset($loc_i[$loc][$from])) {

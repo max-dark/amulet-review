@@ -21,7 +21,7 @@ $xF = preg_match_all("'([^|]+):(\d+)'", $items, $regF);
 if (!$start) $start = 0;
 for ($i = $start; $i < $start + $g_list && $i < $xF; $i++) if ($regF[1][$i]) {
     if (strpos($regF[1][$i], "_") !== false) $ti = substr($regF[1][$i], 0, strpos($regF[1][$i], "_")); else $ti = $regF[1][$i];
-    if (substr($regF[1][$i], 0, 5) == "i.rr.") $item = explode("|", "руна|50"); else if (file_exists("items/" . $ti)) $item = explode("|", implode("", file("items/" . $ti))); else die("err: no items/" . $regF[1][$i]);
+    if (substr($regF[1][$i], 0, 5) == "i.rr.") $item = explode("|", "руна|50"); else if (file_exists("items/" . $ti)) $item = explode("|", (file_get_contents("items/" . $ti))); else die("err: no items/" . $regF[1][$i]);
     $tmp = $item[0];
     if (strpos($regF[1][$i], "..") !== false) $tmp .= " *";
     if ($regF[2][$i] > 1) $tmp .= " (" . $regF[2][$i] . ")";

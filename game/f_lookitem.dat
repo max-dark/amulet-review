@@ -1,7 +1,7 @@
 <?php
 $tlook = $look;
 if (strpos($look, "_") !== false) $look = substr($look, 0, strpos($look, "_"));
-if (substr($look, 0, 6) != 'i.s.d.') if (substr($look, 0, 5) == "i.rr.") $item = explode("|", "руна|50"); else if (file_exists("items/" . $look)) $item = explode("|", implode("", file("items/" . $look))); else die("err: no items/" . $look);
+if (substr($look, 0, 6) != 'i.s.d.') if (substr($look, 0, 5) == "i.rr.") $item = explode("|", "руна|50"); else if (file_exists("items/" . $look)) $item = explode("|", (file_get_contents("items/" . $look))); else die("err: no items/" . $look);
 function tsret($s)
 {
     if ($s > 0) return $s; else return 0;
@@ -86,7 +86,7 @@ else if (substr($look, 0, 4) == 'i.w.') {
     }
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=weapon.speed\">Скорость</a>: " . intval($item[5]);
     if ($item[7]) {
-        if (file_exists("items/" . $item[7])) $tmp = explode("|", implode("", file("items/" . $item[7]))); else die("err: no items/" . $item[7]);
+        if (file_exists("items/" . $item[7])) $tmp = explode("|", (file_get_contents("items/" . $item[7]))); else die("err: no items/" . $item[7]);
         $stmp .= "<br/>Использует: " . $tmp[0];
     }
 }
@@ -99,7 +99,7 @@ if (strpos($tlook, "..") !== false) {
     $stmp .= "<br/>Инкрустированы самоцветы:";
     $xF = preg_match_all("/\.\.(\w+)/", $tlook, $regF);
     for ($i = 0; $i < $xF; $i++) {
-        $ti = explode("|", implode("", file("items/i.i." . $regF[1][$i])));
+        $ti = explode("|", (file_get_contents("items/i.i." . $regF[1][$i])));
         $stmp .= "<br/><b>" . $ti[0] . "</b>:<br/>" . $ti[3];
     }
 }
@@ -107,7 +107,7 @@ if (substr($tlook, 0, 5) == "i.bc_") {
     $stmp .= "<br/>Букет состоит из цветов:";
     $xF = preg_match_all("/(\w)(\d+)/", substr($tlook, strrpos($tlook, "_") + 1), $regF);
     for ($i = 0; $i < $xF; $i++) {
-        $ti = explode("|", implode("", file("items/i.bc." . $regF[1][$i])));
+        $ti = explode("|", (file_get_contents("items/i.bc." . $regF[1][$i])));
         $stmp .= "<br/>" . $ti[0];
         if ($regF[2][$i] > 1) $stmp .= " (" . $regF[2][$i] . ")";
     }

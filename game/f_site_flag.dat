@@ -1,6 +1,6 @@
 <?php
 
-if ($id == "info") msg(implode("", file("../story/flag.htm")));
+if ($id == "info") msg((file_get_contents("../story/flag.htm")));
 if ($game["fid"]) $stmp = "Флаг лидерства принадлежит:<br/>" . $game["fchar"];
 else $stmp = "Сейчас никто не владеет флагом лидерства";
 

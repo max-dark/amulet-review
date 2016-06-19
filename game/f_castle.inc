@@ -67,7 +67,7 @@ if (substr($loc, 3) == ".gate" && $clanc && $clanc != $clan && strpos($d[0], ":"
         }
     }
 
-    $tclan = unserialize(implode("", file("../clans/" . $clanc)));
+    $tclan = unserialize((file_get_contents("../clans/" . $clanc)));
     if ($tclan) {
         $k1 = array_keys($tclan["g"]);
         $tclan["m"][$k1[0]] = 1;//глава
@@ -83,7 +83,7 @@ if (substr($loc, 3) == ".gate" && $clanc && $clanc != $clan && strpos($d[0], ":"
 
 // захват замка
 if (substr($loc, 3, 5) == ".gate" && $b && $clan && $clanc != $clan && strpos($d[0], ":" . $login . ":") === false) {
-    if ($clanc) $tclan = unserialize(implode("", file("../clans/" . $clanc))); else $tclan = 0;    // сообщ. о захвате замка
+    if ($clanc) $tclan = unserialize((file_get_contents("../clans/" . $clanc))); else $tclan = 0;    // сообщ. о захвате замка
     if ($tclan) {
         $k1 = array_keys($tclan["g"]);
         $tclan["m"][$k1[0]] = 1;//глава

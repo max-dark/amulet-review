@@ -2,7 +2,7 @@
 
 if ($clan) {
     if (!file_exists("../clans/" . $clan)) msg("Клан $clan не существует");
-    $tmp = unserialize(implode("", file("../clans/" . $clan)));
+    $tmp = unserialize((file_get_contents("../clans/" . $clan)));
     if (!isset($tmp["g"])) msg("Ошибка при загрузке клана $clan, сообщите разработчику.");
     if ($info) {
         if ($tmp["i"]) msg($tmp["i"] . "<br/><anchor>[Назад]<prev/></anchor>", "Инфо о клане " . $clan); else msg("Нет описания");
@@ -35,7 +35,7 @@ if ($clan) {
 $arr = array();
 $dh = opendir("../clans");
 while (($fname = readdir($dh)) !== false) if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
-    $tmp = unserialize(implode("", file("../clans/" . $fname)));
+    $tmp = unserialize((file_get_contents("../clans/" . $fname)));
     $arr[$fname] = count($tmp["m"]) + 1;
 }
 closedir($dh);
@@ -57,4 +57,4 @@ if (count($arr) > 0) {
     }
 } else $stmp = "<p>Нет ни одного клана";
 
-msg($stmp, "Онлайн (Cервер " . implode("", file("server.dat")) . ")", 0, 'none');
+msg($stmp, "Онлайн (Cервер " . (file_get_contents("server.dat")) . ")", 0, 'none');

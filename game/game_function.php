@@ -280,14 +280,14 @@ function loadloc($loc)
     if (!isset($loc_tt[$loc])) {
         if (!$loc || !file_exists("loc_i/" . $loc))
             return;
-        $tmp = implode("", file("loc_i/" . $loc));
+        $tmp = (file_get_contents("loc_i/" . $loc));
         $loc_tt[$loc] = unserialize($tmp);
         if (!$loc_tt[$loc]["d"]) {
             $tmp = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $tmp);
             $loc_tt[$loc] = unserialize($tmp);
         }
         if (!$loc_tt[$loc]["d"])
-            $loc_tt[$loc] = unserialize(implode("", file("loc_t/" . $loc)));
+            $loc_tt[$loc] = unserialize((file_get_contents("loc_t/" . $loc)));
         if (!$loc_tt[$loc]["d"])
             die("err: loadloc($loc)");
         if (isset($loc_tt[$loc]["i"]))

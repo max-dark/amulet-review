@@ -240,7 +240,7 @@ if ($do == 'filter' && $inp) {
     $stmp = "<p>Кол-во: <input name=\"num\" format=\"*N\" maxlength=\"2\" value=\"1\"/>";
     $dh = opendir("items/");
     while (($fname = readdir($dh)) !== false) if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
-        $item = explode("|", implode("", file("items/" . $fname)));
+        $item = explode("|", (file_get_contents("items/" . $fname)));
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=add&item=$fname&num=$(num)\">" . $item[0] . "</a>";
         $count++;
     }

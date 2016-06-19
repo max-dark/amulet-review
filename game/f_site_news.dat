@@ -2,7 +2,7 @@
 
 if (!file_exists("../news/news.htm"))
     msg("<p>Нет текста, сообщите название рассказа разработчику");
-$stmp = implode("", file("../news/news.htm"));
+$stmp = (file_get_contents("../news/news.htm"));
 
 $stmp = str_replace("|", "<br />------<br />", $stmp);
 $stmp = wordwrap($stmp, 500, "|");

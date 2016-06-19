@@ -3,7 +3,7 @@
 
 $tc = explode("|", $loc_i[$loc][$login]["char"]);
 if (strpos($tc[0], "*") === false) $clan = ""; else $clan = substr($tc[0], strpos($tc[0], "*") + 1, strrpos($tc[0], "*") - strpos($tc[0], "*") - 1);
-if ($clan && file_exists("../clans/" . $clan)) $tmp = unserialize(implode("", file("../clans/" . $clan))); else $tmp = array();
+if ($clan && file_exists("../clans/" . $clan)) $tmp = unserialize((file_get_contents("../clans/" . $clan))); else $tmp = array();
 
 if (isset($tmp["g"][$login])) {    // гилдмастер
     if ($to) {
@@ -120,7 +120,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
 
         $tc = explode("|", $loc_i[$loc][$to]["char"]);
         if (strpos($tc[0], "*") === false) $clan = ""; else $clan = substr($tc[0], strpos($tc[0], "*") + 1, strrpos($tc[0], "*") - strpos($tc[0], "*") - 1);
-        if ($clan && file_exists("../clans/" . $clan)) $tmp = unserialize(implode("", file("../clans/" . $clan))); else $tmp = array();
+        if ($clan && file_exists("../clans/" . $clan)) $tmp = unserialize((file_get_contents("../clans/" . $clan))); else $tmp = array();
         if (!isset($tmp["g"][$to])) msg("Выбирать можно только главу клана");
         if (!isset($tmp["w"][$login]) && !isset($tmp["wg"][$login])) msg("Вы не числитесь в списках рекрутов клана " . $clan . ", обратитесь к главе этого клана");
 

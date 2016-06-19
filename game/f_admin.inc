@@ -206,7 +206,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 $dh = opendir("items/");
                 while (($fname = readdir($dh)) !== false)
                     if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
-                        $item = explode("|", implode("", file("items/" . $fname)));
+                        $item = explode("|", (file_get_contents("items/" . $fname)));
                         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&adm=adni&inp=$fname&val=1\">" . $item[0] .
                             "</a>";
                         $count++;
@@ -218,7 +218,7 @@ if ($login == $g_admin || $gm == $gm_id) {
         case 'setgclan':
             if ($inp && $val) {
                 if (file_exists("../clans/" . $inp))
-                    $tmp = unserialize(implode("", file("../clans/" . $inp)));
+                    $tmp = unserialize((file_get_contents("../clans/" . $inp)));
                 else
                     msg("нет клана");
                 if (substr($val, 0, 2) != "u.")
