@@ -78,7 +78,6 @@ if (!empty($site)) {
     $sites = array(
         'castle'   => 'f_site_castle.dat',
         'clans'    => 'f_site_clans.dat',
-        'common'   => 'f_site_common.php',
         'connect'  => 'f_site_connect.dat',
         'connect2' => 'f_site_connect2.dat',
         'faq'      => 'f_site_faq.php',
