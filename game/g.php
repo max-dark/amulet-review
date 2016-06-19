@@ -134,7 +134,7 @@ unset($wtf_user);
 $wtf_options = $loc_i[$loc][$login]["o"];
 if ($wtf_options) {
     list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map,
-            $g_smf, $g_ch) = explode("|", $wtf_options);
+            $g_smf) = explode("|", $wtf_options);
 }
 unset($wtf_options);
 

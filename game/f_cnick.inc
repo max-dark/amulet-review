@@ -20,8 +20,7 @@ if ($cnick == "1") {
 	<br/>Звуки рядом с выходами (1-вкл,0-выкл): <br/><input name=\"sounds\" value=\"" . intval($g_sounds) . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Отключить журнал (1-да,0-нет): <br/><input name=\"joff\" value=\"" . intval($g_joff) . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Маленький шрифт (1-да,0-нет): <br/><input name=\"smf\" value=\"" . intval($g_smf) . "\" format=\"*N\" maxlength=\"1\"/>
-	<br/>Кодировка (0-utf-8,1-windows-1251,2-koi8r): <br/><input name=\"ch\" value=\"" . intval($g_ch) . "\" format=\"*N\" maxlength=\"1\"/>
-	<br/><a href=\"$PHP_SELF?sid=$sid&cnick=$(new)&list=$(list)&size=$(size)&j2loc=$(j2loc)&j2go=$(j2go)&menu=$(menu)&smenu=$(smenu)&sounds=$(sounds)&joff=$(joff)&map=$(map)&smf=$(smf)&age=$(age)&ch=$(ch)\">Сохранить</a>
+	<br/><a href=\"$PHP_SELF?sid=$sid&cnick=$(new)&list=$(list)&size=$(size)&j2loc=$(j2loc)&j2go=$(j2go)&menu=$(menu)&smenu=$(smenu)&sounds=$(sounds)&joff=$(joff)&map=$(map)&smf=$(smf)&age=$(age)\">Сохранить</a>
 	<br/><a href=\"?site=faq&id=err\">Помощь</a>";
 
 } else {
@@ -35,9 +34,7 @@ if ($cnick == "1") {
     if (intval($smf) > 1) msg("Допустимые значения для шрифта 0 и 1");
     if (intval($menu) > 3) msg("Допустимые значения для меню 0, 1, 2 и 3");
     if (intval($map) > 3) msg("Допустимые значения для карты 0,1,2 и 3");
-    if (intval($ch) > 2) msg("Допустимые значения для кодировки 0,1 и 2");
-    if ($jflud) $jflud = "f"; else $jflud = "0";
-    $loc_i[$loc][$login]["o"] = intval($list) . "|" . intval($size) . "|" . intval($j2loc) . "|" . intval($j2go) . "|" . intval($menu) . "|" . intval($sounds) . "|" . intval($joff) . "|" . intval($smenu) . "|" . intval($map) . "|" . intval($smf) . "|" . intval($ch);
+    $loc_i[$loc][$login]["o"] = intval($list) . "|" . intval($size) . "|" . intval($j2loc) . "|" . intval($j2go) . "|" . intval($menu) . "|" . intval($sounds) . "|" . intval($joff) . "|" . intval($smenu) . "|" . intval($map) . "|" . intval($smf);
     $char[0] = $cnick . $clan;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     $tus[3] = intval($age);
