@@ -80,7 +80,7 @@ if (!empty($site)) {
         'clans'    => 'f_site_clans.dat',
         'connect'  => 'f_site_connect.dat',
         'connect2' => 'f_site_connect2.dat',
-        'faq'      => 'f_site_faq.php',
+        'faq'      => 'f_site_faq.inc',
         'flag'     => 'f_site_flag.dat',
         'gamereg'  => 'f_site_gamereg.dat',
         'main'     => 'f_site_main.dat',

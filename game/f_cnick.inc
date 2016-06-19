@@ -22,7 +22,7 @@ if ($cnick == "1") {
 	<br/>Маленький шрифт (1-да,0-нет): <br/><input name=\"smf\" value=\"" . intval($g_smf) . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Кодировка (0-utf-8,1-windows-1251,2-koi8r): <br/><input name=\"ch\" value=\"" . intval($g_ch) . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/><a href=\"$PHP_SELF?sid=$sid&cnick=$(new)&list=$(list)&size=$(size)&j2loc=$(j2loc)&j2go=$(j2go)&menu=$(menu)&smenu=$(smenu)&sounds=$(sounds)&joff=$(joff)&map=$(map)&smf=$(smf)&age=$(age)&ch=$(ch)\">Сохранить</a>
-	<br/><a href=\"http://mag.su/game/f_faq.php?id=err\">Помощь</a>";
+	<br/><a href=\"?site=faq&id=err\">Помощь</a>";
 
 } else {
     if (strtolower($cnick) != strtolower($char[0])) msg("<p>Нельзя поменять имя на другое (было имя: " . $char[0] . ", вы ввели новое: " . $cnick . "), можно только изменить его написание (например, сделать первую букву заглавной).");
