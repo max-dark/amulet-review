@@ -227,10 +227,6 @@ $char = explode("|", $loc_i[$loc][$login]["char"]);
 if ($ce) {
     include_once "f_logout.inc";
 }
-$ip2 = $loc_i[$loc][$login]["ip"];
-if ($ip2 && $ip2 != $ip1 && $ip2 != $ip && $gm != $gm_id) {
-    include_once("f_nip.dat");
-}
 
 // подгружаемые модули
 if ($cm)
