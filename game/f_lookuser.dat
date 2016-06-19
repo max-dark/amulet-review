@@ -7,8 +7,6 @@ if (isset($loc_i[$loc][$look])) {
     $user = explode("|", $loc_i[$loc][$look]["user"]);
     if ($user[2] == 'f') $stmp .= "Женщ."; else $stmp .= "Мужч.";
     $stmp .= ", " . $user[3] . " лет";
-//		$stmp.=" (<a href=\"http://mag.su/magmail/profile.php?p=1&login=".substr($login,2)."&pass=$p&to=".substr($look,2)."\">анкета</a>)";
-
     // холост/женат
     if ($char[13]) {
         $tt = explode(":", $char[13]);

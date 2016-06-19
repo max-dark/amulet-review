@@ -161,12 +161,7 @@ if ($login == $g_admin || $gm == $gm_id) {
             msg("Персонаж обнулен");
             break;
         case "locmail":
-            if (!$inp)
-                $inp = "romka8@mag.su";
-            if (@mail($inp, "location: " . $loc, serialize($loc_tt[$loc]), "From: romka8@mag.su\r\nReply-To: romka8@mag.su\r\n"))
-                addjournal($loc, $login, "Текущая локация отправлена на " . $inp);
-            else
-                addjournal($loc, $login, "Не удалось отправить письмо на " . $inp);
+            addjournal($loc, $login, "Не удалось отправить письмо на " . $inp);
             break;
         case 'getibm':
             msg(

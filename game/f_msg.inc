@@ -2,7 +2,6 @@
 if ($msg) {
     if ($del && strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") !== false) $loc_i[$loc][$login]["msgt"] = substr($loc_i[$loc][$login]["msgt"], strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") + strlen("{" . $del . "}"));
     if ($msg == 1) {    // основная страница
-        $stmp = "<p><a href=\"http://mag.su/magforum/subforums.php?login=" . substr($login, 2) . "&pass=$p&lev1=19\">Форум</a> <a href=\"http://mag.su/magmail/dispMess.php?p=&login=" . substr($login, 2) . "&pass=$p\">Почта</a>";
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&msg=add\">Добавить</a>";
         // текст
         $del = 0;
