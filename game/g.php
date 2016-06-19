@@ -15,21 +15,22 @@ $g_query_string = $tmp;
 $tmp = urldecode($tmp);
 parse_str($tmp);
 
-/*
- * Если индификатор пользователя установлен и не начинается с префикса 'u.'
- * */
-if ($sid && substr($sid, 0, 2) != "u.") {
-    // добавить префикс
-    $sid = "u." . $sid;
-}
-if ((!$sid && !$site) // если не заданы логин и страница перехода
-    || !$tmp // или строка запроса пуста
-    ) {
+
+// Если строка запроса пуста
+if (empty($tmp) || // или не заданы логин и страница перехода
+   (empty($sid) &&
+    empty($site))) {
     // установить страницу перехода на форму логина
     $site = 'main';
 }
-// если задан пользователь
+/*
+ * Если индификатор пользователя установлен
+ * */
 if ($sid) {
+    if (substr($sid, 0, 2) != "u.") {
+        // добавить префикс
+        $sid = "u." . $sid;
+    }
     $ts = explode(".", $sid);
     $tl = "u." . strtolower($ts[1]);
     // и этот пользователь в сети...
@@ -37,6 +38,8 @@ if ($sid) {
         usleep(300000); // задержка выполнения скрипта на 0.3 секунды
     }
 }
+/** @var array $game Массив с состоянием игры */
+$game = array();
 // если есть сохраненное состояние
 if (file_exists("game.dat")) {
     // загрузить состояние
@@ -76,17 +79,22 @@ if (have_key($game, "msg") && $gm != $gm_id) {
 if (!empty($site)) { // если задана страница перехода
     /** @var array[] $pages */
     $pages = array(
+        // форма логина
+        'main'     => 'f_site_main.dat',
+        // статистика
+        'stat'     => 'f_site_stat.inc',
+        'flag'     => 'f_site_flag.dat',
         'castle'   => 'f_site_castle.dat',
         'clans'    => 'f_site_clans.dat',
+        // вход в игру
         'connect'  => 'f_site_connect.dat',
         'connect2' => 'f_site_connect2.dat',
+        // информация
         'faq'      => 'f_site_faq.inc',
-        'flag'     => 'f_site_flag.dat',
-        'gamereg'  => 'f_site_gamereg.dat',
-        'main'     => 'f_site_main.dat',
-        'stat'     => 'f_site_stat.inc',
         'news'     => 'f_site_news.dat',
         'online'   => 'f_site_online.dat',
+        // регистрация в игре
+        'gamereg'  => 'f_site_gamereg.dat',
         'reg'      => 'f_site_reg.dat',
         'reg2'     => 'f_site_reg2.dat'
     );
