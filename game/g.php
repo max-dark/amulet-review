@@ -74,8 +74,8 @@ if (have_key($game, "msg") && $gm != $gm_id) {
 }
 // если задана страница перехода
 if (!empty($site)) {
-    /** @var array[] $sites */
-    $sites = array(
+    /** @var array[] $pages */
+    $pages = array(
         'castle'   => 'f_site_castle.dat',
         'clans'    => 'f_site_clans.dat',
         'connect'  => 'f_site_connect.dat',
@@ -84,16 +84,16 @@ if (!empty($site)) {
         'flag'     => 'f_site_flag.dat',
         'gamereg'  => 'f_site_gamereg.dat',
         'main'     => 'f_site_main.dat',
-        'main3'    => 'f_site_stat.inc',
+        'stat'     => 'f_site_stat.inc',
         'news'     => 'f_site_news.dat',
         'online'   => 'f_site_online.dat',
         'reg'      => 'f_site_reg.dat',
         'reg2'     => 'f_site_reg2.dat',
         'rule'     => 'f_site_rule.dat'
     );
-    if (array_key_exists($site, $sites)) {
+    if (array_key_exists($site, $pages)) {
         // выполнить ее
-        require_once $sites[$site];
+        require_once $pages[$site];
     }
     else {
         die('Oops: '.$site.' not found');
