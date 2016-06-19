@@ -25,7 +25,7 @@ function msg(
 )
 {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $page_d, $PHP_SELF, $sid,
-           $gm_id, $g_size, $g_list, $skip_journal, $cj, $t_g, $g_menu, $fm, $fm2, $g_j2loc, $g_joff, $g_smf,
+           $gm_id, $g_size, $g_list, $skip_journal, $cj, $g_menu, $fm, $fm2, $g_j2loc, $g_joff, $g_smf,
            $g_map, $g_query_string;
 
     $url_base = "$PHP_SELF?sid=$sid";
@@ -67,7 +67,7 @@ function msg(
              * Например после обработки 'del0|del1|keep0:|keep1!|del2'
              * останется '|keep0:|keep1!|'
              * */
-            $loc_i[$loc][$login]['journal'] = preg_replace('/(\||^)[^:!]*(\||$)/', '|', $loc_i[$loc][$login]['journal']);
+            $loc_i[$loc][$login]['journal'] = preg_replace('/(\||^)[^:!]*(\||$)/u', '|', $loc_i[$loc][$login]['journal']);
         }
     }
     $page_journal = "";
@@ -77,7 +77,7 @@ function msg(
         $page_journal = str_replace('|', '<br/>', $loc_i[$loc][$login]['journal']);
         $loc_i[$loc][$login]['journal'] = '';
         if (!$g_j2loc)
-            $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/', '', $page_journal);
+            $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/u', '', $page_journal);
     }
 
     savegame();
@@ -96,7 +96,7 @@ function msg(
         if ($bsize)
             $tmp_url = "#g";
         else {
-            $tmp_url = "$PHP_SELF?" . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/', 'c1=', $g_query_string);
+            $tmp_url = "$PHP_SELF?" . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $g_query_string);
         }
         $wml .= '<card title="Журнал">' .
             '<do type="accept" label="Дальше">' .
@@ -191,7 +191,7 @@ function msg(
     if ($g_smf && strpos($wml, '<input') === false)
         $wml = preg_replace(
             [
-            "'(<p [^>]*>)'",      "'<p>'",       "'</p>'"],
+            "'(<p [^>]*>)'u",      "'<p>'u",       "'</p>'u"],
             [   '\\1<small>', '<p><small>', '</small></p>'],
             $wml
         );
