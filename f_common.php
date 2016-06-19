@@ -1,7 +1,7 @@
 <?php
 // список у Санчеса
 if ($gwanted)
-    die(@implode("", @file("wanted.dat")));
+    die((@file_get_contents("wanted.dat")));
 if ($swanted) {
     $file = fopen("wanted.dat", "w");
     if ($file !== false) {
@@ -16,7 +16,7 @@ if ($gclan) { // вывод клана
     if (!file_exists("clans/" . $gclan))
         die("none");
     else
-        die(@implode("", @file("clans/" . $gclan)));
+        die((@file_get_contents("clans/" . $gclan)));
 }
 if ($inclan) {
     $dh = opendir("clans");
@@ -24,7 +24,7 @@ if ($inclan) {
         if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
             if (strtolower($fname) == strtolower($inclan)) {
                 closedir($dh);
-                $tmp = @unserialize(@implode("", @file("clans/" . $fname)));
+                $tmp = @unserialize((@file_get_contents("clans/" . $fname)));
                 if (gettype($tmp) == "array" && !isset($tmp["m"][$login]) && !isset($tmp["g"][$login]))
                     die("no");
                 die("yes");

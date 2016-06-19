@@ -61,7 +61,7 @@ if ($res) {
 $fntmp = "../all.dat";
 if (file_exists($fntmp)) {
     $all = 0;
-    $all = @implode("", @file($fntmp));
+    $all = (@file_get_contents($fntmp));
     if ($all) {
         $all++;
         $file = fopen($fntmp, "w");

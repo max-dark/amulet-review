@@ -37,7 +37,7 @@ if (strpos($auser["char"], "*") === false)
 else
     $clan = substr($auser["char"], strpos($auser["char"], "*") + 1, strrpos($auser["char"],
             "*") - strpos($auser["char"], "*") - 1);
-if ($clan && @implode("", @file($SERVER_URL . "f_common.php?inclan=$clan&login=$login")) ==
+if ($clan && (@file_get_contents($SERVER_URL . "f_common.php?inclan=$clan&login=$login")) ==
     "no"
 )
     $clan = "no";

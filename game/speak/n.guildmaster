@@ -4,7 +4,7 @@ $dialog = array(
 	$title="Здравствуй, <name>. Меня зовут Мирандер, я заношу в королевский реестр создаваемые кланы. Так-с... [заглядывает в журнал] Ты сейчас "; 
 	$tc=explode("|",$loc_i[$loc][$login]["char"]); 
 	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
-	if ($clan && file_exists("../clans/".$clan)) $tmp=unserialize(implode("",file("../clans/".$clan))); else $tmp=array(); 
+	if ($clan && file_exists("../clans/".$clan)) $tmp=unserialize((file_get_contents("../clans/".$clan))); else $tmp=array(); 
 	if (isset($tmp["m"][$login])) $title.="состоишь в клане ".$clan."."; 
 	else if (isset($tmp["g"][$login])) $title.="являешься главой клана ".$clan."."; 
 	else if ($clan){
@@ -28,7 +28,7 @@ $dialog = array(
     'new' => 'eval: 
 	$tc=explode("|",$loc_i[$loc][$login]["char"]);
 	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
-	if ($clan && file_exists("../clans/".$clan)) $tmp=unserialize(implode("",file("../clans/".$clan))); else $tmp=array();
+	if ($clan && file_exists("../clans/".$clan)) $tmp=unserialize((file_get_contents("../clans/".$clan))); else $tmp=array();
 	if (isset($tmp["m"][$login])) {
 		unset($tmp["m"][$login]);
 		$file = fopen ("../clans/".$clan, "w"); 
@@ -72,7 +72,7 @@ $dialog = array(
 	$tc=explode("|",$loc_i[$loc][$login]["char"]);
 	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
 	if (!$clan) {
-		if ($cname && file_exists("../clans/".$cname)) $tmp=unserialize(implode("",file("../clans/".$cname))); else $tmp=array(); 
+		if ($cname && file_exists("../clans/".$cname)) $tmp=unserialize((file_get_contents("../clans/".$cname))); else $tmp=array(); 
 		if (isset($tmp["g"][$login])) {$title="[читает записи] Ага, да ты являешься главой этого клана! [делает пометки в бумагах] Ок, все готово."; $tc[0].=" *".$cname."*"; $loc_i[$loc][$login]["char"]=implode("|",$tc);}
 		else if (isset($tmp["m"][$login])) {$title="[читает записи] Да, действительно, ты состоишь в списках этого клана... [делает пометки в бумагах] Ок, все готово."; $tc[0].=" *".$cname."*"; $loc_i[$loc][$login]["char"]=implode("|",$tc);}
 		else $title="Извини, но ты не числишься в списках клана ".$cname;
