@@ -229,39 +229,55 @@ if ($ce) {
 }
 
 // подгружаемые модули
-if ($cm)
+if ($cm) {
     if ($cm > 0 && $cm < 9) {
         $cm--;
         $m = @explode("/", $loc_i[$loc][$login]["macro"]);
         $m = @explode("|", $m[$cm]);
         $ml = @explode("|", $loc_i[$loc][$login]["macrol"]);
-        if ($m[0] == "last" && $ml[0])
+        if ($m[0] == "last" && $ml[0]) {
             eval('$' . $ml[0] . "=\"" . $ml[1] . "\";");
-        else
-            if ($m[0])
+        }
+        else {
+            if ($m[0]) {
                 eval('$' . $m[0] . "=\"" . $m[1] . "\";");
-        if ($m[2] == "last" && $m[0] == "ca")
+            }
+        }
+        if ($m[2] == "last" && $m[0] == "ca") {
             $ca = $ml[1];
-        else
-            if ($m[2] == "last" && $ml[2])
+        }
+        else {
+            if ($m[2] == "last" && $ml[2]) {
                 eval('$' . $ml[2] . "=\"" . $ml[3] . "\";");
-            else
-                if ($m[2])
+            }
+            else {
+                if ($m[2]) {
                     eval('$' . $m[2] . "=\"" . $m[3] . "\";");
-    } else
+                }
+            }
+        }
+    } else {
         include_once "f_macro.inc";
+    }
+}
 
-if ($adm && file_exists("f_admin.inc"))
+if ($adm && file_exists("f_admin.inc")) {
     include_once "f_admin.inc";
-if ($speak || $speak = $cs)
-    if (substr($speak, 0, 2) == "i.")
+}
+if ($speak || $speak = $cs) {
+    if (substr($speak, 0, 2) == "i.") {
         $take = $speak;
-    else
+    }
+    else {
         include_once "f_speak.inc";
-if ($take)
+    }
+}
+if ($take) {
     include_once "f_take.inc";
-if ($say)
+}
+if ($say) {
     include_once "f_say.inc";
+}
 if ($ca) {
     $loc_i[$loc][$login]["macrol"] = "ca|$ca||";
     $char[7] = $ca;
@@ -269,17 +285,21 @@ if ($ca) {
     attack($loc, $login, $ca);
     $char = explode("|", $loc_i[$loc][$login]["char"]);
 }
-if ($drop)
+if ($drop) {
     include_once "f_drop.inc";
+}
 if ($use) {
     $loc_i[$loc][$login]["macrol"] = "use|$use|to|$to";
-    if ($char[6] - time() > 120)
+    if ($char[6] - time() > 120) {
         $char[6] = time() - 1;
+    }
     if (time() > $char[6]) {
-        if ($char[8] && $login != "u.qv")
+        if ($char[8] && $login != "u.qv") {
             msg("<p>Вы призрак, найдите лекаря или камень воскрешения");
-        if (substr($use, 0, 6) == 'i.note' || substr($use, 0, 6) == 'i.book')
+        }
+        if (substr($use, 0, 6) == 'i.note' || substr($use, 0, 6) == 'i.book') {
             $look = $use;
+        }
         else {
             $scroll = 0; // со свитка
             switch (substr($use, 0, 2)) {
@@ -303,15 +323,20 @@ if ($use) {
             }
             $char = explode("|", $loc_i[$loc][$login]["char"]);
         }
-    } else
+    } else {
         addjournal($loc, $login, "Вы должны отдохнуть " . round($char[6] - time() + 1) . " сек");
+    }
 } // раньше $list
-if ($look || $look = $ci)
-    include_once "f_look.inc"; // после $take и $use
-if ($msg)
+if ($look || $look = $ci) {
+    // после $take и $use
+    include_once "f_look.inc";
+}
+if ($msg) {
     include_once "f_msg.inc";
-if ($trade)
+}
+if ($trade) {
     include_once "f_trade.inc";
+}
 switch ($cl) {
     case "i":
         $cl = "inv";
