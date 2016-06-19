@@ -88,8 +88,7 @@ if (!empty($site)) {
         'news'     => 'f_site_news.dat',
         'online'   => 'f_site_online.dat',
         'reg'      => 'f_site_reg.dat',
-        'reg2'     => 'f_site_reg2.dat',
-        'rule'     => 'f_site_rule.dat'
+        'reg2'     => 'f_site_reg2.dat'
     );
     if (array_key_exists($site, $pages)) {
         // выполнить ее
