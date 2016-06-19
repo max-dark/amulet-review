@@ -1,4 +1,4 @@
-<Files ~".(dat|txt|ssp)$">
+<Files ~".(dat|txt|ssp|inc)$">
 order allow,deny
 deny from all
 </Files>
