@@ -15,6 +15,9 @@ $g_query_string = $tmp;
 $tmp = urldecode($tmp);
 parse_str($tmp);
 
+$gm   = $_GET['gm'];
+$sid  = $_GET['sid'];
+$site = $_GET['site'];
 
 // Если строка запроса пуста
 if (empty($tmp) || // или не заданы логин и страница перехода
@@ -31,10 +34,18 @@ if ($sid) {
         // добавить префикс
         $sid = "u." . $sid;
     }
-    $ts = explode(".", $sid);
-    $tl = "u." . strtolower($ts[1]);
+    $sid = explode(".", $sid);
+    $sid[1] = strtolower($sid[1]);
+    $login = "u." . $sid[1];
+    if (empty($p)) {
+        $p = $sid[2];
+    }
+    $sid = $sid[1] . "." . $p . "." . chr(rand(97, 122));
+    if ($gm == $gm_id) {
+        $sid .= "&gm=" . $gm_id;
+    }
     // и этот пользователь в сети...
-    if (file_exists("online/" . $tl)) {
+    if (file_exists("online/" . $login)) {
         usleep(300000); // задержка выполнения скрипта на 0.3 секунды
     }
 }
@@ -55,7 +66,7 @@ if (file_exists("game.dat")) {
             $game = array();
         }
     } else {
-        $file_save = "";
+        $file_save = false;
         msg("Ошибка блокировки game.dat");
     }
 } else {
@@ -66,7 +77,7 @@ if (file_exists("game.dat")) {
         include_once "f_online.inc";
         include_once "f_blank.inc";
     } else {
-        $file_save = "";
+        $file_save = false;
         msg("Ошибка создания game.dat");
     }
 }
@@ -110,15 +121,6 @@ if (!empty($site)) { // если задана страница перехода
 if (time() > $game["lastai"] + 240) {
     // провести зачистку
     include_once "f_online.inc";
-}
-$sid = explode(".", $sid);
-$login = "u." . strtolower($sid[1]);
-if (!$p) {
-    $p = $sid[2];
-}
-$sid = substr($login, 2) . "." . $p . "." . chr(rand(97, 122));
-if ($gm == $gm_id) {
-    $sid .= "&gm=" . $gm_id;
 }
 if (!file_exists("online/" . $login)) {
     $f_c = 1;
