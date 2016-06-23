@@ -1,5 +1,5 @@
 <?php
-
+$nn = Request('nn');
 if (!preg_match('|^[-0-9a-z_]+$|i', $nn))
     msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
 openDB();
@@ -11,10 +11,10 @@ $query->execute([
 $Count = $query->rowCount();
 if ($Count != 0)
     msg('Этот логин уже занят.<br /><anchor>Назад<prev/></anchor>', 'Ошибка', 0, 'none');
-$stmp = '
+$stmp = <<<PAGE
 </p><p align="center">            
 <b>Логин:</b>
-<br /><b>' . $nn . '</b><br />--------
+<br /><b>$nn</b><br />--------
 <br /><b>Пароль</b>:
 <br />(a-Z,0-9)
 <br /><input name="password" emptyok="true" type="password" value="" maxlength="15" size="15"/>
@@ -29,11 +29,12 @@ $stmp = '
 <br /><input name="age" format="*N" maxlength="2"/>
 <br /><anchor title="next">Продолжить
 <go href="?site=reg2" method="post">
-<postfield name="nn" value="' . $nn . '"/>
+<postfield name="nn" value="$nn"/>
 <postfield name="email" value="$(email)"/>
 <postfield name="pass" value="$(password)"/>
 <postfield name="sex" value="$(sex)"/>
 <postfield name="age" value="$(age)"/>
 </go>
-</anchor>';
+</anchor>
+PAGE;
 msg($stmp, "Регистрация", 0, "none");

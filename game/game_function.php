@@ -20,6 +20,40 @@ function have_key($arr, $key)
     return array_key_exists($key, $arr);
 }
 
+/**
+ * получить значение из массива
+ * @param array $arr
+ * @param string $key
+ * @return mixed
+ */
+function get_value($arr, $key) {
+    return (array_key_exists($key, $arr) ? $arr[$key] : false);
+}
+
+/**
+ * Получение значения из $_GET
+ * @param string $key
+ * @return mixed
+ */
+function Get($key) {
+    return get_value($_GET, $key);
+}
+/**
+ * Получение значения из $_POST
+ * @param string $key
+ * @return mixed
+ */
+function Post($key) {
+    return get_value($_POST, $key);
+}
+/**
+ * Получение значения из $_REQUEST
+ * @param string $key
+ * @return mixed
+ */
+function Request($key) {
+    return get_value($_REQUEST, $key);
+}
 /** Запись состояния
  *
  */

@@ -3,21 +3,45 @@ require_once('config.php'); // настройки игры
 require_once('datafunc.php'); // функции игры
 require_once('game_function.php'); // игровые функции
 
-$QUERY_STRING = (
-array_key_exists('QUERY_STRING', $_SERVER) ?
-    $_SERVER["QUERY_STRING"]
-    :
-    ''
-);
+$QUERY_STRING = get_value($_SERVER, 'QUERY_STRING');
 
-$tmp = $QUERY_STRING;
-$g_query_string = $tmp;
-$tmp = urldecode($tmp);
-parse_str($tmp);
+$g_query_string = $QUERY_STRING;
+$tmp = urldecode($QUERY_STRING);
+//parse_str($tmp);
 
-$gm   = $_GET['gm'];
-$sid  = $_GET['sid'];
-$site = $_GET['site'];
+/** @var array $loc_i предметы, НПС и игроки в загруженных локациях */
+$loc_i = array();
+/** @var array $loc_t таймеры в загруженных локациях */
+$loc_t = array();
+/** @var array $loc_tt загруженные локации */
+$loc_tt = array();
+/** @var array $game Массив с состоянием игры */
+$game = array();
+
+$gm    = Request('gm');
+$sid   = Request('sid');
+/** @var string $site */
+$site  = Request('site');
+$login = Request('login');
+$p     = Request('p');
+$cnick = Request('cnick');
+$go    = Request('go');
+$gal   = Request('gal');
+$ctele = Request('ctele');
+$stele = Request('stele');
+$ca    = Request('ca');
+$ce    = Request('ce');
+$ci    = Request('ci');
+$cm    = Request('cm');
+$cs    = Request('cs');
+$adm   = Request('adm');
+$use   = Request('use');
+$to    = Request('to');
+$speak = Request('speak');
+$take  = Request('take');
+$look  = Request('look');
+$trade = Request('trade');
+$msg   = Request('msg');
 
 // Если строка запроса пуста
 if (empty($tmp) || // или не заданы логин и страница перехода
@@ -49,8 +73,6 @@ if ($sid) {
         usleep(300000); // задержка выполнения скрипта на 0.3 секунды
     }
 }
-/** @var array $game Массив с состоянием игры */
-$game = array();
 // если есть сохраненное состояние
 if (file_exists("game.dat")) {
     // загрузить состояние
@@ -86,7 +108,6 @@ if (have_key($game, "msg") && $gm != $gm_id) {
     // вывести сообщение
     msg($game["msg"]);
 }
-/** @var string $site */
 if (!empty($site)) { // если задана страница перехода
     /** @var array[] $pages */
     $pages = array(

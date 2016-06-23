@@ -77,12 +77,7 @@ $g_attr = 12;
 $g_attr_one = 5;
 $g_skills = 50;
 $g_skills_one = 5;
-/** @var array $loc_i предметы в загруженных локациях */
-$loc_i = array();
-/** @var array $loc_t таймеры в загруженных локациях */
-$loc_t = array();
-/** @var array $loc_tt загруженные локации */
-$loc_tt = array();
+/*
 //==================================ПЕРЕХОД В REGISTER_GLOBALS OFF!!!!!!
 $cnt_get = count($_GET);
 if ($cnt_get) {
@@ -108,3 +103,4 @@ if ($cnt_post) {
     unset($cnt_post, $key, $vals);
 }
 //===============================================================
+*/
