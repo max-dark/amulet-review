@@ -127,7 +127,6 @@ if (!empty($site)) { // если задана страница перехода
         'online'   => 'f_site_online.dat',
         // регистрация в игре
         'gamereg'  => 'f_site_gamereg.dat',
-        'reg'      => 'f_site_reg.dat',
         'reg2'     => 'f_site_reg2.dat'
     );
     if (array_key_exists($site, $pages)) {
