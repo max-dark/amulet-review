@@ -1,43 +1,67 @@
 <?php
 
-$stmp = "<b>Замок Луен</b>:";
-$tmp = unserialize((file_get_contents("loc_i/c.3.gate")));
-if ($tmp["d"]) {
-    $d = explode("|", $tmp["d"]);
-    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
-    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
-} else $stmp .= " [ошибка загрузки]";
 
-$stmp .= "<br/><b>Замок Мирра</b>:";
-$tmp = unserialize((file_get_contents("loc_i/c.2.gate")));
-if ($tmp["d"]) {
-    $d = explode("|", $tmp["d"]);
-    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
-    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
-} else $stmp .= " [ошибка загрузки]";
+/**
+ * @param string $file
+ * @return mixed
+ */
+function load_data($file) {
+    return unserialize((file_get_contents($file)));
+}
+/**
+ * @param string $d
+ * @return string
+ */
+function get_clan_name($d)
+{
+    return substr($d, strpos($d, "*") + 1, strrpos($d, "*") - strpos($d, "*") - 1);
+}
 
-$stmp .= "<br/><b>Замок Санкастар</b>:";
-$tmp = unserialize((file_get_contents("loc_i/c.1.gate")));
-if ($tmp["d"]) {
-    $d = explode("|", $tmp["d"]);
-    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
-    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
-} else $stmp .= " [ошибка загрузки]";
+/**
+ * @param array $data
+ * @return string
+ */
+function get_clan($data)
+{
+    $d = explode("|", $data["d"]);
+    return (strpos($d[0], "*") === false) ? '' : get_clan_name($d[0]);
+}
 
-$stmp .= "<br/><b>Замок Танатос</b>:";
-$tmp = unserialize((file_get_contents("loc_i/c.4.gate")));
-if ($tmp["d"]) {
-    $d = explode("|", $tmp["d"]);
-    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
-    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
-} else $stmp .= " [ошибка загрузки]";
+/**
+ * @param integer $id
+ * @return string
+ */
+function get_owner_message($id) {
+    $data = load_data("loc_i/c.{$id}.gate");
+    if (empty($data['d'])) {
+        $message = '[ошибка загрузки]';
+    }
+    else {
+        $clan = get_clan($data);
+        $message = empty($clan) ? 'никому не принадлежит' : 'принадлежит клану '.$clan;
+    }
+    return $message;
+}
 
-$stmp .= "<br/><b>Замок Вилло</b>:";
-$tmp = unserialize((file_get_contents("loc_i/c.5.gate")));
-if ($tmp["d"]) {
-    $d = explode("|", $tmp["d"]);
-    if (strpos($d[0], "*") === false) $clanc = ""; else $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
-    if ($clanc) $stmp .= " принадлежит клану " . $clanc; else $stmp .= " никому не принадлежит";
-} else $stmp .= " [ошибка загрузки]";
+/**
+ * @return string
+ */
+function get_castle_page()
+{
+    $names = array(
+        1 => 'Замок Санкастар',
+        2 => 'Замок Мирра',
+        3 => 'Замок Луен',
+        4 => 'Замок Танатос',
+        5 => 'Замок Вилло',
+    );
 
-msg($stmp, "Онлайн (Cервер " . (file_get_contents("server.dat")) . ")", 0, 'none');
+    $owners = array();
+    foreach ($names as $id => $name) {
+        $owners[] = "<b>$name</b>: " . get_owner_message($id);
+    }
+
+    return implode('<br/>'.PHP_EOL, $owners);
+}
+
+msg(get_castle_page(), "Замки", 0, 'none');
