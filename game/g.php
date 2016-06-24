@@ -1,4 +1,9 @@
 <?php
+/**
+ * 'Движок' игры
+ * Входная точка
+ */
+
 require_once('config.php'); // настройки игры
 require_once('datafunc.php'); // функции игры
 require_once('game_function.php'); // игровые функции
@@ -119,6 +124,7 @@ if (!empty($site)) { // если задана страница перехода
         'castle'   => 'f_site_castle.dat',
         'clans'    => 'f_site_clans.dat',
         // вход в игру
+        // TODO: упростить механизм входа
         'connect'  => 'f_site_connect.dat',
         'connect2' => 'f_site_connect2.dat',
         // информация
@@ -167,7 +173,7 @@ if ($wtf_options) {
 }
 unset($wtf_options);
 
-if ($cnick) { // перейти к настрийкам
+if ($cnick) { // перейти к настройкам
     include_once "f_cnick.inc";
 }
 if ($go) {
@@ -235,7 +241,7 @@ if ($stele) {
     include_once "f_stele.inc";
 }
 
-// получаем список окружающих локаций локаций
+// получаем список окружающих локаций
 $loc_c = explode("|", $loc_tt[$loc]["d"]);
 // подгружаем локи
 for ($i = 2; $i < count($loc_c); $i += 2) {
@@ -259,6 +265,7 @@ if ($ce) {
 
 // подгружаемые модули
 if ($cm) {
+    // TODO: избавиться от eval
     if ($cm > 0 && $cm < 9) {
         $cm--;
         $m = @explode("/", $loc_i[$loc][$login]["macro"]);
