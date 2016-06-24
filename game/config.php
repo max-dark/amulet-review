@@ -1,10 +1,8 @@
 <?php
 /**
+ * Конфигурация игры
  * @file game/config.php
  */
-
-/** @var int $starttime */
-$starttime = microtime(1);
 
 //=========================
 /** @var string $server */
@@ -15,9 +13,9 @@ $user = 'game';
 $dbpass = 'pass';
 /** @var string $dbname имя базы */
 $dbname = 'amulet';
+
 //=========================
-/** @var string $SERVER_URL урл*/
-$SERVER_URL = 'http://ip6-localhost:8000/'; //путь к игре
+
 /** @var string $PHP_SELF мотор игры */
 $PHP_SELF = 'g.php';
 /** @var string $GAME_NAME */
@@ -69,38 +67,15 @@ $g_sounds = 0;
 $g_logout = 300;
 /** @var int $g_destroy время */
 $g_destroy = 600;
-/** @var int $g_crim время */
+/** @var int $g_crim время, на которое игрок считается преступником */
 $g_crim = 1800;
 /** @var int $g_exp множитель для экспы */
 $g_exp = 10;
+/** @var int $g_attr максимальная сумма сила+ловкость+интелект */
 $g_attr = 12;
+/** @var int $g_attr_one максимальное значение силы/ловкости/интелекта */
 $g_attr_one = 5;
+/** @var int $g_skills максимальная сумма очков навыков */
 $g_skills = 50;
+/** @var int $g_skills_one максимальный уровень навыка */
 $g_skills_one = 5;
-/*
-//==================================ПЕРЕХОД В REGISTER_GLOBALS OFF!!!!!!
-$cnt_get = count($_GET);
-if ($cnt_get) {
-    $key = array_keys($_GET);
-    $vals = array_values($_GET);
-    for ($i = 0; $i < $cnt_get; $i++) {
-        if (!$vals[$i])
-            continue;
-        if (!preg_match('|^[-a-z0-9_\.]+$|i', $vals[$i]))
-            exit('Вы используете запрещенные символы ');
-        $GLOBALS[$key[$i]] = $vals[$i];
-    }
-    unset($cnt_get, $key, $vals);
-}
-//------------------------------
-$cnt_post = count($_POST);
-if ($cnt_post) {
-    $key = array_keys($_POST);
-    $vals = array_values($_POST);
-    for ($i = 0; $i < $cnt_post; $i++) {
-        $GLOBALS[$key[$i]] = $vals[$i];
-    }
-    unset($cnt_post, $key, $vals);
-}
-//===============================================================
-*/
