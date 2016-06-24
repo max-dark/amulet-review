@@ -56,12 +56,12 @@ exit;
  * @return string
  */
 function check_clan($clan, $login) {
-    $dh = opendir("../clans/");
+    $dh = opendir("data/clans/");
     while (($fname = readdir($dh)) !== false)
         if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
             if (strtolower($fname) === strtolower($clan)) {
                 closedir($dh);
-                $tmp = @unserialize((@file_get_contents("../clans/" . $fname)));
+                $tmp = @unserialize((@file_get_contents("data/clans/" . $fname)));
                 if (is_array($tmp) && !isset($tmp["m"][$login]) && !isset($tmp["g"][$login]))
                     return ("no");
                 return ("yes");

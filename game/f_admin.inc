@@ -217,14 +217,14 @@ if ($login == $g_admin || $gm == $gm_id) {
             break;
         case 'setgclan':
             if ($inp && $val) {
-                if (file_exists("../clans/" . $inp))
-                    $tmp = unserialize((file_get_contents("../clans/" . $inp)));
+                if (file_exists("data/clans/" . $inp))
+                    $tmp = unserialize((file_get_contents("data/clans/" . $inp)));
                 else
                     msg("нет клана");
                 if (substr($val, 0, 2) != "u.")
                     $val = "u." . $val;
                 $tmp["g"] = array($val => "");
-                $file = fopen("../clans/" . $inp, "w");
+                $file = fopen("data/clans/" . $inp, "w");
                 if ($file !== false) {
                     fputs($file, serialize($tmp));
                     fclose($file);

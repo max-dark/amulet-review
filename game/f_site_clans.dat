@@ -1,8 +1,8 @@
 <?php
 
 if ($clan) {
-    if (!file_exists("../clans/" . $clan)) msg("Клан $clan не существует");
-    $tmp = unserialize((file_get_contents("../clans/" . $clan)));
+    if (!file_exists("data/clans/" . $clan)) msg("Клан $clan не существует");
+    $tmp = unserialize((file_get_contents("data/clans/" . $clan)));
     if (!isset($tmp["g"])) msg("Ошибка при загрузке клана $clan, сообщите разработчику.");
     if ($info) {
         if ($tmp["i"]) msg($tmp["i"] . "<br/><anchor>[Назад]<prev/></anchor>", "Инфо о клане " . $clan); else msg("Нет описания");
@@ -33,9 +33,9 @@ if ($clan) {
 // все кланы
 
 $arr = array();
-$dh = opendir("../clans");
+$dh = opendir("data/clans/");
 while (($fname = readdir($dh)) !== false) if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
-    $tmp = unserialize((file_get_contents("../clans/" . $fname)));
+    $tmp = unserialize((file_get_contents("data/clans/" . $fname)));
     $arr[$fname] = count($tmp["m"]) + 1;
 }
 closedir($dh);

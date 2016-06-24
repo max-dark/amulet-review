@@ -3,7 +3,7 @@
 
 $tc = explode("|", $loc_i[$loc][$login]["char"]);
 if (strpos($tc[0], "*") === false) $clan = ""; else $clan = substr($tc[0], strpos($tc[0], "*") + 1, strrpos($tc[0], "*") - strpos($tc[0], "*") - 1);
-if ($clan && file_exists("../clans/" . $clan)) $tmp = unserialize((file_get_contents("../clans/" . $clan))); else $tmp = array();
+if ($clan && file_exists("data/clans/" . $clan)) $tmp = unserialize((file_get_contents("data/clans/" . $clan))); else $tmp = array();
 
 if (isset($tmp["g"][$login])) {    // гилдмастер
     if ($to) {
@@ -23,7 +23,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
             addjournal($loc, $to, $tc[0] . " приглашает вас в свой клан");
             addjournal($loc, $login, $tc1[0] . " приглашен в ваш клан, передайте ему камень гильдии, чтобы он использовал его на вас");
         }
-        $file = fopen("../clans/" . $clan, "w");
+        $file = fopen("data/clans/" . $clan, "w");
         if ($file !== false) {
             fputs($file, serialize($tmp));
             fclose($file);
@@ -45,7 +45,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
                 unset($tmp["wg"][$del]);
             }
             if ($b) {
-                $file = fopen("../clans/" . $clan, "w");
+                $file = fopen("data/clans/" . $clan, "w");
                 if ($file !== false) {
                     fputs($file, serialize($tmp));
                     fclose($file);
@@ -75,7 +75,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
                     $write = $s;
                 }
                 $tmp["i"] = $write;
-                $file = fopen("../clans/" . $clan, "w");
+                $file = fopen("data/clans/" . $clan, "w");
                 if ($file !== false) {
                     fputs($file, serialize($tmp));
                     fclose($file);
@@ -120,7 +120,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
 
         $tc = explode("|", $loc_i[$loc][$to]["char"]);
         if (strpos($tc[0], "*") === false) $clan = ""; else $clan = substr($tc[0], strpos($tc[0], "*") + 1, strrpos($tc[0], "*") - strpos($tc[0], "*") - 1);
-        if ($clan && file_exists("../clans/" . $clan)) $tmp = unserialize((file_get_contents("../clans/" . $clan))); else $tmp = array();
+        if ($clan && file_exists("data/clans/" . $clan)) $tmp = unserialize((file_get_contents("data/clans/" . $clan))); else $tmp = array();
         if (!isset($tmp["g"][$to])) msg("Выбирать можно только главу клана");
         if (!isset($tmp["w"][$login]) && !isset($tmp["wg"][$login])) msg("Вы не числитесь в списках рекрутов клана " . $clan . ", обратитесь к главе этого клана");
 
@@ -136,7 +136,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
             unset($tmp["w"][$login]);
             $tmp["m"][$login] = $p;
         }
-        $file = fopen("../clans/" . $clan, "w");
+        $file = fopen("data/clans/" . $clan, "w");
         if ($file !== false) {
             fputs($file, serialize($tmp));
             fclose($file);
