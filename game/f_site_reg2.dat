@@ -58,7 +58,7 @@ if ($res) {
 
 
 // общее число зарегистрированных
-$fntmp = "../all.dat";
+$fntmp = "data/all.dat";
 if (file_exists($fntmp)) {
     $all = 0;
     $all = (@file_get_contents($fntmp));
