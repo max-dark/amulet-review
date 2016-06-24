@@ -18,7 +18,7 @@ $skip_castles = !isset($creset);
 // мир по умолчанию
 
 $game = array("lastai" => 1);
-$file = fopen("game.dat", "w");
+$file = fopen("data/game.dat", "w");
 fputs($file, serialize($game));
 fclose($file);
 

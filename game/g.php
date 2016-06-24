@@ -74,9 +74,9 @@ if ($sid) {
     }
 }
 // если есть сохраненное состояние
-if (file_exists("game.dat")) {
+if (file_exists("data/game.dat")) {
     // загрузить состояние
-    $file_save = fopen("game.dat", "r+");
+    $file_save = fopen("data/game.dat", "r+");
     if (!$file_save) {
         msg("Ошибка загрузки game.dat");
     }
@@ -93,7 +93,7 @@ if (file_exists("game.dat")) {
     }
 } else {
     // создать файл состояния
-    $file_save = fopen("game.dat", "w+");
+    $file_save = fopen("data/game.dat", "w+");
     if ($file_save && flock($file_save, 2)) {
         $f_all = 1;
         include_once "f_online.inc";
