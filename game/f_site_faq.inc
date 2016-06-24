@@ -1,6 +1,6 @@
 <?php
 
-$id = $_GET['id'];
+$id = Request('id');
 
 switch ($id) {
     case "about":
