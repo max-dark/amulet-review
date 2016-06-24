@@ -37,9 +37,7 @@ if (strpos($auser["char"], "*") === false)
 else
     $clan = substr($auser["char"], strpos($auser["char"], "*") + 1, strrpos($auser["char"],
             "*") - strpos($auser["char"], "*") - 1);
-if ($clan && (@file_get_contents($SERVER_URL . "f_common.php?inclan=$clan&login=$login")) ==
-    "no"
-)
+if ($clan && (check_clan($clan, $login)) == "no")
     $clan = "no";
 else
     $clan = "yes";
@@ -50,3 +48,25 @@ include_once('f_site_connect2.dat');
 if (filesize("online/" . $login) == 1 || strpos($s, "cnick=1") === false)
     @unlink("online/" . $login);
 exit;
+
+/**
+ * проверяет, состоит ли $login в $clan
+ * @param string $clan
+ * @param string $login
+ * @return string
+ */
+function check_clan($clan, $login) {
+    $dh = opendir("../clans/");
+    while (($fname = readdir($dh)) !== false)
+        if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
+            if (strtolower($fname) === strtolower($clan)) {
+                closedir($dh);
+                $tmp = @unserialize((@file_get_contents("../clans/" . $fname)));
+                if (is_array($tmp) && !isset($tmp["m"][$login]) && !isset($tmp["g"][$login]))
+                    return ("no");
+                return ("yes");
+            }
+        }
+    closedir($dh);
+    return ("no");
+}
