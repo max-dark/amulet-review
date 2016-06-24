@@ -69,7 +69,7 @@ closedir($dh);
 if ($count > $g_max) {
     $count = $g_max;
 }
-$file = fopen("count.dat", "w");
+$file = fopen("data/count.dat", "w");
 if ($file !== false) {
     fputs($file, $count . " из " . $g_max);
     fclose($file);
