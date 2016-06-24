@@ -1,2 +1,5 @@
 .idea
+# игнорим временные файлы
 /game/online/u.*
+# игнорм все кроме .htaccess
+!/game/data/clans/.htaccess
