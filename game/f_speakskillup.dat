@@ -102,7 +102,7 @@ if ($skill == 'str' || $skill == 'dex' || $skill == 'int') {    //АТТР
     }
 } else {    //НАВЫКИ
     if ($skills[$arr_skills[$skill]] >= $g_skills_one) msg("<p>Невозможно повысить, т.к. навык уже на максимальном уровне " . $g_skills_one);
-    if ($skilldown && ($skilldown == "str" || $skilldown == "dex" || $skilldow == "int")) msg("Неверный навык");
+    if ($skilldown && ($skilldown == "str" || $skilldown == "dex" || $skilldown == "int")) msg("Неверный навык");
     if ($skilldown && $skills[$arr_skills[$skilldown]] <= 0) msg("<p>Невозможно понизить, т.к. навык уже на минимальном уровне 0, выберите другой");
     $sum = 0;
     foreach (array_keys($arr_skills) as $i) if ($i != 'str' && $i != 'dex' && $i != 'int') $sum += $skills[$arr_skills[$i]];
