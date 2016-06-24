@@ -133,5 +133,5 @@ function create_image($image_type, $id)
  */
 function build_name($id, $file_ext)
 {
-    return "map{$id}.{$file_ext}";
+    return "data/map{$id}.{$file_ext}";
 }
