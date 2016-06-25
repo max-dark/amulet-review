@@ -20,7 +20,7 @@ if ($use == "i.h") {
     $npc["owner"] = $login . "|" . $login . "|0|" . (time() + 60 * 60) . "|1";
     $loc_i[$loc]["n.a.losh." . rand(99, 9999)] = $npc;
     addjournal($loc, "all", $char[0] . " спешился", $login);
-    return;    // $char в g.php
+    return;    // $char в index.php
     //msg("Вы спешились и держите коня за уздечку.");
 }
 

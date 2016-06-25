@@ -17,7 +17,7 @@ $stmp[$start - 1] = "<p>Стр. " . $start . " из " . count($stmp) . " [<a hre
 if ($start < count($stmp))
     $stmp[$start - 1] .= "<br /><a href=\"?site=news&amp;r=" . rand(97, 122) . "&amp;start=" . ($start +
             1) . "\">[след. стр.]</a>";
-$stmp[$start - 1] .= "<br /><br /><a href=\"?site=news\">[В начало]</a><br /><a href=\"g.php\">[На главную]</a>";
+$stmp[$start - 1] .= "<br /><br /><a href=\"?site=news\">[В начало]</a><br /><a href=\"index.php\">[На главную]</a>";
 $stmp[$start - 1] .= "<br/></p></card><card id=\"page\" title=\"Перейти\">\n<p>Введите номер страницы:<br/><input name=\"start\"  format=\"*N\" value=\"1\" maxlength=\"3\"/><br/><a href=\"?site=news&amp;start=$(start)\">Перейти</a>";
 
 $stmp = $stmp[$start - 1] . "<br/><anchor>[Назад]<prev/></anchor>";

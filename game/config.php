@@ -17,7 +17,7 @@ $dbname = 'amulet';
 //=========================
 
 /** @var string $PHP_SELF мотор игры */
-$PHP_SELF = 'g.php';
+$PHP_SELF = 'index.php';
 /** @var string $GAME_NAME */
 $GAME_NAME = 'Моя игра';
 /** @var int $g_max максимум игроков */
