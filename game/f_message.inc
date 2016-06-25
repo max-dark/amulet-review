@@ -24,11 +24,11 @@ function msg(
     $var_name = '', $var_value = ''
 )
 {
-    global $game, $g_admin, $gm, $login, $loc, $loc_i, $page_d, $PHP_SELF, $sid,
+    global $game, $g_admin, $gm, $login, $loc, $loc_i, $page_d, $sid,
            $gm_id, $g_size, $g_list, $skip_journal, $cj, $g_menu, $fm, $fm2, $g_j2loc, $g_joff, $g_smf,
            $g_map, $g_query_string;
 
-    $url_base = "$PHP_SELF?sid=$sid";
+    $url_base = "?sid=$sid";
 
     header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
     header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -96,7 +96,7 @@ function msg(
         if ($bsize)
             $tmp_url = "#g";
         else {
-            $tmp_url = "$PHP_SELF?" . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $g_query_string);
+            $tmp_url = '?' . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $g_query_string);
         }
         $wml .= '<card title="Журнал">' .
             '<do type="accept" label="Дальше">' .
