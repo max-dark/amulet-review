@@ -168,8 +168,8 @@ TAG;
             msg(substr($id, 2) . " сейчас не в игре, оправлять сообщения можно только тем кто онлайн");
         }
         if (!$text) msg("Нет текста для отправки");
-        if (strpos($text, "/?sid=") !== false) {
-            $text = substr($text, 0, strpos($text, "/?sid="));
+        if (strpos($text, "?sid=") !== false) {
+            $text = substr($text, 0, strpos($text, "?sid="));
         }
         if ($translit) {
             include "f_translit.inc";

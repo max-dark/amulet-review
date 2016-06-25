@@ -1,8 +1,8 @@
 <?php
 
 // сказать текст всем
-if (strpos($say, "/g.php?sid=") !== false)
-    $say = substr($say, 0, strpos($say, "/g.php?sid="));
+if (strpos($say, "?sid=") !== false)
+    $say = substr($say, 0, strpos($say, "?sid="));
 $s = substr($to, 2) . ' ' . $say;
 
 $ok = GetBadWord($s);
