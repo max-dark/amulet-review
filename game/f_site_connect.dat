@@ -12,7 +12,7 @@ clearstatcache();
 if (file_exists("online/" . $login) && filesize("online/" . $login) != 1) {
     if ($gm == $gm_id)
         $p .= "&gm=" . $gm;
-    msg("Нажмите на ссылку ниже<br /><a href=\"g.php?site=connect2&login=$login&p=$p\">Продолжить</a>");
+    msg("Нажмите на ссылку ниже<br /><a href=\"?site=connect2&login=$login&p=$p\">Продолжить</a>");
 }
 $file = @fopen("online/" . $login, "w");
 if ($file !== false) {
