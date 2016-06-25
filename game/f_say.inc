@@ -35,8 +35,8 @@ else
             if ($b || rand(0, 100) <= $skills[21] * 20)
                 addjournal($loc, $i, $char[0] . " говорит: " . $say);
             else {
-                $stmp = preg_replace("/[A-ZА-Я]/", "O", $say);
-                $stmp = preg_replace("/[a-zа-я]/", "o", $stmp);
+                $stmp = preg_replace("/[A-ZА-ЯЁ]/u", "O", $say);
+                $stmp = preg_replace("/[a-zа-яё]/u", "o", $stmp);
                 addjournal($loc, $i, $char[0] . " говорит: " . $stmp);
             }
         }
