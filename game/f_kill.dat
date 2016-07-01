@@ -5,13 +5,25 @@ $loc_i[$loc][$from]["char"] = implode("|", $fchar);
 addjournal($loc, "all", $tchar[0] . " погиб", $to);
 // труп
 $id = "i.s.d." . $to . "." . rand(5, 99);
-while (isset($loc_i[$loc][$id])) $id = "i.s.d." . $to . "." . rand(5, 99);
+while (isset($loc_i[$loc][$id])) {
+    $id = "i.s.d." . $to . "." . rand(5, 99);
+}
 $item = "труп (" . $tchar[0] . ")|";
-if ($tcrim || substr($to, 0, 4) == "n.a." || (substr($loc, 0, 2) == "c." && substr($loc, 3) != ".in")) $item .= "1|"; else $item .= "0|";
+if ($tcrim || substr($to, 0, 4) == "n.a." || (substr($loc, 0, 2) == "c." && substr($loc, 3) != ".in")) {
+    $item .= "1|";
+}
+else {
+    $item .= "0|";
+}
 $item .= time() + $g_destroy . "|";
 if (strpos($loc_i[$loc][$to]["items"], "i.q.pjpt:") === false || substr($to, 0, 2) != "u.") {
     // предметы
-    if ($loc_i[$loc][$to]["items"]) $item .= str_replace("|", ",", $loc_i[$loc][$to]["items"]) . "|"; else $item .= "|";
+    if ($loc_i[$loc][$to]["items"]) {
+        $item .= str_replace("|", ",", $loc_i[$loc][$to]["items"]) . "|";
+    }
+    else {
+        $item .= "|";
+    }
     $pjpt = 0;
 } else {
     $pjpt = 1;
@@ -21,7 +33,9 @@ if (strpos($loc_i[$loc][$to]["items"], "i.q.pjpt:") === false || substr($to, 0, 
     $item .= "|";
 }
 // шкура и т.д.
-if ($loc_i[$loc][$to]["osvej"]) $item .= str_replace("|", ",", $loc_i[$loc][$to]["osvej"]);
+if ($loc_i[$loc][$to]["osvej"]) {
+    $item .= str_replace("|", ",", $loc_i[$loc][$to]["osvej"]);
+}
 $loc_i[$loc][$id] = $item;
 // убийца
 if (substr($to, 0, 2) == "u." && substr($from, 0, 2) == "u." && $from != $to && $tchar[7] != $from && !$tcrim && (!$clan1 || ($clan1 && $clan1 != $clan)) && !$wife) {
@@ -61,29 +75,45 @@ if (substr($to, 0, 2) == 'u.') {
         if ($twar[15]) {
             $tmp = explode(":", $twar[15]);
             $twar[15] = $from . ":" . $tmp[1];
-        } else $twar[15] = $from . ":";
+        }
+        else {
+            $twar[15] = $from . ":";
+        }
         $loc_i[$loc][$to]["war"] = implode("|", $twar);
     }
     calcparam($loc, $to);    // пересчитаем параметры
     addjournal($loc, $to, "Вы погибли!");
-} else {    // npc респавн
+}
+else {    // npc респавн
     if ($twar[15]) {
         $resp = explode(":", $twar[15]);
         if ($resp[3]) {
+            // восстановить здоровье
             $tchar[1] = $tchar[2];
+            // восстановить ману
             $tchar[3] = $tchar[4];
+            // сбросить цель атаки
             $tchar[7] = "";
+            // убрать коня
             $tchar[12] = "";
             $loc_i[$loc][$to]["char"] = implode("|", $tchar);
             $loc_i[$loc][$to]["id"] = $to;
+            // подгрузить оригинал
             $npc = [];
             include "npc/" . $to;
+            // сбросить настройки вещей
             $loc_i[$loc][$to]["items"] = $npc["items"];
             $loc_i[$loc][$to]["equip"] = $npc["equip"];
             $loc_i[$loc][$to]["osvej"] = $npc["osvej"];
             addtimer($resp[0], 0, rand($resp[1], $resp[2]), $loc_i[$loc][$to], 0);
-        } else {
-            if ($tchar[10]) $tt = "|" . $tchar[10]; else $tt = "";
+        }
+        else {
+            if ($tchar[10]) {
+                $tt = "|" . $tchar[10];
+            }
+            else {
+                $tt = "";
+            }
             addtimer($resp[0], 0, rand($resp[1], $resp[2]), $to . "|" . $resp[1] . ":" . $resp[2] . $tt, 0);
         }
     }
@@ -103,7 +133,10 @@ if (substr($from, 0, 2) == 'u.') {
             if ($fwarr[15]) {
                 $tmp = explode(":", $fwarr[15]);
                 $fwarr[15] = $tmp[0] . ":" . $to;
-            } else $fwarr[15] = ":" . $to;
+            }
+            else {
+                $fwarr[15] = ":" . $to;
+            }
         }
         $loc_i[$loc][$from]["war"] = implode("|", $fwarr);
     }
