@@ -1,6 +1,6 @@
 <?php
 
-$npc = array(
+$npc = [
 
     'char' => 'лиca|18|18|1|1||||2||||',
 
@@ -8,4 +8,4 @@ $npc = array(
 
     'osvej' => 'i.h.s.fox:1|i.f.meat:1',
 
-);
+];

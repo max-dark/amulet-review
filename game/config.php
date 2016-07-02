@@ -1,6 +1,7 @@
 <?php
 /**
  * Конфигурация игры
+ *
  * @file game/config.php
  */
 

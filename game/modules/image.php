@@ -13,8 +13,10 @@ abstract class Image {
     private $info;
     /** @var array $ext_info */
     private $ext_info;
+
     /**
      * Image constructor.
+     *
      * @param string $file_name
      */
     public function __construct($file_name) {
@@ -30,6 +32,7 @@ abstract class Image {
     public abstract function loadFile($file_name);
 
     /** запись картинки в $file_name или STDOUT
+     *
      * @param string|null $file_name
      * @return bool
      */
@@ -38,8 +41,7 @@ abstract class Image {
     /**
      *  подчистить ресурсы
      */
-    public function __destruct()
-    {
+    public function __destruct() {
         imagedestroy($this->image);
     }
 
@@ -78,6 +80,7 @@ abstract class Image {
 
     /**
      * информация о картинке
+     *
      * @param string|int $that
      * @return mixed
      */
@@ -87,6 +90,7 @@ abstract class Image {
 
     /**
      * рассширенная информация о картинке
+     *
      * @param string|int $that
      * @return mixed
      */
@@ -96,10 +100,10 @@ abstract class Image {
 
     /**
      * хендл изображения
+     *
      * @return resource
      */
-    protected function getImage()
-    {
+    protected function getImage() {
         return $this->image;
     }
 }
@@ -110,20 +114,20 @@ abstract class Image {
 class PNGImage extends Image {
     /**
      * загрузка картинки
+     *
      * @param $file_name
      * @return resource
      */
-    public function loadFile($file_name)
-    {
+    public function loadFile($file_name) {
         return imagecreatefrompng($file_name);
     }
 
     /** запись картинки в $file_name или STDOUT
+     *
      * @param string|null $file_name
      * @return bool
      */
-    public function writeFile($file_name = null)
-    {
+    public function writeFile($file_name = null) {
         return imagepng($this->getImage(), $file_name);
     }
 }
@@ -134,20 +138,20 @@ class PNGImage extends Image {
 class JpegImage extends Image {
     /**
      * загрузка картинки
+     *
      * @param $file_name
      * @return resource
      */
-    public function loadFile($file_name)
-    {
+    public function loadFile($file_name) {
         return imagecreatefromjpeg($file_name);
     }
 
     /** запись картинки в $file_name или STDOUT
+     *
      * @param string|null $file_name
      * @return bool
      */
-    public function writeFile($file_name = null)
-    {
+    public function writeFile($file_name = null) {
         return imagejpeg($this->getImage(), $file_name);
     }
 }
@@ -158,20 +162,20 @@ class JpegImage extends Image {
 class WBMPImage extends Image {
     /**
      * загрузка картинки
+     *
      * @param $file_name
      * @return resource
      */
-    public function loadFile($file_name)
-    {
+    public function loadFile($file_name) {
         return imagecreatefromwbmp($file_name);
     }
 
     /** запись картинки в $file_name или STDOUT
+     *
      * @param string|null $file_name
      * @return bool
      */
-    public function writeFile($file_name = null)
-    {
+    public function writeFile($file_name = null) {
         return imagewbmp($this->getImage(), $file_name);
     }
 }

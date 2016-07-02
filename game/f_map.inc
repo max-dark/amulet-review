@@ -12,29 +12,29 @@ require_once 'modules/map.php';
  * @param string $sid
  * @return string
  */
-function map_page($location, $game, $map_type, $PHP_SELF, $sid)
-{
+function map_page($location, $game, $map_type, $PHP_SELF, $sid) {
     $char_coord = calculateCoordinates($location);
     $flag_coord = calculateCoordinates($game["floc"]);
 
-
-    $description = array(
+    $description = [
         "основной территории.",
         "территории Ансалона.",
         "Волчьем острове."
-    );
+    ];
 
     srand((float)microtime() * 10000000);
-    $stmp = '<p align="center">' .
-        "<img alt=\"map\" src=\"m.php?l=$location&amp;f=" . $game["floc"] . "&amp;img=1&amp;r=" . rand(99, 999) . "&amp;bw=$map_type\"/>" .
-        "<br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a></p>";
+    $stmp = '<p align="center">' . "<img alt=\"map\" src=\"m.php?l=$location&amp;f=" . $game["floc"] .
+            "&amp;img=1&amp;r=" . rand(99, 999) . "&amp;bw=$map_type\"/>" .
+            "<br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a></p>";
     $stmp .= "<p>Вы на " . $description[$char_coord[0]];
     if (empty($game["floc"])) {
         $fc = "неизвестно у кого (попробуйте обновить карту) ";
-    } else {
+    }
+    else {
         if (empty($game["fid"])) {
             $fc = "сейчас никому не принадлежит ";
-        } else {
+        }
+        else {
             $fc = "у " . $game["fchar"] . " ";
         }
     }
@@ -44,5 +44,6 @@ function map_page($location, $game, $map_type, $PHP_SELF, $sid)
     }
 
     $stmp .= '<br/><a href="m.php?info=1">Помощь</a>';
+
     return $stmp;
 }

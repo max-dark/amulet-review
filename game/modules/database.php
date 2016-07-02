@@ -4,7 +4,7 @@
  * Class DB
  */
 class DB {
-    /** @var \PDO $link*/
+    /** @var \PDO $link */
     private static $link = null;
 
     /**
@@ -16,18 +16,17 @@ class DB {
         if (is_null(self::$link)) {
             if (is_array($config)) {
                 self::$link = new \PDO(
-                    sprintf('mysql:host=%s;dbname=%s;charset=utf8',
+                    sprintf(
+                        'mysql:host=%s;dbname=%s;charset=utf8',
                         $config['server'],
                         $config['dbname']
-                    ),
-                    $config['login'],
-                    $config['password'],
-                    [
+                    ), $config['login'], $config['password'], [
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
                     ]
                 );
             }
         }
+
         return self::$link;
     }
 }

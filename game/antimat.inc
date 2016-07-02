@@ -16,7 +16,6 @@ $gw[] = "миди";
 $gw[] = "яблок";
 $gw[] = "бладе";
 
-
 // Массив плохих слов - только кириллица
 
 $bw[] = "><у";
@@ -60,7 +59,6 @@ $bw[] = "низд";
 $bw[] = "нисд";
 $bw[] = "нузд";
 $bw[] = "нусд";
-
 
 $bw[] = "пызд";
 $bw[] = "пысд";
@@ -156,20 +154,34 @@ $bw[] = "дпачи";
 $bw[] = "дпацхи";
 
 $change2 = [
-    'Ä' => 'a', 'Å' => 'a', 'Æ' => 'a', 'à' => 'a', 'ä' => 'a', 'å' => 'a',
-    'Ö' => 'o', 'ö' => 'o', 'ø' => 'o', 'ò' => 'o',
-    'è' => 'e', 'é' => 'e', 'É' => 'e',
-    'Ü' => 'u', 'ü' => 'u', 'ù' => 'u',
-    'Ø' => 'i', 'Ñ' => 'i',
-    'Π' => 'p', 'π' => 'p',
+    'Ä' => 'a',
+    'Å' => 'a',
+    'Æ' => 'a',
+    'à' => 'a',
+    'ä' => 'a',
+    'å' => 'a',
+    'Ö' => 'o',
+    'ö' => 'o',
+    'ø' => 'o',
+    'ò' => 'o',
+    'è' => 'e',
+    'é' => 'e',
+    'É' => 'e',
+    'Ü' => 'u',
+    'ü' => 'u',
+    'ù' => 'u',
+    'Ø' => 'i',
+    'Ñ' => 'i',
+    'Π' => 'p',
+    'π' => 'p',
     'Δ' => 'd',
     'Λ' => 'l',
     'ß' => 'b'
 ];
 
-
 /**
  * split utf-8 string to array of chars
+ *
  * @param string $str
  * @return array
  */
@@ -179,6 +191,7 @@ function chars_of($str) {
 
 /**
  * utf-8 analog for strtr function
+ *
  * @param string $str
  * @param string $from
  * @param string $to
@@ -196,12 +209,11 @@ function mb_strtr($str, $from, $to) {
 
 $en2ru = [];
 
-
 function GetBadWord($s) // Возвращает первое плохое слово или пустую строку
 
 {
     global $gw, $bw, $change2, $en2ru;
-    
+
     if (empty($en2ru)) {
         $en2ru = array_combine(
             chars_of('a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9'),
@@ -233,7 +245,8 @@ function GetBadWord($s) // Возвращает первое плохое сло
         if (($ch == " ") or ($ch == ",") or ($ch == ".")) {
             if (($i - $bspos) > 3) {
                 $s[$bspos] = " ";
-            } else {
+            }
+            else {
                 $s[$i] = "-";
             }
             $bspos = $i;
@@ -271,5 +284,6 @@ function GetBadWord($s) // Возвращает первое плохое сло
             return $s;
         }
     }
+
     return "";
 }

@@ -1,31 +1,33 @@
 <?php
 
-
 require_once 'modules/image.php';
 
 /**
  * @param string $location
  * @return array
  */
-function calculateCoordinates($location)
-{
+function calculateCoordinates($location) {
 
     switch (substr($location, 0, 4)) {
         case "c.1.":
             $location = "x1429x168";
-            break;
+        break;
         case "c.2.":
             $location = "x781x429";
-            break;
+        break;
         case "c.3.":
             $location = "x1129x369";
-            break;
+        break;
         case "c.4.":
             $location = "x2320x348";
-            break;
+        break;
         default:
-            if ($location == "_begin") $location = "x1158x523";
-            if ($location == "arena")  $location = "x1086x501";
+            if ($location == "_begin") {
+                $location = "x1158x523";
+            }
+            if ($location == "arena") {
+                $location = "x1086x501";
+            }
     }
 
     /** @noinspection PhpUnusedLocalVariableInspection */
@@ -35,26 +37,29 @@ function calculateCoordinates($location)
         $x = round(($x - 20) / 6);
         $y = round(($y - 1101) / 6);
         $type = 2;
-    } else
+    }
+    else {
         if ($x > 1650) {
             // территория Ансалона
             $x = round(($x - 450 - 1200) / 15);
             $y = round($y / 15);
             $type = 1;
-        } else {
+        }
+        else {
             // основная территория
             $x = round(($x - 450) / 12);
             $y = round($y / 12);
             $type = 0;
         }
-    return array($type, $x, $y);
+    }
+
+    return [$type, $x, $y];
 }
 
-
 /**
- * @param string $char локация персонажа
- * @param string $flag локация флага
- * @param int $image_type формат изображения
+ * @param string $char       локация персонажа
+ * @param string $flag       локация флага
+ * @param int    $image_type формат изображения
  */
 function show_map($char, $flag, $image_type) {
     list($char_map, $char_x, $char_y) = calculateCoordinates($char);
@@ -68,7 +73,8 @@ function show_map($char, $flag, $image_type) {
     if ($color == 0 || $color == 0xFFFFDC) {
         $bg_color = 1;
         $fg_color = $white_color;
-    } else {
+    }
+    else {
         $bg_color = $white_color;
         $fg_color = 1;
     }
@@ -77,7 +83,8 @@ function show_map($char, $flag, $image_type) {
         if ($color == 0 || $color == 0xFFFFDC) {
             $bg_color = 1;
             $fg_color = $white_color;
-        } else {
+        }
+        else {
             $bg_color = $white_color;
             $fg_color = 1;
         }
@@ -94,13 +101,12 @@ function show_map($char, $flag, $image_type) {
 
 /**
  * @param Image $image
- * @param int $x
- * @param int $y
- * @param int $fg_color
- * @param int $bg_color
+ * @param int   $x
+ * @param int   $y
+ * @param int   $fg_color
+ * @param int   $bg_color
  */
-function set_mark(&$image, $x, $y, $fg_color, $bg_color)
-{
+function set_mark(&$image, $x, $y, $fg_color, $bg_color) {
     $image->filledRectangle($x, $y, $x + 2, $y + 2, $bg_color);
     $image->setPixel($x + 1, $y + 1, $fg_color);
 }
@@ -110,28 +116,27 @@ function set_mark(&$image, $x, $y, $fg_color, $bg_color)
  * @param int $id
  * @return Image
  */
-function create_image($image_type, $id)
-{
+function create_image($image_type, $id) {
     switch ($image_type) {
         case 1:
             $image = new WBMPImage(build_name($id, "wbmp"));
-            break;
+        break;
         case 2:
             $image = new JpegImage(build_name($id, "jpg"));
-            break;
+        break;
         default:
             $image = new PNGImage(build_name($id, "png"));
-            break;
+        break;
     }
+
     return $image;
 }
 
 /**
- * @param int $id
+ * @param int    $id
  * @param string $file_ext
  * @return string
  */
-function build_name($id, $file_ext)
-{
+function build_name($id, $file_ext) {
     return "data/map{$id}.{$file_ext}";
 }

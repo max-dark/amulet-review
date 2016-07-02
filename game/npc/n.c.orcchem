@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'opк-чeмпиoн|100|100|1|1||||||||',
-    'war' => '85|6|16|4||6|5||||||мeчoм|26||',
-    'items' => 'i.w.s.long:1|i.a.b.mkol:1',
-    'equip' => 'i.a.b.mkol|i.w.s.long',
+$npc = [
+    'char'     => 'opк-чeмпиoн|100|100|1|1||||||||',
+    'war'      => '85|6|16|4||6|5||||||мeчoм|26||',
+    'items'    => 'i.w.s.long:1|i.a.b.mkol:1',
+    'equip'    => 'i.a.b.mkol|i.w.s.long',
     'itemsrnd' => 'i.money:90:8:16|i.ring.z:20:0:1|i.c.rubin:20:0:1|i.a.s.m:20:0:1',
-);
+];

@@ -2,12 +2,19 @@
 // перемещение в банке
 $items = explode("|", $loc_i[$loc][$login]["bank"]);
 if ($up) {
-    if (strpos($loc_i[$loc][$login]["bank"], $up . ":") === false) msg("Нет такого предмета");
-    for ($i = 0; $i < count($items); $i++) if (strpos($items[$i], $up . ":") !== false) break;
+    if (strpos($loc_i[$loc][$login]["bank"], $up . ":") === false) {
+        msg("Нет такого предмета");
+    }
+    for ($i = 0; $i < count($items); $i++) {
+        if (strpos($items[$i], $up . ":") !== false) {
+            break;
+        }
+    }
     if ($i == 0) {
         array_push($items, $items[$i]);
         array_shift($items);
-    } else {
+    }
+    else {
         $tc = $items[$i - 1];
         $items[$i - 1] = $items[$i];
         $items[$i] = $tc;
@@ -17,12 +24,19 @@ if ($up) {
 }
 if ($down) {
     $up = $down;
-    if (strpos($loc_i[$loc][$login]["bank"], $up . ":") === false) msg("Нет такого предмета");
-    for ($i = 0; $i < count($items); $i++) if (strpos($items[$i], $up . ":") !== false) break;
+    if (strpos($loc_i[$loc][$login]["bank"], $up . ":") === false) {
+        msg("Нет такого предмета");
+    }
+    for ($i = 0; $i < count($items); $i++) {
+        if (strpos($items[$i], $up . ":") !== false) {
+            break;
+        }
+    }
     if ($i == count($items) - 1) {
         array_unshift($items, $items[$i]);
         array_pop($items);
-    } else {
+    }
+    else {
         $tc = $items[$i + 1];
         $items[$i + 1] = $items[$i];
         $items[$i] = $tc;

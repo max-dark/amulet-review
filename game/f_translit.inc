@@ -1,16 +1,25 @@
 <?php
 $letters = [];
-function alt($s)
-{
+function alt($s) {
     global $ttans, $letters;
     if ($ttans) {
-        if(empty($letters)) {
+        if (empty($letters)) {
             // 'lazy' load
             $letters[0] = [
-                "jo" => "ё", "je" => "э", "ju" => "ю", "ja" => "я",
-                "zh" => "ж", "ch" => "ч", "sh" => "ш", "JO" => "Ё",
-                "JE" => "Э", "JU" => "Ю", "JA" => "Я",
-                "ZH" => "Ж", "CH" => "Ч", "SH" => "Ш"
+                "jo" => "ё",
+                "je" => "э",
+                "ju" => "ю",
+                "ja" => "я",
+                "zh" => "ж",
+                "ch" => "ч",
+                "sh" => "ш",
+                "JO" => "Ё",
+                "JE" => "Э",
+                "JU" => "Ю",
+                "JA" => "Я",
+                "ZH" => "Ж",
+                "CH" => "Ч",
+                "SH" => "Ш"
             ];
             $letters[1] = array_combine(
                 chars_of("wxq'ertyuiopasdfghjklzcvbnmWQXERTYUIOPASDFGHJKLZCVBNM"),
@@ -23,16 +32,17 @@ function alt($s)
         $s = strtr($s, $letters[1]);
     }
     $ttans = !$ttans;
+
     return $s;
 }
 
-function trans($s)
-{
+function trans($s) {
     global $ttans;
     $ttans = true;
+
     return preg_replace_callback(
         '/(.*)##??/Uu',
-        function (array $m){
+        function (array $m) {
             return alt($m[1]);
         },
         "$s#"

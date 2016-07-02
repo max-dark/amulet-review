@@ -25,7 +25,8 @@ if (strpos($loc_i[$loc][$to]["items"], "i.q.pjpt:") === false || substr($to, 0, 
         $item .= "|";
     }
     $pjpt = 0;
-} else {
+}
+else {
     $pjpt = 1;
     addjournal($loc, "all", $tchar[0] . " спасает свои вещи пером жар-птицы!", $to);
     addjournal($loc, $to, "Вы спасли свои вещи пером жар-птицы!");
@@ -38,7 +39,9 @@ if ($loc_i[$loc][$to]["osvej"]) {
 }
 $loc_i[$loc][$id] = $item;
 // убийца
-if (substr($to, 0, 2) == "u." && substr($from, 0, 2) == "u." && $from != $to && $tchar[7] != $from && !$tcrim && (!$clan1 || ($clan1 && $clan1 != $clan)) && !$wife) {
+if (substr($to, 0, 2) == "u." && substr($from, 0, 2) == "u." && $from != $to && $tchar[7] != $from && !$tcrim &&
+    (!$clan1 || ($clan1 && $clan1 != $clan)) && !$wife
+) {
     $loc_i[$loc][$from]["char"] = implode("|", $fchar);
     docrim($loc, $from, "убийца");
     $fchar = explode("|", $loc_i[$loc][$from]["char"]);
@@ -51,7 +54,9 @@ if (substr($to, 0, 2) == 'u.') {
         $game["fid"] = "";
     }
     $loc_i[$loc][$to]["equip"] = "";
-    if (!$pjpt) $loc_i[$loc][$to]["items"] = "";
+    if (!$pjpt) {
+        $loc_i[$loc][$to]["items"] = "";
+    }
     $tchar[7] = "";
     $tchar[8] = 1;
     if ($tchar[12]) {
@@ -59,7 +64,9 @@ if (substr($to, 0, 2) == 'u.') {
         $tc = explode(":", $tchar[12]);
         $tc1 = explode("|", $npc["char"]);
         $tc1[5] = time();
-        if ($tc[1] < $tc1[1]) $tc1[1] = $tc[1];
+        if ($tc[1] < $tc1[1]) {
+            $tc1[1] = $tc[1];
+        }
         if (isset($loc_i[$loc][$to]["name"])) {
             $tc1[0] .= " " . $loc_i[$loc][$to]["name"];
             $npc["name"] = $loc_i[$loc][$to]["name"];

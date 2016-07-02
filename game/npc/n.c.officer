@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Сaнчec [oфицep]-зомби|100|100|100|100||||||||',
-    'war' => '100|10|50|3||100|30|||80|80|70|шпaгoй|50||',
-    'items' => 'i.w.s.shpaga:1|i.a.r.b:1|i.a.e.k:1|i.a.a.lp1:1',
-    'equip' => 'i.w.s.shpaga|i.a.r.b|i.a.e.k|i.a.a.lp1',
+$npc = [
+    'char'     => 'Сaнчec [oфицep]-зомби|100|100|100|100||||||||',
+    'war'      => '100|10|50|3||100|30|||80|80|70|шпaгoй|50||',
+    'items'    => 'i.w.s.shpaga:1|i.a.r.b:1|i.a.e.k:1|i.a.a.lp1:1',
+    'equip'    => 'i.w.s.shpaga|i.a.r.b|i.a.e.k|i.a.a.lp1',
     'itemsrnd' => 'i.money:90:40:100|i.q.chasha:3:1:1',
-);
+];

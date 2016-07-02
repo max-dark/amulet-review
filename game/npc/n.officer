@@ -1,6 +1,6 @@
 <?php
 
-$npc = array(
+$npc = [
 
     'char' => 'Сaнчec [oфицep]|1000|1000|1000|1000||||||||',
 
@@ -10,4 +10,4 @@ $npc = array(
 
     'equip' => 'i.w.s.shpaga|i.a.r.b|i.a.e.k|i.a.a.lp1',
 
-);
+];

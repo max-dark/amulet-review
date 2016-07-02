@@ -11,7 +11,15 @@ if ($char[13]) {
             loadloc($tmf);
             $tsc = explode("|", $loc_i[$tmf][$tm[0]]["char"]);
             $tsm = explode(":", $tsc[13]);
-            if (time() < $tsm[1]) addnpc($login, $loc, $tmf); else addjournal($loc, $login, "Время для телепорта к мужу/жене истекло");
+            if (time() < $tsm[1]) {
+                addnpc($login, $loc, $tmf);
+            }
+            else {
+                addjournal($loc, $login, "Время для телепорта к мужу/жене истекло");
+            }
         }
-    } else addjournal($loc, $login, "Ваш(а) муж(жена) покинул(а) игру");
+    }
+    else {
+        addjournal($loc, $login, "Ваш(а) муж(жена) покинул(а) игру");
+    }
 }

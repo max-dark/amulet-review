@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Сapaнт|100|100|100|100||||||||',
-    'war' => '80|4|8|5|||||||||тoпopoм|||x1017x457:1:2',
+$npc = [
+    'char'  => 'Сapaнт|100|100|100|100||||||||',
+    'war'   => '80|4|8|5|||||||||тoпopoм|||x1017x457:1:2',
     'items' => 'i.w.t.plotnik:1',
     'equip' => 'i.w.t.plotnik',
-    'bank' => '90:1:4=i.w.t.plotnik:1|70:1:3=i.w.t.toporik:1|40:1:2=i.w.t.lesnik:1|90:12:24=i.spichka:1|50:1:4=i.set.leska:1|90:1:2=i.set.plotn:1|70:1:1=i.set.shampur:1',
-);
+    'bank'  => '90:1:4=i.w.t.plotnik:1|70:1:3=i.w.t.toporik:1|40:1:2=i.w.t.lesnik:1|90:12:24=i.spichka:1|50:1:4=i.set.leska:1|90:1:2=i.set.plotn:1|70:1:1=i.set.shampur:1',
+];

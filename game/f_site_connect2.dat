@@ -1,11 +1,14 @@
 <?php
 
-if ($nn)
+if ($nn) {
     $login = $nn;
-if ($pass)
+}
+if ($pass) {
     $p = $pass;
-if (substr($login, 0, 2) != "u.")
+}
+if (substr($login, 0, 2) != "u.") {
     $login = "u." . $login;
+}
 $login = strtolower($login);
 
 // вначале ищем в списке онлайн
@@ -24,24 +27,32 @@ if (file_exists("online/" . $login) && filesize("online/" . $login) != 1) {
             $tuser = explode("|", $loc_i[$loc][$login]["user"]);
             $tp = $tuser[0];
             $tfound = 1; // уже онлайн
-        } else {
+        }
+        else {
             unset($loc_i[$tmp[0]][$login]);
             @unlink("online/" . $login);
             $tfound = 0;
         }
-    } else {
+    }
+    else {
         @unlink("online/" . $login);
         $tfound = 0;
     }
-} else
+}
+else {
     $tfound = 0;
+}
 
 // если нет, то в оффлайн
-if (!file_exists("online/" . $login) || (!$tfound && !$data))
-    msg("Нажмите на ссылку ниже<br/><a href=\"?site=connect&amp;login=$login&p=$p&f_c=$f_c\">Продолжить</a>",
-        $GAME_NAME, 0, 'none');
+if (!file_exists("online/" . $login) || (!$tfound && !$data)) {
+    msg(
+        "Нажмите на ссылку ниже<br/><a href=\"?site=connect&amp;login=$login&p=$p&f_c=$f_c\">Продолжить</a>",
+        $GAME_NAME,
+        0,
+        'none'
+    );
+}
 if (!$tfound) {
-
 
     $data = str_replace("\\", "", $data);
 
@@ -54,8 +65,9 @@ if (!$tfound) {
         $data = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $data);
         $auser = unserialize($data);
     }
-    if (!$auser["char"] || !$auser["skills"])
+    if (!$auser["char"] || !$auser["skills"]) {
         msg("Неверный формат, обновите страницу", $GAME_NAME, 0, 'none');
+    }
     $auser["srv"] = time();
     $tuser = explode("|", $auser["user"]);
     $tp = $tuser[0];
@@ -67,20 +79,28 @@ if (!$tfound) {
     $tfound = 2;
 }
 
-if ($p != $tp)
+if ($p != $tp) {
     include_once("f_npass.dat");
+}
 
 if ($tfound == 2) {
     $loc = $auser["loc"];
-    if ($loc == "arena")
+    if ($loc == "arena") {
         $loc = "x1229x582";
-    if (substr($loc, 0, 2) == "c.")
+    }
+    if (substr($loc, 0, 2) == "c.") {
         $loc = substr($loc, 0, 4) . "in";
+    }
     // если последняя лока была одной из комнат в таверне
-    if (in_array($loc, [
-        "x1087x543", "x1080x539",
-        "x1087x528", "x1080x532"
-        ])) {
+    if (in_array(
+        $loc,
+        [
+            "x1087x543",
+            "x1080x539",
+            "x1087x528",
+            "x1080x532"
+        ]
+    )) {
         // выйти в коридор
         $loc = "x1095x532";
     }
@@ -88,21 +108,25 @@ if ($tfound == 2) {
     $auser["magic"] = str_replace("m.n", "m.roj", $auser["magic"]);
     $auser["items"] = str_replace("i.ms_n.a.b.jarpt", "xren_vam", $auser["items"]);
     $char = explode("|", $auser["char"]);
-    if (count($char) < 16)
-        for ($i = count($char); $i < 16; $i++)
+    if (count($char) < 16) {
+        for ($i = count($char); $i < 16; $i++) {
             $char[$i] = "";
+        }
+    }
     $tuser = explode("|", $auser["user"]);
     $tuser[3] = intval($tuser[3]); // bug fix!!!
-    if ($tuser[3] == 0)
+    if ($tuser[3] == 0) {
         $tuser[3] = 16;
+    }
     $auser["user"] = implode("|", $tuser);
     $char[5] = time(); // регенерация
     $char[6] = time() - 1;
     $char[11] = time();
     $char[15] = time() - 10;
     $char[16] = time() - 10;
-    if ($char[9])
-        $char[10] = time() + $char[10] - $auser["time"]; //time_crim
+    if ($char[9]) {
+        $char[10] = time() + $char[10] - $auser["time"];
+    } //time_crim
     unset($auser["time"]);
     unset($auser["loc"]);
     unset($auser["def"]);
@@ -137,9 +161,14 @@ if ($char[13]) {
     }
 }
 
-msg("Добро пожаловать, " . $char[0] . "!
+msg(
+    "Добро пожаловать, " . $char[0] . "!
       <br/><a href=\"?site=news\">Новости </a>[" . $tnews . "]
       <br/><a href=\"?sid=$sid&cnick=1\">Настройки</a>
         <br/>Чтобы не вводить логин и пароль, сделайте в телефоне закладку на эту страницу.
         <br/>Для выхода используйте пункт меню \"Сохранить\", чтобы не потерять накопленные вещи и опыт.
-        <br/><a href=\"?sid=$sid\">В игру</a>", $GAME_NAME, 0, 'none');
+        <br/><a href=\"?sid=$sid\">В игру</a>",
+    $GAME_NAME,
+    0,
+    'none'
+);

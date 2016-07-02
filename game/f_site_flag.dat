@@ -1,7 +1,6 @@
 <?php
 
-function get_flag_page()
-{
+function get_flag_page() {
     global $game;
     $id = Request('id');
 
@@ -23,6 +22,8 @@ function get_flag_page()
 
 PAGE;
     }
+
     return $page;
 }
+
 msg(get_flag_page(), "Амулет дракона", 0, 'none');

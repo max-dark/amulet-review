@@ -15,8 +15,12 @@ $char[6] = time() + 10;
 $loc_i[$loc][$login]["char"] = implode("|", $char);
 
 additem($loc, $login, "", "i.q.pdeath", 1, "items", "items", 1, 0, 1);
-if ($loc == "x2375x934") addjournal($loc, "all", "[громовой голос] КАК ТЫ СМЕЕШЬ МЕНЯ ТРЕВОЖИТЬ, " . strtoupper(substr($login, 2)) . "?");
+if ($loc == "x2375x934") {
+    addjournal($loc, "all", "[громовой голос] КАК ТЫ СМЕЕШЬ МЕНЯ ТРЕВОЖИТЬ, " . strtoupper(substr($login, 2)) . "?");
+}
 
-foreach (array_keys($loc_i[$loc]) as $to) if (substr($to, 0, 2) != 'i.' && $to != $login) {
-    attack($loc, $login, $to, $war, 0, 1);
+foreach (array_keys($loc_i[$loc]) as $to) {
+    if (substr($to, 0, 2) != 'i.' && $to != $login) {
+        attack($loc, $login, $to, $war, 0, 1);
+    }
 }

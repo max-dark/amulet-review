@@ -2,7 +2,9 @@
 // действует на цель как оружие
 
 if ($to) {    // атакуем как магией
-    if (!isset($loc_i[$loc][$to])) msg("Нет цели");
+    if (!isset($loc_i[$loc][$to])) {
+        msg("Нет цели");
+    }
     $war = explode("|", $loc_i[$loc][$login]["war"]);
     $war[0] = 100;
     $war[1] = 1;
@@ -18,4 +20,7 @@ if ($to) {    // атакуем как магией
 
     additem($loc, $login, "", "i.b.jad", 1, "items", "items", 1, 0, 1);
     attack($loc, $login, $to, $war, 0, 1);
-} else $list = 'all';    // выведем ниже список целей
+}
+else {
+    $list = 'all';
+}    // выведем ниже список целей

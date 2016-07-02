@@ -1,9 +1,9 @@
 <?php
-$npc = array(
-    'char' => 'oгp-вoин|75|75|1|1||||||||',
-    'war' => '80|14|20|4||4|5||||||дубинoй|32||',
-    'items' => 'i.a.b.mpanc:1|i.w.u.dubinabig:1',
-    'equip' => 'i.a.b.mpanc|i.w.u.dubinabig',
+$npc = [
+    'char'     => 'oгp-вoин|75|75|1|1||||||||',
+    'war'      => '80|14|20|4||4|5||||||дубинoй|32||',
+    'items'    => 'i.a.b.mpanc:1|i.w.u.dubinabig:1',
+    'equip'    => 'i.a.b.mpanc|i.w.u.dubinabig',
     'itemsrnd' => 'i.money:70:4:16|i.w.r.molot:30:1:2|i.w.s.kriv:40:0:1',
-    'osvej' => 'i.h.s.ogr:1',
-);
+    'osvej'    => 'i.h.s.ogr:1',
+];

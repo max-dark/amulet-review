@@ -1,15 +1,17 @@
 <?php
 
 /**Добавляет экспу
+ *
  * @param string $loc локация
- * @param string $to логин
- * @param int $exp количество
+ * @param string $to  логин
+ * @param int    $exp количество
  */
-function addexp($loc, $to, $exp)
-{
+function addexp($loc, $to, $exp) {
     // добавляем экспу
     global $loc_i, $g_exp;
-    if (intval($exp) == 0) return;
+    if (intval($exp) == 0) {
+        return;
+    }
     if (substr($to, 0, 2) == "u.") {
         $skills = explode("|", $loc_i[$loc][$to]["skills"]);
         $war = explode("|", $loc_i[$loc][$to]["war"]);
@@ -21,6 +23,8 @@ function addexp($loc, $to, $exp)
             addjournal($loc, $to, "Вы получили 1 очко опыта!");
         }
         $loc_i[$loc][$to]["skills"] = implode("|", $skills);
-        if ($skills[3] == 0) calcparam($loc, $to); //levelup
+        if ($skills[3] == 0) {
+            calcparam($loc, $to);
+        } //levelup
     }
 }

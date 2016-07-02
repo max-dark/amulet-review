@@ -9,6 +9,11 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.') {
     $twar[5] += $skills[2];
     $loc_i[$loc][$to]["war"] = implode("|", $twar);
     addjournal($loc, $to, "Броня +" . $skills[2]);
-    if ($to != $login) addjournal($loc, $login, $tchar[0] . ": броня +" . $skills[2]);
-} else addjournal($loc, $login, "Действует только на людей");
+    if ($to != $login) {
+        addjournal($loc, $login, $tchar[0] . ": броня +" . $skills[2]);
+    }
+}
+else {
+    addjournal($loc, $login, "Действует только на людей");
+}
 

@@ -5,13 +5,17 @@ require_once("datafunc.php");
 $count = 0;
 
 $excluded = [
-    ".", "..",
-    ".htaccess", "1.htaccess"
+    ".",
+    "..",
+    ".htaccess",
+    "1.htaccess"
 ];
 
 $dh = opendir("online/");
 while (($fname = readdir($dh)) !== false) {
-    if (in_array($fname, $excluded)) continue;
+    if (in_array($fname, $excluded)) {
+        continue;
+    }
 
     $count++;
     $tmp = file("online/" . $fname);
@@ -26,8 +30,10 @@ while (($fname = readdir($dh)) !== false) {
 
     /** @var array $tavern_rooms комнаты в таверне */
     $tavern_rooms = [
-        "x1087x543", "x1080x539",
-        "x1080x532", "x1087x528"
+        "x1087x543",
+        "x1080x539",
+        "x1080x532",
+        "x1087x528"
     ];
     if (time() > $tmp[1] + $g_logout || $f_all == 1 || $f_all == $tmp[0]) {
         loadloc($tmp[0]);

@@ -1,7 +1,7 @@
 <?php
 $QUERY_STRING = '';
 $args = array_slice($argv, 1);
-if(count($args)) {
+if (count($args)) {
     $QUERY_STRING = implode('&', $args);
     parse_str($QUERY_STRING, $_REQUEST);
 }

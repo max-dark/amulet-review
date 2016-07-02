@@ -11,18 +11,19 @@ require_once 'f_attackf.inc';
 
 /**
  * алиас для array_key_exists
+ *
  * @param $arr array Массив
  * @param $key mixed Ключ
  * @return bool
  */
-function have_key($arr, $key)
-{
+function have_key($arr, $key) {
     return array_key_exists($key, $arr);
 }
 
 /**
  * получить значение из массива
- * @param array $arr
+ *
+ * @param array  $arr
  * @param string $key
  * @return mixed
  */
@@ -32,45 +33,52 @@ function get_value($arr, $key) {
 
 /**
  * Получение значения из $_GET
+ *
  * @param string $key
  * @return mixed
  */
 function Get($key) {
     return get_value($_GET, $key);
 }
+
 /**
  * Получение значения из $_POST
+ *
  * @param string $key
  * @return mixed
  */
 function Post($key) {
     return get_value($_POST, $key);
 }
+
 /**
  * Получение значения из $_REQUEST
+ *
  * @param string $key
  * @return mixed
  */
 function Request($key) {
     return get_value($_REQUEST, $key);
 }
+
 /** Запись состояния
  *
  */
-function savegame()
-{
+function savegame() {
     global $game, $file_save, $login, $loc, $loc_i, $loc_t, $loc_tt;
     @ignore_user_abort(true);
     @set_time_limit(30);
     if ($file_save) {
         // сохраняем измененные локации
         foreach ($loc_tt as $i => $val) {
-            $arr = array();
+            $arr = [];
             $arr["d"] = $loc_tt[$i]["d"];
-            if (count($loc_i[$i]) > 0)
+            if (count($loc_i[$i]) > 0) {
                 $arr["i"] = $loc_i[$i];
-            if (count($loc_t[$i]) > 0)
+            }
+            if (count($loc_t[$i]) > 0) {
                 $arr["t"] = $loc_t[$i];
+            }
             if ($arr != $loc_tt[$i] && $arr["d"]) {
                 $file = fopen("loc_i/" . $i, "w");
                 if ($file !== false) {
@@ -91,8 +99,9 @@ function savegame()
         rewind($file_save);
         ftruncate($file_save, 0);
         // обновить кому принадлежит флаг
-        if ($login && $game["fid"] == $login)
+        if ($login && $game["fid"] == $login) {
             $game["floc"] = $loc;
+        }
         fputs($file_save, serialize($game));
         //flock($file_save,3);
         fclose($file_save);
@@ -102,42 +111,42 @@ function savegame()
 
 /**
  * @brief Отправка сообщения
- * @param string $loc локация
- * @param string $to  кому сообщение. all - отправка всем
- * @param string $msg сообщение
- * @param string $no1 исключение из доставки
- * @param string $no2 исключение из доставки
+ * @param string $loc  локация
+ * @param string $to   кому сообщение. all - отправка всем
+ * @param string $msg  сообщение
+ * @param string $no1  исключение из доставки
+ * @param string $no2  исключение из доставки
  * @param string $cont разделитель
  */
-function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
-{
+function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|") {
     global $loc_i, $login;
-    if (!$loc_i[$loc])
+    if (!$loc_i[$loc]) {
         return;
+    }
     $msg = preg_replace('/ \*.*?\*/', '', $msg);
-    foreach ($loc_i[$loc] as $i => $val)
+    foreach ($loc_i[$loc] as $i => $val) {
         if (substr($i, 0, 2) == "u." && ($i == $to || $to == "all") && $i != $no1 && $i != $no2) {
             $loc_i[$loc][$i]["journal"] .= $cont . $msg;
-            if (strlen($loc_i[$loc][$i]["journal"]) > 800)
+            if (strlen($loc_i[$loc][$i]["journal"]) > 800) {
                 $loc_i[$loc][$i]["journal"] = ".." . substr($loc_i[$loc][$i]["journal"], -800);
+            }
         }
+    }
 }
 
-
 /**"ИИ". Обновление состояния в локации
+ *
  * @param string $i локация
  */
-function doai($i)
-{ // искусственный интеллект, проверяем локацию с именем $i
-    global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_list, $start, $g_destroy, $g_crim, $g_logout,
-           $login;
+function doai($i) { // искусственный интеллект, проверяем локацию с именем $i
+    global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_list, $start, $g_destroy, $g_crim, $g_logout, $login;
     $g_regen = 30;
 
     $locai = explode("|", $loc_tt[$i]["d"]);
 
     // таймеры
     if (isset($loc_t[$i])) {
-        foreach ($loc_t[$i] as $j => $val)
+        foreach ($loc_t[$i] as $j => $val) {
             if (time() > $j) {
                 if (gettype($loc_t[$i][$j]) == "array" || substr($loc_t[$i][$j], 0, 2) == "n.") {
                     require "f_timernpc.inc";
@@ -151,9 +160,10 @@ function doai($i)
                 $curr = $j;
                 eval($loc_t[$i][$j]);
             }
+        }
     }
-    $crim = array();
-    $users = array();
+    $crim = [];
+    $users = [];
     $guard = 0;
     $ti = explode("x", $i);
     if ($loc_i[$i]) {
@@ -163,23 +173,28 @@ function doai($i)
                     $uc = explode("|", $loc_i[$i][$j]["char"]);
                     if (!$uc[8]) {
                         $us = explode("|", $loc_i[$i][$j]["skills"]);
-                        if (rand(0, 100) > $us[17] * 6)
+                        if (rand(0, 100) > $us[17] * 6) {
                             $users[] = $j;
-                        if ($locai[1] != 3 && $uc[9] || $ti[2] >= 1099 && ($locai[1] == 2 && $uc[14] == "p" || $locai[1] ==
-                                3 && $uc[14] == "t")
-                        )
+                        }
+                        if ($locai[1] != 3 && $uc[9] ||
+                            $ti[2] >= 1099 && ($locai[1] == 2 && $uc[14] == "p" || $locai[1] == 3 && $uc[14] == "t")
+                        ) {
                             $crim[] = $j;
+                        }
                     }
                 }
-                if (substr($j, 0, 4) == 'n.c.')
+                if (substr($j, 0, 4) == 'n.c.') {
                     $crim[] = $j;
-                if (substr($j, 0, 4) == "n.g.")
+                }
+                if (substr($j, 0, 4) == "n.g.") {
                     $guard = 1;
+                }
             }
         }
     }
-    if ($locai[1] == 1 && count($crim) > 0 && !$guard)
+    if ($locai[1] == 1 && count($crim) > 0 && !$guard) {
         require "f_addguard.inc";
+    }
 
     // по всем объектам
     if ($loc_i[$i]) {
@@ -190,21 +205,29 @@ function doai($i)
                         unset($loc_i[$i][$j]);
                         continue;
                     }
-                    if (substr($i, 0, 2) == "c." && substr($j, 0, 4) != "i.s.")
+                    if (substr($i, 0, 2) == "c." && substr($j, 0, 4) != "i.s.") {
                         continue;
+                    }
                     $tmp = explode("|", $loc_i[$i][$j]);
-                    if ($tmp[2] && time() > $tmp[2])
+                    if ($tmp[2] && time() > $tmp[2]) {
                         unset($loc_i[$i][$j]);
+                    }
                     continue;
                 }
                 if (substr($j, 0, 2) == 'u.' || substr($j, 0, 2) == 'n.') {
                     $char = explode("|", $loc_i[$i][$j]["char"]);
                     $tm = time() - $char[5];
-                    if ($tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]) && (substr($j, 0,
-                                2) == 'n.' || (substr($j, 0, 2) == 'u.' && !$char[8]))
+                    if ($tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]) && (substr(
+                                                                                                 $j,
+                                                                                                 0,
+                                                                                                 2
+                                                                                             ) == 'n.' ||
+                                                                                             (substr($j, 0, 2) ==
+                                                                                              'u.' && !$char[8]))
                     ) {
-                        if (substr($j, 0, 2) == 'u.')
+                        if (substr($j, 0, 2) == 'u.') {
                             $skills = explode("|", $loc_i[$i][$j]["skills"]);
+                        }
                         else {
                             $skills[5] = 0;
                             $skills[16] = 0;
@@ -218,8 +241,9 @@ function doai($i)
                             $char[9] = 0;
                             $char[10] = "";
                         }
-                        if ($j == $login)
+                        if ($j == $login) {
                             $char[11] = time();
+                        }
                         if ($char[11] && time() > $char[11] + $g_logout * 5 && !file_exists("online/" . $j)) {
                             unset($loc_i[$i][$j]);
                             continue;
@@ -227,29 +251,32 @@ function doai($i)
                     }
                     if (substr($j, 0, 2) == 'n.') {
                         if ($loc == $i && time() > $char[6] && $char[1] < $char[2] / 4 && rand(0, 100) < 50 &&
-                            substr($j, 0, 4) != 'n.s.' && substr($j, 0, 4) != 'n.o.' && substr($j, 0, 4) !=
-                            'n.z.'
+                            substr($j, 0, 4) != 'n.s.' && substr($j, 0, 4) != 'n.o.' && substr($j, 0, 4) != 'n.z.'
                         ) {
                             $b = 0;
                             require "f_run.dat";
-                            if ($b)
+                            if ($b) {
                                 continue;
+                            }
                         }
                         if ($char[7] && isset($loc_i[$i][$char[7]]) && substr($char[7], 0, 2) == "u.") {
                             $tc = explode("|", $loc_i[$i][$char[7]]["char"]);
-                            if ($tc[8])
+                            if ($tc[8]) {
                                 $char[7] = "";
+                            }
                         }
                         if ($j == "n.a.b.jarpt.1") {
                             $b = 0;
-                            foreach ($loc_i[$i] as $k => $v)
+                            foreach ($loc_i[$i] as $k => $v) {
                                 if (substr($k, 0, 2) == "u.") {
                                     addnpc($j, $i, $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1]);
                                     $b = 1;
                                     break;
                                 }
-                            if ($b)
+                            }
+                            if ($b) {
                                 continue;
+                            }
                         }
                         if (substr($j, 0, 4) == "n.g." && time() > $char[11]) {
                             addnpc($j, $i, "");
@@ -257,44 +284,58 @@ function doai($i)
                         }
                         if (isset($loc_i[$i][$j]["owner"])) {
                             require "f_owner.dat";
-                            if ($b)
+                            if ($b) {
                                 continue;
-                        } else {
+                            }
+                        }
+                        else {
                             $owner[1] = "";
                         }
                         if ($char[7] && !$owner[1] && !isset($loc_i[$i][$char[7]])) {
                             $b = 0;
-                            if (substr($j, 0, 4) != "n.o." && $j != "n.a.b.jarpt.1")
+                            if (substr($j, 0, 4) != "n.o." && $j != "n.a.b.jarpt.1") {
                                 require "f_goto.inc";
-                            if ($b)
+                            }
+                            if ($b) {
                                 continue;
-                            else
+                            }
+                            else {
                                 $char[7] = "";
+                            }
                         }
                         if (!$char[7]) {
-                            if (count($crim) > 0 && (substr($j, 0, 4) == "n.g." || substr($j, 0, 4) == "n.t." ||
-                                    substr($j, 0, 4) == "n.p.")
-                            )
+                            if (count($crim) > 0 &&
+                                (substr($j, 0, 4) == "n.g." || substr($j, 0, 4) == "n.t." || substr($j, 0, 4) == "n.p.")
+                            ) {
                                 $char[7] = $crim[rand(0, count($crim) - 1)];
-                            if (($char[9] || substr($j, 0, 4) == 'n.c.') && count($users) > 0)
+                            }
+                            if (($char[9] || substr($j, 0, 4) == 'n.c.') && count($users) > 0) {
                                 $char[7] = $users[rand(0, count($users) - 1)];
+                            }
                         }
-                        if (substr($j, 0, 4) == "n.o." && substr($i, 0, 2) == "c." && substr($i, 3) !=
-                            ".in" && (!$char[7] || !isset($loc_i[$i][$char[7]]))
-                        )
+                        if (substr($j, 0, 4) == "n.o." && substr($i, 0, 2) == "c." && substr($i, 3) != ".in" &&
+                            (!$char[7] || !isset($loc_i[$i][$char[7]]))
+                        ) {
                             require "f_no.dat";
-                        if (!$char[7] && !$owner[1] && ($char[10] || (!$char[10] && $char[12])) && substr($j,
-                                0, 4) != "n.o."
+                        }
+                        if (!$char[7] && !$owner[1] && ($char[10] || (!$char[10] && $char[12])) && substr(
+                                                                                                       $j,
+                                                                                                       0,
+                                                                                                       4
+                                                                                                   ) != "n.o."
                         ) {
                             require "f_na.dat";
-                            if ($b)
+                            if ($b) {
                                 continue;
+                            }
                         }
                     }
                     $loc_i[$i][$j]["char"] = implode("|", $char);
-                    if ($char[7] && substr($j, 0, 2) != "u.")
+                    if ($char[7] && substr($j, 0, 2) != "u.") {
                         attack($i, $j, $char[7]);
-                } else {
+                    }
+                }
+                else {
                     unset($loc_i[$i][$j]);
                     continue;
                 }
@@ -302,75 +343,103 @@ function doai($i)
         }
     }
 }
+
 /**Подгружает локацию $loc
  * ВНИМАНИЕ: изменяет глобальные переменные $loc_i, $loc_t, $loc_tt
+ *
  * @param string $loc
  */
-function loadloc($loc)
-{
+function loadloc($loc) {
     global $loc_i, $loc_t, $loc_tt;
-    if ($loc == ".")
+    if ($loc == ".") {
         return;
+    }
     if (!isset($loc_tt[$loc])) {
-        if (!$loc || !file_exists("loc_i/" . $loc))
+        if (!$loc || !file_exists("loc_i/" . $loc)) {
             return;
+        }
         $tmp = (file_get_contents("loc_i/" . $loc));
         $loc_tt[$loc] = unserialize($tmp);
         if (!$loc_tt[$loc]["d"]) {
             $tmp = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $tmp);
             $loc_tt[$loc] = unserialize($tmp);
         }
-        if (!$loc_tt[$loc]["d"])
+        if (!$loc_tt[$loc]["d"]) {
             $loc_tt[$loc] = unserialize((file_get_contents("loc_t/" . $loc)));
-        if (!$loc_tt[$loc]["d"])
+        }
+        if (!$loc_tt[$loc]["d"]) {
             die("err: loadloc($loc)");
-        if (isset($loc_tt[$loc]["i"]))
+        }
+        if (isset($loc_tt[$loc]["i"])) {
             $loc_i[$loc] = $loc_tt[$loc]["i"];
-        else
-            $loc_i[$loc] = array();
-        if (isset($loc_tt[$loc]["t"]))
+        }
+        else {
+            $loc_i[$loc] = [];
+        }
+        if (isset($loc_tt[$loc]["t"])) {
             $loc_t[$loc] = $loc_tt[$loc]["t"];
+        }
     }
 }
 
 /** Перемещение НПС(?)
- * @param string $id индификатор
+ *
+ * @param string $id   индификатор
  * @param string $from откуда
- * @param string $to куда
- * @param int $gal флаг перемещения галопом
- * @param int $hide флаг скрытного перемещения
+ * @param string $to   куда
+ * @param int    $gal  флаг перемещения галопом
+ * @param int    $hide флаг скрытного перемещения
  */
-function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
-{
+function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0) {
     global $loc_i, $loc, $login, $page_d, $loc_tt, $g_j2go, $game;
 
-    if ($from == $to)
+    if ($from == $to) {
         return;
+    }
     loadloc($from);
     loadloc($to);
-    if ($from && $to && (!isset($loc_i[$from]) || !isset($loc_i[$to])))
+    if ($from && $to && (!isset($loc_i[$from]) || !isset($loc_i[$to]))) {
         return;
-    $ars = array("Появился", "исчез", "Пришел", "ушел", "прискакал", "поскакал", "пронесся");
-    if (substr($id, 0, 2) == "u." && (strpos($loc_i[$from][$id]["user"], "|f|") !== false ||
-            strpos($loc_i[$to][$id]["user"], "|f|") !== false)
-    )
-        $ars = array("Появилась", "исчезла", "Пришла", "ушла", "прискакала", "поскакала",
-            "пронеслась");
+    }
+    $ars = ["Появился", "исчез", "Пришел", "ушел", "прискакал", "поскакал", "пронесся"];
+    if (substr($id, 0, 2) == "u." &&
+        (strpos($loc_i[$from][$id]["user"], "|f|") !== false || strpos($loc_i[$to][$id]["user"], "|f|") !== false)
+    ) {
+        $ars = [
+            "Появилась",
+            "исчезла",
+            "Пришла",
+            "ушла",
+            "прискакала",
+            "поскакала",
+            "пронеслась"
+        ];
+    }
     $tnpc = "";
     if ($from && isset($loc_i[$from][$id])) {
         $floc = explode("|", $loc_tt[$from]["d"]);
         $tnpc = $loc_i[$from][$id];
         $tchar = substr($tnpc["char"], 0, strpos($tnpc["char"], "|"));
-        if (!$hide)
+        if (!$hide) {
             if ($to && array_search($to, $floc)) {
-                if ($gal && $gal != 1)
+                if ($gal && $gal != 1) {
                     addjournal($from, "all", $tchar . " " . $ars[5] . " галопом " . $gal, $id);
-                else
-                    if (!$gal)
-                        addjournal($from, "all", $tchar . " " . $ars[3] . " " . $floc[array_search($to, $floc) -
-                            1], $id);
-            } else
+                }
+                else {
+                    if (!$gal) {
+                        addjournal(
+                            $from,
+                            "all",
+                            $tchar . " " . $ars[3] . " " . $floc[array_search($to, $floc) - 1],
+                            $id
+                        );
+                    }
+                }
+            }
+            else {
                 addjournal($from, "all", $tchar . " " . $ars[1], $id);
+            }
+        }
         unset($loc_i[$from][$id]);
     }
     if ($to && isset($loc_i[$to])) {
@@ -381,51 +450,62 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
         if ($tnpc) {
             $tloc = explode("|", $loc_tt[$to]["d"]);
             if ($from && array_search($from, $tloc)) {
-                if ($gal && $gal != 1)
+                if ($gal && $gal != 1) {
                     addjournal($to, "all", $tchar . " " . $ars[6] . " галопом " . $gal, $id);
-                else
-                    if ($gal == 1)
+                }
+                else {
+                    if ($gal == 1) {
                         addjournal($to, "all", $tchar . " " . $ars[4] . " галопом", $id);
-                    else
+                    }
+                    else {
                         addjournal($to, "all", $ars[2] . " " . $tchar, $id);
+                    }
+                }
                 if (substr($id, 0, 2) == "n.") { // история следов npc
                     $tchar = explode("|", $tnpc["char"]);
                     $steps = explode(":", $tchar[12]);
-                    if (count($steps) == 0)
+                    if (count($steps) == 0) {
                         $steps[] = $from;
+                    }
                     else {
-                        if ($steps[count($steps) - 1] == $to)
+                        if ($steps[count($steps) - 1] == $to) {
                             unset($steps[count($steps) - 1]);
-                        else
+                        }
+                        else {
                             $steps[] = $from;
+                        }
                     }
                     $tchar[12] = implode(":", $steps);
                     $tnpc["char"] = implode("|", $tchar);
                 }
-            } else
+            }
+            else {
                 addjournal($to, "all", $ars[0] . " " . $tchar, $id);
+            }
             $loc_i[$to][$id] = $tnpc;
             if ($from && substr($id, 0, 2) == "u.") {
-                if ($floc[1] == 1 && $tloc[1] != 1)
+                if ($floc[1] == 1 && $tloc[1] != 1) {
                     addjournal($to, $id, "Вы покинули охраняемую территорию");
-                if ($floc[1] != 1 && $tloc[1] == 1)
+                }
+                if ($floc[1] != 1 && $tloc[1] == 1) {
                     addjournal($to, $id, "Вы на охраняемой территории");
+                }
             }
         }
     }
     if ($id == $login && $to && isset($loc_i[$to][$id])) {
         $loc = $to;
-        if ($g_j2go)
+        if ($g_j2go) {
             $page_d = 1;
+        }
     }
 }
 
-
 /**Вспомогательная функция для перерасчета длины строк в файлах состояния
+ *
  * @param string $s строка для перерачета
  * @return string
  */
-function calcser($s)
-{
+function calcser($s) {
     return "s:" . strlen($s) . ":\"" . $s . "\";";
 }

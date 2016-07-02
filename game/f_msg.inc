@@ -13,7 +13,7 @@ if ($msg) {
         if ($loc_i[$loc][$login]["msgt"]) {
             $del = substr($loc_i[$loc][$login]["msgt"], -11, -1);
             $stmp .= preg_replace("/{[^}]+}/", "", $loc_i[$loc][$login]["msgt"]) .
-                "<br/><a href=\"?sid=$sid&msg=clear&del=" . $del . "\">Очистить</a><br/>";
+                     "<br/><a href=\"?sid=$sid&msg=clear&del=" . $del . "\">Очистить</a><br/>";
         }
         else {
             $stmp .= "\n<br/>Сообщений нет";
@@ -29,15 +29,17 @@ if ($msg) {
         if (!$start) {
             $start = 0;
         }
-        if ($keys) foreach ($keys as $i) {
-            if ($i) {
-                if (file_exists("online/" . $i) && filesize("online/" . $i) != 1) {
-                    $count++;
-                    if ($c1 >= $start && $c1 < $start + $g_list) {
-                        $stmp .= "\n<br/><anchor>" . substr($i, 2) .
-                            "<go href=\"#menu\"><setvar name=\"id\" value=\"$i\"/></go></anchor>";
+        if ($keys) {
+            foreach ($keys as $i) {
+                if ($i) {
+                    if (file_exists("online/" . $i) && filesize("online/" . $i) != 1) {
+                        $count++;
+                        if ($c1 >= $start && $c1 < $start + $g_list) {
+                            $stmp .= "\n<br/><anchor>" . substr($i, 2) .
+                                     "<go href=\"#menu\"><setvar name=\"id\" value=\"$i\"/></go></anchor>";
+                        }
+                        $c1++;
                     }
-                    $c1++;
                 }
             }
         }
@@ -52,7 +54,8 @@ if ($msg) {
             if (!$start) {
                 $stmp .= "\n<br/>";
             }
-            $stmp .= "<a href=\"?sid=$sid&msg=1&start=" . ($start + $g_list) . "\">+ (" . ($c1 - $start - $g_list) . ")</a>";
+            $stmp .= "<a href=\"?sid=$sid&msg=1&start=" . ($start + $g_list) . "\">+ (" . ($c1 - $start - $g_list) .
+                     ")</a>";
         }
         $cnt = (count($keys) - $count);
         $stmp .= <<<TAG
@@ -96,15 +99,23 @@ TAG;
         $c1 = 0;
         $c2 = 0;
         $count = 0;
-        if ($loc_i[$loc][$login]["msg"]) $keys = explode("|", $loc_i[$loc][$login]["msg"]);
-        if ($keys) if (count($keys) - $count > 0) {
-            $stmp .= "Оффлайн (выберите, чтобы удалить):";
-            foreach ($keys as $i) if ($i) if (!file_exists("online/" . $i) || filesize("online/" . $i) == 1) {
-                if ($c1 >= $start && $c1 < $start + $g_list) {
-                    $stmp .= "\n<br/><a href=\"?sid=$sid&msg=del&id=" . $i . "\">" . substr($i, 2) . "</a>";
+        if ($loc_i[$loc][$login]["msg"]) {
+            $keys = explode("|", $loc_i[$loc][$login]["msg"]);
+        }
+        if ($keys) {
+            if (count($keys) - $count > 0) {
+                $stmp .= "Оффлайн (выберите, чтобы удалить):";
+                foreach ($keys as $i) {
+                    if ($i) {
+                        if (!file_exists("online/" . $i) || filesize("online/" . $i) == 1) {
+                            if ($c1 >= $start && $c1 < $start + $g_list) {
+                                $stmp .= "\n<br/><a href=\"?sid=$sid&msg=del&id=" . $i . "\">" . substr($i, 2) . "</a>";
+                            }
+                            $c1++;
+                            $count++;
+                        }
+                    }
                 }
-                $c1++;
-                $count++;
             }
         }
 
@@ -115,7 +126,8 @@ TAG;
             if (!$start) {
                 $stmp .= "\n<br/>";
             }
-            $stmp .= "<a href=\"?sid=$sid&msg=off&start=" . ($start + $g_list) . "\">+ (" . ($c1 - $start - $g_list) . ")</a>";
+            $stmp .= "<a href=\"?sid=$sid&msg=off&start=" . ($start + $g_list) . "\">+ (" . ($c1 - $start - $g_list) .
+                     ")</a>";
         }
         if ($count == 0) {
             $stmp = "Список оффлайн пуст";
@@ -138,7 +150,8 @@ TAG;
             else {
                 $stmp = "<p>Рядом с вами никого нет";
             }
-        } else {
+        }
+        else {
             if (isset($loc_i[$loc][$id])) {
                 if (strpos($loc_i[$loc][$login]["msg"], $id . "|") === false) {
                     if (!$loc_i[$loc][$login]["msg"]) {
@@ -167,7 +180,9 @@ TAG;
         if (!$mall && (!file_exists("online/" . $id) || filesize("online/" . $id) == 1)) {
             msg(substr($id, 2) . " сейчас не в игре, оправлять сообщения можно только тем кто онлайн");
         }
-        if (!$text) msg("Нет текста для отправки");
+        if (!$text) {
+            msg("Нет текста для отправки");
+        }
         if (strpos($text, "?sid=") !== false) {
             $text = substr($text, 0, strpos($text, "?sid="));
         }
@@ -187,37 +202,50 @@ TAG;
 
         $keys = explode("|", $loc_i[$loc][$login]["msg"]);
         if ($keys) {
-            foreach ($keys as $i) if ($i) if (file_exists("online/" . $i) && filesize("online/" . $i) != 1 && ($id == $i || $mall)) {
-                $tmp = file("online/" . $i);
-                $tmp[0] = str_replace("\n", "", $tmp[0]);
-                $tmp[0] = str_replace("\r", "", $tmp[0]);
+            foreach ($keys as $i) {
+                if ($i) {
+                    if (file_exists("online/" . $i) && filesize("online/" . $i) != 1 && ($id == $i || $mall)) {
+                        $tmp = file("online/" . $i);
+                        $tmp[0] = str_replace("\n", "", $tmp[0]);
+                        $tmp[0] = str_replace("\r", "", $tmp[0]);
 
-                loadloc($tmp[0]);
-                if (!isset($loc_i[$tmp[0]][$i])) {
-                    if ($mall) {
-                        continue;
-                    }
-                    else {
-                        msg("В игре нет данных " . substr($i, 2), "Ошибка");
-                    }
-                }
-                if (strpos($loc_i[$tmp[0]][$i]["msg"], $login) === false) {
-                    if ($mall) {
-                        continue;
-                    }
-                    else {
-                        msg("Вы не добавлены в контакты у " . substr($i, 2) . ", попросите его это сделать, иначе не сможете отправлять сообщения.");
-                    }
-                }
+                        loadloc($tmp[0]);
+                        if (!isset($loc_i[$tmp[0]][$i])) {
+                            if ($mall) {
+                                continue;
+                            }
+                            else {
+                                msg("В игре нет данных " . substr($i, 2), "Ошибка");
+                            }
+                        }
+                        if (strpos($loc_i[$tmp[0]][$i]["msg"], $login) === false) {
+                            if ($mall) {
+                                continue;
+                            }
+                            else {
+                                msg(
+                                    "Вы не добавлены в контакты у " . substr($i, 2) .
+                                    ", попросите его это сделать, иначе не сможете отправлять сообщения."
+                                );
+                            }
+                        }
 
-                $loc_i[$tmp[0]][$i]["msgt"] = substr($loc_i[$tmp[0]][$i]["msgt"] .= "<br/>" . substr($login, 2) . ": " . strip_tags($text) . "{" . time() . "}", -500);
-                if (!$mall) {
-                    $stmp = "Сообщение для " . substr($id, 2) . " отправлено";
-                    break;
+                        $loc_i[$tmp[0]][$i]["msgt"] = substr(
+                            $loc_i[$tmp[0]][$i]["msgt"] .= "<br/>" . substr($login, 2) . ": " . strip_tags($text) .
+                                                           "{" . time() . "}",
+                            -500
+                        );
+                        if (!$mall) {
+                            $stmp = "Сообщение для " . substr($id, 2) . " отправлено";
+                            break;
+                        }
+                    }
                 }
             }
         }
-        if (!$stmp) $stmp = "Сообщение для всех отправлено";
+        if (!$stmp) {
+            $stmp = "Сообщение для всех отправлено";
+        }
         //if ($login == "u.tatus") @mail("blade17@bk.ru", "BAG " . $text, $text);
     }
 
@@ -227,8 +255,8 @@ TAG;
 
     if ($msg == 'help') {
         $stmp = 'Вы можете отправлять текстовые сообщения только игрокам, находящимся в игре.' .
-            ' Причем вы должны быть добавлены у них в контактах тоже.' .
-            ' Если вам придет новое сообщение, вы увидите спец. ссылку на игровом экране.';
+                ' Причем вы должны быть добавлены у них в контактах тоже.' .
+                ' Если вам придет новое сообщение, вы увидите спец. ссылку на игровом экране.';
     }
 
     if ($msg != 'clear') {

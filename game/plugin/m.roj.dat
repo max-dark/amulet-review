@@ -10,5 +10,7 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.' && $to != $login) {
         $tc[6] = time() + 20;
         $loc_i[$loc][$to]["char"] = implode("|", $tc);
     }
-    if ($tdef[0] == "p.d.n") $loc_i[$loc][$to]["def"] = "";
+    if ($tdef[0] == "p.d.n") {
+        $loc_i[$loc][$to]["def"] = "";
+    }
 }

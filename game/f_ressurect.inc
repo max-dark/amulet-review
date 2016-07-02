@@ -1,11 +1,11 @@
 <?php
 
 /** Воскрешение персонажа
+ *
  * @param string $loc локация
- * @param string $to кого
+ * @param string $to  кого
  */
-function ressurect($loc, $to)
-{
+function ressurect($loc, $to) {
 
     global $loc_i;
 
@@ -17,6 +17,9 @@ function ressurect($loc, $to)
             $loc_i[$loc][$to]["char"] = implode("|", $char);
             addjournal($loc, "all", $char[0] . " воскрес!", $to);
             addjournal($loc, $to, "Вы воскресли!");
-        } else addjournal($loc, $to, "Вы не призрак");
+        }
+        else {
+            addjournal($loc, $to, "Вы не призрак");
+        }
     }
 }

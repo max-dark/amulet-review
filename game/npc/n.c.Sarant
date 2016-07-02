@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Сapaнт-зомби|100|100|1|1||||||||',
-    'war' => '80|14|18|5|||||||||тoпopoм|20||',
-    'items' => 'i.w.t.plotnik:1',
-    'equip' => 'i.w.t.plotnik',
+$npc = [
+    'char'     => 'Сapaнт-зомби|100|100|1|1||||||||',
+    'war'      => '80|14|18|5|||||||||тoпopoм|20||',
+    'items'    => 'i.w.t.plotnik:1',
+    'equip'    => 'i.w.t.plotnik',
     'itemsrnd' => 'i.money:90:12:24|i.a.s.dub_sarant_..ob:3:0:1|i.w.s.dvtop_sarant_..me..az:4:0:1',
-);
+];

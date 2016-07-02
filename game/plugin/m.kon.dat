@@ -31,7 +31,9 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.' && $to != $login) {
         include("npc/n.a.losh");
         $tc1 = explode("|", $npc["char"]);
         $tc1[5] = time();
-        if ($tc[1] < $tc1[1]) $tc1[1] = $tc[1];
+        if ($tc[1] < $tc1[1]) {
+            $tc1[1] = $tc[1];
+        }
         if (isset($loc_i[$loc][$to]["name"])) {
             $tc1[0] .= " " . $loc_i[$loc][$to]["name"];
             $npc["name"] = $loc_i[$loc][$to]["name"];
@@ -42,5 +44,11 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.' && $to != $login) {
         $loc_i[$loc]["n.a.losh." . rand(99, 9999)] = $npc;
         addjournal($loc, "all", $tchar[0] . " выбит из седла", $to);
         addjournal($loc, $to, "Вы выбиты из седла!");
-    } else addjournal($loc, $login, "Выбить из седла можно только всадника");
-} else addjournal($loc, $login, "Выбить из седла можно только игроков");
+    }
+    else {
+        addjournal($loc, $login, "Выбить из седла можно только всадника");
+    }
+}
+else {
+    addjournal($loc, $login, "Выбить из седла можно только игроков");
+}

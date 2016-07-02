@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Рaкшa|100|100|100|100||||||||',
-    'war' => '80|4|11|5|||||||||кулaкaми|||x1098x585:1:2',
+$npc = [
+    'char'  => 'Рaкшa|100|100|100|100||||||||',
+    'war'   => '80|4|11|5|||||||||кулaкaми|||x1098x585:1:2',
     'items' => 'i.a.r.c1:1|i.a.h.ch1:1|i.a.c.tuf1:1',
     'equip' => 'i.a.r.c1|i.a.h.ch1|i.a.c.tuf1',
-    'bank' => '80:1:3=i.set.stupka:1|90:3:10=i.f.b.empty:1|90:1:8=i.f.b.heal:1|90:1:6=i.f.b.mana:1|30:1:3=i.f.b.heal.great:1|20:1:5=i.f.b.mana.great:1|60:1:2=i.f.b.health:1|10:1:1=i.f.b.health.great:1',
-);
+    'bank'  => '80:1:3=i.set.stupka:1|90:3:10=i.f.b.empty:1|90:1:8=i.f.b.heal:1|90:1:6=i.f.b.mana:1|30:1:3=i.f.b.heal.great:1|20:1:5=i.f.b.mana.great:1|60:1:2=i.f.b.health:1|10:1:1=i.f.b.health.great:1',
+];

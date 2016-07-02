@@ -3,10 +3,10 @@
 /**
  * @return string
  */
-function get_stat_page()
-{
+function get_stat_page() {
     $rnd = rand(1, 99);
-    return  <<<PAGE
+
+    return <<<PAGE
 <p align="center">
 <a href="?site=online&r=$rnd">Кто онлайн?</a><br/>
 <a href="?site=flag&r=$rnd">Флаг лидерства</a><br/>
