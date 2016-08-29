@@ -21,6 +21,17 @@ function have_key($arr, $key) {
 }
 
 /**
+ * Загружает указанный файл
+ * @param string $file_name
+ *
+ * @return mixed
+ */
+function load_file($file_name) {
+	$file_name = BASE_DIR . DIRECTORY_SEPARATOR . $file_name;
+	return file_exists($file_name)? (require $file_name) : null;
+}
+
+/**
  * получить значение из массива
  *
  * @param array  $arr

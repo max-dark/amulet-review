@@ -15,6 +15,8 @@ $dbpass = 'pass';
 /** @var string $dbname имя базы */
 $dbname = 'amulet';
 
+define('BASE_DIR', __DIR__);
+
 //=========================
 
 /** @var string $PHP_SELF мотор игры */
