@@ -1,5 +1,5 @@
 <?php
-$dialog = [
+return [
     'begin'    => 'eval: if (time()>$loc_i[$loc][$speak]["qv"]+460000) {$arr=array();$dh = opendir("loc_i/"); while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && $fname!="1.htaccess" && $fname!=".htaccess") $arr[]=$fname; closedir($dh);$fname=$arr[rand(0,count($arr)-1)];loadloc($fname);$loc_i["$fname"]["i.q.klever"]="четырехлистный клевер|1|0"; $loc_i[$loc][$speak]["qv"]=time();} $title="<name>! Здесь не место для прогулок, если тебе есть что сказать, постарайся быть покороче.";#Кто вы?#who#eval: if(additem($loc,$login,"","i.q.klever","count")>0) {$title="Я нашел четырехлистный клевер"; $id="qvok";} else $title="Я просто осматриваюсь";#qv#Мне пора#end',
     'end'      => '[хмуро смотрит вам вслед и еле слышно произносит] Рет Тин Ортом',
     'buy'      => '1.2|1800',

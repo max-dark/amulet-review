@@ -1,5 +1,5 @@
 <?php
-$dialog = [
+return [
     'begin' => 'Здесь продаются домашние животные. Ты можешь купить себе, например, собаку, которая будет за тобой всюду ходить и охранять тебя. Только учти, что купить можно лишь одно животное, зато оно тебя не покинет до самой смерти. Выбери, кого ты хочешь купить?#Собаку [100 монет]#dog#Сокола [80 монет]#sok#Корову [70 монет]#cow#Свинью [70 монет]#pig#Лошадь [90 монет]#losh',
     'end'   => 'Пока, заходи еще',
     'dog'   => 'eval: if (isset($loc_i[$loc]["n.a.dog.".$login]) || isset($loc_i[$loc]["n.a.b.sok.".$login]) || isset($loc_i[$loc]["n.a.cow.".$login]) || isset($loc_i[$loc]["n.a.pig.".$login]) || isset($loc_i[$loc]["n.a.losh.".$login])) $title="Извини, <name>, у тебя уже есть купленное здесь животное"; else {additem($loc,$login,"","i.money",100,"items","items",1,0,1); include "npc/n.a.dog"; $npc["owner"]=$login."|".$login."|".$login; $loc_i[$loc]["n.a.dog.".$login]=$npc; addnpc("n.a.dog.".$login,"",$loc); $title="Поздравляю, у тебя, <name>, теперь есть собственная собака!";}',

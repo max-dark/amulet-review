@@ -1,5 +1,5 @@
 <?php
-$dialog = [
+return [
     'begin'   => 'eval: if (time()>$loc_i[$loc][$speak]["qv"]+604800) {$arr=array();$dh = opendir("loc_i/"); while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && $fname!="1.htaccess" && $fname!=".htaccess") $arr[]=$fname; closedir($dh);$fname=$arr[rand(0,count($arr)-1)];loadloc($fname);$loc_i["$fname"]["i.q.ambroken1"]="часть амулета|1|0"; $loc_i[$loc][$speak]["qv"]=time();} $title="Ага, <name>, и ты решил заглянуть в мой скромный магазинчик?";#eval: if(additem($loc,$login,"","i.q.ambroken1","count")>=4) {$title="Я собрал все 4 части амулета"; $id="qvok";} else if (additem($loc,$login,"","i.q.ambroken1","count")>0 && additem($loc,$login,"","i.q.ambroken1","count")<4) {$title="Я нашел часть амулета";$id="nful";} else $title="[оглядываясь] Я вижу, у тебя много интересных вещей...";#qv#Что ты продаешь?#buyinfo#Я хочу посмотреть твои товары#buy#Я хочу продать#sell#Мне пора#end',
     'end'     => 'Аста ла виста, <name>!',
     'buy'     => '1.4|1800',

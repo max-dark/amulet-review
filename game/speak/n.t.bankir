@@ -1,5 +1,5 @@
 <?php
-$dialog = [
+return [
     'begin'     => 'eval: $tc=explode("|",$loc_i[$loc][$login]["char"]); if($tc[14]=="t") $title="Приветствую, <name>! Рад  видеть тебя в добром здравии, доблестный сын Ордена Тамплиеров!"; else $title="Добро пожаловать в Орден Тамплиеров, <name>, что я могу сделать для тебя?"; #eval: if (strpos($loc_i[$loc][$login]["items"],"i.q.pb")!==false) {$title="Я принес эфес Сентьяго!"; $id="qv";} else {$title=""; $id="";}##Что это за место?#place#Эээ, вы ведь не простой банкир, верно?#bankinfo#Забрать из банка#frombank#Положить в банк#tobank#Здесь есть магазин?#mag',
     'bank'      => '1',
     'buy'       => '1.4|1200',

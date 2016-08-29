@@ -1,5 +1,5 @@
 <?php
-$dialog = [
+return [
     'begin'  => '[мужчина средних лет в рабочей одежде носит вилами в стойла сено, ему явно не до вас]#eval: if(isset($loc_i[$loc]["n.a.edinorog.1"]) && $loc_i[$loc]["n.a.edinorog.1"]["owner"] && substr($loc_i[$loc]["n.a.edinorog.1"]["owner"],0,strlen($login))==$login)  {$title="Я привел белого единорога!";} else $title="Привет, как дела?";#qvok#[молча уйти]#end',
     'end'    => '[мужчина продолжает свое занятие]',
     'end2'   => 'Кто знает, может именно тебе улыбнется удача?',

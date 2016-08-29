@@ -1,5 +1,5 @@
 <?php
-$dialog = [
+return [
     'begin' => '<name>, чем могу помочь?#Кто ты?#who#Мне нужно снаряжение#buy#eval: if(additem($loc,$login,"","i.q.heart.k","count")>0 && additem($loc,$login,"","i.q.heart.g","count")>0 && additem($loc,$login,"","i.q.heart.o","count")>0) $title="У меня есть все ингридиенты для создания Стеклянного меча"; else $title="Есть что-то особенное?";#spec#Ничем, я просто шел мимо, пока#end',
     'end'   => 'Хорошо, ты знаешь где меня найти',
     'buy'   => '1.2|86400',

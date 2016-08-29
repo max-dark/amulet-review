@@ -46,11 +46,13 @@ if ($speak) {
                             }
                             // диалог загрузится в $dialog (у стражи тоже)
                             if (substr($speak, 0, 4) == "n.g.") {
-                                include "speak/n.g.guard";
+                                $dialog = "speak/n.g.guard";
                             }
                             else {
-                                include "speak/" . $speak;
+	                            $dialog = "speak/" . $speak;
                             }
+                            // load dialog array
+	                        $dialog = require $dialog;
                             if ($char[7] == $speak) {
                                 $char[7];
                                 $loc_i[$loc][$login]["char"] = implode("|", $char);
