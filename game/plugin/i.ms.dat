@@ -15,8 +15,8 @@ if (!file_exists("npc/" . $inp)) {
 if (substr($inp, 0, 4) != "n.c." && substr($inp, 0, 4) != "n.a.") {
     msg("Призвать можно только монстров и животных");
 }
-$npc = "";
-@include("npc/" . $inp);
+$npc = "npc/" . $inp;
+$npc = @include $npc;
 $tc = explode("|", $npc["char"]);
 
 if ($name) {

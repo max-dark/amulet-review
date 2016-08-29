@@ -60,7 +60,7 @@ if (substr($to, 0, 2) == 'u.') {
     $tchar[7] = "";
     $tchar[8] = 1;
     if ($tchar[12]) {
-        include("npc/n.a.losh");
+        $npc = include "npc/n.a.losh";
         $tc = explode(":", $tchar[12]);
         $tc1 = explode("|", $npc["char"]);
         $tc1[5] = time();

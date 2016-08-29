@@ -1,5 +1,5 @@
 <?php
-$npc = [
+return [
     'char'     => 'Джoшуa-зомби|140|140|1|1||||||||',
     'war'      => '95|6|32|5||10|5|||15|85|70|мaгиeй|30||',
     'itemsrnd' => 'i.money:80:20:90|i.w.u.pmage:50:0:1|i.m.w.a.earthquake:50:0:1|i.m.w.firebolt:50:0:1',

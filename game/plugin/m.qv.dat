@@ -199,7 +199,8 @@ if ($do == "sum") {
     }
     $tfollow = $tsum[2];
     $tsum = $tsum[0];
-    @include("npc/" . $tsum);
+	$npc  = "npc/" . $tsum;
+	$npc = @include $npc;
     if (!$npc) {
         msg("Существа с id=$tsum не существует");
     }

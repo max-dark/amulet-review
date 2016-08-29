@@ -1,5 +1,5 @@
 <?php
-$npc = [
+return [
     'char'     => 'oгp-вoин|75|75|1|1||||||||',
     'war'      => '80|14|20|4||4|5||||||дубинoй|32||',
     'items'    => 'i.a.b.mpanc:1|i.w.u.dubinabig:1',

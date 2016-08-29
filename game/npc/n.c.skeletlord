@@ -1,5 +1,5 @@
 <?php
-$npc = [
+return [
     'char'     => 'cкeлeт-лopд|42|42|1|1||||||||',
     'war'      => '80|4|8|4||2|5|40|4|20|||мeчoм|14||',
     'items'    => 'i.w.s.polutorn:1|i.a.s.wood:1',
