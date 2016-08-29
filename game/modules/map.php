@@ -1,6 +1,6 @@
 <?php
 
-require_once 'modules/image.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'image.php';
 
 /**
  * @param string $location
