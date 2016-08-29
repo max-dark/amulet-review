@@ -16,6 +16,8 @@ $dbpass = 'pass';
 $dbname = 'amulet';
 
 define('BASE_DIR', __DIR__);
+define('NPC_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'npc' . DIRECTORY_SEPARATOR);
+define('SPEACK_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'speak' . DIRECTORY_SEPARATOR);
 
 //=========================
 
