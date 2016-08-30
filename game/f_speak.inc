@@ -6,6 +6,8 @@
  * @global speak
  * @global login
  * @global id
+ * @global PHP_SELF
+ * @global sid
  */
 
 if ( empty( $speak ) ) {
@@ -38,22 +40,16 @@ if ( $speak == 1 || ( ( $npc_type == 'u.' || $npc_type == 'n.' ) && isset( $loc_
 					$owner = explode( "|", $loc_i[ $loc ][ $speak ]["owner"] );
 					if ( $owner[0] == $login ) {
 						include "f_speakowner.dat";
-					} else {
-						msg( $tchar . " принадлежит другому персонажу" );
 					}
-				}
-				else {
+					msg( $tchar . " принадлежит другому персонажу" );
+				} else {
 					// с npc
 					if ( file_exists( "speak/" . $speak ) || $npc_subtype == "n.g." ) {
 						if ( $tchar[7] == $login ) {
 							msg( "<p>Вы не можете разговаривать с " . $tchar[0] . ", т.к. он вас атакует" );
 						}
 						// диалог загрузится в $dialog (у стражи тоже)
-						if ( $npc_subtype == "n.g." ) {
-							$dialog = "speak/n.g.guard";
-						} else {
-							$dialog = "speak/" . $speak;
-						}
+						$dialog = $npc_subtype == "n.g." ? "speak/n.g.guard" : "speak/{$speak}";
 						// load dialog array
 						$dialog = require $dialog;
 						if ( $char[7] == $speak ) {
@@ -62,12 +58,12 @@ if ( $speak == 1 || ( ( $npc_type == 'u.' || $npc_type == 'n.' ) && isset( $loc_
 						};
 
 						if ( $id == 'buy' || $id == 'sell' ) {
-							if ( ! $dialog[ $id ] ) {
+							if ( ! empty( $dialog[ $id ] ) ) {
 								msg( $tchar[0] . " торговать не будет" );
 							}
-							if ( $speak == "n.Natan" &&
-							     strpos( $loc_i[ $loc ][ $login ]["items"], "i.q.hagen:" ) === false &&
-							     strpos( $loc_i[ $loc ][ $login ]["items"], "i.q.ditrih:" ) === false
+							$user_items = $loc_i[ $loc ][ $login ]["items"];
+							if ( $speak == "n.Natan" && strpos( $user_items, "i.q.hagen:" ) === false &&
+							     strpos( $user_items, "i.q.ditrih:" ) === false
 							) {
 								msg( "Прости, но я продаю палладинское оружие и броню только стражникам барона Дитриха или тем кто имеет грамоту от Лорда Хагена" );
 							}
