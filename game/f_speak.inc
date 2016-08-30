@@ -1,5 +1,5 @@
 <?php
-if (!$speak) {
+if (empty($speak)) {
 	return;
 }
 $npc_type = substr( $speak, 0, 2 );
@@ -75,24 +75,16 @@ if ( $speak == 1 ||
                                 );
                             }
                             $trader = explode("|", $dialog[$id]);
-                            if (empty($to)) {
-                                include "f_speak" . $id . ".dat";
-                            }
-                            else {
-                                include "f_speak" . $id . "to.dat";
-                            }
+	                        $inc_name = "f_speak" . $id . (empty($to)? ".dat" : "to.dat");
+	                        include $inc_name;
                         }
 
                         if ($id == 'tobank' || $id == 'frombank') {
                             if (!isset($dialog["bank"])) {
                                 msg($tchar[0] . " не банкир");
                             }
-                            if (empty($to)) {
-                                include "f_speak" . $id . ".dat";
-                            }
-                            else {
-                                include "f_speak" . $id . "to.dat";
-                            }
+	                        $inc_name = "f_speak" . $id . (empty($to)? ".dat" : "to.dat");
+	                        include $inc_name;
                         }
 
                         if (!$id) {
