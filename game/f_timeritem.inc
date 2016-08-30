@@ -1,4 +1,16 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global i
+ * @global j
+ */
 $tmp = explode("|", $loc_t[$i][$j]);
 $item = explode("|", (file_get_contents("items/" . $tmp[0])));
 $tc = rand($tmp[1], $tmp[2]);

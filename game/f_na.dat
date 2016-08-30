@@ -1,4 +1,22 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global item
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global msg
+ * @global i
+ * @global j
+ * @global steps
+ * @global locai
+ */
 // случайное движение
 if ($char[10]) {
     $move = explode(":", $char[10]);

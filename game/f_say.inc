@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global to
+ * @global locai
+ */
 // сказать текст всем
 if (strpos($say, "?sid=") !== false) {
     $say = substr($say, 0, strpos($say, "?sid="));

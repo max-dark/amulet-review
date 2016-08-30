@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @global info
+ * @global g_list
+ */
 if ($clan) {
     if (!file_exists("data/clans/" . $clan)) {
         msg("Клан $clan не существует");

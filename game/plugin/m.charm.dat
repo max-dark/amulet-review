@@ -1,4 +1,10 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ */
 // зачаровать до 5 минут животных, сопровождают и охраняют
 
 if (isset($loc_i[$loc][$to]) && substr($to, 0, 4) == 'n.a.') {

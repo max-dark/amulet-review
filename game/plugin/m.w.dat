@@ -1,5 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 
+/**
+ * @param $s
+ *
+ * @return int
+ */
 function tsret($s) {
     if ($s > 0) {
         return $s;

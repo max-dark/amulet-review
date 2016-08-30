@@ -1,4 +1,20 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global skills
+ * @global i
+ * @global j
+ */
 //  загружаем в $npc из папки npc	id|resp_min:resp_max|move_num:time_min:time_max
 if (is_array($loc_t[$i][$j])) {
     $npc = $loc_t[$i][$j];
@@ -16,7 +32,7 @@ else {
 
         return;//("err: no npc/".$tid);
     }
-    include "npc/" . $tid;
+    $npc = include "npc/" . $tid;
     $tid = $ta[0];
     $twar = explode("|", $npc["war"]);
     $twar[15] = $i . ":" . $ta[1];

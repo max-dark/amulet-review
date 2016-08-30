@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 // рубка веток с дерева
 
 if (isset($loc_i[$loc]["i.s.tree"])) {

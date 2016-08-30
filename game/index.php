@@ -4,6 +4,26 @@
  * Входная точка
  */
 
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global to
+ * @global use
+ * @global id
+ * @global g_map
+ * @global g_sounds
+ * @global g_list
+ * @global g_menu
+ * @global g_smenu
+ */
+
 require_once('config.php'); // настройки игры
 require_once('datafunc.php'); // функции игры
 require_once('game_function.php'); // игровые функции
@@ -397,7 +417,8 @@ switch ($cl) {
     break;
 }
 if ($list || $list = $cl) {
-    include_once "f_list" . $list . ".dat";
+	$inc_list = "f_list" . $list . ".dat";
+	include_once $inc_list;
 }
 if (isset($map)) {
     include_once "f_map.inc";
@@ -470,6 +491,7 @@ if (!$start) {
 $keys = array_keys($loc_i[$loc]);
 for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
     if ($keys[$i] != $login) {
+    	$k = '';
         if (substr($keys[$i], 0, 2) == "i.") {
             $tmp = explode("|", $loc_i[$loc][$keys[$i]]);
             $k = $tmp[0];
@@ -519,7 +541,7 @@ for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
                         $st .= "вас!";
                     }
                     else {
-                        $st .= preg_replace("/ \*.*?\*/", "", $tmp1[0]);
+                        $st .= preg_replace("/ \\*.*?\\*/", "", $tmp1[0]);
                     }
                 }
             }

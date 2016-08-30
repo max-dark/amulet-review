@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 // переводит все здоровье мага в ману с коэффициентом 0.7
 
 $heal = $char[1] - 1;

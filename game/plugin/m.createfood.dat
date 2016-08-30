@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global id
+ * @global char
+ */
 $rnd = rand(0, 100);
 if ($rnd <= 20) {
     $id = "i.f.apple";

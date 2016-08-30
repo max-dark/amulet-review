@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 // по всем соседним локациям
 $arr = [];
 for ($i = 2; $i < count($loc_c); $i += 2) {

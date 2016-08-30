@@ -1,4 +1,20 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global locai
+ * @global tchar
+ * @global g_list
+ * @global trader
+ */
 
 // время обновления товаров
 if (time() > $tchar[11]) {

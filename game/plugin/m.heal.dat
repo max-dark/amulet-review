@@ -1,5 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 
+/**
+ * @param $s
+ *
+ * @return int
+ */
 function tsret($s) {
     if ($s > 0) {
         return $s;
@@ -8,7 +21,7 @@ function tsret($s) {
         return 0;
     }
 }
-
+$arr = [];
 if ($use == "m.heal.all") {
     $arr = [$login => ""];
     if (strpos($char[0], "*") === false) {

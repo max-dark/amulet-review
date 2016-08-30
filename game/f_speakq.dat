@@ -1,4 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global tchar
+ * @global to
+ */
+
 // диалог с квестовым NPC: при первом обращении присоединяется, при втором уходит. только следует, выдает инфу в in и out. присоединиться нанятый может только если рядом нет хозяина, иначе говорит, что следует за таким-то
 
 if (isset($loc_i[$loc][$speak]["nspeak"])) {

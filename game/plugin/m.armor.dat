@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global tchar
+ * @global char
+ */
 // увеличивает броню цели на int
 
 if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.') {

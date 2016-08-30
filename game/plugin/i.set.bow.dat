@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 // делаем луки из веток i.log
 
 $arr = [    // id, name, dificalt -%, count_logs, 

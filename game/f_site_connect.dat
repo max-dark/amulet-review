@@ -1,4 +1,19 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global locai
+ * @global p
+ * @global s
+ */
 
 if (!preg_match('|^[-0-9a-z_\.]+$|i', $login)) {
     msg("Неверный синтаксис в логине $login<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none');

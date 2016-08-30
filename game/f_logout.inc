@@ -1,4 +1,16 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global g_list
+ */
 
 if ($login != $g_admin && $gm != $gm_id && $loc_i[$loc][$login]["srv"] > time() - 120) {
     $logout_msg = [

@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_tt
+ * @global to
+ * @global char
+ */
 // разрезает первое в инвентори платье на 3 бинта, брюки, рубашку и юбку на 2. навык не нужен
 
 if ($to) {

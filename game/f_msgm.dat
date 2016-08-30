@@ -1,4 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global item
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global msg
+ */
 // перемещение в контактах
 $items = explode("|", $loc_i[$loc][$login]["msg"]);
 if ($msg == "up") {

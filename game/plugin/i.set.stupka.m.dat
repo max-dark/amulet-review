@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 // ступка смешивает лечебную траву и пустую бутылку, получаем слабое зелье
 
 if (intval(preg_replace('/.*' . "i.f.fileroot" . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"])) > 0 &&

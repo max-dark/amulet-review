@@ -1,4 +1,25 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global locai
+ * @global tchar
+ * @global g_list
+ * @global trader
+ * @global up
+ * @global down
+ * @global to
+ * @global num
+ */
+
 // $to из банка
 if (strpos($to, "_") !== false) {
     $ti = substr($to, 0, strpos($to, "_"));

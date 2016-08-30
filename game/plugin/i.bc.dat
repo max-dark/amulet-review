@@ -1,4 +1,11 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global $use
+ */
 // если i.bc_, то букет типа i.bc_master_a1b23c45, а если i.bc.x, то цветок x, из кот. можно сделать букет или вставить в другой букет или соединить с другим цветком, образовав новый букет
 
 if (substr($use, 0, 5) == "i.bc_") {

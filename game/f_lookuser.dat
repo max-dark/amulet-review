@@ -1,4 +1,17 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global item
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global $look
+ */
 if (isset($loc_i[$loc][$look])) {
     if ($loc_i[$loc][$look]["qvi"]) {
         msg($loc_i[$loc][$look]["qvi"]);

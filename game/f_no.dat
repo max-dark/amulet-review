@@ -1,4 +1,19 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global skills
+ * @global i
+ */
 // охрана замка
 global $lcen;
 if (gettype($lcen) != "array") {

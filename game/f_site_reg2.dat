@@ -1,4 +1,20 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global pass
+ * @global email
+ * @global age
+ * @global sex
+ */
 
 if (strlen($nn) < 6 || strlen($pass) < 6 || strlen($nn) > 15 || strlen($pass) > 15) {
     msg(

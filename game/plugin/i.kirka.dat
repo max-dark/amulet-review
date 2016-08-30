@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_tt
+ * @global game
+ * @global char
+ */
 // добыча руды
 
 $art = [

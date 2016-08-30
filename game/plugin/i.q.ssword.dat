@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_tt
+ * @global to
+ * @global char
+ */
 // действует на цель как оружие
 
 if ($to) {    // атакуем как магией

@@ -1,4 +1,33 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global use
+ * @global char
+ * @global do
+ * @global sid
+ * @global PHP_SELF
+ * @global translit
+ * @global sdesc
+ * @global slife
+ * @global smana
+ * @global shit
+ * @global sdmax
+ * @global sdmin
+ * @global sspeed
+ * @global sarm
+ * @global sres
+ * @global sweap
+ * @global tsum
+ * @global tsi
+ * @global tso
+ * @global item
+ * @global num
+ */
 
 if (!$do) {
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
@@ -74,7 +103,7 @@ if ($do == "say") {
         msg("Нет текста для отправки");
     }
     if ($translit) {
-        include "f_translit.inc";
+        include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
         $text = trans($text);
     }
     $text = tsrus($text);
@@ -141,7 +170,7 @@ if ($do == "set") {
     }
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
     if ($translit) {
-        include "f_translit.inc";
+        include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
         $name = trans($name);
         $sweap = trans($sweap);
         $sdesc = trans($sdesc);
@@ -205,7 +234,7 @@ if ($do == "sum") {
         msg("Существа с id=$tsum не существует");
     }
     if ($tr && ($tsq || $tsn || $tqn)) {
-        include "f_translit.inc";
+        include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
         $tsq = trans($tsq);
     }
     if ($tsq) {
@@ -365,7 +394,7 @@ if ($do == 'geti' && $inp) {
         if (strpos($arr[0], "_") === false) {
             msg("В артефактах с самоцветами обязательно надо указать имя мастера, любое слово англ. буквами.");
         }
-        $xF = preg_match_all("/\.\.(\w\w)/", $arr[0], $regF);
+        $xF = preg_match_all("/\\.\\.(\\w\\w)/", $arr[0], $regF);
         for ($j = 0; $j < $xF; $j++) {
             if (!file_exists("items/i.i." . $regF[1][$j])) {
                 msg("Самоцвет " . $regF[1][$j] . " не существует");

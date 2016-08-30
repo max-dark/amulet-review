@@ -1,4 +1,10 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ */
 // бинт лечит до 5-5+skill*2 пунктов, но иногда срывается, после использования пропадают (FIX: в будущем пачкаются и можно мыть)
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);

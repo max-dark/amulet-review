@@ -1,4 +1,9 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ */
 
 if ($loc_i[$loc]) {
     foreach ($loc_i[$loc] as $i => $val) {

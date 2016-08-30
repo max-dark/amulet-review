@@ -1,4 +1,22 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global from
+ * @global exits
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global tchar
+ * @global twar
+ * @global fwar
+ * @global fcrim
+ */
 // если убили
 $fchar[7] = "";
 $loc_i[$loc][$from]["char"] = implode("|", $fchar);
@@ -106,8 +124,8 @@ else {    // npc респавн
             $loc_i[$loc][$to]["char"] = implode("|", $tchar);
             $loc_i[$loc][$to]["id"] = $to;
             // подгрузить оригинал
-            $npc = [];
-            include "npc/" . $to;
+	        $npc = "npc/" . $to;
+	        $npc = include $npc;
             // сбросить настройки вещей
             $loc_i[$loc][$to]["items"] = $npc["items"];
             $loc_i[$loc][$to]["equip"] = $npc["equip"];

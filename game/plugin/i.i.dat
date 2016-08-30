@@ -1,4 +1,11 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global $use
+ */
 // инкрустация если есть i.set.shlif
 
 if ($to) {

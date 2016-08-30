@@ -1,4 +1,16 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global num
+ * @global id
+ */
 $loc_i[$loc][$login]["macrol"] = "take|$take||";
 if ($take) {            //linkПоднять
     // $take=id предмета [$id=id предмета с трупа, $num=кол-во]

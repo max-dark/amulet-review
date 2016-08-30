@@ -1,13 +1,21 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 $equip = $loc_i[$loc][$login]["equip"];
 // если в руках нож и есть $to, то освежевание
 if ($to && substr($use, 0, 6) == 'i.w.k.') {
-    include "plugin/i.w.k.dat";
+    include __DIR__ . DIRECTORY_SEPARATOR . "i.w.k.dat";
 }
 else // рубка деревьев
 {
     if ($to && substr($use, 0, 6) == 'i.w.t.') {
-        include "plugin/i.w.t.dat";
+        include __DIR__ . DIRECTORY_SEPARATOR .  "i.w.t.dat";
     }
     else {
         if (strpos($use, "_") !== false) {

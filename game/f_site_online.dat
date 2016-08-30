@@ -1,4 +1,17 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global locai
+ */
 if (time() > $game["lastai"] + 240) {
     include "f_online.inc";
 }    // обновим список

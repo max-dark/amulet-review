@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 // жарим сырое мясо на костре
 
 if (intval(preg_replace('/.*' . "i.f.meat" . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"])) > 0) {

@@ -1,4 +1,20 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global g_list
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global msg
+ * @global id
+ * @global mall
+ * @global translit
+ */
 if ($msg) {
     if ($del && strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") !== false) {
         $loc_i[$loc][$login]["msgt"] = substr(

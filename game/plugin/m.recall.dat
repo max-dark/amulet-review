@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 
 // Возвращение FIX: не решено, как сохранять данные о локации :-(
 if (substr($to, 0, 5) == 'i.rr.' &&

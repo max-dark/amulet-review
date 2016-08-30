@@ -1,4 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global scroll
+ * @global char
+ * @global to
+ * @global use
+ * @global id
+ */
 // кастинг заклинаний && $login!="u.qv"  && substr($use,0,4)=='i.r.'
 $tet = substr($use, 0, 4);
 $macr = explode("|", $loc_i[$loc][$login]['macrol']);
@@ -115,8 +129,9 @@ if (($magic[6] && $to) || !$magic[6]) {
                                     include "plugin/m.s.dat";
                                 }
                                 else {
-                                    if (file_exists("plugin/" . $use . ".dat")) {
-                                        include "plugin/" . $use . ".dat";
+	                                $inc_plugin = "plugin/" . $use . ".dat";
+	                                if (file_exists( $inc_plugin )) {
+                                        include $inc_plugin;
                                     }
                                     else {
                                         die("err: no plugin/" . $use . ".dat");

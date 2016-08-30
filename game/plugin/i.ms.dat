@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_tt
+ * @global use
+ * @global char
+ */
 // призыв монстра
 
 additem($loc, $login, "", $use, 1, "items", "items", 1, 0, 1);    // удаляем свиток
@@ -20,7 +28,7 @@ $npc = @include $npc;
 $tc = explode("|", $npc["char"]);
 
 if ($name) {
-    include "f_translit.inc";
+    include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
     $name = trans($name);
     if (!$name || $name == " ") {
         msg("Неверное имя");

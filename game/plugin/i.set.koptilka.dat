@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 
 // ступка смешивает ингридиенты и бутылку с водой, получаем зелье
 

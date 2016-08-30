@@ -1,4 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global $use
+ * @global glava
+ * @global info
+ * @global clear
+ * @global translit
+ * @global cadd
+ * @global g_list
+ * @global p
+ */
 // камень гильдии
 
 $tc = explode("|", $loc_i[$loc][$login]["char"]);
@@ -104,7 +118,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
                 }
                 else {
                     if ($translit) {
-                        include "f_translit.inc";
+                        include __DIR__. DIRECTORY_SEPARATOR . "../f_translit.inc";
                         $write = trans($write);
                     }
                     // UTF-8 русские буквы

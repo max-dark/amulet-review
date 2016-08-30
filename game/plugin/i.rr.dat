@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_tt
+ * @global use
+ * @global char
+ */
 // телепорт в i.rr.loc
 $manacost = 7;
 $words = "Tira Ruen";

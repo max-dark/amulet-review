@@ -1,4 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global to
+ * @global use
+ * @global id
+ */
 // использование предметов
 
 if ($use == "i.h") {
@@ -87,8 +101,9 @@ else {
                         include "plugin/i.ms.dat";
                     }
                     else {
-                        if (file_exists("plugin/" . $use . ".dat")) {
-                            include "plugin/" . $use . ".dat";
+	                    $inc_plugin = "plugin/" . $use . ".dat";
+	                    if (file_exists( $inc_plugin )) {
+                            include $inc_plugin;
                         }
                         else {
                             addjournal($loc, $login, "Никакого эффекта");

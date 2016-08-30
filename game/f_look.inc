@@ -1,4 +1,17 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global $look
+ */
 
 if ($look) {
     if ($look == 1) {

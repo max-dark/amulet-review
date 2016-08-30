@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_tt
+ * @global game
+ * @global char
+ */
 // i.log + 5 перьев = 5 стрел
 
 $cp = intval(preg_replace('/.*' . "i.h.p." . '[^:]+:(\d+).*/', "\\1", $loc_i[$loc][$login]["items"]));

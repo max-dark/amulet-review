@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 
 if (substr($to, 0, 5) == 'i.rr.' &&
     (strpos($loc_i[$loc][$login]["items"], $to . ":") !== false || isset($loc_i[$loc][$to]))

@@ -1,4 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global item
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global to
+ * @global use
+ * @global id
+ */
 // использование скиллов
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);

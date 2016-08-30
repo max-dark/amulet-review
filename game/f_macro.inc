@@ -1,4 +1,19 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global num
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global $look
+ * @global obj
+ * @global to
+ */
 
 $macro = $cm;
 if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
@@ -21,6 +36,8 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
         else {
             $ml = explode("|", $loc_i[$loc][$login]["macrol"]);
         }
+        $objv = '';
+	    $tov = '';
         if ($obj == "curr") {
             $obj = $ml[0];
             $objv = $ml[1];

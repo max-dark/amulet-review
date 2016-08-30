@@ -1,4 +1,16 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global tchar
+ * @global who
+ */
+
 // диалог со своим животным или наемником
 
 $stmp = "<p>";

@@ -1,4 +1,18 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global skills
+ */
 
 if ($skills[31] == 0) {
     msg("Ваш навык некроманта равен нулю, вы не умеете поднимать мертвых.");
@@ -64,7 +78,7 @@ if (rand(0, 100) <= $skills[31] * 5 + $skills[2] * 2) {
 
     unset($loc_i[$loc][$to]);
     // подготовим труп
-    include "npc/" . $id;
+    $npc = include "npc/" . $id;
     $tchar = explode("|", $npc["char"]);
     $tchar[0] = $title . "-зомби";
     $tchar[2] = round($tchar[2] * 0.7);

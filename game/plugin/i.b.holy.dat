@@ -1,4 +1,9 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ */
 // ранит всех плохих вокруг
 
 $war = explode("|", $loc_i[$loc][$login]["war"]);

@@ -1,4 +1,16 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global char
+ * @global to
+ * @global use
+ * @global id
+ */
 // взрывается и ранит всех вокруг довольно сильно
 
 $war = explode("|", $loc_i[$loc][$login]["war"]);

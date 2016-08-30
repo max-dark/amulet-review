@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 if (substr($to, 0, 6) == 'i.s.d.' && isset($loc_i[$loc][$to])) {
     $died = explode("|", $loc_i[$loc][$to]);
     if ($died[4]) {

@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 
 if ($loc_i[$loc]) {
     $keys = array_keys($loc_i[$loc]);

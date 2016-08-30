@@ -1,6 +1,16 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ * @global loc_water1
+ * @global loc_water2
+ */
 // рыбалка загрузим локации с водой
-include 'plugin/loc_water';
+include __DIR__ . DIRECTORY_SEPARATOR. 'loc_water';
 if (strpos($loc_water1, $loc) !== false) {
     $skills = explode("|", $loc_i[$loc][$login]["skills"]);
     if ($skills[29] > 0) {

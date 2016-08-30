@@ -1,4 +1,20 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global locai
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global id
+ * @global tchar
+ * @global i
+ * @global j
+ */
 // обработка подчиненных npc
 $owner = explode("|", $loc_i[$i][$j]["owner"]);
 // хозяин крима крим

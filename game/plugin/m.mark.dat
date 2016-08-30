@@ -1,4 +1,12 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global to
+ * @global use
+ * @global char
+ */
 // для рун id при загрузке предметов задаяется явно $item="руна|50";
 
 if (substr($to, 0, 5) == 'i.rr.' && strpos($loc_i[$loc][$login]["items"], $to . ":") !== false) {

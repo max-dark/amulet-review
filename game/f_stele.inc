@@ -1,4 +1,10 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ */
 // телепорт к жене/мужу
 
 $char = explode("|", $loc_i[$loc][$login]["char"]);

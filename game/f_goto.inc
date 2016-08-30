@@ -1,4 +1,14 @@
 <?php
+/**
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global j
+ * @global locai
+ * @global game
+ * @global char
+ */
 // преследуем цель
 
 $tfound = 0;
