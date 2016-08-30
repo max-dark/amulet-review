@@ -218,28 +218,28 @@ function GetData($login, $pass) {
 }
 
 /**
- * Регистрация нового пользователя (oldpass = "") или смена пароля.
+ * Регистрация нового пользователя (oldPass = "") или смена пароля.
  * Возвращает пустую строку в случае успеха или сообщение об ошибке.
  *
  * @param string $login
- * @param string $oldpass
- * @param string $newpass
+ * @param string $oldPass
+ * @param string $newPass
  * @return string
  */
-function SetUser($login, $oldpass, $newpass) {
+function SetUser($login, $oldPass, $newPass) {
     global $RegStatus, $DefRefrInt, $DefMessLim, $CommonMode;
 
     if (empty($login)) {
         return "Логин не задан";
     }
-    if (empty($newpass)) {
+    if (empty($newPass)) {
         return "Пароль не задан";
     }
     //if (!ValidNN($login)) return "Неверный синтаксис в логине";
     //if (!ValidPass($newpass)) return "Неверный синтаксис в пароле";
 
     $login = substr($login, 0, 10);
-    $newpass = substr($newpass, 0, 10);
+    $newPass = substr($newPass, 0, 10);
 
     $BadWord = GetBadWord($login);
     if ($BadWord != "") {
@@ -251,17 +251,17 @@ function SetUser($login, $oldpass, $newpass) {
         return $error;
     }
 
-    if ($oldpass != "") {
-        $ok = checkpass($login, $oldpass, "")[0];
+    if ($oldPass != "") {
+        $ok = checkpass($login, $oldPass, "")[0];
         if ($ok != "") {
             return $ok;
         }
         $sql = 'UPDATE `users` SET `pass` = :newpass WHERE `nick` = :login AND `pass` = :oldpass';
         DB::link()->prepare($sql)->execute(
             [
-                ':newpass' => $newpass,
+                ':newpass' => $newPass,
                 ':login'   => $login,
-                ':oldpass' => $oldpass
+                ':oldpass' => $oldPass
             ]
         );
     }
@@ -289,7 +289,7 @@ function SetUser($login, $oldpass, $newpass) {
                 $DefMessLim,
                 $CommonMode,
                 $login,
-                $newpass
+                $newPass
             ]
         );
     }
