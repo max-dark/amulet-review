@@ -1,4 +1,10 @@
 <?php
+/**
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ */
 
 /**
  * @param string $fname

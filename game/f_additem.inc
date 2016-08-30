@@ -29,8 +29,6 @@ function additem(
             if ($journal && $to) {
                 addjournal($loc, $to, "Количество равно " . $count);
             }
-            $res = 0;
-
             return 0;
         }
     }
@@ -48,8 +46,6 @@ function additem(
     }
     else {
         if (!file_exists("items/" . $tk)) {
-            $res = 0;
-
             return 0;
         }
         else {
@@ -61,7 +57,6 @@ function additem(
         if ($journal && $to) {
             addjournal($loc, $to, "Не от кого забрать " . $title);
         }
-        $res = 0;
 
         return 0;
     }
@@ -69,7 +64,6 @@ function additem(
         if ($journal && $from) {
             addjournal($loc, $from, "Некому передать " . $title);
         }
-        $res = 0;
 
         return 0;
     }
@@ -78,13 +72,11 @@ function additem(
     if ($count == "count") {
         if ($from == "loc") {
             if (!isset($loc_i[$loc][$item])) {
-                $res = 0;
 
                 return 0;
             }
             else {
                 $tmp = explode("|", $loc_i[$loc][$item]);
-                $res = $tmp[1];
 
                 return $tmp[1];
             }
@@ -122,7 +114,6 @@ function additem(
                 if ($journal && $to) {
                     addjournal($loc, $to, $title . " отсутствует");
                 }
-                $res = 0;
 
                 return 0;
             }
@@ -132,7 +123,6 @@ function additem(
                     if ($journal && $to) {
                         addjournal($loc, $to, "Количество " . $title . " меньше, чем " . $count);
                     }
-                    $res = 0;
 
                     return 0;
                 }
@@ -162,7 +152,7 @@ function additem(
                 $tdied = explode("|", $loc_i[$loc][$from]);
                 $items = str_replace(",", "|", $tdied[3]);
             }
-            $items = preg_replace("/\|{2,}/", "|", $items);
+            $items = preg_replace( '/\\|{2,}/', "|", $items);
             if (substr($items, 0, 1) == "|") {
                 $items = substr($items, 1);
             }
@@ -181,7 +171,6 @@ function additem(
                 if ($journal && !$d) {
                     addjournal($loc, $from, "У вас нет " . $title);
                 }
-                $res = 0;
 
                 return 0;
             }
@@ -196,8 +185,6 @@ function additem(
                     if ($journal && !$d) {
                         addjournal($loc, $from, "У вас количество " . $title . " меньше, чем " . $count);
                     }
-                    $res = 0;
-
                     return 0;
                 }
                 if ($tcount == $count &&

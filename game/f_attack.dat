@@ -1,4 +1,10 @@
 <?php
+/**
+ * @global attack
+ * @global char
+ * @global loc
+ * @global login
+ */
 if ($attack) {
     if ($char[8]) {
         msg("<p>Вы призрак и поэтому не можете никого атаковать, найдите лекаря или камень воскрешения");

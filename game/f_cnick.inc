@@ -1,4 +1,34 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global g_list
+ * @global g_size
+ * @global g_menu
+ * @global g_map
+ * @global g_smenu
+ * @global g_j2go
+ * @global g_j2loc
+ * @global g_sounds
+ * @global g_joff
+ * @global g_smf
+ * @global age
+ * @global size
+ * @global j2loc
+ * @global j2go
+ * @global joff
+ * @global smf
+ * @global menu
+ * @global smenu
+ * @global map
+ * @global sounds
+ */
 
 $char = explode("|", $loc_i[$loc][$login]["char"]);
 if (strpos($char[0], " *") === false) {

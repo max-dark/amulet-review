@@ -1,4 +1,9 @@
 <?php
+/**
+ * @global to
+ * @global from
+ * @global id
+ */
 // перемещение npc
 global $loc_i, $loc, $login, $page_d, $loc_tt;
 

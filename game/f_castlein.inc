@@ -1,4 +1,22 @@
 <?php
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global desc
+ * @global exits
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ * @global stuk
+ * @global d
+ * @global copen
+ * @global translit
+ */
 
 // проверка флага лидерства
 if ($game["fid"] != $login && intval($game["floc"]{2}) == $loc{2}) {

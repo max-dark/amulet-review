@@ -1,5 +1,18 @@
 <?php
-
+/**
+ * @global login
+ * @global loc
+ * @global loc_i
+ * @global loc_t
+ * @global loc_tt
+ * @global to
+ * @global desc
+ * @global exits
+ * @global game
+ * @global sid
+ * @global PHP_SELF
+ * @global char
+ */
 // сылка воскрешение для админа
 if ($login == $g_admin || $gm == $gm_id) {
     switch ($adm) {
