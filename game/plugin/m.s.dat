@@ -51,7 +51,7 @@ if ($use == "m.s.wolf") {
         }
     } else {
         if ($use == "m.s.volna") {
-            include __DIR__ . DIRECTORY_SEPARATOR . 'loc_water';
+            include __DIR__ . DIRECTORY_SEPARATOR . 'loc_water.inc';
             if (strpos($loc_water1, $loc) !== false || strpos($loc_water2, $loc) !== false) //работает если есть вода
             {
                 $item = [

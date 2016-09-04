@@ -10,7 +10,7 @@
  * @global loc_water2
  */
 // рыбалка загрузим локации с водой
-include __DIR__ . DIRECTORY_SEPARATOR . 'loc_water';
+include __DIR__ . DIRECTORY_SEPARATOR . 'loc_water.inc';
 if (strpos($loc_water1, $loc) !== false) {
     $skills = explode("|", $loc_i[$loc][$login]["skills"]);
     if ($skills[29] > 0) {
