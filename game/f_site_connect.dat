@@ -18,9 +18,6 @@
 if ( ! preg_match('|^[-0-9a-z_\.]+$|i', $login)) {
     msg("Неверный синтаксис в логине $login<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none');
 }
-if ( ! preg_match('|^[0-9a-z]+$|i', $p)) {
-    msg("Неверный синтаксис в пароле $p<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none');
-}
 if (substr($login, 0, 2) != "u.") {
     $login = "u." . $login;
 }

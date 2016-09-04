@@ -16,6 +16,12 @@
  * @global sex
  */
 
+$nn = Request('nn');
+$pass = Request('pass');
+$sex = Request('sex');
+$age = Request('age');
+$email = Request('email');
+
 if (strlen($nn) < 6 || strlen($pass) < 6 || strlen($nn) > 15 || strlen($pass) > 15) {
     msg("Длина логина и пароля должна быть не короче 6 и не длинее 15 символов.<br /><anchor>Назад<prev/></anchor>",
         'Ошибка', 0, 'none');
@@ -94,4 +100,4 @@ if (file_exists($fntmp)) {
     }
 }
 
-msg("Регистрация завершена<br/><a href=\"f_connect.php?login=$nn&p=$pass\">Начать игру</a>", "Регистрация", 0, 'none');
+msg("Регистрация завершена<br/><a href=\"?site=connect&login=$nn&p=$pass\">Начать игру</a>", "Регистрация", 0, 'none');
