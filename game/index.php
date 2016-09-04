@@ -413,7 +413,7 @@ if ($list || $list = $cl) {
     $inc_list = "f_list" . $list . ".dat";
     include_once $inc_list;
 }
-if (isset($map)) {
+if (false !== $map) {
     include_once "f_map.inc";
     msg(map_page($loc, $game, $g_map, $PHP_SELF, $sid));
 }
