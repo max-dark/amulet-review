@@ -73,6 +73,8 @@ $take  = Request('take');
 $look  = Request('look');
 $trade = Request('trade');
 $msg   = Request('msg');
+$say   = Request('say');
+$drop  = Request('drop');
 
 // Если строка запроса пуста
 if (empty($tmp) || // или не заданы логин и страница перехода
