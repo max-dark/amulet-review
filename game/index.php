@@ -75,6 +75,8 @@ $trade = Request('trade');
 $msg   = Request('msg');
 $say   = Request('say');
 $drop  = Request('drop');
+$pass  = Request('pass');
+$nn    = Request('nn');
 
 // Если строка запроса пуста
 if (empty($tmp) || // или не заданы логин и страница перехода
