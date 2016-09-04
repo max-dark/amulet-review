@@ -52,10 +52,10 @@ if (isset($npc["itemsrnd"])) {
             $trnd  = explode(":", $irnd[$k]);
             $trndc = round(rand($trnd[2], $trnd[3]));
             if (rand(0, 100) <= $trnd[1] && $trndc > 0) {
-                if ($npc["items"]) {
-                    $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;
-                } else {
+                if (empty(["items"])) {
                     $npc["items"] = $trnd[0] . ":" . $trndc;
+                } else {
+                    $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;
                 }
             }
         }

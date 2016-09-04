@@ -36,7 +36,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
             if ($npc_subtype == "n.o.") {
                 include "f_speako.dat";
             } else {
-                if ($loc_i[$loc][$speak]["owner"]) {
+                if (!empty([$loc][$speak]["owner"])) {
                     $owner = explode("|", $loc_i[$loc][$speak]["owner"]);
                     if ($owner[0] == $login) {
                         include "f_speakowner.dat";

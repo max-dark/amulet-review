@@ -77,6 +77,7 @@ $say   = Request('say');
 $drop  = Request('drop');
 $pass  = Request('pass');
 $nn    = Request('nn');
+$num   = Request('num');
 
 // Если строка запроса пуста
 if (empty($tmp) || // или не заданы логин и страница перехода
