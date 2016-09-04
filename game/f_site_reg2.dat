@@ -23,11 +23,8 @@ if (strlen($nn) < 6 || strlen($pass) < 6 || strlen($nn) > 15 || strlen($pass) > 
 if ( ! preg_match('|^[-0-9a-z_]+$|i', $nn)) {
     msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
 }
-if ( ! preg_match("|^[-0-9a-z_\.]+@[-0-9a-z]+\.[a-z]{2,6}+$|i", $email)) {
+if ( ! preg_match("|^[-0-9a-z_\\.]+@[-0-9a-z]+\\.[a-z]{2,6}+$|i", $email)) {
     msg("Неверный синтаксис в email " . $email . "<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
-}
-if ( ! preg_match('|^[0-9a-z]+$|i', $pass)) {
-    msg("Неверный синтаксис в пароле<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
 }
 if (intval($age) != $age || $age < 5 || $age > 99) {
     msg("Неправдоподобный возраст, укажите более реальный.<br /><anchor>Назад<prev/></anchor>", "Ошибка", 0, 'none');
@@ -38,9 +35,8 @@ if ($sex != 'm' && $sex != 'f') {
 
 $now = time();
 openDB();
-$sqllogin = /** @lang MySQL */
-    'INSERT INTO ' . '`users` (regtime,nick,pass,email) ' . 'VALUES (?, ?, ?, ?)';
-DB::link()->prepare($sqllogin)->execute([
+$sqlLogin = 'INSERT INTO `users` (regtime,nick,pass,email) VALUES (?, ?, ?, ?)';
+DB::link()->prepare($sqlLogin)->execute([
         $now,
         $nn,
         $pass,
@@ -50,7 +46,7 @@ $loc = "_begin"; // начальная локация
 
 // создаем игрока
 $auser = [
-    "user"    => "$pass||$sex|$age||" . time() . "|0|0|0|0|0",
+    "user"    => "$pass||$sex|$age||$now|0|0|0|0",
     "char"    => "$nn|20|20|20|20|1|1||0|0|0||",
     "skills"  => "1|1|1|0|2|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0",
     "loc"     => $loc,
