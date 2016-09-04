@@ -149,7 +149,7 @@ function msg(
                     $m = [];
                 }
                 for ($i = 1; $i < 9; $i++) {
-                    if ($m[$i - 1]) {
+                    if (!empty($m[$i - 1])) {
                         $mn = explode("|", $m[$i - 1]);
                         $wml .= "<do name=\"b$o\" type=\"options\" label=\"" . $mn[4] . "\">" .
                                 "<go href=\"$url_base&cm=$i\"/></do>";

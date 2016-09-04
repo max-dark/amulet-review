@@ -98,10 +98,10 @@ function savegame()
         foreach ($loc_tt as $i => $val) {
             $arr      = [];
             $arr["d"] = $loc_tt[$i]["d"];
-            if (count($loc_i[$i]) > 0) {
+            if (!empty($loc_i[$i])) {
                 $arr["i"] = $loc_i[$i];
             }
-            if (count($loc_t[$i]) > 0) {
+            if (!empty($loc_t[$i])) {
                 $arr["t"] = $loc_t[$i];
             }
             if ($arr != $loc_tt[$i] && $arr["d"]) {
@@ -193,7 +193,7 @@ function doai($i)
     $crim  = [];
     $users = [];
     $guard = 0;
-    $ti    = explode("x", $i);
+    $ti    = explode("x", $i != '_begin' ? $i : 'x1158x523');
     if ($loc_i[$i]) {
         foreach ($loc_i[$i] as $j => $val) {
             if ($j != "u.qv") {

@@ -84,3 +84,5 @@ $g_attr_one = 5;
 $g_skills = 50;
 /** @var int $g_skills_one максимальный уровень навыка */
 $g_skills_one = 5;
+
+$f_all = false;

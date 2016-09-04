@@ -195,7 +195,7 @@ if ($p != substr($wtf_user, 0, strpos($wtf_user, "|"))) {
 }
 unset($wtf_user);
 
-$wtf_options = $loc_i[$loc][$login]["o"];
+$wtf_options = get_value($loc_i[$loc][$login], "o");
 if ($wtf_options) {
     list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map, $g_smf) = explode("|",
         $wtf_options);
@@ -420,7 +420,7 @@ if (false !== $map) {
 
 // MAIN PAGE
 $stmp = "";
-if ($loc_i[$loc][$login]["msgt"]) {
+if (!empty($loc_i[$loc][$login]["msgt"])) {
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&msg=1\">[msg]</a><br/>";
 }
 $stmp .= $char[1] . "/" . $char[2] . " (" . $char[3] . "/" . $char[4] . ")";
@@ -440,7 +440,7 @@ if ($game["fid"] == $login) {
 if ($st) {
     $stmp .= ", вы " . $st;
 }
-if ($loc_i[$loc][$login]["def"]) {
+if (!empty([$loc][$login]["def"])) {
     $tdef = explode("|", $loc_i[$loc][$login]["def"]);
     if (time() > $tdef[2]) {
         $loc_i[$loc][$login]["def"] = "";
