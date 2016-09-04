@@ -94,7 +94,8 @@ msg_faq($stmp . "</p><br/><br/><anchor>[Назад]<prev/></anchor>");
 /**
  * @param string $page
  */
-function msg_faq($page) {
+function msg_faq($page)
+{
     header("Content-type:text/vnd.wap.wml;charset=utf-8");
 
     echo <<<XML

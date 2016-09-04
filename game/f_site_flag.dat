@@ -1,17 +1,16 @@
 <?php
 
-function get_flag_page() {
+function get_flag_page()
+{
     global $game;
     $id = Request('id');
 
     if ($id == "info") {
         $page = file_get_contents("../story/flag.htm");
-    }
-    else {
+    } else {
         if (have_key($game, "fid")) {
             $page = 'Флаг лидерства принадлежит:<br/>' . $game['fchar'];
-        }
-        else {
+        } else {
             $page = 'Сейчас никто не владеет флагом лидерства';
         }
         $page .= <<<'PAGE'

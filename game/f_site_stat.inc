@@ -3,7 +3,8 @@
 /**
  * @return string
  */
-function get_stat_page() {
+function get_stat_page()
+{
     $rnd = rand(1, 99);
 
     return <<<PAGE

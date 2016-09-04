@@ -12,24 +12,22 @@
 
 // пустую бутылку заправляем водой, если есть рядом
 if ($use == "i.f.b.empty") {
-    include __DIR__ . DIRECTORY_SEPARATOR. 'loc_water';
+    include __DIR__ . DIRECTORY_SEPARATOR . 'loc_water';
     if (strpos($loc_water1, $loc) !== false || strpos($loc_water2, $loc) !== false) {
         additem($loc, $login, "", "i.f.b.empty", 1, "items", "items", 1, 0, 1);
         additem($loc, "", $login, "i.f.b.water", 1, "items", "items", 1, 0, 1);
         msg("Вы наполнили водой пустую бутылку.");
-    }
-    else {
+    } else {
         msg("Рядом нет источника воды, чтобы наполнить бутылку водой.");
     }
 }
 
 if (file_exists("items/" . $use)) {
     $item = explode("|", (file_get_contents("items/" . $use)));
-}
-else {
+} else {
     die("err: no items/" . $use);
 }
-$char[6] = time() + 4;
+$char[6]                     = time() + 4;
 $loc_i[$loc][$login]["char"] = implode("|", $char);
 if ($item[2]) {
     if ($char[1] + $item[2] > $char[2]) {

@@ -12,10 +12,20 @@
  * @param int    $journal     флаг занесения в журнал
  * @param int    $time_delete время действия
  * @param int    $msg         флаг вывода сообщения
+ *
  * @return int флаг успеха(?)
  */
 function additem(
-    $loc, $from, $to, $item, $count = 1, $ft = "items", $tt = "items", $journal = 1, $time_delete = -1, $msg = 0
+    $loc,
+    $from,
+    $to,
+    $item,
+    $count = 1,
+    $ft = "items",
+    $tt = "items",
+    $journal = 1,
+    $time_delete = -1,
+    $msg = 0
 ) {
 
     global $g_destroy, $loc_i;
@@ -29,6 +39,7 @@ function additem(
             if ($journal && $to) {
                 addjournal($loc, $to, "Количество равно " . $count);
             }
+
             return 0;
         }
     }
@@ -37,30 +48,27 @@ function additem(
     }
     if (strpos($item, "_") !== false) {
         $tk = substr($item, 0, strpos($item, "_"));
-    }
-    else {
+    } else {
         $tk = $item;
     }
     if (substr($item, 0, 5) == "i.rr.") {
         $title = explode("|", "руна|50");
-    }
-    else {
-        if (!file_exists("items/" . $tk)) {
+    } else {
+        if ( ! file_exists("items/" . $tk)) {
             return 0;
-        }
-        else {
+        } else {
             $title = explode("|", (file_get_contents("items/" . $tk)));
         }
     }
     $title = $title[0];
-    if ($from && $from != "loc" && !isset($loc_i[$loc][$from])) {
+    if ($from && $from != "loc" && ! isset($loc_i[$loc][$from])) {
         if ($journal && $to) {
             addjournal($loc, $to, "Не от кого забрать " . $title);
         }
 
         return 0;
     }
-    if ($to && $to != "loc" && !isset($loc_i[$loc][$to])) {
+    if ($to && $to != "loc" && ! isset($loc_i[$loc][$to])) {
         if ($journal && $from) {
             addjournal($loc, $from, "Некому передать " . $title);
         }
@@ -71,17 +79,15 @@ function additem(
     // получение кол-ва
     if ($count == "count") {
         if ($from == "loc") {
-            if (!isset($loc_i[$loc][$item])) {
+            if ( ! isset($loc_i[$loc][$item])) {
 
                 return 0;
-            }
-            else {
+            } else {
                 $tmp = explode("|", $loc_i[$loc][$item]);
 
                 return $tmp[1];
             }
-        }
-        else {
+        } else {
             $res = intval(preg_replace('/.*' . $item . ':(\d+).*/', "\\1", $loc_i[$loc][$from][$ft]));
 
             return $res;
@@ -110,14 +116,13 @@ function additem(
 
     if ($from) {
         if ($from == "loc") {
-            if (!isset($loc_i[$loc][$item])) {
+            if ( ! isset($loc_i[$loc][$item])) {
                 if ($journal && $to) {
                     addjournal($loc, $to, $title . " отсутствует");
                 }
 
                 return 0;
-            }
-            else {
+            } else {
                 $tmp = explode("|", $loc_i[$loc][$item]);
                 if ($tmp[1] < $count) {
                     if ($journal && $to) {
@@ -129,8 +134,7 @@ function additem(
                 $tmp[1] -= $count;
                 if ($tmp[1] == 0) {
                     unset($loc_i[$loc][$item]);
-                }
-                else {
+                } else {
                     $loc_i[$loc][$item] = implode("|", $tmp);
                 }
             }
@@ -139,20 +143,18 @@ function additem(
         if ($from != "loc") {
             if (substr($from, 0, 6) == "i.s.d.") {
                 $d = 1;
-            }
-            else {
+            } else {
                 $d = 0;
             }
-            if (!$d) {
+            if ( ! $d) {
                 $ftitle = explode("|", $loc_i[$loc][$from]["char"]);
                 $ftitle = $ftitle[0];
-                $items = $loc_i[$loc][$from][$ft];
-            }
-            else {
+                $items  = $loc_i[$loc][$from][$ft];
+            } else {
                 $tdied = explode("|", $loc_i[$loc][$from]);
                 $items = str_replace(",", "|", $tdied[3]);
             }
-            $items = preg_replace( '/\\|{2,}/', "|", $items);
+            $items = preg_replace('/\\|{2,}/', "|", $items);
             if (substr($items, 0, 1) == "|") {
                 $items = substr($items, 1);
             }
@@ -168,13 +170,12 @@ function additem(
                 if ($journal && $to) {
                     addjournal($loc, $to, "Количество " . $title . " равно нулю");
                 }
-                if ($journal && !$d) {
+                if ($journal && ! $d) {
                     addjournal($loc, $from, "У вас нет " . $title);
                 }
 
                 return 0;
-            }
-            else {
+            } else {
                 if ($tcount < $count) {
                     if ($msg) {
                         msg("У вас недостаточно " . $title . " (надо " . $count . ")");
@@ -182,9 +183,10 @@ function additem(
                     if ($journal && $to) {
                         addjournal($loc, $to, "Количество " . $title . " меньше, чем " . $count);
                     }
-                    if ($journal && !$d) {
+                    if ($journal && ! $d) {
                         addjournal($loc, $from, "У вас количество " . $title . " меньше, чем " . $count);
                     }
+
                     return 0;
                 }
                 if ($tcount == $count &&
@@ -192,14 +194,13 @@ function additem(
                 ) {    // удаляем предмет (кроме торговцев, у кот. ver|min|max=id:count), проверяем equip
                     $items = preg_replace('/\|?' . $item . ':(\d+)/', "", $items);
                     $equip = $loc_i[$loc][$from]["equip"];
-                    $tbp = strpos($loc_i[$loc][$from]["equip"], $item);
+                    $tbp   = strpos($loc_i[$loc][$from]["equip"], $item);
                     if ($tbp === false) {
                         $tb = "a";
-                    }
-                    else {
+                    } else {
                         $tb = $loc_i[$loc][$from]["equip"]{$tbp + strlen($item)};
                     }
-                    if (!$d && $equip && ($tb == "|" || $tb == "")) {
+                    if ( ! $d && $equip && ($tb == "|" || $tb == "")) {
                         $equip = preg_replace('/' . $item . '\|?/', "", $equip);
                         $equip = preg_replace("/\|{2,}/", "|", $equip);
                         if (substr($equip, 0, 1) == "|") {
@@ -209,69 +210,57 @@ function additem(
                             $equip = substr($equip, 0, strlen($equip) - 1);
                         }
                         $loc_i[$loc][$from]["equip"] = $equip;
-                        $loc_i[$loc][$from][$ft] = $items;
+                        $loc_i[$loc][$from][$ft]     = $items;
                         calcparam($loc, $from);
                     }
-                }
-                else {
+                } else {
                     $tcount -= $count;
                     $items = preg_replace('/' . $item . ':(\d+)/', $item . ":" . $tcount, $items);
                 }
-                if (!$d) {
+                if ( ! $d) {
                     $loc_i[$loc][$from][$ft] = $items;
-                }
-                else {
+                } else {
                     if (strpos($tdied[0], "*") === false) {
                         $clan = "";
-                    }
-                    else {
-                        $clan = substr(
-                            $tdied[0],
-                            strpos($tdied[0], "*") + 1,
-                            strrpos($tdied[0], "*") - strpos($tdied[0], "*") - 1
-                        );
+                    } else {
+                        $clan = substr($tdied[0], strpos($tdied[0], "*") + 1,
+                            strrpos($tdied[0], "*") - strpos($tdied[0], "*") - 1);
                     }
                     if ($to) {
                         $tc = explode("|", $loc_i[$loc][$to]["char"]);
-                    }
-                    else {
+                    } else {
                         $tc[0] = "";
                     }
                     if (strpos($tc[0], "*") === false) {
                         $clan1 = "";
-                    }
-                    else {
-                        $clan1 = substr(
-                            $tc[0],
-                            strpos($tc[0], "*") + 1,
-                            strrpos($tc[0], "*") - strpos($tc[0], "*") - 1
-                        );
+                    } else {
+                        $clan1 = substr($tc[0], strpos($tc[0], "*") + 1,
+                            strrpos($tc[0], "*") - strpos($tc[0], "*") - 1);
                     }
                     if ($tc[13]) {
                         $wife = substr($from, 6, strrpos($from, ".") - 6) ==
                                 substr($tc[13], 0, strlen(substr($from, 6, strrpos($from, ".") - 6)));
-                    }
-                    else {
+                    } else {
                         $wife = 0;
                     }
-                    if (!$tdied[1] && $to && substr($from, 0, strlen("i.s.d." . $to)) != "i.s.d." . $to &&
-                        (!$clan1 || ($clan1 && $clan1 != $clan)) && !$wife && substr($from, 0, 11) != "i.s.d.u.qv."
+                    if ( ! $tdied[1] && $to && substr($from, 0, strlen("i.s.d." . $to)) != "i.s.d." . $to &&
+                         ( ! $clan1 || ($clan1 && $clan1 != $clan)) && ! $wife && substr($from, 0, 11) != "i.s.d.u.qv."
                     ) {
                         docrim($loc, $to, "мародер");
                     }
-                    $tdied[3] = str_replace("|", ",", $items);
+                    $tdied[3]           = str_replace("|", ",", $items);
                     $loc_i[$loc][$from] = implode("|", $tdied);
                 }
                 if ($journal && $to == "loc") {
-                    if ($journal && !$d) {
+                    if ($journal && ! $d) {
                         addjournal($loc, $from, "Вы бросили " . $count . " " . $title);
                     }
-                    if ($journal && !$d) {
+                    if ($journal && ! $d) {
                         addjournal($loc, "all", $ftitle . " бросил " . $count . " " . $title, $from);
                     }
                 }
                 if ($journal && $to != "loc") {
-                    if ($journal && !$d) {
+                    if ($journal && ! $d) {
                         addjournal($loc, $from, "Вы потеряли " . $count . " " . $title);
                     }
                 }
@@ -284,16 +273,14 @@ function additem(
         if ($to != "loc") {
             if (substr($to, 0, 6) == "i.s.d.") {
                 $d = 1;
-            }
-            else {
+            } else {
                 $d = 0;
             }
-            if (!$d) {
+            if ( ! $d) {
                 $ftitle = explode("|", $loc_i[$loc][$to]["char"]);
                 $ftitle = $ftitle[0];
-                $items = $loc_i[$loc][$to][$tt];
-            }
-            else {
+                $items  = $loc_i[$loc][$to][$tt];
+            } else {
                 $tdied = explode("|", $loc_i[$loc][$to]);
                 $items = str_replace(",", "|", $tdied[3]);
             }
@@ -320,33 +307,30 @@ function additem(
                     if (strpos($items, "=" . $item . ":" . $tcount) === false) {
                         if ($items == "") {
                             $items = $item . ":" . $count;
-                        }
-                        else {
+                        } else {
                             $items .= "|" . $item . ":" . $count;
                         }
                     }
-                }
-                else {
+                } else {
                     $tcount += $count;
                     $items = preg_replace('/' . $item . ':(\d+)/', $item . ":" . $tcount, $items);
                 }
-                if (!$d) {
+                if ( ! $d) {
                     $loc_i[$loc][$to][$tt] = $items;
-                }
-                else {
-                    $tdied[3] = str_replace("|", ",", $items);
+                } else {
+                    $tdied[3]         = str_replace("|", ",", $items);
                     $loc_i[$loc][$to] = implode("|", $tdied);
                 }
                 if ($journal && $from == "loc") {
-                    if ($journal && !$d) {
+                    if ($journal && ! $d) {
                         addjournal($loc, $to, "Вы подняли " . $count . " " . $title);
                     }
-                    if ($journal && !$d) {
+                    if ($journal && ! $d) {
                         addjournal($loc, "all", $ftitle . " поднял " . $count . " " . $title, $to);
                     }
                 }
                 if ($journal && $from != "loc") {
-                    if ($journal && !$d) {
+                    if ($journal && ! $d) {
                         addjournal($loc, $to, "Вы получили " . $count . " " . $title);
                     }
                 }
@@ -354,13 +338,12 @@ function additem(
         }
 
         if ($to == "loc") {
-            if (!isset($loc_i[$loc][$item])) {
+            if ( ! isset($loc_i[$loc][$item])) {
                 $loc_i[$loc][$item] = $title . "|" . $count . "|" . (time() + $time_delete);
-            }
-            else {
+            } else {
                 $tmp = explode("|", $loc_i[$loc][$item]);
                 $tmp[1] += $count;
-                $tmp[2] = time() + $time_delete;
+                $tmp[2]             = time() + $time_delete;
                 $loc_i[$loc][$item] = implode("|", $tmp);
             }
         }

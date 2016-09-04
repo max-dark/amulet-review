@@ -12,15 +12,13 @@ if ($attack) {
     if (isset($loc_i[$loc][$attack])) {
         if (substr($attack, 0, 2) == 'n.' || substr($attack, 0, 2) == 'u.') {
             // установим статус, что нападаем на такого-то
-            $char[7] = $attack;
+            $char[7]                     = $attack;
             $loc_i[$loc][$login]["char"] = implode("|", $char);
             attack($loc, $login, $attack);
-        }
-        else {
+        } else {
             addjournal($loc, $login, "Нападать можно только на людей, NPC и монстров");
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Не на кого напасть");
     }
 }

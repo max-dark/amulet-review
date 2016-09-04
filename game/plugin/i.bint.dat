@@ -9,7 +9,7 @@
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 if ($skills[22] > 0) {
-    $char[6] = time() + 5;
+    $char[6]                     = time() + 5;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     additem($loc, $login, "", "i.bint", 1);
 
@@ -24,14 +24,12 @@ if ($skills[22] > 0) {
 
         addjournal($loc, $login, "Вы забинтовываете раны");
         addjournal($loc, "all", $char[0] . " забинтовывает раны", $login);
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Вы не смогли забинтовать раны");
         addjournal($loc, "all", $char[0] . " не смог забинтовать раны", $login);
     }
 
-}
-else {
+} else {
     addjournal($loc, $login, "Ваш навык лекаря равен 0, вы не умеете пользоваться бинтами");
 }
 

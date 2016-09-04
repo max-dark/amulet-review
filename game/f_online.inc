@@ -54,31 +54,31 @@ while (($fname = readdir($dh)) !== false) {
         $res = "";
         if (isset($loc_i[$tmp[0]][$fname])) {
             if ($game["floc"] == $tmp[0] && $game["fid"] == $fname) {
-                $loc1 = (in_array($tmp[0], $tavern_rooms)) ? "x1095x532" : $tmp[0];
+                $loc1                   = (in_array($tmp[0], $tavern_rooms)) ? "x1095x532" : $tmp[0];
                 $loc_i[$loc1]["i.flag"] = "флаг лидерства|1|0";
-                $game["floc"] = $loc1;
-                $game["fid"] = "";
+                $game["floc"]           = $loc1;
+                $game["fid"]            = "";
                 calcparam($tmp[0], $fname);
             }
-            $auser = $loc_i[$tmp[0]][$fname];
+            $auser            = $loc_i[$tmp[0]][$fname];
             $auser["journal"] = "";
-            $auser["loc"] = $tmp[0];
-            $auser["time"] = time();
+            $auser["loc"]     = $tmp[0];
+            $auser["time"]    = time();
             unset($auser["msgt"]);
             unset($auser["macrol"]);
             unset($auser["trade"]);
             $tp = explode("|", $auser["user"]);
             if ($auser["user"] && $auser["char"] && $auser["skills"] && $auser["war"]) {
                 $res = SetData(substr($fname, 2), $tp[0], serialize($auser));
-                if (!$res) {
+                if ( ! $res) {
                     addnpc($fname, $tmp[0], "");
                 }
             }
-            if (!$res || $f_all == 1 || $f_all == $tmp[0]) {
+            if ( ! $res || $f_all == 1 || $f_all == $tmp[0]) {
                 unset($loc_i[$tmp[0]][$fname]);
             }
         }
-        if (!$res || $f_all == 1 || $f_all == $tmp[0]) {
+        if ( ! $res || $f_all == 1 || $f_all == $tmp[0]) {
             @unlink("online/" . $fname);
             $count--;
         }

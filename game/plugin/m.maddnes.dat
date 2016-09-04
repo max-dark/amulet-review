@@ -10,7 +10,7 @@
 
 if ($loc_i[$loc]) {
     $keys = array_keys($loc_i[$loc]);
-    $id = $keys[rand(0, count($keys) - 1)];
+    $id   = $keys[rand(0, count($keys) - 1)];
     if ($loc_c[1] == 1 && rand(0, 100) < 80) {
         $id = $login;
         docrim($loc, $login, "провокатор");
@@ -22,15 +22,13 @@ if ($loc_i[$loc]) {
         ) {
             $tchar = explode("|", $loc_i[$loc][$id]["char"]);
             addjournal($loc, "all", "Безумие завладело " . $tchar[0] . "!");
-            $tchar[7] = $idto;
+            $tchar[7]                 = $idto;
             $loc_i[$loc][$id]["char"] = implode("|", $tchar);
             attack($loc, $id, $idto);
-        }
-        else {
+        } else {
             addjournal($loc, "all", "Безумие прошло, никого не тронув");
         }
-    }
-    else {
+    } else {
         addjournal($loc, "all", "Безумие никого не тронуло");
     }
 }

@@ -31,10 +31,9 @@ if ($cost) {
     }
     additem($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
 }
-if (!$loc_i[$loc][$login]["priem"]) {
+if ( ! $loc_i[$loc][$login]["priem"]) {
     $loc_i[$loc][$login]["priem"] = $skill . ":1";
-}
-else {
+} else {
     $loc_i[$loc][$login]["priem"] .= "|" . $skill . ":1";
 }
 msg("<p>Вы выучили новый прием!", $tchar[0]);

@@ -9,7 +9,6 @@
 $tc = explode("|", $loc_i[$loc][$to]["char"]);
 if ($tc[8]) {
     ressurect($loc, $to);
-}
-else {
+} else {
     addjournal($loc, $login, $tc[0] . " не призрак");
 }

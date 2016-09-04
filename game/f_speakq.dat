@@ -23,11 +23,10 @@ if (isset($loc_i[$loc][$speak]["nspeak"])) {
 }
 
 $owner = $loc_i[$loc][$speak]["owner"];
-if (!$owner || !isset($loc_i[$loc][substr($owner, 0, strpos($owner, "|"))])) {
+if ( ! $owner || ! isset($loc_i[$loc][substr($owner, 0, strpos($owner, "|"))])) {
     $loc_i[$loc][$speak]["owner"] = $login . "|" . $login . "||";
     msg($loc_i[$loc][$speak]["in"] . "<br/><a href=\"?sid=$sid\">Хорошо, следуй за мной</a>", $tchar[0]);
-}
-else {
+} else {
     if (substr($owner, 0, strpos($owner, "|")) == $login) {
         if (isset($loc_i[$loc][$speak]["ok"]) &&
             substr($loc_i[$loc][$speak]["ok"], 0, strpos($loc_i[$loc][$speak]["ok"], " | ")) == $loc
@@ -35,8 +34,7 @@ else {
             $items = explode(" | ", $loc_i[$loc][$speak]["ok"]);
             if ($items[2]) {
                 $it = explode("|", $items[2]);
-            }
-            else {
+            } else {
                 $it = "";
             }
             if ($it) {
@@ -54,18 +52,14 @@ else {
             addnpc($speak, $loc, "");
             unset($loc_i[$loc][$speak]);
             msg($items[1] . "<br/><a href=\"?sid=$sid\">Ну ладно, прощай</a>", $tchar[0]);
-        }
-        else {
+        } else {
             unset($loc_i[$loc][$speak]["owner"]);
             msg($loc_i[$loc][$speak]["out"] . "<br/><a href=\"?sid=$sid\">Мне пора, прощай</a>", $tchar[0]);
         }
-    }
-    else {
+    } else {
         $tc = explode("|", $loc_i[$loc][substr($owner, 0, strpos($owner, "|"))]["char"]);
-        msg(
-            "Извини, " . $char[0] . ", но я сейчас следую за " . $tc[0] . ", с тобой могу пойти только если " . $tc[0] .
+        msg("Извини, " . $char[0] . ", но я сейчас следую за " . $tc[0] . ", с тобой могу пойти только если " . $tc[0] .
             " откажется провожать меня или я потеряю его из вида.<br/><a href=\"?sid=$sid\">Понятно, пока</a>",
-            $tchar[0]
-        );
+            $tchar[0]);
     }
 }

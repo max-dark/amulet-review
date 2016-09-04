@@ -4,9 +4,11 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'image.php';
 
 /**
  * @param string $location
+ *
  * @return array
  */
-function calculateCoordinates($location) {
+function calculateCoordinates($location)
+{
 
     switch (substr($location, 0, 4)) {
         case "c.1.":
@@ -34,21 +36,19 @@ function calculateCoordinates($location) {
     list($type, $x, $y) = explode("x", $location);
     if ($y > 1101) {
         // Волчий остров
-        $x = round(($x - 20) / 6);
-        $y = round(($y - 1101) / 6);
+        $x    = round(($x - 20) / 6);
+        $y    = round(($y - 1101) / 6);
         $type = 2;
-    }
-    else {
+    } else {
         if ($x > 1650) {
             // территория Ансалона
-            $x = round(($x - 450 - 1200) / 15);
-            $y = round($y / 15);
+            $x    = round(($x - 450 - 1200) / 15);
+            $y    = round($y / 15);
             $type = 1;
-        }
-        else {
+        } else {
             // основная территория
-            $x = round(($x - 450) / 12);
-            $y = round($y / 12);
+            $x    = round(($x - 450) / 12);
+            $y    = round($y / 12);
             $type = 0;
         }
     }
@@ -61,7 +61,8 @@ function calculateCoordinates($location) {
  * @param string $flag       локация флага
  * @param int    $image_type формат изображения
  */
-function show_map($char, $flag, $image_type) {
+function show_map($char, $flag, $image_type)
+{
     list($char_map, $char_x, $char_y) = calculateCoordinates($char);
     list($flag_map, $flag_x, $flag_y) = calculateCoordinates($flag);
 
@@ -69,12 +70,11 @@ function show_map($char, $flag, $image_type) {
 
     $white_color = $image->allocateColor(0xff, 0xff, 0xff);
     $black_color = $image->allocateColor(0, 0, 0);
-    $color = $image->colorAt($char_x + 1, $char_y + 1);
+    $color       = $image->colorAt($char_x + 1, $char_y + 1);
     if ($color == 0 || $color == 0xFFFFDC) {
         $bg_color = 1;
         $fg_color = $white_color;
-    }
-    else {
+    } else {
         $bg_color = $white_color;
         $fg_color = 1;
     }
@@ -83,8 +83,7 @@ function show_map($char, $flag, $image_type) {
         if ($color == 0 || $color == 0xFFFFDC) {
             $bg_color = 1;
             $fg_color = $white_color;
-        }
-        else {
+        } else {
             $bg_color = $white_color;
             $fg_color = 1;
         }
@@ -106,7 +105,8 @@ function show_map($char, $flag, $image_type) {
  * @param int   $fg_color
  * @param int   $bg_color
  */
-function set_mark(&$image, $x, $y, $fg_color, $bg_color) {
+function set_mark(&$image, $x, $y, $fg_color, $bg_color)
+{
     $image->filledRectangle($x, $y, $x + 2, $y + 2, $bg_color);
     $image->setPixel($x + 1, $y + 1, $fg_color);
 }
@@ -114,9 +114,11 @@ function set_mark(&$image, $x, $y, $fg_color, $bg_color) {
 /**
  * @param int $image_type
  * @param int $id
+ *
  * @return Image
  */
-function create_image($image_type, $id) {
+function create_image($image_type, $id)
+{
     switch ($image_type) {
         case 1:
             $image = new WBMPImage(build_name($id, "wbmp"));
@@ -135,8 +137,10 @@ function create_image($image_type, $id) {
 /**
  * @param int    $id
  * @param string $file_ext
+ *
  * @return string
  */
-function build_name($id, $file_ext) {
+function build_name($id, $file_ext)
+{
     return "data/map{$id}.{$file_ext}";
 }

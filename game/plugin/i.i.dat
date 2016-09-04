@@ -17,15 +17,13 @@ if ($to) {
     }
     if (strpos($to, "_") !== false) {
         $tk = substr($to, 0, strpos($to, "_"));
-    }
-    else {
+    } else {
         $tk = $to;
     }
     if (file_exists("items/" . $tk)) {
         $title = explode("|", (file_get_contents("items/" . $tk)));
         $title = $title[0];
-    }
-    else {
+    } else {
         die("no items/" . $to);
     }
     if (intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"])) < 1) {
@@ -41,7 +39,7 @@ if ($to) {
 
     $skills = explode("|", $loc_i[$loc][$login]["skills"]);
     if ($skills[28] > 0) {
-        $char[6] = time() + 10;
+        $char[6]                     = time() + 10;
         $loc_i[$loc][$login]["char"] = implode("|", $char);
         if (rand(0, 100) < $skills[28] * 10 + 20) {
             additem($loc, $login, "", $use, 1);
@@ -52,8 +50,7 @@ if ($to) {
                 addjournal($loc, "all", $char[0] . " инкрустировал самоцвет в " . $title, $login);
                 additem($loc, "", $login, $to, 1);
                 addexp($loc, $login, rand(0, 10));
-            }
-            else {
+            } else {
                 addjournal($loc, $login, "Вы испортили " . $title);
                 addjournal($loc, "all", $char[0] . " испортил " . $title, $login);
             }
@@ -63,16 +60,13 @@ if ($to) {
                 addjournal($loc, "all", $char[0] . " сломал набор ювелира", $login);
                 additem($loc, $login, "", "i.set.shlif", 1);
             }
-        }
-        else {
+        } else {
             addjournal($loc, $login, "Вам не удалось инкрустировать самоцвет, попробуйте еще раз");
             addjournal($loc, "all", $char[0] . " пытался инкрустировать самоцвет", $login);
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Ваш навык ювелира равен 0, вы не умеете инкрустировать самоцветы");
     }
-}
-else {
+} else {
     $list = 'all';
 }    // куда инкрустировать

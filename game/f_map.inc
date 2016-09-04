@@ -10,9 +10,11 @@ require_once 'modules/map.php';
  * @param int    $map_type
  * @param string $PHP_SELF
  * @param string $sid
+ *
  * @return string
  */
-function map_page($location, $game, $map_type, $PHP_SELF, $sid) {
+function map_page($location, $game, $map_type, $PHP_SELF, $sid)
+{
     $char_coord = calculateCoordinates($location);
     $flag_coord = calculateCoordinates($game["floc"]);
 
@@ -29,12 +31,10 @@ function map_page($location, $game, $map_type, $PHP_SELF, $sid) {
     $stmp .= "<p>Вы на " . $description[$char_coord[0]];
     if (empty($game["floc"])) {
         $fc = "неизвестно у кого (попробуйте обновить карту) ";
-    }
-    else {
+    } else {
         if (empty($game["fid"])) {
             $fc = "сейчас никому не принадлежит ";
-        }
-        else {
+        } else {
             $fc = "у " . $game["fchar"] . " ";
         }
     }

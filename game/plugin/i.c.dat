@@ -19,8 +19,7 @@ if (intval(preg_replace('/.*' . "i.set.shlif" . ':(\d+).*/', "\\1", $loc_i[$loc]
             additem($loc, "", $login, $use . ".good", 1);
             addjournal($loc, $login, "Вы отшлифовали камень");
             addjournal($loc, "all", $char[0] . " отшлифовал камень");
-        }
-        else {
+        } else {
             addjournal($loc, $login, "Вам не удалось отшлифовать камень");
             addjournal($loc, "all", $char[0] . " не смог отшлифовать камень");
         }
@@ -34,7 +33,6 @@ if (intval(preg_replace('/.*' . "i.set.shlif" . ':(\d+).*/', "\\1", $loc_i[$loc]
 
     }
     addjournal($loc, $login, "Ваш навык камнетеса равен 0, вы не умеете обрабатывать камни");
-}
-else {
+} else {
     addjournal($loc, $login, "Чтобы обработать камень, у вас должен быть в инвентори набор для шлифования камней");
 }

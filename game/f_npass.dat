@@ -16,14 +16,12 @@
 
 if (time() < trim($tmp[2])) {
     $t = trim($tmp[2]) - time();
-}
-else {
+} else {
     $t = 0;
 }
 if ($t) {
     $s = trim($tmp[2]);
-}
-else {
+} else {
     $s = time() + 10;
 }
 $file = fopen("online/" . $login, "w");
@@ -35,8 +33,7 @@ if ($file !== false) {
 $login = "";
 if ($t) {
     $stmp = "Повторите через " . $t . " сек";
-}
-else {
+} else {
     $stmp = "Неверный пароль. Если вы сменили пароль, подождите 10 минут, проверьте список онлайн и войдите в игру заново.";
 }
 msg($stmp, "Ошибка", 0, 'none');

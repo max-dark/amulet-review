@@ -29,9 +29,9 @@ $art = [
 if (isset($loc_i[$loc]["i.s.rudnik"])) {
     $skills = explode("|", $loc_i[$loc][$login]["skills"]);
     if ($skills[24] > 0) {
-        $char[6] = time() + 4;
+        $char[6]                     = time() + 4;
         $loc_i[$loc][$login]["char"] = implode("|", $char);
-        $tree = explode("|", $loc_i[$loc]["i.s.rudnik"]);
+        $tree                        = explode("|", $loc_i[$loc]["i.s.rudnik"]);
         if ($tree[1] == 0 && time() > $tree[5]) {
             $tree[1] = $tree[4];
         }
@@ -58,21 +58,17 @@ if (isset($loc_i[$loc]["i.s.rudnik"])) {
                 if (rand(1, 100) < 30) {
                     addexp($loc, $login, 1);
                 }
-            }
-            else {
+            } else {
                 addjournal($loc, $login, "Вам не удалось добыть руду");
                 addjournal($loc, "all", $char[0] . " пытался добыть руду", $login);
             }
-        }
-        else {
+        } else {
             addjournal($loc, $login, "В жиле нет больше руды! Ждите пока появится снова");
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Ваш навык рудокопа равен 0, вы не умеете добывать руду");
     }
-}
-else {
+} else {
     addjournal($loc, $login, "Рядом нет рудной жилы");
 }
 

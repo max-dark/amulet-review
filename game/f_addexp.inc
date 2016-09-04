@@ -6,7 +6,8 @@
  * @param string $to  логин
  * @param int    $exp количество
  */
-function addexp($loc, $to, $exp) {
+function addexp($loc, $to, $exp)
+{
     // добавляем экспу
     global $loc_i, $g_exp;
     if (intval($exp) == 0) {
@@ -14,7 +15,7 @@ function addexp($loc, $to, $exp) {
     }
     if (substr($to, 0, 2) == "u.") {
         $skills = explode("|", $loc_i[$loc][$to]["skills"]);
-        $war = explode("|", $loc_i[$loc][$to]["war"]);
+        $war    = explode("|", $loc_i[$loc][$to]["war"]);
         $skills[3] += $exp;
         addjournal($loc, $to, "Опыт +" . intval($exp));
         if ($skills[3] > $war[13] * $g_exp) {

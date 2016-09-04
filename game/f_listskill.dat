@@ -87,15 +87,14 @@ $arr_title = [
 
 // в $to цель, если есть
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
-$war = explode("|", $loc_i[$loc][$login]["war"]);
+$war    = explode("|", $loc_i[$loc][$login]["war"]);
 if ($macro == 1) {
     $m = "&macros=list&num=$num&name=$name&act=$act#add";
-}
-else {
+} else {
     $m = '';
 }
 $stmp = "<p>";
-if (!$macro) {
+if ( ! $macro) {
     $stmp = "<a href=\"$PHP_SELF?sid=$sid&look=skill.str\">Сила</a>: " . $skills[0] .
             "<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.dex\">Ловкость</a>: " . $skills[1] .
             "<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.int\">Интеллект</a>: " . $skills[2] . "<br/>Опыт: " .
@@ -105,7 +104,7 @@ unset($arr_skills["str"]);
 unset($arr_skills["dex"]);
 unset($arr_skills["int"]);
 
-if (!$start) {
+if ( ! $start) {
     $start = 0;
 }
 $keys = array_keys($arr_skills);
@@ -115,8 +114,7 @@ for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=skill." . $keys[$i] . $m . "\">" .
                      $arr_title[$keys[$i]] . "</a>";
         }
-    }
-    else {    // в след. экране all выберем цель $to для использования
+    } else {    // в след. экране all выберем цель $to для использования
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&look=skill." . $keys[$i] . "\">" . $arr_title[$keys[$i]] .
                  "</a>: " . intval($skills[$arr_skills[$keys[$i]]]);
         if ($keys[$i] == "meditation" || $keys[$i] == "animaltaming" || $keys[$i] == "steal" || $keys[$i] == "necro") {
@@ -128,7 +126,7 @@ if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=skill\">^ </a>";
 }
 if ($start + $g_list < count($keys)) {
-    if (!$start) {
+    if ( ! $start) {
         $stmp .= "\n<br/>";
     }
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=skill&start=" . ($start + $g_list) . "\">+ (" .

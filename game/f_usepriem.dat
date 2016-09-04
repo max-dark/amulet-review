@@ -23,24 +23,22 @@ if ($use{2} > 0 && $use{2} < 10) {
     $tm = explode("|", $loc_i[$loc][$login]["priem"]);
     $tc = intval($use{2}) - 1;
     if ($tm[$tc]) {
-        $use = substr($tm[$tc], 0, strpos($tm[$tc], ":"));
+        $use                           = substr($tm[$tc], 0, strpos($tm[$tc], ":"));
         $loc_i[$loc][$login]["macrol"] = "use|$use|to|$to";
-    }
-    else {
+    } else {
         msg("У вас нет приема под номером " . ($tc + 1));
     }
 }
 
 if (file_exists("items/" . $use)) {
     $priem = explode("|", (file_get_contents("items/" . $use)));
-}
-else {
+} else {
     die("err: no items/" . $use);
 }
 if (strpos($loc_i[$loc][$login]["priem"], $use . ":") === false) {
     msg("Вы не знаете прием " . $magic[0] . ", найдите NPC, который поможет его изучить.");
 }
-if ($to == $login || !$to) {
+if ($to == $login || ! $to) {
     msg("Нельзя применять прием к самому себе");
 }
 
@@ -50,7 +48,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
         time() > intval(preg_replace('/.*' . $use . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["priem"]))
     ) {
         $skills = explode("|", $loc_i[$loc][$login]["skills"]);
-        $war = explode("|", $loc_i[$loc][$login]["war"]);
+        $war    = explode("|", $loc_i[$loc][$login]["war"]);
         // флаг
         if ($game["fid"] == $login && $game["floc"] == $loc) {
             $war[0] += 10;
@@ -62,12 +60,9 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
         // боевой
         if (substr($use, 0, 4) != "p.d.") {
             // период
-            $loc_i[$loc][$login]["priem"] = preg_replace(
-                '/' . $use . ':(\d+)/',
-                $use . ":" . (time() + $priem[1]),
-                $loc_i[$loc][$login]["priem"]
-            );
-            $magic = $war;
+            $loc_i[$loc][$login]["priem"] = preg_replace('/' . $use . ':(\d+)/', $use . ":" . (time() + $priem[1]),
+                $loc_i[$loc][$login]["priem"]);
+            $magic                        = $war;
             $magic[0] -= $ihit;
 
             if ($use == "p.b") {
@@ -109,8 +104,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                 if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
                     $magic[1] += $skills[0] * 2 + $skills[9];
                     $magic[2] += $skills[0] * 2 + $skills[9];
-                }
-                else {
+                } else {
                     $magic[1] += $skills[0] + $skills[8];
                     $magic[2] += $skills[0] + $skills[8];
                 }
@@ -119,8 +113,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                 $magic[0] -= 20;
                 if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
                     $magic[2] += $skills[0] * 3 + $skills[9] * 2;
-                }
-                else {
+                } else {
                     $magic[2] += $skills[0] * 2 + $skills[8];
                 }
             }
@@ -128,8 +121,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                 $magic[0] -= 10;
                 if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
                     $magic[2] += $skills[0] * 2 + $skills[9];
-                }
-                else {
+                } else {
                     $magic[2] += $skills[0] + $skills[8];
                 }
             }
@@ -151,8 +143,8 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
             $char = explode("|", $loc_i[$loc][$login]["char"]);
             if ($use == "p.d") {
                 attack($loc, $login, $to, implode("|", $magic), 1, 0, $use, $priem[0]);
-                $char = explode("|", $loc_i[$loc][$login]["char"]);
-                $char[6] = time() + $war[3];
+                $char                        = explode("|", $loc_i[$loc][$login]["char"]);
+                $char[6]                     = time() + $war[3];
                 $loc_i[$loc][$login]["char"] = implode("|", $char);
             }
             if ($use == "p.me") {
@@ -161,8 +153,8 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                         attack($loc, $login, $key, implode("|", $magic), 1, 0, $use, $priem[0]);
                     }
                 }
-                $char = explode("|", $loc_i[$loc][$login]["char"]);
-                $char[6] = time() + $war[3] * 2;
+                $char                        = explode("|", $loc_i[$loc][$login]["char"]);
+                $char[6]                     = time() + $war[3] * 2;
                 $loc_i[$loc][$login]["char"] = implode("|", $char);
             }
 
@@ -170,8 +162,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
             if (isset($loc_i[$loc][$to])) {
                 if ($loc_i[$loc][$to]["def"]) {
                     $tdef = explode("|", $loc_i[$loc][$to]["def"]);
-                }
-                else {
+                } else {
                     $tdef = [0, "", ""];
                 }
                 if ($use == "p.n") {
@@ -180,8 +171,8 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                     ) {
                         addjournal($loc, $to, "Вас оглушили!");
                         addjournal($loc, "all", substr($to, 2) . " оглушен!", $to);
-                        $tc = explode("|", $loc_i[$loc][$to]["char"]);
-                        $tc[6] = time() + 15;
+                        $tc                       = explode("|", $loc_i[$loc][$to]["char"]);
+                        $tc[6]                    = time() + 15;
                         $loc_i[$loc][$to]["char"] = implode("|", $tc);
                     }
                     if ($tdef[0] == "p.d.n") {
@@ -195,20 +186,11 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                     ) {
                         addjournal($loc, $to, "У вас выбито оружие!");
                         addjournal($loc, "all", "У " . substr($to, 2) . " выбито оружие!", $to);
-                        additem(
-                            $loc,
-                            $to,
-                            'loc',
-                            preg_replace('/.*?(i\.w\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]),
-                            1,
-                            "items",
-                            "items",
-                            1,
-                            -1,
-                            1
-                        );
-                        $tc = explode("|", $loc_i[$loc][$to]["char"]);
-                        $tc[6] = time() + 5;
+                        additem($loc, $to, 'loc',
+                            preg_replace('/.*?(i\.w\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
+                            "items", 1, -1, 1);
+                        $tc                       = explode("|", $loc_i[$loc][$to]["char"]);
+                        $tc[6]                    = time() + 5;
                         $loc_i[$loc][$to]["char"] = implode("|", $tc);
                     }
                     if ($tdef[0] == "p.d.r") {
@@ -219,20 +201,11 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                     if (rand(0, 100) <= $magic[0] - 40 && strpos($loc_i[$loc][$to]["equip"], "i.a.s.") !== false) {
                         addjournal($loc, $to, "У вас выбит щит!");
                         addjournal($loc, "all", "У " . substr($to, 2) . " выбит щит!", $to);
-                        additem(
-                            $loc,
-                            $to,
-                            'loc',
-                            preg_replace('/.*?(i\.a\.s\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]),
-                            1,
-                            "items",
-                            "items",
-                            1,
-                            -1,
-                            1
-                        );
-                        $tc = explode("|", $loc_i[$loc][$to]["char"]);
-                        $tc[6] = time() + 5;
+                        additem($loc, $to, 'loc',
+                            preg_replace('/.*?(i\.a\.s\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
+                            "items", 1, -1, 1);
+                        $tc                       = explode("|", $loc_i[$loc][$to]["char"]);
+                        $tc[6]                    = time() + 5;
                         $loc_i[$loc][$to]["char"] = implode("|", $tc);
                     }
                 }
@@ -249,36 +222,23 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                 }
             }
 
-        }
-        else {    // защитные
+        } else {    // защитные
             if ($use == "p.d.p" && strpos($loc_i[$loc][$login]["equip"], "i.a.s.") === false) {
                 msg("Щит должен находиться у вас в руках");
             }
             $loc_i[$loc][$login]["def"] = $use . "|" . $priem[0] . "|" . (time() + $priem[1]) . "|" .
                                           ($use == "p.d.c" ? $skills[2] * 16 : ($war[0] - $ihit));
             if ($use == "p.d.o") {
-                $char[6] = time() + $priem[1];
+                $char[6]                     = time() + $priem[1];
                 $loc_i[$loc][$login]["char"] = implode("|", $char);
             }
         }
 
+    } else {
+        addjournal($loc, $login, "Период " . $priem[0] . " не истек (еще " .
+                                 (round((intval(preg_replace('/.*' . $use . ':(\d+).*/', "\\1",
+                                                     $loc_i[$loc][$login]["priem"])) - time()) / 60) + 1) . " минут)");
     }
-    else {
-        addjournal(
-            $loc,
-            $login,
-            "Период " . $priem[0] . " не истек (еще " . (round(
-                                                             (intval(
-                                                                  preg_replace(
-                                                                      '/.*' . $use . ':(\d+).*/',
-                                                                      "\\1",
-                                                                      $loc_i[$loc][$login]["priem"]
-                                                                  )
-                                                              ) - time()) / 60
-                                                         ) + 1) . " минут)"
-        );
-    }
-}
-else {
+} else {
     addjournal($loc, $login, "Нет цели");
 }

@@ -21,22 +21,22 @@ $owner = explode("|", $loc_i[$i][$j]["owner"]);
 if ($char[9] && isset($loc_i[$i][$owner[0]])) {
     docrim($i, $owner[0]);
 }
-if (!isset($owner[0])) {
+if ( ! isset($owner[0])) {
     $owner[0] = "";
 }
-if (!isset($owner[1])) {
+if ( ! isset($owner[1])) {
     $owner[1] = "";
 }
-if (!isset($owner[2])) {
+if ( ! isset($owner[2])) {
     $owner[2] = "";
 }
-if (!isset($owner[3])) {
+if ( ! isset($owner[3])) {
     $owner[3] = "";
 }
-if (!isset($owner[4])) {
+if ( ! isset($owner[4])) {
     $owner[4] = "";
 }
-if (!isset($owner[5])) {
+if ( ! isset($owner[5])) {
     $owner[5] = time() + 60 * 60;
 }
 
@@ -48,14 +48,12 @@ if ($owner[3] && time() > $owner[3] || time() > $owner[5] && substr($i, 0, 2) !=
     addjournal($loc, $owner[0], $char[0] . " покинул вас");
     if ($owner[6]) {
         addnpc($j, $i, $owner[6]);
-    }
-    else {
+    } else {
         $ttw = explode("|", $loc_i[$i][$j]["war"]);
         if ($ttw[15]) {
             $ttwr = explode(":", $ttw[15]);
             addnpc($j, $i, $ttwr[0]);
-        }
-        else {
+        } else {
             addnpc($j, $i);
         }
     }
@@ -64,11 +62,8 @@ if ($owner[3] && time() > $owner[3] || time() > $owner[5] && substr($i, 0, 2) !=
 if (substr($j, 0, 5) == "n.he." && time() > $loc_i[$loc][$j]["h_t"] && isset($loc_i[$loc][$owner[0]])) {
     $tc = explode("|", $loc_i[$loc][$owner[0]]["char"]);
     if ($tc[1] < $tc[2]) {
-        addjournal(
-            $loc,
-            "all",
-            substr($loc_i[$loc][$j]["char"], 0, strpos($loc_i[$loc][$j]["char"], "|")) . ": " . $loc_i[$loc][$j]["h_s"]
-        );
+        addjournal($loc, "all", substr($loc_i[$loc][$j]["char"], 0, strpos($loc_i[$loc][$j]["char"], "|")) . ": " .
+                                $loc_i[$loc][$j]["h_s"]);
         $tc[1] += rand($loc_i[$loc][$j]["h_v1"], $loc_i[$loc][$j]["h_v2"]);
         $htmp = rand($loc_i[$loc][$j]["h_v1"], $loc_i[$loc][$j]["h_v2"]);
         addjournal($loc, $owner[0], $tchar[0] . ": жизнь +" . $htmp);
@@ -76,12 +71,12 @@ if (substr($j, 0, 5) == "n.he." && time() > $loc_i[$loc][$j]["h_t"] && isset($lo
             $tc[1] = $tc[2];
         }
         $loc_i[$loc][$owner[0]]["char"] = implode("|", $tc);
-        $loc_i[$loc][$j]["h_t"] = time() + $loc_i[$loc][$j]["h_p"];
+        $loc_i[$loc][$j]["h_t"]         = time() + $loc_i[$loc][$j]["h_p"];
     }
 }
-if (!$b) {
+if ( ! $b) {
     // следуем
-    if ($owner[1] && !isset($loc_i[$i][$owner[1]])) {
+    if ($owner[1] && ! isset($loc_i[$i][$owner[1]])) {
         for ($k = 3; $k < count($locai); $k += 2) {
             if (isset($loc_i[$locai[$k]][$owner[1]])) {
                 $bc = 1;
@@ -100,11 +95,8 @@ if (!$b) {
                         }
                         if ($count >= 5) {
                             $bc = 0;
-                            addjournal(
-                                $locai[$k],
-                                $owner[0],
-                                $char[0] . " говорит: я туда не пойду, там и так полно стражников"
-                            );
+                            addjournal($locai[$k], $owner[0],
+                                $char[0] . " говорит: я туда не пойду, там и так полно стражников");
                         }
                     }
                 }
@@ -127,21 +119,21 @@ if (!$b) {
                     }
                 }
                 if ($bc) {
-                    $char[7] = "";
+                    $char[7]               = "";
                     $loc_i[$i][$j]["char"] = implode("|", $char);
                     addnpc($j, $i, $locai[$k]);
-                    $char = explode("|", $loc_i[$locai[$k]][$j]["char"]);
-                    $char[12] = "";
-                    $loc_i[$locai[$k]][$j]["char"] = implode("|", $char);
-                    $owner[5] = time() + 60 * 60;    // 1 час ждет движения
+                    $char                           = explode("|", $loc_i[$locai[$k]][$j]["char"]);
+                    $char[12]                       = "";
+                    $loc_i[$locai[$k]][$j]["char"]  = implode("|", $char);
+                    $owner[5]                       = time() + 60 * 60;    // 1 час ждет движения
                     $loc_i[$locai[$k]][$j]["owner"] = implode("|", $owner);
-                    $b = 1;
+                    $b                              = 1;
                     break;
                 }
             }
         }
     }
-    if (!$b) {        //$j не ушел
+    if ( ! $b) {        //$j не ушел
 
         // охраняем
         if (substr($j, 0, 4) != "n.o." && $owner[2] && isset($loc_i[$i][$owner[2]])) {

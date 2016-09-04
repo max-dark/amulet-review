@@ -28,7 +28,7 @@ if (gettype($lcen) != "array") {
                 strpos($d[0], ":" . $k . ":") === false
             ) {
                 $tct = explode("|", $loc_i[$i][$k]["char"]);
-                if (!$tct[8]) {
+                if ( ! $tct[8]) {
                     $lcen[] = $k;
                 }
             }

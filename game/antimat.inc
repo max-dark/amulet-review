@@ -183,9 +183,11 @@ $change2 = [
  * split utf-8 string to array of chars
  *
  * @param string $str
+ *
  * @return array
  */
-function chars_of($str) {
+function chars_of($str)
+{
     return preg_split('/(?<!^)(?!$)/u', $str);
 }
 
@@ -195,16 +197,12 @@ function chars_of($str) {
  * @param string $str
  * @param string $from
  * @param string $to
+ *
  * @return string
  */
-function mb_strtr($str, $from, $to) {
-    return strtr(
-        $str,
-        array_combine(
-            chars_of($from),
-            chars_of($to)
-        )
-    );
+function mb_strtr($str, $from, $to)
+{
+    return strtr($str, array_combine(chars_of($from), chars_of($to)));
 }
 
 $en2ru = [];
@@ -215,10 +213,8 @@ function GetBadWord($s) // Возвращает первое плохое сло
     global $gw, $bw, $change2, $en2ru;
 
     if (empty($en2ru)) {
-        $en2ru = array_combine(
-            chars_of('a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9'),
-            chars_of('ааббцвгдежззийклмноопрсстуфхххцчшуяя')
-        );
+        $en2ru = array_combine(chars_of('a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9'),
+            chars_of('ааббцвгдежззийклмноопрсстуфхххцчшуяя'));
     }
     $s = strtr($s, $change2);
     $s = str_replace("&amp;", "я", $s);
@@ -239,20 +235,19 @@ function GetBadWord($s) // Возвращает первое плохое сло
 
     // Пробелы убираем интеллектуально
     $bspos = 0;
-    $s = " $s ";
+    $s     = " $s ";
     for ($i = 1; $i < strlen($s); $i++) {
         $ch = $s[$i];
         if (($ch == " ") or ($ch == ",") or ($ch == ".")) {
             if (($i - $bspos) > 3) {
                 $s[$bspos] = " ";
-            }
-            else {
+            } else {
                 $s[$i] = "-";
             }
             $bspos = $i;
         }
     }
-    $s = str_replace("-", "", trim($s));
+    $s     = str_replace("-", "", trim($s));
     $s_out = $s;
 
     // Преобразуем в нижний регистр
@@ -263,13 +258,13 @@ function GetBadWord($s) // Возвращает первое плохое сло
     for ($i = 0; $i < count($gw); $i++) {
         $pos = mb_strpos($s, $gw[$i]);
         while ($pos !== false) {
-            $s = mb_substr($s, 0, $pos) . mb_substr($s, $pos + mb_strlen($gw[$i]));
+            $s     = mb_substr($s, 0, $pos) . mb_substr($s, $pos + mb_strlen($gw[$i]));
             $s_out = mb_substr($s_out, 0, $pos) . mb_substr($s_out, $pos + strlen($gw[$i]));
-            $pos = mb_strpos($s, $gw[$i]);
+            $pos   = mb_strpos($s, $gw[$i]);
         }
     }
 
-    $s = " $s";
+    $s     = " $s";
     $s_out = " $s_out";
 
     for ($i = 0; $i < count($bw); $i++) {

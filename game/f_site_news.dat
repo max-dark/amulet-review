@@ -1,6 +1,6 @@
 <?php
 
-if (!file_exists("../news/news.htm")) {
+if ( ! file_exists("../news/news.htm")) {
     msg("<p>Нет текста, сообщите название рассказа разработчику");
 }
 $stmp = (file_get_contents("../news/news.htm"));
@@ -9,7 +9,7 @@ $stmp = str_replace("|", "<br />------<br />", $stmp);
 $stmp = wordwrap($stmp, 500, "|");
 $stmp = explode("|", $stmp);
 
-if (!$start || $start < 0) {
+if ( ! $start || $start < 0) {
     $start = 1;
 }
 if ($start > count($stmp)) {

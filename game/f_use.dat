@@ -34,8 +34,7 @@ if ($use) {
                 include "f_useskill.dat";
             }
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Вы должны отдохнуть " . round($char[6] - time() + 1) . " сек");
     }
 }

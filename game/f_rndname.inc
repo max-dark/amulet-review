@@ -3,7 +3,8 @@
  *
  * @return string
  */
-function rndname() {
+function rndname()
+{
     $arr_rndnames = [
         'cor',
         'ur',
@@ -212,7 +213,7 @@ function rndname() {
         'she',
         'zu'
     ];
-    $stmp = "";
+    $stmp         = "";
     srand((float)microtime() * 10000000);        // FIX: на некоторых версия PHP надо, на нек. нет
     while (strlen($stmp) < rand(4, 6)) {
         $stmp .= $arr_rndnames[rand(0, count($arr_rndnames) - 1)];

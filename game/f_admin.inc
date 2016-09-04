@@ -17,8 +17,7 @@
 if ($login == $g_admin || $gm == $gm_id) {
     switch ($adm) {
         case 'smp':
-            msg(
-                "<p><input name=\"inp\" emptyok=\"true\"/>
+            msg("<p><input name=\"inp\" emptyok=\"true\"/>
 	<br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=$(inp)\">teleport (loc)</a> <a href=\"#tele\"> [select]</a>
 	<br/><a href=\"$PHP_SELF?sid=$sid&adm=mnn&inp=$(inp)\">money (count)</a>
 	<br/><a href=\"$PHP_SELF?sid=$sid&adm=filter&inp=$(inp)\">additem (filter)</a>
@@ -44,17 +43,15 @@ if ($login == $g_admin || $gm == $gm_id) {
 	<br/><a href=\"$PHP_SELF?sid=$sid&adm=play\">play (msg: " . intval(isset($game["msg"])) . ")</a>
 	<br/><a href=\"$PHP_SELF?sid=$sid&adm=blank\">blank world</a>
 	\n</p>\n</card>\n<card id=\"tele\" title=\"Телепорт\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=_begin\">Начало</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1092x474\">Банк</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1284x393\">Кладбище</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x902x254\">Замок</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1486x247\">Пещера</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2169x273\">Ансалон</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1778x493\">Крепость</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2247x786\">Подземелье</a>",
-                $loc,
-                0
-            );
+                $loc, 0);
         break;
         case 'rsn':
-            $char[1] = $char[2];
-            $char[3] = $char[4];
-            $char[8] = 0;
-            $char[9] = 0;
-            $loc_i[$loc][$login]["char"] = implode("|", $char);
-            $char = explode("|", $loc_i[$loc][$login]["char"]);
+            $char[1]                      = $char[2];
+            $char[3]                      = $char[4];
+            $char[8]                      = 0;
+            $char[9]                      = 0;
+            $loc_i[$loc][$login]["char"]  = implode("|", $char);
+            $char                         = explode("|", $loc_i[$loc][$login]["char"]);
             $loc_i[$loc][$login]["magic"] = preg_replace('/:(\d+)/', ":0", $loc_i[$loc][$login]["magic"]);
             $loc_i[$loc][$login]["priem"] = preg_replace('/:(\d+)/', ":0", $loc_i[$loc][$login]["priem"]);
         break;
@@ -81,22 +78,20 @@ if ($login == $g_admin || $gm == $gm_id) {
                 if ($val == "items") {
                     calcparam($loc, $login);
                 }
-            }
-            else {
+            } else {
                 if ($to) {
                     if (isset($loc_i[$loc][$to])) {
                         unset($loc_i[$loc][$to]);
                         msg("Объект удален");
-                    }
-                    else {
+                    } else {
                         msg("Нет объекта");
                     }
                 }
             }
         break;
         case 'stn':
-            $field = explode("|", $loc_i[$loc][$login][strtolower($inp)]);
-            $field[strtolower($val)] = $new;
+            $field                                 = explode("|", $loc_i[$loc][$login][strtolower($inp)]);
+            $field[strtolower($val)]               = $new;
             $loc_i[$loc][$login][strtolower($inp)] = implode("|", $field);
             calcparam($loc, $login);
         break;
@@ -104,8 +99,7 @@ if ($login == $g_admin || $gm == $gm_id) {
             if ($inp && $val) {
                 if ($new == "loc") {
                     $to = "loc";
-                }
-                else {
+                } else {
                     $to = $login;
                 }
                 if ($new != "bank") {
@@ -121,8 +115,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 }
                 if ($val == "all") {
                     $loc_i[$loc][$login][$new] = "";
-                }
-                else {
+                } else {
                     additem($loc, $login, "", strtolower($inp), $val, "items", $new);
                 }
                 calcparam($loc, $login);
@@ -131,8 +124,7 @@ if ($login == $g_admin || $gm == $gm_id) {
         case 'gdn':
             if ($loc_i[$loc][$login]["god"]) {
                 unset($loc_i[$loc][$login]["god"]);
-            }
-            else {
+            } else {
                 $loc_i[$loc][$login]["god"] = 1;
             }
         break;
@@ -153,9 +145,9 @@ if ($login == $g_admin || $gm == $gm_id) {
                 if (substr($dloc, strlen($dloc) - 1) == "|") {
                     $dloc = substr($dloc, 0, strlen($dloc) - 1);
                 }
-                $loc_tt[$loc]["d"] = $dloc;
+                $loc_tt[$loc]["d"]    = $dloc;
                 $loc_tt[$loc]["save"] = 1;
-                $loc_c = explode("|", $loc_tt[$loc]["d"]);
+                $loc_c                = explode("|", $loc_tt[$loc]["d"]);
             }
         break;
         case 'view':
@@ -178,10 +170,10 @@ if ($login == $g_admin || $gm == $gm_id) {
         break;
         case 'ban':
             $loc_i[$loc][$login]["items"] = "";
-            $loc_i[$loc][$login]["bank"] = "";
+            $loc_i[$loc][$login]["bank"]  = "";
             if ($inp == 1) {
                 $loc_i[$loc][$login]["skills"] = "1|1|1|0|2|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0";
-                $loc_i[$loc][$login]["magic"] = "";
+                $loc_i[$loc][$login]["magic"]  = "";
             }
             calcparam($loc, $login);
             msg("Персонаж обнулен");
@@ -190,19 +182,15 @@ if ($login == $g_admin || $gm == $gm_id) {
             addjournal($loc, $login, "Не удалось отправить письмо на " . $inp);
         break;
         case 'getibm':
-            msg(
-                "items: " . $loc_i[$loc][$login]["items"] . "<br/>bank: " . $loc_i[$loc][$login]["bank"] .
-                "<br/>magic: " . $loc_i[$loc][$login]["magic"] . "<br/>skills: " . $loc_i[$loc][$login]["skills"]
-            );
+            msg("items: " . $loc_i[$loc][$login]["items"] . "<br/>bank: " . $loc_i[$loc][$login]["bank"] .
+                "<br/>magic: " . $loc_i[$loc][$login]["magic"] . "<br/>skills: " . $loc_i[$loc][$login]["skills"]);
         break;
         case 'resp':
             addtimer($loc, 0, $val, $inp . "|$val:$new");
             addjournal($loc, $login, "Таймер установлен");
         break;
         case 'skillinfo':
-            msg(
-                "skills = 0:str|1:dex|2:int|3:level|4:points|5:meditation|6:steal|7:animaltaming|8:hand|9:coldweapon|10:ranged|11:parring|12:uklon|13:magic|14:magic_resist|15:magic_uklon|16:regeneration|17:hiding|18:look|19:steallook|20:animallore|21:spirit|22:healing|23:alchemy|24:mine|25:smith|26:lumb|27:bow|28:stone|29:fish|30:food"
-            );
+            msg("skills = 0:str|1:dex|2:int|3:level|4:points|5:meditation|6:steal|7:animaltaming|8:hand|9:coldweapon|10:ranged|11:parring|12:uklon|13:magic|14:magic_resist|15:magic_uklon|16:regeneration|17:hiding|18:look|19:steallook|20:animallore|21:spirit|22:healing|23:alchemy|24:mine|25:smith|26:lumb|27:bow|28:stone|29:fish|30:food");
         break;
         case 'stop':
             $game["stop"] = time() + 180;
@@ -222,17 +210,16 @@ if ($login == $g_admin || $gm == $gm_id) {
             $d = explode("|", $loc_tt[$loc]["d"]);
             if ($inp) {
                 $d[1] = 1;
-            }
-            else {
+            } else {
                 $d[1] = 0;
             }
-            $loc_tt[$loc]["d"] = implode("|", $d);
+            $loc_tt[$loc]["d"]    = implode("|", $d);
             $loc_tt[$loc]["save"] = 1;
         break;
         case 'filter':
             if ($inp) {
                 $stmp = "<p>Добавить предмет:";
-                $dh = opendir("items/");
+                $dh   = opendir("items/");
                 while (($fname = readdir($dh)) !== false) {
                     if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
                         $item = explode("|", (file_get_contents("items/" . $fname)));
@@ -248,15 +235,14 @@ if ($login == $g_admin || $gm == $gm_id) {
             if ($inp && $val) {
                 if (file_exists("data/clans/" . $inp)) {
                     $tmp = unserialize((file_get_contents("data/clans/" . $inp)));
-                }
-                else {
+                } else {
                     msg("нет клана");
                 }
                 if (substr($val, 0, 2) != "u.") {
                     $val = "u." . $val;
                 }
                 $tmp["g"] = [$val => ""];
-                $file = fopen("data/clans/" . $inp, "w");
+                $file     = fopen("data/clans/" . $inp, "w");
                 if ($file !== false) {
                     fputs($file, serialize($tmp));
                     fclose($file);
@@ -269,11 +255,11 @@ if ($login == $g_admin || $gm == $gm_id) {
                 if (substr($inp, 0, 2) !== "n.") {
                     msg("npc должен начинаться на n. и быть в локации в вами");
                 }
-                if (!isset($loc_i[$loc][$inp])) {
+                if ( ! isset($loc_i[$loc][$inp])) {
                     msg("рядом с вами нет npc с id " . $inp . " (регистр учитывается)");
                 }
-	            $npc = "npc/" . $inp;
-	            $npc = include $npc;
+                $npc = "npc/" . $inp;
+                $npc = include $npc;
                 if (gettype($npc) !== "array") {
                     msg("ошибка загрузки npc/" . $inp);
                 }

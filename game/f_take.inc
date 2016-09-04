@@ -18,11 +18,11 @@ if ($take) {            //linkПоднять
         include "f_usekon.dat";
     }
 
-    if ($take == "i.flag" && isset($loc_i[$loc]["i.flag"]) && !$char[8]) {
+    if ($take == "i.flag" && isset($loc_i[$loc]["i.flag"]) && ! $char[8]) {
         addjournal($loc, "all", $char[0] . " поднял флаг!", $login);
         unset($loc_i[$loc]["i.flag"]);
-        $game["floc"] = $loc;
-        $game["fid"] = $login;
+        $game["floc"]  = $loc;
+        $game["fid"]   = $login;
         $game["fchar"] = $char[0];
         calcparam($loc, $login);
         $char = explode("|", $loc_i[$loc][$login]["char"]);
@@ -31,8 +31,7 @@ if ($take) {            //linkПоднять
     // проверки
     if (substr($take, 0, 8) == 'i.s.note' || substr($take, 0, 8) == 'i.s.book') {
         $look = $take;
-    }
-    else {
+    } else {
         if (substr($take, 0, 2) != 'i.') {
             msg("<p>И как вы себе это представляете? :-)");
         }
@@ -45,12 +44,12 @@ if ($take) {            //linkПоднять
                 if ($char[8]) {
                     $b = 1;
                 }
-                if (!$b) {
+                if ( ! $b) {
                     $b = 1;
                     foreach (array_keys($loc_i[$loc]) as $i) {
                         if (substr($i, 0, 2) == "u." && $i != $login) {
                             $tc = explode("|", $loc_i[$loc][$i]["char"]);
-                            if (!$tc[8]) {
+                            if ( ! $tc[8]) {
                                 $b = 0;
                                 break;
                             }
@@ -60,8 +59,7 @@ if ($take) {            //linkПоднять
                 if ($b) {
                     addnpc($login, $loc, "x1086x501");
                     msg("Вы покинули арену");
-                }
-                else {
+                } else {
                     msg("Покинуть арену можно либо призраком, либо оставшись единственным в живых.");
                 }
             }
@@ -73,11 +71,8 @@ if ($take) {            //linkПоднять
             if ($char[8]) {
                 if (substr($take, 0, 7) == 'i.s.res') {
                     ressurect($loc, $login);
-                }
-                else {
-                    msg(
-                        "<p>Вы призрак и поэтому не можете ничего передать, поднять или бросить, найдите лекаря или камень воскрешения"
-                    );
+                } else {
+                    msg("<p>Вы призрак и поэтому не можете ничего передать, поднять или бросить, найдите лекаря или камень воскрешения");
                 }
             }
             $tdef = explode("|", $loc_i[$loc][$login]["def"]);
@@ -89,7 +84,7 @@ if ($take) {            //linkПоднять
                 if ($id) {
                     include "f_takediedid.dat";
                 }
-                if (!$id) {
+                if ( ! $id) {
                     include "f_takediednoid.dat";
                 }
             }
@@ -98,12 +93,12 @@ if ($take) {            //linkПоднять
             if (substr($take, 0, 4) != 'i.s.') {
                 $item = explode("|", $loc_i[$loc][$take]);
                 // проверим кол-во
-                if ($item[1] > 1 && !$num) {        // запросим кол-во
+                if ($item[1] > 1 && ! $num) {        // запросим кол-во
                     $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
                             $item[1] . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&num=$(num)\">Отправить</a>";
                     msg($stmp, "Взять", 1, "", "num", $item[1]);
                 }
-                if (!$num || $num < 1) {
+                if ( ! $num || $num < 1) {
                     $num = 1;
                 }    // если не указано, то 1 предмет
                 if ($num > $item[1]) {

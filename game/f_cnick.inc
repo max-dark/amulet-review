@@ -33,9 +33,8 @@
 $char = explode("|", $loc_i[$loc][$login]["char"]);
 if (strpos($char[0], " *") === false) {
     $clan = "";
-}
-else {
-    $clan = substr($char[0], strpos($char[0], " *"));
+} else {
+    $clan    = substr($char[0], strpos($char[0], " *"));
     $char[0] = substr($char[0], 0, strpos($char[0], " *"));
 }
 $tus = explode("|", $loc_i[$loc][$login]["user"]);
@@ -59,13 +58,10 @@ if ($cnick == "1") {
 	<br/><a href=\"$PHP_SELF?sid=$sid&cnick=$(new)&list=$(list)&size=$(size)&j2loc=$(j2loc)&j2go=$(j2go)&menu=$(menu)&smenu=$(smenu)&sounds=$(sounds)&joff=$(joff)&map=$(map)&smf=$(smf)&age=$(age)\">Сохранить</a>
 	<br/><a href=\"?site=faq&id=err\">Помощь</a>";
 
-}
-else {
+} else {
     if (strtolower($cnick) != strtolower($char[0])) {
-        msg(
-            "<p>Нельзя поменять имя на другое (было имя: " . $char[0] . ", вы ввели новое: " . $cnick .
-            "), можно только изменить его написание (например, сделать первую букву заглавной)."
-        );
+        msg("<p>Нельзя поменять имя на другое (было имя: " . $char[0] . ", вы ввели новое: " . $cnick .
+            "), можно только изменить его написание (например, сделать первую букву заглавной).");
     }
     if (intval($age) < 5 || intval($age) > 99) {
         msg("Неправдоподобный возраст");
@@ -94,14 +90,14 @@ else {
     if (intval($map) > 3) {
         msg("Допустимые значения для карты 0,1,2 и 3");
     }
-    $loc_i[$loc][$login]["o"] = intval($list) . "|" . intval($size) . "|" . intval($j2loc) . "|" . intval($j2go) . "|" .
-                                intval($menu) . "|" . intval($sounds) . "|" . intval($joff) . "|" . intval($smenu) .
-                                "|" . intval($map) . "|" . intval($smf);
-    $char[0] = $cnick . $clan;
+    $loc_i[$loc][$login]["o"]    = intval($list) . "|" . intval($size) . "|" . intval($j2loc) . "|" . intval($j2go) .
+                                   "|" . intval($menu) . "|" . intval($sounds) . "|" . intval($joff) . "|" .
+                                   intval($smenu) . "|" . intval($map) . "|" . intval($smf);
+    $char[0]                     = $cnick . $clan;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
-    $tus[3] = intval($age);
+    $tus[3]                      = intval($age);
     $loc_i[$loc][$login]["user"] = implode("|", $tus);
-    $stmp = "Настройки сохранены.";
+    $stmp                        = "Настройки сохранены.";
 }
 
 msg($stmp, "Настройки", 0);

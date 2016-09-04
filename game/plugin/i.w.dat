@@ -11,63 +11,53 @@ $equip = $loc_i[$loc][$login]["equip"];
 // если в руках нож и есть $to, то освежевание
 if ($to && substr($use, 0, 6) == 'i.w.k.') {
     include __DIR__ . DIRECTORY_SEPARATOR . "i.w.k.dat";
-}
-else // рубка деревьев
+} else // рубка деревьев
 {
     if ($to && substr($use, 0, 6) == 'i.w.t.') {
-        include __DIR__ . DIRECTORY_SEPARATOR .  "i.w.t.dat";
-    }
-    else {
+        include __DIR__ . DIRECTORY_SEPARATOR . "i.w.t.dat";
+    } else {
         if (strpos($use, "_") !== false) {
             $ti = substr($use, 0, strpos($use, "_"));
-        }
-        else {
+        } else {
             $ti = $use;
         }
         if (strpos($equip, $ti) === false) {    // одеваем
             if (substr($use, 0, 4) == 'i.w.') {
                 if (strpos($equip, "i.w.") === false) {
-                    if (!$equip) {
+                    if ( ! $equip) {
                         $equip = $use;
-                    }
-                    else {
+                    } else {
                         if ($equip{strlen($equip) - 1} == "|") {
                             $equip .= $use;
-                        }
-                        else {
+                        } else {
                             $equip .= "|" . $use;
                         }
                     }
-                }
-                else {
+                } else {
                     $equip = preg_replace('/i\.w\.[^|]+/', $use, $equip);
                 }
             }
             if (substr($use, 0, 4) == 'i.a.') {
                 if (strpos($equip, substr($use, 0, 6)) === false) {
-                    if (!$equip) {
+                    if ( ! $equip) {
                         $equip = $use;
-                    }
-                    else {
+                    } else {
                         if ($equip{strlen($equip) - 1} == "|") {
                             $equip .= $use;
-                        }
-                        else {
+                        } else {
                             $equip .= "|" . $use;
                         }
                     }
-                }
-                else {
+                } else {
                     $equip = preg_replace('/' . substr($use, 0, 6) . '[^|]+/', $use, $equip);
                 }
             }
-        }
-        else {
+        } else {
             $equip = preg_replace('/' . $ti . '[^|]*\|?/', "", $equip);
         }
         $loc_i[$loc][$login]["equip"] = $equip;
         calcparam($loc, $login);
-        if (!$list) {
+        if ( ! $list) {
             $list = 'inv';
         }    // только если не взяли нож
     }

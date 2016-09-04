@@ -11,7 +11,7 @@
 
 if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.') {
     calcparam($loc, $to);    // чтобы постоянно не увеличивать каждый раз, сбивает эффект заклинания Сила
-    $twar = explode("|", $loc_i[$loc][$to]["war"]);
+    $twar   = explode("|", $loc_i[$loc][$to]["war"]);
     $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 
     $twar[5] += $skills[2];
@@ -20,8 +20,7 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.') {
     if ($to != $login) {
         addjournal($loc, $login, $tchar[0] . ": броня +" . $skills[2]);
     }
-}
-else {
+} else {
     addjournal($loc, $login, "Действует только на людей");
 }
 

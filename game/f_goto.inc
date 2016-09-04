@@ -15,7 +15,7 @@ $tfound = 0;
 for ($k = 3; $k < count($locai); $k += 2) {
     if (isset($loc_i[$locai[$k]][$char[7]])) {
         $tfound = 1;
-        $loc1 = explode("|", $loc_tt[$locai[$k]]["d"]);
+        $loc1   = explode("|", $loc_tt[$locai[$k]]["d"]);
         if ($locai[1] == $loc1[1] || substr($j, 0, 4) == "n.g.") {
             $b = 1;
         }
@@ -31,23 +31,22 @@ for ($k = 3; $k < count($locai); $k += 2) {
         if (substr($char[7], 0, 2) == "u.") {
             $tc = explode("|", $loc_i[$locai[$k]][$char[7]]["char"]);
             if ($tc[8]) {
-                $char[7] = "";
+                $char[7]               = "";
                 $loc_i[$i][$j]["char"] = implode("|", $char);
-                $b = 0;
+                $b                     = 0;
             }
         }
 
         if ($b) {    // погоня
             $loc_i[$i][$j]["char"] = implode("|", $char);
             addnpc($j, $i, $locai[$k]);
-        }
-        else {
+        } else {
             $tfound = 0;
         }
         break;
     }
 }
-if (!$tfound) {
-    $char[7] = "";
+if ( ! $tfound) {
+    $char[7]               = "";
     $loc_i[$i][$j]["char"] = implode("|", $char);
 }

@@ -9,7 +9,7 @@
  */
 // телепорт в i.rr.loc
 $manacost = 7;
-$words = "Tira Ruen";
+$words    = "Tira Ruen";
 
 if ($char[3] >= $manacost) {
     $skills = explode("|", $loc_i[$loc][$login]["skills"]);
@@ -20,23 +20,20 @@ if ($char[3] >= $manacost) {
     }
     if ($cast > 0 && $skills[13]) {
         $char[3] -= $manacost;
-        $char[6] = time() + 10; // 10 сек отдыхаем
+        $char[6]                     = time() + 10; // 10 сек отдыхаем
         $loc_i[$loc][$login]["char"] = implode("|", $char);
         // произносим заклинание
         addjournal($loc, "all", $char[0] . ": " . $words);
         if (rand(0, 100) <= $cast) {    // удалось
             addnpc($login, $loc, substr($use, 5));
             addjournal($loc, "all", $char[0] . ": " . $words, $login);
-        }
-        else {
+        } else {
             addjournal($loc, $login, "Заклинание сорвалось");
             addjournal($loc, "all", $char[0] . "(заклинание сорвалось)", $login);
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Слишком слабый навык магии");
     }
-}
-else {
+} else {
     addjournal($loc, $login, "Недостаточно маны");
 }

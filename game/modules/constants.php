@@ -1,6 +1,7 @@
 <?php
 
-interface Menu {
+interface Menu
+{
     const mode_full = 0; // полное
     const mode_short = 1; // сокращенное
     const mode_page = 2; // на отдельной странице

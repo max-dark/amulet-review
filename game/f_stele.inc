@@ -19,13 +19,11 @@ if ($char[13]) {
             $tsm = explode(":", $tsc[13]);
             if (time() < $tsm[1]) {
                 addnpc($login, $loc, $tmf);
-            }
-            else {
+            } else {
                 addjournal($loc, $login, "Время для телепорта к мужу/жене истекло");
             }
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Ваш(а) муж(жена) покинул(а) игру");
     }
 }

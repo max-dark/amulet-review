@@ -21,7 +21,12 @@ require_once 'modules/constants.php';
  * @param string $var_value    значение переменной vname
  */
 function msg(
-    $message, $page_title = 'Амулет Дракона', $show_journal = 1, $menu_type = '', $var_name = '', $var_value = ''
+    $message,
+    $page_title = 'Амулет Дракона',
+    $show_journal = 1,
+    $menu_type = '',
+    $var_name = '',
+    $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $page_d, $sid, $gm_id, $g_size, $g_list, $skip_journal, $cj, $g_menu, $fm, $fm2, $g_j2loc, $g_joff, $g_smf, $g_map, $g_query_string;
 
@@ -37,18 +42,18 @@ function msg(
            '<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.3//EN" "http://www.wapforum.org/DTD/wml13.dtd">';
 
     $wml .= "<wml>";
-    if (!$login) {
+    if ( ! $login) {
         $show_journal = 0;
-        $menu_type = 'none';
+        $menu_type    = 'none';
     }
     if ($fm) {
         $show_journal = 0;
-        $page_d = 0;
-        $message = "Нажмите кнопку Меню";
+        $page_d       = 0;
+        $message      = "Нажмите кнопку Меню";
     }
     if ($fm2) {
         $show_journal = 0;
-        $page_d = 0;
+        $page_d       = 0;
         // меню в виде ссылок на отдельной странице
         $message = menu_links($url_base, $loc_i[$loc][$login], $g_map);
     }
@@ -57,19 +62,15 @@ function msg(
     }
     if ($skip_journal) {
         $show_journal = 0;
-    }
-    else {
+    } else {
         if ($g_joff) {
             /* Данная регулярка удаляет строки не содержащие ':' или '!'
              * несколько '|' идущих подряд заменяет на один
              * Например после обработки 'del0|del1|keep0:|keep1!|del2'
              * останется '|keep0:|keep1!|'
              * */
-            $loc_i[$loc][$login]['journal'] = preg_replace(
-                '/(\||^)[^:!]*(\||$)/u',
-                '|',
-                $loc_i[$loc][$login]['journal']
-            );
+            $loc_i[$loc][$login]['journal'] = preg_replace('/(\||^)[^:!]*(\||$)/u', '|',
+                $loc_i[$loc][$login]['journal']);
         }
     }
     $page_journal = "";
@@ -77,9 +78,9 @@ function msg(
         $page_journal = $game['journal'];
     }
     if ($show_journal == 1 && $loc_i[$loc][$login]['journal']) {
-        $page_journal = str_replace('|', '<br/>', $loc_i[$loc][$login]['journal']);
+        $page_journal                   = str_replace('|', '<br/>', $loc_i[$loc][$login]['journal']);
         $loc_i[$loc][$login]['journal'] = '';
-        if (!$g_j2loc) {
+        if ( ! $g_j2loc) {
             $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/u', '', $page_journal);
         }
     }
@@ -102,8 +103,7 @@ function msg(
     if ($page_journal && $show_journal) {
         if ($bsize) {
             $tmp_url = "#g";
-        }
-        else {
+        } else {
             $tmp_url = '?' . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $g_query_string);
         }
         $wml .= '<card title="Журнал">' . '<do type="accept" label="Дальше">' . '<go href="' . $tmp_url . '"/>' .
@@ -115,7 +115,7 @@ function msg(
         $wml .= '</p></card>';
     }
 
-    if ($bsize || !$show_journal || !$page_journal) {
+    if ($bsize || ! $show_journal || ! $page_journal) {
         $wml .= '<card id="g" title="' . $page_title . '"';
         if ($menu_type == 'main') {
             $wml .= " ontimer=\"$url_base\"><timer value=\"600\"/";
@@ -131,25 +131,21 @@ function msg(
             $wml .= '<do name="b2" type="accept" label="Назад"><prev/></do>';
         }
         $o = 4;
-        if ($menu_type == 'main' && $g_menu == Menu::mode_page && !$fm) {
+        if ($menu_type == 'main' && $g_menu == Menu::mode_page && ! $fm) {
             $wml .= '<do name="o2" type="options" label="Меню">' . "<go href=\"$url_base&fm=1&cj=1\"/></do>";
             $menu_type = '';
         }
         if (empty($fm2)) {
             if ($menu_type == 'main' && $g_menu == Menu::mode_links) {
-                $message = str_replace(
-                    "</p></card><card id=\"m\"",
-                    "<br/><a href=\"$url_base&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"",
-                    $message
-                );
+                $message   = str_replace("</p></card><card id=\"m\"",
+                    "<br/><a href=\"$url_base&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"", $message);
                 $menu_type = '';
             }
             if ($menu_type == 'main' || $fm) {
                 $wml .= '<do name="b1" type="options" label="Пeрcoнaж">' . "<go href=\"$url_base&cl=i&cj=1\"/></do>";
                 if (array_key_exists('macro', $loc_i[$loc][$login])) {
                     $m = explode("/", $loc_i[$loc][$login]["macro"]);
-                }
-                else {
+                } else {
                     $m = [];
                 }
                 for ($i = 1; $i < 9; $i++) {
@@ -190,15 +186,11 @@ function msg(
         $wml .= '' . $message . '</card>';
     };
     if ($g_smf && strpos($wml, '<input') === false) {
-        $wml = preg_replace(
-            [
-                "'(<p [^>]*>)'u",
-                "'<p>'u",
-                "'</p>'u"
-            ],
-            ['\\1<small>', '<p><small>', '</small></p>'],
-            $wml
-        );
+        $wml = preg_replace([
+            "'(<p [^>]*>)'u",
+            "'<p>'u",
+            "'</p>'u"
+        ], ['\\1<small>', '<p><small>', '</small></p>'], $wml);
     }
 
     $wml .= "</wml>";
@@ -213,39 +205,28 @@ function msg(
  * @param string $url_base
  * @param array  $current_user
  * @param        $map_type
+ *
  * @return string
  */
-function menu_links($url_base, $current_user, $map_type) {
-    $message = sprintf(
-        'Главное меню:<br/><a href="%s&cl=i&cj=1">Пepcoнaж</a>',
-        $url_base
-    );
+function menu_links($url_base, $current_user, $map_type)
+{
+    $message = sprintf('Главное меню:<br/><a href="%s&cl=i&cj=1">Пepcoнaж</a>', $url_base);
     if (array_key_exists('macro', $current_user)) {
         $macro_list = explode("/", $current_user['macro']);
-    }
-    else {
+    } else {
         $macro_list = [];
     }
     for ($i = 1; $i < 9; $i++) {
         if ($macro_list[$i - 1]) {
             $current_macro = explode("|", $macro_list[$i - 1]);
-            $message .= sprintf(
-                '<br/><a href="%s&cm=%d">%s</a>',
-                $url_base,
-                $i,
-                $current_macro[4]
-            );
+            $message .= sprintf('<br/><a href="%s&cm=%d">%s</a>', $url_base, $i, $current_macro[4]);
         }
     }
     $message .= sprintf('<br/><a href="%s&cs=1&cj=1">Cкaзaть</a>', $url_base) .
                 sprintf('<br/><a href="%s&msg=1&cj=1">Koнтaкты</a>', $url_base) .
                 sprintf('<br/><a href="%s&cm=new">мaкpocы</a>', $url_base);
     if ($map_type) {
-        $message .= sprintf(
-            '<br/><a href="%s&map=%d">Kapтa</a>',
-            $url_base,
-            $map_type
-        );
+        $message .= sprintf('<br/><a href="%s&map=%d">Kapтa</a>', $url_base, $map_type);
     }
     $message .= sprintf('<br/><a href="%s&ce=1">Coxpaнить</a>', $url_base) .
                 sprintf('<br/><br/><a href="%s">В игру</a>', $url_base);

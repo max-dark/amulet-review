@@ -29,12 +29,11 @@
  * @global num
  */
 
-if (!$do) {
+if ( ! $do) {
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
     $tw = explode("|", $loc_i[$loc][$login]["war"]);
 
-    msg(
-        "
+    msg("
 1. <a href=\"#say\">Сказать всем</a><br/>
 2. <a href=\"#pers\">Персонаж</a><br/>
 3. <a href=\"#tele\">Телепорт</a><br/>
@@ -93,13 +92,11 @@ if (!$do) {
 <a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1476x277\">Пещера</a><br/>
 <a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1884x246\">Ансалон</a><br/>
 <a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x147x1227\">Остров центр</a>
-",
-        $loc
-    );
+", $loc);
 }
 if ($do == "say") {
 
-    if (!$text) {
+    if ( ! $text) {
         msg("Нет текста для отправки");
     }
     if ($translit) {
@@ -107,13 +104,13 @@ if ($do == "say") {
         $text = trans($text);
     }
     $text = tsrus($text);
-    $tl = [];
-    $dh = opendir("online");
+    $tl   = [];
+    $dh   = opendir("online");
     while (($fname = readdir($dh)) !== false) {
         if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
             $tmp = file("online/" . $fname);
             $tmp = trim($tmp[0]);
-            if (!isset($tl[$tmp])) {
+            if ( ! isset($tl[$tmp])) {
                 $tl[$tmp] = "1";
                 loadloc($tmp);
                 addjournal($tmp, "all", "Всем внимание: " . $text);
@@ -126,21 +123,19 @@ if ($do == "say") {
 if ($do == 'tele') {
     if (strpos($to, ":") !== false) {
         $to = explode(":", $to);
-        if (!isset($loc_i[$loc][$to[0]])) {
+        if ( ! isset($loc_i[$loc][$to[0]])) {
             msg("Рядом с вами нет существ с id " . $to[0] . ", кот. можно телепортировать");
         }
-        if (!file_exists("loc_i/" . $to[1])) {
+        if ( ! file_exists("loc_i/" . $to[1])) {
             msg("Локации с id " . $to[1] . " не существует");
         }
         if (substr($to[0], 0, 2) != "n.") {
             msg("Телепортировать можно только NPC или игроков");
-        }
-        else {
+        } else {
             addnpc($to[0], $loc, strtolower($to[1]));
         }
         @mail("romka8@list.ru", "qv teleport " . $to[0] . ":" . $to[1], date("d/m Y H:i", time()));
-    }
-    else {
+    } else {
         if ($loc == "qv") {
             foreach ($loc_i[$loc] as $k => $val) {
                 if (substr($k, 0, 2) == "n.") {
@@ -154,7 +149,7 @@ if ($do == 'tele') {
 }
 
 if ($do == 'portal') {
-    if (!file_exists("loc_i/" . $to)) {
+    if ( ! file_exists("loc_i/" . $to)) {
         msg("Локации с id $to не существует");
     }
     if ($to == "x1087x543" || $to == "x1080x539" || $to == "x1087x528" || $to == "x1080x532") {
@@ -165,38 +160,37 @@ if ($do == 'portal') {
 }
 
 if ($do == "set") {
-    if (!$name) {
+    if ( ! $name) {
         msg("Нет имени");
     }
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
     if ($translit) {
         include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
-        $name = trans($name);
+        $name  = trans($name);
         $sweap = trans($sweap);
         $sdesc = trans($sdesc);
     }
     if ($sdesc) {
         $loc_i[$loc][$login]["qvi"] = tsrus($sdesc);
-    }
-    else {
+    } else {
         unset($loc_i[$loc][$login]["qvi"]);
     }
-    $tc[0] = tsrus($name);
-    $tc[1] = $slife;
-    $tc[2] = $slife;
-    $tc[3] = $smana;
-    $tc[4] = $smana;
+    $tc[0]                       = tsrus($name);
+    $tc[1]                       = $slife;
+    $tc[2]                       = $slife;
+    $tc[3]                       = $smana;
+    $tc[4]                       = $smana;
     $loc_i[$loc][$login]["char"] = implode("|", $tc);
 
-    $tc = explode("|", $loc_i[$loc][$login]["war"]);
-    $tc[0] = $shit;
-    $tc[1] = $sdmin;
-    $tc[2] = $sdmax;
-    $tc[3] = $sspeed;
-    $tc[5] = $sarm;
-    $tc[10] = $sres;
-    $tc[11] = $sres;
-    $tc[12] = tsrus($sweap);
+    $tc                         = explode("|", $loc_i[$loc][$login]["war"]);
+    $tc[0]                      = $shit;
+    $tc[1]                      = $sdmin;
+    $tc[2]                      = $sdmax;
+    $tc[3]                      = $sspeed;
+    $tc[5]                      = $sarm;
+    $tc[10]                     = $sres;
+    $tc[11]                     = $sres;
+    $tc[12]                     = tsrus($sweap);
     $loc_i[$loc][$login]["war"] = implode("|", $tc);
     @mail("romka8@list.ru", "qv set " . $name . ": " . $loc_i[$loc][$login]["war"], date("d/m Y H:i", time()));
 }
@@ -205,12 +199,11 @@ if ($do == "sum") {
     if (substr($tsum, 0, 4) != "n.c." && substr($tsum, 0, 4) != "n.a.") {
         msg("Призывать можно только на n.c. и n.a.");
     }
-    $npc = "";
+    $npc  = "";
     $tsum = explode(":", $tsum);
-    if (!$tsum[1]) {
+    if ( ! $tsum[1]) {
         $tnum = 1;
-    }
-    else {
+    } else {
         $tnum = $tsum[1];
     }
     if ($tnum > 10) {
@@ -219,7 +212,7 @@ if ($do == "sum") {
     $tsn = "";
     $tsq = "";
     if (strpos($tsum[0], "_") !== false) {
-        $tsn = substr($tsum[0], strpos($tsum[0], "_") + 1);
+        $tsn     = substr($tsum[0], strpos($tsum[0], "_") + 1);
         $tsum[0] = substr($tsum[0], 0, strpos($tsum[0], "_"));
     }
     if (strpos($tsn, "_") !== false) {
@@ -227,10 +220,10 @@ if ($do == "sum") {
         $tsn = substr($tsn, 0, strpos($tsn, "_"));
     }
     $tfollow = $tsum[2];
-    $tsum = $tsum[0];
-	$npc  = "npc/" . $tsum;
-	$npc = @include $npc;
-    if (!$npc) {
+    $tsum    = $tsum[0];
+    $npc     = "npc/" . $tsum;
+    $npc     = @include $npc;
+    if ( ! $npc) {
         msg("Существа с id=$tsum не существует");
     }
     if ($tr && ($tsq || $tsn || $tqn)) {
@@ -240,21 +233,21 @@ if ($do == "sum") {
     if ($tsq) {
         $tsq = trans($tsq);
         $tsq = tsrus($tsq);
-        if (!$tsq) {
+        if ( ! $tsq) {
             msg("Нет названия оружия");
         }
-        $twar = explode("|", $npc["war"]);
-        $twar[12] = $tsq;
+        $twar       = explode("|", $npc["war"]);
+        $twar[12]   = $tsq;
         $npc["war"] = implode("|", $twar);
     }
     if ($tsn) {
         $tsn = tsrus($tsn);
         $tsn = trans($tsn);
-        $tc = explode("|", $npc["char"]);
-        if (!$tsn) {
+        $tc  = explode("|", $npc["char"]);
+        if ( ! $tsn) {
             msg("Нет имени");
         }
-        $tc[0] = $tsn;
+        $tc[0]       = $tsn;
         $npc["char"] = implode("|", $tc);
     }
     if ($tsi) {
@@ -266,18 +259,16 @@ if ($do == "sum") {
     if ($tqn) {
         $tsn .= " | " . $tqn;
         $tqn = explode(" | ", $tqn);
-        if (!$tqn[0]) {
+        if ( ! $tqn[0]) {
             msg("Задайте текст, кот. будет показан при согласии проводить NPC");
         }
-        if (!$tqn[1]) {
+        if ( ! $tqn[1]) {
             msg("Задайте текст, кот. будет показан при отказе проводить NPC");
         }
-        if ($tqn[3] && !$tqn[2]) {
-            msg(
-                "Если указали локацию куда привести, то нужен и текст, кот. будет показан при разговоре в этой локации"
-            );
+        if ($tqn[3] && ! $tqn[2]) {
+            msg("Если указали локацию куда привести, то нужен и текст, кот. будет показан при разговоре в этой локации");
         }
-        if ($tqn[3] && !file_exists("loc_i/" . $tqn[3])) {
+        if ($tqn[3] && ! file_exists("loc_i/" . $tqn[3])) {
             msg("Локации " . $tqn[3] . ", куда надо проводить NPC не существует");
         }
 
@@ -300,7 +291,7 @@ if ($do == "sum") {
         $tqn[2] = tsrus($tqn[2]);
         $tqn[5] = tsrus($tqn[5]);
 
-        $npc["in"] = $tqn[0];
+        $npc["in"]  = $tqn[0];
         $npc["out"] = $tqn[1];
         if ($tqn[2]) {
             $npc["ok"] = $tqn[3] . " | " . $tqn[2] . " | " . $tqn[4];
@@ -309,8 +300,7 @@ if ($do == "sum") {
             $npc["nspeak"] = $tqn[5] . " | " . $tqn[6];
         }
         $loc_i[$loc]["n.q." . rand(99, 9999)] = $npc;
-    }
-    else {
+    } else {
         $npc["owner"] = $login . "|";
         if ($tfollow) {
             $npc["owner"] .= $login;
@@ -320,16 +310,13 @@ if ($do == "sum") {
             $loc_i[$loc][$tsum . "." . rand(99, 9999)] = $npc;
         }
     }
-    @mail(
-        "romka8@list.ru",
-        "qv summon " . $tsum . ":" . $tnum . ":" . $tfollow . " " . $tsn,
-        date("d/m Y H:i", time())
-    );
+    @mail("romka8@list.ru", "qv summon " . $tsum . ":" . $tnum . ":" . $tfollow . " " . $tsn,
+        date("d/m Y H:i", time()));
 }
 
 if ($do == "listid") {
     $stmp = "Список id:";
-    $dh = opendir("npc");
+    $dh   = opendir("npc");
     while (($fname = readdir($dh)) !== false) {
         if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
             if (substr($fname, 0, 4) == "n.c." || substr($fname, 0, 4) == "n.a.") {
@@ -342,10 +329,10 @@ if ($do == "listid") {
 }
 
 if ($do == "res") {
-    $char[1] = $char[2];
-    $char[3] = $char[4];
-    $char[8] = 0;
-    $char[9] = 0;
+    $char[1]                     = $char[2];
+    $char[3]                     = $char[4];
+    $char[8]                     = 0;
+    $char[9]                     = 0;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
 }
 
@@ -356,7 +343,7 @@ if ($do == "calc") {
 
 if ($do == 'filter' && $inp) {
     $stmp = "<p>Кол-во: <input name=\"num\" format=\"*N\" maxlength=\"2\" value=\"1\"/>";
-    $dh = opendir("items/");
+    $dh   = opendir("items/");
     while (($fname = readdir($dh)) !== false) {
         if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
             $item = explode("|", (file_get_contents("items/" . $fname)));
@@ -379,11 +366,10 @@ if ($do == 'geti' && $inp) {
 
     if (strpos($arr[0], "_") !== false) {
         $fn = substr($arr[0], 0, strpos($arr[0], "_"));
-    }
-    else {
+    } else {
         $fn = $arr[0];
     }
-    if (!file_exists("items/" . $fn)) {
+    if ( ! file_exists("items/" . $fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
 
@@ -396,7 +382,7 @@ if ($do == 'geti' && $inp) {
         }
         $xF = preg_match_all("/\\.\\.(\\w\\w)/", $arr[0], $regF);
         for ($j = 0; $j < $xF; $j++) {
-            if (!file_exists("items/i.i." . $regF[1][$j])) {
+            if ( ! file_exists("items/i.i." . $regF[1][$j])) {
                 msg("Самоцвет " . $regF[1][$j] . " не существует");
             }
         }
@@ -405,22 +391,19 @@ if ($do == 'geti' && $inp) {
     if (strpos($arr[0], " ") !== false) {
         msg("В id не должно быть пробелов");
     }
-    if (!$arr[1]) {
+    if ( ! $arr[1]) {
         msg("Надо указать количество count");
     }
 
     if ($arr[2] &&
-        ((substr($arr[2], 0, 2) != "n." && substr($arr[2], 0, 2) != "u.") || !isset($loc_i[$loc][$arr[2]]))
+        ((substr($arr[2], 0, 2) != "n." && substr($arr[2], 0, 2) != "u.") || ! isset($loc_i[$loc][$arr[2]]))
     ) {
-        msg(
-            "Третьим параметром должен быть id NPC или игрока рядом с вами, учитывая регистр, которому передать предмет. Если не указано, то себе."
-        );
+        msg("Третьим параметром должен быть id NPC или игрока рядом с вами, учитывая регистр, которому передать предмет. Если не указано, то себе.");
     }
 
-    if (!$arr[2]) {
+    if ( ! $arr[2]) {
         additem($loc, "", $login, $arr[0], $arr[1]);
-    }
-    else {
+    } else {
         additem($loc, "", $arr[2], $arr[0], $arr[1]);
         addjournal($loc, $login, "Предмет " . $arr[0] . ":" . $arr[1] . " добавлен к NPC " . $arr[2]);
     }
@@ -431,14 +414,15 @@ if ($do == 'addi' && $inp) {
     $arr = explode(":", $inp);
     if (strpos($arr[0], "_") !== false) {
         $fn = substr($arr[0], 0, strpos($arr[0], "_"));
-    }
-    else {
+    } else {
         $fn = $arr[0];
     }
-    if (!file_exists("items/" . $fn)) {
+    if ( ! file_exists("items/" . $fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
-    if (!$arr[2] || (substr($arr[2], 0, 2) != "n." && substr($arr[2], 0, 2) != "u.") || !isset($loc_i[$loc][$arr[2]])) {
+    if ( ! $arr[2] || (substr($arr[2], 0, 2) != "n." && substr($arr[2], 0, 2) != "u.") ||
+         ! isset($loc_i[$loc][$arr[2]])
+    ) {
         msg("Третьим параметром должен быть id NPC или игрока рядом с вами, учитывая регистр");
     }
 
@@ -454,11 +438,10 @@ if ($do == 'getms' && $inp) {
     $inp = preg_replace('/([^.A-z])/', "", $inp);
     if (strpos($inp, "_") !== false) {
         $id = substr($inp, 0, strpos($inp, "_"));
-    }
-    else {
+    } else {
         $id = $inp;
     }
-    if (!file_exists("npc/" . $id)) {
+    if ( ! file_exists("npc/" . $id)) {
         msg("id " . $id . " не существует");
     }
     additem($loc, "", $login, "i.ms_" . $inp, 1);
@@ -466,8 +449,7 @@ if ($do == 'getms' && $inp) {
 }
 
 if ($do == 'listit') {
-    msg(
-        "i.w. - оружие (i.w.s. - мечи, i.w.k. - ножи, i.w.r. - стрелковое и т.д.)
+    msg("i.w. - оружие (i.w.s. - мечи, i.w.k. - ножи, i.w.r. - стрелковое и т.д.)
 <br/>i.a. - броня (i.a.b. - на тело, i.a.h. - на голову и т.д.)
 <br/>i.q. - квестовые предметы
 <br/>i.f. - еда (i.f.b. - элексиры)
@@ -479,12 +461,12 @@ if ($do == 'listit') {
 <br/><br/>Если создаете артефакт, то обязательно указывать мастера (любое слово англ. буквами), для инкрустации доступны самоцветы: ag, am, az, do, dy, hr, ku, ma, me, ne, ob, on, sa, zm (перед каждым самоцветом обязательно две точки, напр.: ..ag..am..az). Инкрустировать можно любое количество любых самоцветов (или ни одного, а только имя мастера), но не злоупотребляйте нестандартными артефактами, они должны быть редкими, обоснованными и логичными (в том числе по балансу).
 <br/>Если указан третий параметр npc, то предмет добавляется NPC или игроку рядом с вами с таким id (регистр учитывается, а имя мастера и самоцветы можно не писать), например: i.money:2000:n.Lukas или i.w.s.p_Natan_:1:n.Lukas
 <br/>Свиток призыва можно создать на основе id любого монстра (n.c.xxx) или животного (n.a.xxx) и при желании задать имя name, но только транслитом.
-"
-    );
+");
 }
 
-function tsrus($s) {
-    if (!$s) {
+function tsrus($s)
+{
+    if ( ! $s) {
         return $s;
     }
     // UTF-8 русские буквы

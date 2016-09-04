@@ -12,7 +12,8 @@
  *                                  старого
  * @param int          $delete      флаг удаления текущего
  */
-function addtimer($location_id, $curr, $time, $value = "old", $delete = 1) {
+function addtimer($location_id, $curr, $time, $value = "old", $delete = 1)
+{
     global $loc_t;
     loadloc($location_id);
     $new_time = time() + $time;

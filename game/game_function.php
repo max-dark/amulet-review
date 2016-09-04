@@ -14,21 +14,26 @@ require_once 'f_attackf.inc';
  *
  * @param $arr array Массив
  * @param $key mixed Ключ
+ *
  * @return bool
  */
-function have_key($arr, $key) {
+function have_key($arr, $key)
+{
     return array_key_exists($key, $arr);
 }
 
 /**
  * Загружает указанный файл
+ *
  * @param string $file_name
  *
  * @return mixed
  */
-function load_file($file_name) {
-	$file_name = BASE_DIR . DIRECTORY_SEPARATOR . $file_name;
-	return file_exists($file_name)? (require $file_name) : null;
+function load_file($file_name)
+{
+    $file_name = BASE_DIR . DIRECTORY_SEPARATOR . $file_name;
+
+    return file_exists($file_name) ? (require $file_name) : null;
 }
 
 /**
@@ -36,9 +41,11 @@ function load_file($file_name) {
  *
  * @param array  $arr
  * @param string $key
+ *
  * @return mixed
  */
-function get_value($arr, $key) {
+function get_value($arr, $key)
+{
     return (array_key_exists($key, $arr) ? $arr[$key] : false);
 }
 
@@ -46,9 +53,11 @@ function get_value($arr, $key) {
  * Получение значения из $_GET
  *
  * @param string $key
+ *
  * @return mixed
  */
-function Get($key) {
+function Get($key)
+{
     return get_value($_GET, $key);
 }
 
@@ -56,9 +65,11 @@ function Get($key) {
  * Получение значения из $_POST
  *
  * @param string $key
+ *
  * @return mixed
  */
-function Post($key) {
+function Post($key)
+{
     return get_value($_POST, $key);
 }
 
@@ -66,23 +77,26 @@ function Post($key) {
  * Получение значения из $_REQUEST
  *
  * @param string $key
+ *
  * @return mixed
  */
-function Request($key) {
+function Request($key)
+{
     return get_value($_REQUEST, $key);
 }
 
 /** Запись состояния
  *
  */
-function savegame() {
+function savegame()
+{
     global $game, $file_save, $login, $loc, $loc_i, $loc_t, $loc_tt;
     @ignore_user_abort(true);
     @set_time_limit(30);
     if ($file_save) {
         // сохраняем измененные локации
         foreach ($loc_tt as $i => $val) {
-            $arr = [];
+            $arr      = [];
             $arr["d"] = $loc_tt[$i]["d"];
             if (count($loc_i[$i]) > 0) {
                 $arr["i"] = $loc_i[$i];
@@ -122,6 +136,7 @@ function savegame() {
 
 /**
  * @brief Отправка сообщения
+ *
  * @param string $loc  локация
  * @param string $to   кому сообщение. all - отправка всем
  * @param string $msg  сообщение
@@ -129,9 +144,10 @@ function savegame() {
  * @param string $no2  исключение из доставки
  * @param string $cont разделитель
  */
-function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|") {
+function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
+{
     global $loc_i, $login;
-    if (!$loc_i[$loc]) {
+    if ( ! $loc_i[$loc]) {
         return;
     }
     $msg = preg_replace('/ \*.*?\*/', '', $msg);
@@ -149,7 +165,8 @@ function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|") {
  *
  * @param string $i локация
  */
-function doai($i) { // искусственный интеллект, проверяем локацию с именем $i
+function doai($i)
+{ // искусственный интеллект, проверяем локацию с именем $i
     global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_list, $start, $g_destroy, $g_crim, $g_logout, $login;
     $g_regen = 30;
 
@@ -173,16 +190,16 @@ function doai($i) { // искусственный интеллект, прове
             }
         }
     }
-    $crim = [];
+    $crim  = [];
     $users = [];
     $guard = 0;
-    $ti = explode("x", $i);
+    $ti    = explode("x", $i);
     if ($loc_i[$i]) {
         foreach ($loc_i[$i] as $j => $val) {
             if ($j != "u.qv") {
                 if (substr($j, 0, 2) == 'u.') {
                     $uc = explode("|", $loc_i[$i][$j]["char"]);
-                    if (!$uc[8]) {
+                    if ( ! $uc[8]) {
                         $us = explode("|", $loc_i[$i][$j]["skills"]);
                         if (rand(0, 100) > $us[17] * 6) {
                             $users[] = $j;
@@ -203,7 +220,7 @@ function doai($i) { // искусственный интеллект, прове
             }
         }
     }
-    if ($locai[1] == 1 && count($crim) > 0 && !$guard) {
+    if ($locai[1] == 1 && count($crim) > 0 && ! $guard) {
         require "f_addguard.inc";
     }
 
@@ -227,20 +244,14 @@ function doai($i) { // искусственный интеллект, прове
                 }
                 if (substr($j, 0, 2) == 'u.' || substr($j, 0, 2) == 'n.') {
                     $char = explode("|", $loc_i[$i][$j]["char"]);
-                    $tm = time() - $char[5];
-                    if ($tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]) && (substr(
-                                                                                                 $j,
-                                                                                                 0,
-                                                                                                 2
-                                                                                             ) == 'n.' ||
-                                                                                             (substr($j, 0, 2) ==
-                                                                                              'u.' && !$char[8]))
+                    $tm   = time() - $char[5];
+                    if ($tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]) &&
+                        (substr($j, 0, 2) == 'n.' || (substr($j, 0, 2) == 'u.' && ! $char[8]))
                     ) {
                         if (substr($j, 0, 2) == 'u.') {
                             $skills = explode("|", $loc_i[$i][$j]["skills"]);
-                        }
-                        else {
-                            $skills[5] = 0;
+                        } else {
+                            $skills[5]  = 0;
                             $skills[16] = 0;
                         }
                         $char[1] = min($char[1] += round($tm / ($g_regen - $skills[16] * 4)), $char[2]);
@@ -249,13 +260,13 @@ function doai($i) { // искусственный интеллект, прове
                     }
                     if (substr($j, 0, 2) == 'u.') {
                         if ($char[9] && time() > $char[10]) {
-                            $char[9] = 0;
+                            $char[9]  = 0;
                             $char[10] = "";
                         }
                         if ($j == $login) {
                             $char[11] = time();
                         }
-                        if ($char[11] && time() > $char[11] + $g_logout * 5 && !file_exists("online/" . $j)) {
+                        if ($char[11] && time() > $char[11] + $g_logout * 5 && ! file_exists("online/" . $j)) {
                             unset($loc_i[$i][$j]);
                             continue;
                         }
@@ -298,23 +309,21 @@ function doai($i) { // искусственный интеллект, прове
                             if ($b) {
                                 continue;
                             }
-                        }
-                        else {
+                        } else {
                             $owner[1] = "";
                         }
-                        if ($char[7] && !$owner[1] && !isset($loc_i[$i][$char[7]])) {
+                        if ($char[7] && ! $owner[1] && ! isset($loc_i[$i][$char[7]])) {
                             $b = 0;
                             if (substr($j, 0, 4) != "n.o." && $j != "n.a.b.jarpt.1") {
                                 require "f_goto.inc";
                             }
                             if ($b) {
                                 continue;
-                            }
-                            else {
+                            } else {
                                 $char[7] = "";
                             }
                         }
-                        if (!$char[7]) {
+                        if ( ! $char[7]) {
                             if (count($crim) > 0 &&
                                 (substr($j, 0, 4) == "n.g." || substr($j, 0, 4) == "n.t." || substr($j, 0, 4) == "n.p.")
                             ) {
@@ -325,15 +334,12 @@ function doai($i) { // искусственный интеллект, прове
                             }
                         }
                         if (substr($j, 0, 4) == "n.o." && substr($i, 0, 2) == "c." && substr($i, 3) != ".in" &&
-                            (!$char[7] || !isset($loc_i[$i][$char[7]]))
+                            ( ! $char[7] || ! isset($loc_i[$i][$char[7]]))
                         ) {
                             require "f_no.dat";
                         }
-                        if (!$char[7] && !$owner[1] && ($char[10] || (!$char[10] && $char[12])) && substr(
-                                                                                                       $j,
-                                                                                                       0,
-                                                                                                       4
-                                                                                                   ) != "n.o."
+                        if ( ! $char[7] && ! $owner[1] && ($char[10] || ( ! $char[10] && $char[12])) &&
+                             substr($j, 0, 4) != "n.o."
                         ) {
                             require "f_na.dat";
                             if ($b) {
@@ -345,8 +351,7 @@ function doai($i) { // искусственный интеллект, прове
                     if ($char[7] && substr($j, 0, 2) != "u.") {
                         attack($i, $j, $char[7]);
                     }
-                }
-                else {
+                } else {
                     unset($loc_i[$i][$j]);
                     continue;
                 }
@@ -360,31 +365,31 @@ function doai($i) { // искусственный интеллект, прове
  *
  * @param string $loc
  */
-function loadloc($loc) {
+function loadloc($loc)
+{
     global $loc_i, $loc_t, $loc_tt;
     if ($loc == ".") {
         return;
     }
-    if (!isset($loc_tt[$loc])) {
-        if (!$loc || !file_exists("loc_i/" . $loc)) {
+    if ( ! isset($loc_tt[$loc])) {
+        if ( ! $loc || ! file_exists("loc_i/" . $loc)) {
             return;
         }
-        $tmp = (file_get_contents("loc_i/" . $loc));
+        $tmp          = (file_get_contents("loc_i/" . $loc));
         $loc_tt[$loc] = unserialize($tmp);
-        if (!$loc_tt[$loc]["d"]) {
-            $tmp = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $tmp);
+        if ( ! $loc_tt[$loc]["d"]) {
+            $tmp          = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $tmp);
             $loc_tt[$loc] = unserialize($tmp);
         }
-        if (!$loc_tt[$loc]["d"]) {
+        if ( ! $loc_tt[$loc]["d"]) {
             $loc_tt[$loc] = unserialize((file_get_contents("loc_t/" . $loc)));
         }
-        if (!$loc_tt[$loc]["d"]) {
+        if ( ! $loc_tt[$loc]["d"]) {
             die("err: loadloc($loc)");
         }
         if (isset($loc_tt[$loc]["i"])) {
             $loc_i[$loc] = $loc_tt[$loc]["i"];
-        }
-        else {
+        } else {
             $loc_i[$loc] = [];
         }
         if (isset($loc_tt[$loc]["t"])) {
@@ -401,7 +406,8 @@ function loadloc($loc) {
  * @param int    $gal  флаг перемещения галопом
  * @param int    $hide флаг скрытного перемещения
  */
-function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0) {
+function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
+{
     global $loc_i, $loc, $login, $page_d, $loc_tt, $g_j2go, $game;
 
     if ($from == $to) {
@@ -409,7 +415,7 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0) {
     }
     loadloc($from);
     loadloc($to);
-    if ($from && $to && (!isset($loc_i[$from]) || !isset($loc_i[$to]))) {
+    if ($from && $to && ( ! isset($loc_i[$from]) || ! isset($loc_i[$to]))) {
         return;
     }
     $ars = ["Появился", "исчез", "Пришел", "ушел", "прискакал", "поскакал", "пронесся"];
@@ -428,34 +434,28 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0) {
     }
     $tnpc = "";
     if ($from && isset($loc_i[$from][$id])) {
-        $floc = explode("|", $loc_tt[$from]["d"]);
-        $tnpc = $loc_i[$from][$id];
+        $floc  = explode("|", $loc_tt[$from]["d"]);
+        $tnpc  = $loc_i[$from][$id];
         $tchar = substr($tnpc["char"], 0, strpos($tnpc["char"], "|"));
-        if (!$hide) {
+        if ( ! $hide) {
             if ($to && array_search($to, $floc)) {
                 if ($gal && $gal != 1) {
                     addjournal($from, "all", $tchar . " " . $ars[5] . " галопом " . $gal, $id);
-                }
-                else {
-                    if (!$gal) {
-                        addjournal(
-                            $from,
-                            "all",
-                            $tchar . " " . $ars[3] . " " . $floc[array_search($to, $floc) - 1],
-                            $id
-                        );
+                } else {
+                    if ( ! $gal) {
+                        addjournal($from, "all", $tchar . " " . $ars[3] . " " . $floc[array_search($to, $floc) - 1],
+                            $id);
                     }
                 }
-            }
-            else {
+            } else {
                 addjournal($from, "all", $tchar . " " . $ars[1], $id);
             }
         }
         unset($loc_i[$from][$id]);
     }
     if ($to && isset($loc_i[$to])) {
-        if (!$tnpc && isset($loc_i[$to][$id])) {
-            $tnpc = $loc_i[$to][$id];
+        if ( ! $tnpc && isset($loc_i[$to][$id])) {
+            $tnpc  = $loc_i[$to][$id];
             $tchar = substr($tnpc["char"], 0, strpos($tnpc["char"], "|"));
         }
         if ($tnpc) {
@@ -463,12 +463,10 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0) {
             if ($from && array_search($from, $tloc)) {
                 if ($gal && $gal != 1) {
                     addjournal($to, "all", $tchar . " " . $ars[6] . " галопом " . $gal, $id);
-                }
-                else {
+                } else {
                     if ($gal == 1) {
                         addjournal($to, "all", $tchar . " " . $ars[4] . " галопом", $id);
-                    }
-                    else {
+                    } else {
                         addjournal($to, "all", $ars[2] . " " . $tchar, $id);
                     }
                 }
@@ -477,20 +475,17 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0) {
                     $steps = explode(":", $tchar[12]);
                     if (count($steps) == 0) {
                         $steps[] = $from;
-                    }
-                    else {
+                    } else {
                         if ($steps[count($steps) - 1] == $to) {
                             unset($steps[count($steps) - 1]);
-                        }
-                        else {
+                        } else {
                             $steps[] = $from;
                         }
                     }
-                    $tchar[12] = implode(":", $steps);
+                    $tchar[12]    = implode(":", $steps);
                     $tnpc["char"] = implode("|", $tchar);
                 }
-            }
-            else {
+            } else {
                 addjournal($to, "all", $ars[0] . " " . $tchar, $id);
             }
             $loc_i[$to][$id] = $tnpc;
@@ -515,8 +510,10 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0) {
 /**Вспомогательная функция для перерасчета длины строк в файлах состояния
  *
  * @param string $s строка для перерачета
+ *
  * @return string
  */
-function calcser($s) {
+function calcser($s)
+{
     return "s:" . strlen($s) . ":\"" . $s . "\";";
 }

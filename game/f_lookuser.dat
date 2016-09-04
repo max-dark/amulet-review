@@ -22,8 +22,7 @@ if (isset($loc_i[$loc][$look])) {
     $user = explode("|", $loc_i[$loc][$look]["user"]);
     if ($user[2] == 'f') {
         $stmp .= "Женщ.";
-    }
-    else {
+    } else {
         $stmp .= "Мужч.";
     }
     $stmp .= ", " . $user[3] . " лет";
@@ -31,8 +30,7 @@ if (isset($loc_i[$loc][$look])) {
     if ($char[13]) {
         $tt = explode(":", $char[13]);
         $tt = $tt[0];
-    }
-    else {
+    } else {
         $tt = "";
     }
     if ($tt && $user[2] == "m") {
@@ -47,7 +45,7 @@ if (isset($loc_i[$loc][$look])) {
     //новичок или опытный игрок
     $stmp .= "<br/>";
     $war = explode("|", $loc_i[$loc][$look]["war"]);
-    $sk = explode("|", $loc_i[$loc][$look]["skills"]);
+    $sk  = explode("|", $loc_i[$loc][$look]["skills"]);
     $lev = 0;
     for ($i = 0; $i < count($sk); $i++) {
         if ($i != 3 && $i != 4) {
@@ -114,24 +112,23 @@ if (isset($loc_i[$loc][$look])) {
         32 => "друид",
     ];
 
-    $maxid = 8;
+    $maxid  = 8;
     $maxval = 0;
     foreach (array_keys($arr_best) as $i) {
         if ($sk[$i] >= $maxval) {
-            $maxid = $i;
+            $maxid  = $i;
             $maxval = $sk[$i];
         }
     }
     if ($maxval == 0) {
         $stmp .= " боец";
-    }
-    else {
+    } else {
         $stmp .= " " . $arr_best[$maxid];
     }
 
     // сильный и т.д.
     $good = [];
-    $bad = [];
+    $bad  = [];
     if ($sk[0] > 3) {
         $good[] = "сильный";
     }
@@ -181,8 +178,7 @@ if (isset($loc_i[$loc][$look])) {
 
     if (strpos($char[0], "*") === false) {
         $clan = "";
-    }
-    else {
+    } else {
         $clan = substr($char[0], strpos($char[0], "*") + 1, strrpos($char[0], "*") - strpos($char[0], "*") - 1);
     }
     if ($clan) {
@@ -195,15 +191,14 @@ if (isset($loc_i[$loc][$look])) {
 
     // что одето
     if ($loc_i[$loc][$look]["equip"]) {
-        $str = "";
-        $sto = "";
+        $str   = "";
+        $sto   = "";
         $equip = explode("|", $loc_i[$loc][$look]["equip"]);
         foreach ($equip as $i) {
             if ($i) {
                 if (strpos($i, "_") !== false) {
                     $ti = substr($i, 0, strpos($i, "_"));
-                }
-                else {
+                } else {
                     $ti = $i;
                 }
                 if (file_exists("items/" . $ti)) {
@@ -212,23 +207,19 @@ if (isset($loc_i[$loc][$look])) {
                         $item[0] .= " *";
                     }
                     if (substr($i, 0, 4) == "i.a.") {
-                        if (!$sto) {
+                        if ( ! $sto) {
                             $sto = $item[0];
-                        }
-                        else {
+                        } else {
                             $sto .= ", " . $item[0];
                         }
-                    }
-                    else {
-                        if (!$str) {
+                    } else {
+                        if ( ! $str) {
                             $str = $item[0];
-                        }
-                        else {
+                        } else {
                             $str .= ", " . $item[0];
                         }
                     }
-                }
-                else {
+                } else {
                     die("err: no items/" . $i);
                 }
             }
@@ -242,7 +233,6 @@ if (isset($loc_i[$loc][$look])) {
     }
 
     msg($stmp, $char[0]);
-}
-else {
+} else {
     addjournal($loc, $login, "Не на кого смотреть");
 }

@@ -21,11 +21,11 @@
 
 // диалог повышения скилла или аттрибута на 1
 
-$tmp = explode("|", $title);
+$tmp   = explode("|", $title);
 $skill = $tmp[1];
-$cost = $tmp[2];
-$min = $tmp[3];
-$max = $tmp[4];
+$cost  = $tmp[2];
+$min   = $tmp[3];
+$max   = $tmp[4];
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 if (substr($skill, 0, 2) == "m.") {
@@ -111,7 +111,7 @@ $arr_title = [
 ];
 
 // проверки
-if (!isset($arr_skills[$skill])) {
+if ( ! isset($arr_skills[$skill])) {
     msg("<p>Несуществующий скилл: $skill в диалоге с $speak, сообщите разработчику игры.", "Ошибка");
 }
 if ($skills[4] < 1) {
@@ -139,7 +139,7 @@ if ($skill == 'str' || $skill == 'dex' || $skill == 'int') {    //АТТР
     if ($skilldown && $skills[$arr_skills[$skilldown]] <= 1) {
         msg("<p>Невозможно понизить, т.к. аттрибут уже на минимальном уровне 1, выберите другой", $tchar[0]);
     }
-    if (!$skilldown) {
+    if ( ! $skilldown) {
         if ($skills[0] + $skills[1] + $skills[2] >= $g_attr) {
             $stmp = "<p>Превышен предел суммы очков (" . $g_attr . ") для аттрибутов, выберите что уменьшить: ";
             if ($skill != 'str') {
@@ -157,8 +157,7 @@ if ($skill == 'str' || $skill == 'dex' || $skill == 'int') {    //АТТР
             msg($stmp, $tchar[0]);
         }
     }
-}
-else {    //НАВЫКИ
+} else {    //НАВЫКИ
     if ($skills[$arr_skills[$skill]] >= $g_skills_one) {
         msg("<p>Невозможно повысить, т.к. навык уже на максимальном уровне " . $g_skills_one);
     }
@@ -174,10 +173,10 @@ else {    //НАВЫКИ
             $sum += $skills[$arr_skills[$i]];
         }
     }
-    if (!$skilldown) {
+    if ( ! $skilldown) {
         if ($sum >= $g_skills) {
             $stmp = "<p>Превышен предел суммы очков (" . $g_skills . ") для навыков, выберите что уменьшить: ";
-            if (!$start) {
+            if ( ! $start) {
                 $start = 0;
             }
             $keys = array_keys($arr_skills);
@@ -191,7 +190,7 @@ else {    //НАВЫКИ
                 $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
             }
             if ($start + $g_list < count($keys)) {
-                if (!$start) {
+                if ( ! $start) {
                     $stmp .= "\n<br/>";
                 }
                 $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" .
@@ -210,8 +209,7 @@ if ($cost) {
     }
     if ($lev == 5) {
         $stmp = "<p>Ладно, так уж и быть, раз ты новичок, то я это сделаю бесплатно.</p>";
-    }
-    else {
+    } else {
         $money = intval(preg_replace('/.*i\.money:(\d+).*/', "\\1", $loc_i[$loc][$login]["items"]));
         if ($money < $cost) {
             msg("<p>У вас недостаточно денег (надо " . $cost . " монет)");

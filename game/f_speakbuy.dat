@@ -22,41 +22,35 @@ if (time() > $tchar[11]) {
     for ($i = 0; $i < $xF; $i++) {
         if (rand(0, 100) > $regF[2][$i]) {
             $tmp = 0;
-        }
-        else {
+        } else {
             $tmp = rand($regF[3][$i], $regF[4][$i]);
         }
-        $loc_i[$loc][$speak]["bank"] = str_replace(
-            $regF[1][$i],
+        $loc_i[$loc][$speak]["bank"] = str_replace($regF[1][$i],
             $regF[2][$i] . ":" . $regF[3][$i] . ":" . $regF[4][$i] . "=" . $regF[5][$i] . ":" . $tmp,
-            $loc_i[$loc][$speak]["bank"]
-        );
+            $loc_i[$loc][$speak]["bank"]);
     }
-    $tchar[11] = time() + round($trader[1] * (rand(70, 130) / 100));
+    $tchar[11]                   = time() + round($trader[1] * (rand(70, 130) / 100));
     $loc_i[$loc][$speak]["char"] = implode("|", $tchar);
 }
 
 $stmp = "";
-$xF = preg_match_all("'=([^:]+):([^0]\d*)'", $loc_i[$loc][$speak]["bank"], $regF);
+$xF   = preg_match_all("'=([^:]+):([^0]\d*)'", $loc_i[$loc][$speak]["bank"], $regF);
 
-if (!$start) {
+if ( ! $start) {
     $start = 0;
 }
 for ($i = $start; $i < $start + $g_list && $i < $xF; $i++) {
     if (strpos($regF[1][$i], "_") !== false) {
         $ti = substr($regF[1][$i], 0, strpos($regF[1][$i], "_"));
-    }
-    else {
+    } else {
         $ti = $regF[1][$i];
     }
     if (substr($regF[1][$i], 0, 5) == "i.rr.") {
         $item = explode("|", "руна|50");
-    }
-    else {
+    } else {
         if (file_exists("items/" . $ti)) {
             $item = explode("|", (file_get_contents("items/" . $ti)));
-        }
-        else {
+        } else {
             die("err: no items/" . $ti);
         }
     }
@@ -73,15 +67,14 @@ for ($i = $start; $i < $start + $g_list && $i < $xF; $i++) {
 }
 if ($stmp) {
     $stmp = "<p>Я продаю:" . $stmp;
-}
-else {
+} else {
     msg("У меня сейчас нет товаров на продажу, все раскупили. Приходи в другой раз.", $tchar[0]);
 }
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
 }
 if ($start + $g_list < $xF - 1) {
-    if (!$start) {
+    if ( ! $start) {
         $stmp .= "\n<br/>";
     }
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" .

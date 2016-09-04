@@ -41,10 +41,9 @@ if ($cost) {
     }
     additem($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
 }
-if (!$loc_i[$loc][$login]["magic"]) {
+if ( ! $loc_i[$loc][$login]["magic"]) {
     $loc_i[$loc][$login]["magic"] = $skill . ":1";
-}
-else {
+} else {
     $loc_i[$loc][$login]["magic"] .= "|" . $skill . ":1";
 }
 msg("<p>Вы выучили новое заклинание!", $tchar[0]);

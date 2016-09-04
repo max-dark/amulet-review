@@ -19,7 +19,7 @@ if ($char[3] + $heal > $char[4]) {
 }
 $char[1] = 1;
 $char[3] += $heal;
-$char[5] = time();
+$char[5]                     = time();
 $loc_i[$loc][$login]["char"] = implode("|", $char);
 addjournal($loc, $login, "Мана +" . $heal);
 

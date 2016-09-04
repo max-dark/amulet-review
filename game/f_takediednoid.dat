@@ -20,33 +20,29 @@ if ($died[3]) {
     if (count($items) > 0) {
         if (strpos($died[0], "*") === false) {
             $clan = "";
-        }
-        else {
+        } else {
             $clan = substr($died[0], strpos($died[0], "*") + 1, strrpos($died[0], "*") - strpos($died[0], "*") - 1);
         }
         $tc = explode("|", $loc_i[$loc][$login]["char"]);
         if (strpos($tc[0], "*") === false) {
             $clan1 = "";
-        }
-        else {
+        } else {
             $clan1 = substr($tc[0], strpos($tc[0], "*") + 1, strrpos($tc[0], "*") - strpos($tc[0], "*") - 1);
         }
         if ($char[13]) {
             $wife = substr($take, 6, strrpos($take, ".") - 6) ==
                     substr($char[13], 0, strlen(substr($take, 6, strrpos($take, ".") - 6)));
-        }
-        else {
+        } else {
             $wife = 0;
         }
-        if (!$died[1] && substr($take, 0, strlen("i.s.d." . $login)) != "i.s.d." . $login &&
-            (!$clan1 || ($clan1 && $clan1 != $clan)) && !$wife && substr($take, 0, 11) != "i.s.d.u.qv."
+        if ( ! $died[1] && substr($take, 0, strlen("i.s.d." . $login)) != "i.s.d." . $login &&
+             ( ! $clan1 || ($clan1 && $clan1 != $clan)) && ! $wife && substr($take, 0, 11) != "i.s.d.u.qv."
         ) {
             $stmp = "<p>Брать отсюда предметы будет преступлением!";
-        }
-        else {
+        } else {
             $stmp = "<p>Предметы:";
         }
-        if (!$start) {
+        if ( ! $start) {
             $start = 0;
         }
         $keys = array_keys($items);
@@ -55,18 +51,15 @@ if ($died[3]) {
                 $k = explode(":", $items[$keys[$i]]);
                 if (strpos($k[0], "_") !== false) {
                     $ti = substr($k[0], 0, strpos($k[0], "_"));
-                }
-                else {
+                } else {
                     $ti = $k[0];
                 }
                 if (substr($k[0], 0, 5) == "i.rr.") {
                     $item = explode("|", "руна|50");
-                }
-                else {
+                } else {
                     if (file_exists("items/" . $ti)) {
                         $item = explode("|", (file_get_contents("items/" . $ti)));
-                    }
-                    else {
+                    } else {
                         die("err: no items/" . $k[0]);
                     }
                 }
@@ -85,7 +78,7 @@ if ($died[3]) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take\">^ </a>";
         }
         if ($start + $g_list < count($keys) - 1) {
-            if (!$start) {
+            if ( ! $start) {
                 $stmp .= "\n<br/>";
             }
             $stmp .= "<a href=\"$PHP_SELF?sid=$sid&take=$take&start=" . ($start + $g_list) . "\">+ (" .
@@ -94,7 +87,6 @@ if ($died[3]) {
         $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)\">Взять</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)&all=1\">Взять все</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&from=$take&look=$(to)\">Инфо</a>";
         msg($stmp, $died[0]);
     }
-}
-else {
+} else {
     addjournal($loc, $login, "У " . $died[0] . " нет ни одного предмета");
 }

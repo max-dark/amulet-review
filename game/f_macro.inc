@@ -18,39 +18,37 @@
 $macro = $cm;
 if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
     if ($macro == "save") { // сохраняем
-        if (!$name) {
+        if ( ! $name) {
             msg("Не указано имя макроса, используйте англ. буквы.", "Макросы", 0);
         }
         if ($num < 1 || $num > 8) {
             msg("Диапазон номера от 1 до 8", "Макросы", 0);
         }
-        if (!isset($loc_i[$loc][$login]["macro"])) {
+        if ( ! isset($loc_i[$loc][$login]["macro"])) {
             $m = ["", "", "", "", "", "", "", ""];
-        }
-        else {
+        } else {
             $m = explode("/", $loc_i[$loc][$login]["macro"]);
         }
-        if (!isset($loc_i[$loc][$login]["macrol"])) {
+        if ( ! isset($loc_i[$loc][$login]["macrol"])) {
             $ml = [];
-        }
-        else {
+        } else {
             $ml = explode("|", $loc_i[$loc][$login]["macrol"]);
         }
         $objv = '';
-	    $tov = '';
+        $tov  = '';
         if ($obj == "curr") {
-            $obj = $ml[0];
+            $obj  = $ml[0];
             $objv = $ml[1];
         }
         if ($to == "curr") {
-            $to = $ml[2];
+            $to  = $ml[2];
             $tov = $ml[3];
         }
         if ($to == "none") {
-            $to = "";
+            $to  = "";
             $tov = "";
         }
-        $name = substr(preg_replace('/\W/', "", $name), 0, 9);
+        $name        = substr(preg_replace('/\W/', "", $name), 0, 9);
         $m[$num - 1] = "$obj|$objv|$to|$tov|$name";
         if (strlen($loc_i[$loc][$login]["macro"]) > 300) {
             msg("Слишком много или слишком длинные макросы");
@@ -64,10 +62,9 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
         if ($num < 1 || $num > 8) {
             msg("Диапазон номера от 1 до 8");
         }
-        if (!isset($loc_i[$loc][$login]["macro"])) {
+        if ( ! isset($loc_i[$loc][$login]["macro"])) {
             $m = ["", "", "", "", "", "", "", ""];
-        }
-        else {
+        } else {
             $m = explode("/", $loc_i[$loc][$login]["macro"]);
         }
         unset($m[$num - 1]);
@@ -85,18 +82,16 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
 		<br/>Номер:
 		<select name=\"num\" value=\"1\">
 		";
-        if (!isset($loc_i[$loc][$login]["macro"])) {
+        if ( ! isset($loc_i[$loc][$login]["macro"])) {
             $m = ["", "", "", "", "", "", "", ""];
-        }
-        else {
+        } else {
             $m = explode("/", $loc_i[$loc][$login]["macro"]);
         }
         for ($i = 1; $i < 9; $i++) {
             if ($m[$i - 1]) {
                 $mn = explode("|", $m[$i - 1]);
                 $mn = $mn[4];
-            }
-            else {
+            } else {
                 $mn = "Пусто";
             }
             $stmp .= "\n<option value=\"$i\">$i: $mn</option>";
@@ -113,11 +108,8 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
     }
 
     if ($macro == "help") {
-        msg(
-            "Чтобы записать новый макрос, совершите любое действие, например, используйте навык или заклинание и выберите в меню \"макросы\".<br/>\"Текущее\" - это совершенное действие и текущая цель.<br/>\"Последнее\" - последнее действие или цель перед вызовом макроса.<br/>\"Вручную\" - при вызове макроса надо будет вручную указать на кого применить.",
-            "Макросы",
-            0
-        );
+        msg("Чтобы записать новый макрос, совершите любое действие, например, используйте навык или заклинание и выберите в меню \"макросы\".<br/>\"Текущее\" - это совершенное действие и текущая цель.<br/>\"Последнее\" - последнее действие или цель перед вызовом макроса.<br/>\"Вручную\" - при вызове макроса надо будет вручную указать на кого применить.",
+            "Макросы", 0);
     }
 
     if ($macro < 1 || $macro > 8) {

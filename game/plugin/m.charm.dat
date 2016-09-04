@@ -13,8 +13,8 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 4) == 'n.a.') {
     }
     $timemin = 60;
     $timemax = 5 * 60;
-    $follow = 1;
-    $b = 1;
+    $follow  = 1;
+    $b       = 1;
     if (substr($to, 0, 11) == "n.a.b.jarpt" && rand(0, 100) >= 5) {
         addjournal($loc, $login, "Повышенный иммунитет к приручению");
         $b = 0;
@@ -22,7 +22,6 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 4) == 'n.a.') {
     if ($b) {
         $loc_i[$loc][$to]["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + rand(60, 5 * 60)) . "|0";
     }
-}
-else {
+} else {
     addjournal($loc, $login, "Заклинание действует только на животных");
 }

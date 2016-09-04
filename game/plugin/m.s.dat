@@ -24,8 +24,7 @@ foreach (array_keys($loc_i[$loc]) as $i) {
                 addjournal($loc, $login, $tchar[0] . " покинул вас");
                 if ($owner[4]) {
                     addnpc($i, $loc, "");
-                }
-                else {
+                } else {
                     unset($loc_i[$loc][$i]["owner"]);
                 }
             }
@@ -38,8 +37,7 @@ if ($use == "m.s.wolf") {
         "war"   => "70|4|11|5|0|0|5|0|0|0|0|0|зубами|0||",
         "owner" => $login . "|" . $login . "|" . $login . "|" . (time() + rand(1 * 60, 10 * 60)) . "|1",
     ];
-}
-else {
+} else {
     if ($use == "m.s.tree") {
         if (isset($loc_i[$loc]["i.s.tree"])) //не работает если нет деревьев
         {
@@ -48,43 +46,37 @@ else {
                 "war"   => "90|15|30|10|0|0|10|0|0|20|80|50|ветвями|0||",
                 "owner" => $login . "|" . $login . "|" . $login . "|" . (time() + rand(1 * 60, 10 * 60)) . "|1",
             ];
-        }
-        else {
+        } else {
             msg("Рядом нет деревьев.");
         }
-    }
-    else {
+    } else {
         if ($use == "m.s.volna") {
             include __DIR__ . DIRECTORY_SEPARATOR . 'loc_water';
-            if (strpos($loc_water1, $loc) !== false || strpos($loc_water2, $loc) !== false) //работает если есть вода 
+            if (strpos($loc_water1, $loc) !== false || strpos($loc_water2, $loc) !== false) //работает если есть вода
             {
                 $item = [
                     "char"  => "призванная волна|80|80|30|30|2|2||0|0||",
                     "war"   => "90|15|30|10|0|0|10|0|0|20|80|50|струей воды|0||",
                     "owner" => $login . "|" . $login . "|" . $login . "|" . (time() + rand(1 * 60, 10 * 60)) . "|1",
                 ];
-            }
-            else {
+            } else {
                 msg("Рядом нет воды.");
             }
-        }
-        else {
+        } else {
             if ($use == "m.s.skeleton") {
                 $item = [
                     "char"  => "призванный скелет|30|30|20|20|1|1||0|0||",
                     "war"   => "65|5|16|6|0|0|10|0|0|0|0|0||0||",
                     "owner" => $login . "|" . $login . "|" . $login . "|" . (time() + rand(1 * 60, 10 * 60)) . "|1",
                 ];
-            }
-            else {
+            } else {
                 if ($use == "m.s.golem") {
                     $item = [
                         "char"  => "призванный голем|50|50|20|20|1|1||0|0||",
                         "war"   => "90|8|18|7|0|5|10|0|0|30|50|4||0||",
                         "owner" => $login . "|" . $login . "|" . $login . "|" . (time() + rand(1 * 60, 10 * 60)) . "|1",
                     ];
-                }
-                else {
+                } else {
                     if ($use == "m.s.fantom") {
                         $item = [
                             "char"  => "призванный фантом|50|50|1|1|1|1||0|0||",
@@ -92,8 +84,7 @@ else {
                             "owner" => $login . "|" . $login . "|" . $login . "|" . (time() + rand(1 * 60, 10 * 60)) .
                                        "|1",
                         ];
-                    }
-                    else {
+                    } else {
                         if ($use == "m.s.tucha") {
                             $item = [
                                 "char"  => "призванная грозовая туча|50|50|1|1|1|1||0|0||",
@@ -101,8 +92,7 @@ else {
                                 "owner" => $login . "|" . $login . "|" . $login . "|" .
                                            (time() + rand(1 * 60, 10 * 60)) . "|1",
                             ];
-                        }
-                        else // демон crim и создавший его становится кримом. если не от кого защищать создавшего, то нападает на игроков, в том числе на создавшего :-)
+                        } else // демон crim и создавший его становится кримом. если не от кого защищать создавшего, то нападает на игроков, в том числе на создавшего :-)
                         {
                             if ($use == "m.s.demon") {
                                 $item = [
@@ -112,8 +102,7 @@ else {
                                                (time() + rand(1 * 60, 10 * 60)) . "|1",
                                 ];
                                 docrim($loc, $login, "вызвал демона");
-                            }
-                            else {
+                            } else {
                                 msg("Заклинания $use не существует");
                             }
                         }

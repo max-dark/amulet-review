@@ -13,7 +13,7 @@ if (intval(preg_replace('/.*' . "i.f.meat" . ':(\d+).*/', "\\1", $loc_i[$loc][$l
     if (isset($loc_i[$loc]["i.s.fire"])) {
         $skills = explode("|", $loc_i[$loc][$login]["skills"]);
         if ($skills[30] > 0) {
-            $char[6] = time() + 7;
+            $char[6]                     = time() + 7;
             $loc_i[$loc][$login]["char"] = implode("|", $char);
 
             additem($loc, $login, "", "i.f.meat", 1);
@@ -24,20 +24,16 @@ if (intval(preg_replace('/.*' . "i.f.meat" . ':(\d+).*/', "\\1", $loc_i[$loc][$l
                 if (rand(1, 100) < 5) {
                     addexp($loc, $login, 1);
                 }
-            }
-            else {
+            } else {
                 addjournal($loc, $login, "Вам не удалось на костре мясо, оно подгорело");
                 addjournal($loc, "all", $char[0] . " не смог приготовить на костре мясо", $login);
             }
-        }
-        else {
+        } else {
             addjournal($loc, $login, "Ваш навык приготовления пищи равен 0, вы не умеете готовить пищу");
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Вначале найдите или разведите костер.");
     }
-}
-else {
+} else {
     addjournal($loc, $login, "У вас нет сырого мяса");
 }

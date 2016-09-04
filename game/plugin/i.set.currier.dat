@@ -20,16 +20,16 @@ $arr = [    // id, name, dificalt -%, count, need_title, need_id
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 
-function tsret($s) {
+function tsret($s)
+{
     if ($s > 0) {
         return $s;
-    }
-    else {
+    } else {
         return 0;
     }
 }
 
-if (!$to || !isset($arr[$to])) {
+if ( ! $to || ! isset($arr[$to])) {
     $stmp = "Выберите что сделать:";
     foreach (array_keys($arr) as $i) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&to=$i\">" . $arr[$i][1] . " (" . $arr[$i][3] . " " .
@@ -42,7 +42,7 @@ if ($skills[32] * 20 - $arr[$to][2] > 0) {
     if (additem($loc, $login, "", "i.acid", "count") == 0) {
         msg("Необходима кислота");
     }
-    $char[6] = time();
+    $char[6]                     = time();
     $loc_i[$loc][$login]["char"] = implode("|", $char);
 
     additem($loc, $login, "", $arr[$to][5], $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ингридиенты
@@ -55,14 +55,12 @@ if ($skills[32] * 20 - $arr[$to][2] > 0) {
         if (round($arr[$to][2] / 10)) {
             addexp($loc, $login, round(rand(0, $arr[$to][2] / 10)));
         }
-    }
-    else {
+    } else {
 
         addjournal($loc, $login, "у вас не получилось сделать" . $arr[$to][1]);
         addjournal($loc, "all", $char[0] . " не смог сделать " . $arr[$to][1], $login);
     }
 
-}
-else {
+} else {
     addjournal($loc, $login, "Ваш навык кожевника слишком низок");
 }

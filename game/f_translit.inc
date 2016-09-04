@@ -1,6 +1,7 @@
 <?php
 $letters = [];
-function alt($s) {
+function alt($s)
+{
     global $ttans, $letters;
     if ($ttans) {
         if (empty($letters)) {
@@ -21,30 +22,25 @@ function alt($s) {
                 "CH" => "Ч",
                 "SH" => "Ш"
             ];
-            $letters[1] = array_combine(
-                chars_of("wxq'ertyuiopasdfghjklzcvbnmWQXERTYUIOPASDFGHJKLZCVBNM"),
-                chars_of('щъььертыуиопасдфгхйклзцвбнмЩЬЪЕРТЫУИОПАСДФГХЙКЛЗЦВБНМ')
-            );
+            $letters[1] = array_combine(chars_of("wxq'ertyuiopasdfghjklzcvbnmWQXERTYUIOPASDFGHJKLZCVBNM"),
+                chars_of('щъььертыуиопасдфгхйклзцвбнмЩЬЪЕРТЫУИОПАСДФГХЙКЛЗЦВБНМ'));
         }
         $s = strtr($s, $letters[0]);
         $s = preg_replace('/(j|J)_(a|A|u|U|o|O|e|E)/u', "\\1\\2", $s);
         $s = preg_replace('/(z|Z|c|C|s|S)_(h|H)/u', "\\1\\2", $s);
         $s = strtr($s, $letters[1]);
     }
-    $ttans = !$ttans;
+    $ttans = ! $ttans;
 
     return $s;
 }
 
-function trans($s) {
+function trans($s)
+{
     global $ttans;
     $ttans = true;
 
-    return preg_replace_callback(
-        '/(.*)##??/Uu',
-        function (array $m) {
-            return alt($m[1]);
-        },
-        "$s#"
-    );
+    return preg_replace_callback('/(.*)##??/Uu', function (array $m) {
+        return alt($m[1]);
+    }, "$s#");
 }

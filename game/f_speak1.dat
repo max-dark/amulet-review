@@ -15,11 +15,10 @@
  */
 
 if ($to && isset($loc_i[$loc][$to])) {
-    $tt = $to;
+    $tt    = $to;
     $tchar = explode("|", $loc_i[$loc][$to]["char"]);
-    $to = $tchar[0] . ", ";
-}
-else {
+    $to    = $tchar[0] . ", ";
+} else {
     $to = "";
 }
 $stmp = "<p>";

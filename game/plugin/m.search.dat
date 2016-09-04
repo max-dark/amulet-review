@@ -17,30 +17,24 @@ for ($i = 2; $i < count($loc_c); $i += 2) {
             foreach ($keys as $j) {
                 if (substr($j, 0, 4) == 'n.a.') {
                     $arr[$loc_c[$i]]["na"] += 1;
-                }
-                else {
+                } else {
                     if (substr($j, 0, 4) == 'n.c.') {
                         $arr[$loc_c[$i]]["nc"] += 1;
-                    }
-                    else {
+                    } else {
                         if (substr($j, 0, 2) == 'n.') {
                             $arr[$loc_c[$i]]["n"] += 1;
-                        }
-                        else {
+                        } else {
                             if (substr($j, 0, 2) == 'i.') {
                                 $arr[$loc_c[$i]]["i"] += 1;
-                            }
-                            else {
+                            } else {
                                 if (substr($j, 0, 2) == 'u.') {
                                     $tchar = explode("|", $loc_i[$loc_c[$i + 1]][$j]);
                                     if ($tchar[8]) {
                                         $arr[$loc_c[$i]]["ug"] += 1;
-                                    }
-                                    else {
+                                    } else {
                                         if ($tchar[9]) {
                                             $arr[$loc_c[$i]]["uc"] += 1;
-                                        }
-                                        else {
+                                        } else {
                                             $arr[$loc_c[$i]]["u"] += 1;
                                         }
                                     }
@@ -88,7 +82,7 @@ foreach (array_keys($arr) as $i) {
         $stmp .= $b . $arr[$i]["i"] . " предметов";
         $b = ", ";
     }
-    if (!$b) {
+    if ( ! $b) {
         $stmp .= " никого";
     }
 }

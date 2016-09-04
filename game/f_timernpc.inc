@@ -20,26 +20,25 @@ if (is_array($loc_t[$i][$j])) {
     $npc = $loc_t[$i][$j];
     $tid = $npc["id"];
     unset($npc["id"]);
-}
-else {
-    $ta = explode("|", $loc_t[$i][$j]);
+} else {
+    $ta  = explode("|", $loc_t[$i][$j]);
     $tid = $ta[0];
     if (in_array(substr($tid, 0, 4), ["n.c.", "n.a."])) {
         $tid = substr($tid, 0, strrpos($tid, "."));
     }
-    if (!file_exists("npc/" . $tid)) {
+    if ( ! file_exists("npc/" . $tid)) {
         unset($loc_t[$i][$j]);
 
         return;//("err: no npc/".$tid);
     }
-    $npc = include "npc/" . $tid;
-    $tid = $ta[0];
-    $twar = explode("|", $npc["war"]);
-    $twar[15] = $i . ":" . $ta[1];
+    $npc        = include "npc/" . $tid;
+    $tid        = $ta[0];
+    $twar       = explode("|", $npc["war"]);
+    $twar[15]   = $i . ":" . $ta[1];
     $npc["war"] = implode("|", $twar);
     if ($ta[2]) {
-        $tchar = explode("|", $npc["char"]);
-        $tchar[10] = $ta[2];
+        $tchar       = explode("|", $npc["char"]);
+        $tchar[10]   = $ta[2];
         $npc["char"] = implode("|", $tchar);
     }
 }
@@ -50,13 +49,12 @@ if (isset($npc["itemsrnd"])) {
     $irnd = explode("|", $npc["itemsrnd"]);
     foreach (array_keys($irnd) as $k) {
         if ($irnd[$k]) {
-            $trnd = explode(":", $irnd[$k]);
+            $trnd  = explode(":", $irnd[$k]);
             $trndc = round(rand($trnd[2], $trnd[3]));
             if (rand(0, 100) <= $trnd[1] && $trndc > 0) {
                 if ($npc["items"]) {
                     $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;
-                }
-                else {
+                } else {
                     $npc["items"] = $trnd[0] . ":" . $trndc;
                 }
             }

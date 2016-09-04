@@ -31,7 +31,7 @@ require_once('game_function.php'); // игровые функции
 $QUERY_STRING = get_value($_SERVER, 'QUERY_STRING');
 
 $g_query_string = $QUERY_STRING;
-$tmp = urldecode($QUERY_STRING);
+$tmp            = urldecode($QUERY_STRING);
 //parse_str($tmp);
 
 /** @var array $loc_i предметы, НПС и игроки в загруженных локациях */
@@ -43,30 +43,30 @@ $loc_tt = [];
 /** @var array $game Массив с состоянием игры */
 $game = [];
 
-$gm = Request('gm');
+$gm  = Request('gm');
 $sid = Request('sid');
 /** @var string $site */
-$site = Request('site');
+$site  = Request('site');
 $login = Request('login');
-$p = Request('p');
+$p     = Request('p');
 $cnick = Request('cnick');
-$go = Request('go');
-$gal = Request('gal');
+$go    = Request('go');
+$gal   = Request('gal');
 $ctele = Request('ctele');
 $stele = Request('stele');
-$ca = Request('ca');
-$ce = Request('ce');
-$ci = Request('ci');
-$cm = Request('cm');
-$cs = Request('cs');
-$adm = Request('adm');
-$use = Request('use');
-$to = Request('to');
+$ca    = Request('ca');
+$ce    = Request('ce');
+$ci    = Request('ci');
+$cm    = Request('cm');
+$cs    = Request('cs');
+$adm   = Request('adm');
+$use   = Request('use');
+$to    = Request('to');
 $speak = Request('speak');
-$take = Request('take');
-$look = Request('look');
+$take  = Request('take');
+$look  = Request('look');
 $trade = Request('trade');
-$msg = Request('msg');
+$msg   = Request('msg');
 
 // Если строка запроса пуста
 if (empty($tmp) || // или не заданы логин и страница перехода
@@ -83,9 +83,9 @@ if ($sid) {
         // добавить префикс
         $sid = "u." . $sid;
     }
-    $sid = explode(".", $sid);
+    $sid    = explode(".", $sid);
     $sid[1] = strtolower($sid[1]);
-    $login = "u." . $sid[1];
+    $login  = "u." . $sid[1];
     if (empty($p)) {
         $p = $sid[2];
     }
@@ -102,7 +102,7 @@ if ($sid) {
 if (file_exists("data/game.dat")) {
     // загрузить состояние
     $file_save = fopen("data/game.dat", "r+");
-    if (!$file_save) {
+    if ( ! $file_save) {
         msg("Ошибка загрузки game.dat");
     }
     if (flock($file_save, 2)) {
@@ -112,21 +112,18 @@ if (file_exists("data/game.dat")) {
         if (gettype($game) != "array") {
             $game = [];
         }
-    }
-    else {
+    } else {
         $file_save = false;
         msg("Ошибка блокировки game.dat");
     }
-}
-else {
+} else {
     // создать файл состояния
     $file_save = fopen("data/game.dat", "w+");
     if ($file_save && flock($file_save, 2)) {
         $f_all = 1;
         include_once "f_online.inc";
         include_once "f_blank.inc";
-    }
-    else {
+    } else {
         $file_save = false;
         msg("Ошибка создания game.dat");
     }
@@ -136,7 +133,7 @@ if (have_key($game, "msg") && $gm != $gm_id) {
     // вывести сообщение
     msg($game["msg"]);
 }
-if (!empty($site)) { // если задана страница перехода
+if ( ! empty($site)) { // если задана страница перехода
     /** @var array[] $pages */
     $pages = [
         // форма логина
@@ -171,14 +168,14 @@ if (time() > $game["lastai"] + 240) {
     // провести зачистку
     include_once "f_online.inc";
 }
-if (!file_exists("online/" . $login)) {
+if ( ! file_exists("online/" . $login)) {
     $f_c = 1;
     include_once "f_site_connect2.dat";
 }
 $tmp = file("online/" . $login);
 $loc = trim($tmp[0]);
 loadloc($loc);
-if (!isset($loc_i[$loc][$login])) {
+if ( ! isset($loc_i[$loc][$login])) {
     @unlink("online/" . $login);
     msg("Нет данных");
 }
@@ -190,10 +187,8 @@ unset($wtf_user);
 
 $wtf_options = $loc_i[$loc][$login]["o"];
 if ($wtf_options) {
-    list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map, $g_smf) = explode(
-        "|",
-        $wtf_options
-    );
+    list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map, $g_smf) = explode("|",
+        $wtf_options);
 }
 unset($wtf_options);
 
@@ -208,9 +203,7 @@ if ($go) {
         msg("Без ключа не пройти");
     }
     if ($loc == "x216x1099" && $go == "x138x1380") {
-        msg(
-            "между вами и входом в шахту встает грозный гном, с гиганским двухсторонним топором, на плече. Явно запрещая вам пройти в нутрь"
-        );
+        msg("между вами и входом в шахту встает грозный гном, с гиганским двухсторонним топором, на плече. Явно запрещая вам пройти в нутрь");
     }
     if ($loc == "x233x2330" && $go == "_begi" && strpos($loc_i[$loc][$login]["items"], "i.q.keykrep1") === false) {
         msg("А вы симпотично смотритесь ;)");
@@ -219,33 +212,30 @@ if ($go) {
         msg("Ангел сверхестественной силой не дает вам двигаться дальше");
     }
     if ($game["fid"] == $login) {
-        if (in_array(
-            $go,
-            [
+        if (in_array($go, [
                 "x393x1167",
                 "x33x1252",
                 "x435x1167",
                 "x287x1252"
-            ]
-        )) {
+            ])) {
             msg("С флагом на борт запрещено!");
         }
     }
 
     $loc_c = explode("|", $loc_tt[$loc]["d"]);
-    $b = array_search($go, $loc_c);
+    $b     = array_search($go, $loc_c);
     if ($b) {
         $tgo = $loc_c[$b - 1];
         loadloc($go);
-        $b = 0;
-        $char = explode("|", $loc_i[$loc][$login]["char"]);
+        $b      = 0;
+        $char   = explode("|", $loc_i[$loc][$login]["char"]);
         $skills = explode("|", $loc_i[$loc][$login]["skills"]);
-        $hide = (rand(1, 100) <= $skills[17] * 8) ? 1 : 0;
+        $hide   = (rand(1, 100) <= $skills[17] * 8) ? 1 : 0;
         if ($gal && $char[12]) {
             $loc_c = explode("|", $loc_tt[$go]["d"]);
-            $b = array_search($tgo, $loc_c);
+            $b     = array_search($tgo, $loc_c);
         }
-        if (!$b) {
+        if ( ! $b) {
             $tgo = "";
         }
         addnpc($login, $loc, $go, $tgo, $hide);
@@ -257,12 +247,12 @@ if ($go) {
 if ($game["fid"] == $login) {
     $game["floc"] = $loc;
 }
-if (!$game["floc"] || isset($loc_tt[$game["floc"]]) && !isset($loc_i[$game["floc"]]["i.flag"]) &&
-                      !isset($loc_i[$game["floc"]][$game["fid"]])
+if ( ! $game["floc"] || isset($loc_tt[$game["floc"]]) && ! isset($loc_i[$game["floc"]]["i.flag"]) &&
+                        ! isset($loc_i[$game["floc"]][$game["fid"]])
 ) {
     $loc_i[$loc]["i.flag"] = "флаг лидерства|1|0";
-    $game["floc"] = $loc;
-    $game["fid"] = "";
+    $game["floc"]          = $loc;
+    $game["fid"]           = "";
 }
 if ($ctele) {
     include_once "f_castle.inc";
@@ -283,7 +273,7 @@ for ($i = 2; $i < count($loc_c); $i += 2) {
     doai($loc_c[$i + 1]);
 }
 
-if (!isset($loc_i[$loc][$login]) || !$login) {
+if ( ! isset($loc_i[$loc][$login]) || ! $login) {
     @unlink("online/" . $login);
     msg("Нет данных");
 }
@@ -298,32 +288,28 @@ if ($cm) {
     // TODO: избавиться от eval
     if ($cm > 0 && $cm < 9) {
         $cm--;
-        $m = @explode("/", $loc_i[$loc][$login]["macro"]);
-        $m = @explode("|", $m[$cm]);
+        $m  = @explode("/", $loc_i[$loc][$login]["macro"]);
+        $m  = @explode("|", $m[$cm]);
         $ml = @explode("|", $loc_i[$loc][$login]["macrol"]);
         if ($m[0] == "last" && $ml[0]) {
             eval('$' . $ml[0] . "=\"" . $ml[1] . "\";");
-        }
-        else {
+        } else {
             if ($m[0]) {
                 eval('$' . $m[0] . "=\"" . $m[1] . "\";");
             }
         }
         if ($m[2] == "last" && $m[0] == "ca") {
             $ca = $ml[1];
-        }
-        else {
+        } else {
             if ($m[2] == "last" && $ml[2]) {
                 eval('$' . $ml[2] . "=\"" . $ml[3] . "\";");
-            }
-            else {
+            } else {
                 if ($m[2]) {
                     eval('$' . $m[2] . "=\"" . $m[3] . "\";");
                 }
             }
         }
-    }
-    else {
+    } else {
         include_once "f_macro.inc";
     }
 }
@@ -334,8 +320,7 @@ if ($adm && file_exists("f_admin.inc")) {
 if ($speak || $speak = $cs) {
     if (substr($speak, 0, 2) == "i.") {
         $take = $speak;
-    }
-    else {
+    } else {
         include_once "f_speak.inc";
     }
 }
@@ -347,8 +332,8 @@ if ($say) {
 }
 if ($ca) {
     $loc_i[$loc][$login]["macrol"] = "ca|$ca||";
-    $char[7] = $ca;
-    $loc_i[$loc][$login]["char"] = implode("|", $char);
+    $char[7]                       = $ca;
+    $loc_i[$loc][$login]["char"]   = implode("|", $char);
     attack($loc, $login, $ca);
     $char = explode("|", $loc_i[$loc][$login]["char"]);
 }
@@ -366,8 +351,7 @@ if ($use) {
         }
         if (substr($use, 0, 6) == 'i.note' || substr($use, 0, 6) == 'i.book') {
             $look = $use;
-        }
-        else {
+        } else {
             $scroll = 0; // со свитка
             switch (substr($use, 0, 2)) {
                 case "i.": {
@@ -390,8 +374,7 @@ if ($use) {
             }
             $char = explode("|", $loc_i[$loc][$login]["char"]);
         }
-    }
-    else {
+    } else {
         addjournal($loc, $login, "Вы должны отдохнуть " . round($char[6] - time() + 1) . " сек");
     }
 } // раньше $list
@@ -417,8 +400,8 @@ switch ($cl) {
     break;
 }
 if ($list || $list = $cl) {
-	$inc_list = "f_list" . $list . ".dat";
-	include_once $inc_list;
+    $inc_list = "f_list" . $list . ".dat";
+    include_once $inc_list;
 }
 if (isset($map)) {
     include_once "f_map.inc";
@@ -451,8 +434,7 @@ if ($loc_i[$loc][$login]["def"]) {
     $tdef = explode("|", $loc_i[$loc][$login]["def"]);
     if (time() > $tdef[2]) {
         $loc_i[$loc][$login]["def"] = "";
-    }
-    else {
+    } else {
         $stmp .= "<br/>" . $tdef[1] . " (" . ($tdef[2] - time()) . " сек)";
     }
 }
@@ -461,7 +443,7 @@ if (substr($loc, 3) == ".in" || substr($loc, 3) == ".gate") {
 }
 
 // SOUNDS
-if (!$g_sounds) {
+if ( ! $g_sounds) {
     $st = "";
     for ($i = 2; $i < count($loc_c); $i += 2) {
         if ($loc_c[$i + 1] != $loc) {
@@ -470,8 +452,7 @@ if (!$g_sounds) {
                     if ((substr($j, 0, 2) == 'u.') || substr($j, 0, 2) == 'n.') {
                         if ($st == '') {
                             $st = "<br/>Звуки: " . $loc_c[$i];
-                        }
-                        else {
+                        } else {
                             $st .= ", " . $loc_c[$i];
                         }
                         break;
@@ -485,16 +466,16 @@ if (!$g_sounds) {
 
 // OBJECTS
 $ti = explode("x", $loc);
-if (!$start) {
+if ( ! $start) {
     $start = 0;
 }
 $keys = array_keys($loc_i[$loc]);
 for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
     if ($keys[$i] != $login) {
-    	$k = '';
+        $k = '';
         if (substr($keys[$i], 0, 2) == "i.") {
             $tmp = explode("|", $loc_i[$loc][$keys[$i]]);
-            $k = $tmp[0];
+            $k   = $tmp[0];
             if (strpos($keys[$i], "..") !== false) {
                 $k .= " *";
             }
@@ -504,7 +485,7 @@ for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
         }
         if (substr($keys[$i], 0, 2) == "n." || substr($keys[$i], 0, 2) == "u.") {
             $tmp = explode("|", $loc_i[$loc][$keys[$i]]["char"]);
-            $k = $tmp[0];
+            $k   = $tmp[0];
             if (substr($keys[$i], 0, 2) == "u." && $tmp[12]) {
                 $k .= " (всадник)";
             }
@@ -535,12 +516,11 @@ for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
                 (substr($keys[$i], 0, 2) == "n." || substr($keys[$i], 0, 2) == "u." && $loc_c[1] != 1)
             ) {
                 $tmp1 = explode("|", $loc_i[$loc][$tmp[7]]["char"]);
-                if (substr($tmp[7], 0, 2) == "n." || (substr($tmp[7], 0, 2) == "u." && !$tmp1[8])) {
+                if (substr($tmp[7], 0, 2) == "n." || (substr($tmp[7], 0, 2) == "u." && ! $tmp1[8])) {
                     $st .= " атакует ";
                     if ($tmp[7] == $login) {
                         $st .= "вас!";
-                    }
-                    else {
+                    } else {
                         $st .= preg_replace("/ \\*.*?\\*/", "", $tmp1[0]);
                     }
                 }
@@ -557,7 +537,7 @@ if (count($keys) > 1 && $start) {
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">^ </a>";
 }
 if ($start + $g_list < count($keys)) {
-    if (!$start) {
+    if ( ! $start) {
         $stmp .= "<br/>";
     }
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&start=" . ($start + $g_list) . "\">+ (" . (count($keys) - $start - $g_list) .
@@ -594,7 +574,7 @@ if ($login == $g_admin || ($gm_id && $gm == $gm_id)) {
 
 // MENU
 $stmp .= "</p></card><card id=\"m\" title=\"Меню\"><p><a href=\"$PHP_SELF?sid=$sid&cs=$(to)\">Говорить/Взять</a><br/><a href=\"$PHP_SELF?sid=$sid&ca=$(to)\">Атаковать</a>";
-$b = "<br/>";
+$b  = "<br/>";
 $ts = ["", "", "m", "магия", "i", "предмет", "p", "прием"];
 for ($i = 0; $i < strlen($g_smenu); $i += 2) {
     if ($ts[$g_smenu{$i} * 2]) {

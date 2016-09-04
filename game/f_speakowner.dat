@@ -14,7 +14,7 @@
 // диалог со своим животным или наемником
 
 $stmp = "<p>";
-if (!$id) {            // основной диалог
+if ( ! $id) {            // основной диалог
     if (substr($speak, 0, 9) == "n.a.losh.") {
         $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=sedlo\">Сесть в седло</a><br/>";
     }
@@ -33,7 +33,7 @@ if ($id == 'sedlo') {    // в седло
     if ($char[8]) {
         msg("Вы призрак, лошадь вас боится и не подпускает близко");
     }
-    if (!isset($loc_i[$loc][$speak])) {
+    if ( ! isset($loc_i[$loc][$speak])) {
         msg("<p>Рядом нет этого коня");
     }
     if ($char[12]) {
@@ -43,8 +43,8 @@ if ($id == 'sedlo') {    // в седло
     if ($char[6] >= time()) {
         msg("Вы должны отдохнуть");
     }
-    $char[12] = "1:" . $tc[1];
-    $char[6] = time() + 3;
+    $char[12]                    = "1:" . $tc[1];
+    $char[6]                     = time() + 3;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     calcparam($loc, $login);
     addjournal($loc, "all", $char[0] . " сел на лошадь", $login);
@@ -112,7 +112,7 @@ if ($id == 'attacklist') {    // список кого атаковать
     }
 }
 if ($id == 'attack' && $who) { // атаковать $who
-    if (!isset($loc_i[$loc][$who])) {
+    if ( ! isset($loc_i[$loc][$who])) {
         msg("Нет цели");
     }
     if ($who == $login) {
@@ -121,16 +121,16 @@ if ($id == 'attack' && $who) { // атаковать $who
     $tchar[7] = $who;
     $stmp .= $tchar[0] . " атакует кого вы указали.";
     // крим если атакует не крима или животное в городе
-    $tc = explode("|", $loc_i[$loc][$who]["char"]);
+    $tc    = explode("|", $loc_i[$loc][$who]["char"]);
     $fchar = explode("|", $loc_i[$loc][$login]["char"]);
     $fcrim = $fchar[9];
     $tcrim = $tc[9] || substr($who, 0, 4) == "n.c.";
-    if (!$fcrim && $tc[7] != $login &&
-        ((!$tcrim && substr($who, 0, 4) != "n.a.") || ($loc_c[1] == 1 && substr($who, 0, 4) == "n.a."))
+    if ( ! $fcrim && $tc[7] != $login &&
+         (( ! $tcrim && substr($who, 0, 4) != "n.a.") || ($loc_c[1] == 1 && substr($who, 0, 4) == "n.a."))
     ) {
         docrim($loc, $login);
         if ($loc_c[1] == 1) {
-            $tchar[9] = "преступник";
+            $tchar[9]  = "преступник";
             $tchar[10] = time() + $g_crim;
         }
     }
@@ -201,7 +201,7 @@ if ($id == 'name') {    // расстаться
         $s = preg_replace('/[^A-zА-я0-9]/', "", $s);
 
         $new = $s;
-        if (!$s) {
+        if ( ! $s) {
             msg("Не указано имя");
         }
 
@@ -212,8 +212,7 @@ if ($id == 'name') {    // расстаться
         $loc_i[$loc][$speak]["name"] = $new;
         $loc_i[$loc][$speak]["char"] = implode("|", $tchar);
         $stmp .= "Имя изменено на " . $tchar[0];
-    }
-    else {
+    } else {
         $stmp .= "<input name=\"new\" emptyok=\"true\" type=\"text\" value=\"" . $loc_i[$loc][$speak]["name"] .
                  "\"/><br/><select name=\"tr\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select><br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=name&new=$(new)&tr=$(tr)\">Изменить имя</a>";
     }
@@ -222,40 +221,34 @@ if ($id == 'name') {    // расстаться
 if ($id == 'lask') {    // приласкать
     $skills = explode("|", $loc_i[$loc][$login]["skills"]);
     if ($owner[3] > time() + 240) {
-        msg(
-            $tchar[0] .
-            " не собирается покидать вас в ближайшие несколько минут, нет смысла уговаривать его остаться еще (попробуйте повторить когда срок службы будет на исходе)."
-        );
+        msg($tchar[0] .
+            " не собирается покидать вас в ближайшие несколько минут, нет смысла уговаривать его остаться еще (попробуйте повторить когда срок службы будет на исходе).");
     }
-    $char[6] = time() + 10;
+    $char[6]                     = time() + 10;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     if (rand(0, 100) < $skills[7] * 10) {
         if ($owner[3]) {
             $owner[3] += rand(60, 60 + $skills[20] * 60);
             $stmp .= "Кажется, вы стали " . $tchar[0] . " нравиться немного больше";
-        }
-        else {
+        } else {
             $stmp .= $tchar[0] . " будет вам предан всегда, нет нужды в поощрении";
         }
-    }
-    else {
+    } else {
         $stmp .= "Ваша попытка не произвела на " . $tchar[0] . " впечатления";
     }
 }
 
 if ($id == 'info') {    // инфо когда покинет
-    if (!$owner[3]) {
+    if ( ! $owner[3]) {
         $stmp .= $tchar[0] . " никогда вас не покинет";
-    }
-    else {
-        $skills = explode("|", $loc_i[$loc][$login]["skills"]);
+    } else {
+        $skills   = explode("|", $loc_i[$loc][$login]["skills"]);
         $timeleft = ($owner[3] - time()) / 60;
         if ($timeleft < 60 * 6) {
             $pogr = rand(0, 10 * (10 - $skills[20] * 2));
             $pogr = $pogr * $timeleft / 100;
-            $tc = round($timeleft - $pogr) . " - " . round($timeleft + $pogr) . " минут";
-        }
-        else {
+            $tc   = round($timeleft - $pogr) . " - " . round($timeleft + $pogr) . " минут";
+        } else {
             $tc = "примерно " . round($timeleft / 60) . " часа";
         }
         $stmp .= $tchar[0] . " покинет вас через " . $tc;
@@ -265,12 +258,10 @@ if ($id == 'free') {    // расстаться
     if ($owner[6]) {
         unset($loc_i[$loc][$speak]["owner"]);
         addnpc($speak, $loc, $owner[6]);
-    }
-    else {
+    } else {
         if ($owner[4]) {
             addnpc($speak, $loc);
-        }
-        else {
+        } else {
             unset($loc_i[$loc][$speak]["owner"]);
         }
     }

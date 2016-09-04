@@ -16,9 +16,7 @@
 // торговля
 
 if ($trade == "help") {
-    msg(
-        "Чтобы торговать или передать предмет, выберите игрока и потом в меню пункт \"Обмен\". То же самое, если предлагают обмен вам. Добавляйте предметы в список или ждите, когда добавит собеседник. Обмен происходит когда обе стороны выбирают ссылку \"Я согласен\". Выбор своего предмета удалит его из списка, в выбор в списке собеседника покажет информацию о предмете."
-    );
+    msg("Чтобы торговать или передать предмет, выберите игрока и потом в меню пункт \"Обмен\". То же самое, если предлагают обмен вам. Добавляйте предметы в список или ждите, когда добавит собеседник. Обмен происходит когда обе стороны выбирают ссылку \"Я согласен\". Выбор своего предмета удалит его из списка, в выбор в списке собеседника покажет информацию о предмете.");
 }
 
 if (substr($trade, 0, 2) == "u.") { //новая торговля
@@ -28,10 +26,8 @@ if (substr($trade, 0, 2) == "u.") { //новая торговля
     if ($trade == $login) {
         msg("Нельзя торговать с самим собой");
     }
-    if (!isset($loc_i[$loc][$trade])) {
-        msg(
-            "Рядом с вами нет того, с кем вы хотели торговать. Если он ушел, вы можете догнать его и продолжить обмен."
-        );
+    if ( ! isset($loc_i[$loc][$trade])) {
+        msg("Рядом с вами нет того, с кем вы хотели торговать. Если он ушел, вы можете догнать его и продолжить обмен.");
     }
     $tchar = explode("|", $loc_i[$loc][$trade]["char"]);
     if ($tchar[8]) {
@@ -40,14 +36,11 @@ if (substr($trade, 0, 2) == "u.") { //новая торговля
     $loc_i[$loc][$login]["trade"] = ["to" => $trade, "i" => "", "ito" => "", "a" => 0];
     if ($loc_i[$loc][$trade]["trade"]["to"] != $login) {
         addjournal($loc, $trade, $char[0] . ": предлагает вам обмен, выберите разговор с ним и ссылку Обмен");
-        msg(
-            "Вы предложили обмен, теперь надо подождать согласия другой стороны.<br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Продолжить</a>"
-        );
-    }
-    else {
+        msg("Вы предложили обмен, теперь надо подождать согласия другой стороны.<br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Продолжить</a>");
+    } else {
         $loc_i[$loc][$login]["trade"]["ito"] = $loc_i[$loc][$trade]["trade"]["i"];
         $loc_i[$loc][$trade]["trade"]["ito"] = $loc_i[$loc][$login]["trade"]["i"];
-        $loc_i[$loc][$trade]["trade"]["a"] = 0;
+        $loc_i[$loc][$trade]["trade"]["a"]   = 0;
     }
 }
 
@@ -57,10 +50,8 @@ if (isset($loc_i[$loc][$login]["trade"])) {
     if (substr($to, 0, 2) != "u.") {
         msg("Торговать можно только с игроками");
     }
-    if (!isset($loc_i[$loc][$to])) {
-        msg(
-            "Рядом с вами нет того, с кем вы хотели торговать. Если он ушел, вы можете догнать его и продолжить обмен."
-        );
+    if ( ! isset($loc_i[$loc][$to])) {
+        msg("Рядом с вами нет того, с кем вы хотели торговать. Если он ушел, вы можете догнать его и продолжить обмен.");
     }
     $tchar = explode("|", $loc_i[$loc][$to]["char"]);
     if ($tchar[8]) {
@@ -70,17 +61,13 @@ if (isset($loc_i[$loc][$login]["trade"])) {
         msg("Вы призрак и не можете вести обмен");
     }
     $tchar = $tchar[0];
-    if (!isset($loc_i[$loc][$to]["trade"])) {
-        msg(
-            $tchar .
-            " сейчас не торгует с вами, ждите пока он начнет с вами обмен (если захочет, конечно).<br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Продолжить</a>"
-        );
+    if ( ! isset($loc_i[$loc][$to]["trade"])) {
+        msg($tchar .
+            " сейчас не торгует с вами, ждите пока он начнет с вами обмен (если захочет, конечно).<br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Продолжить</a>");
     }
     if ($loc_i[$loc][$to]["trade"]["to"] != $login) {
-        msg(
-            $tchar .
-            " в режиме торговли, но не с вами. Возможно, вам нужно подождать, пока он начнет с вами обмен.<br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Продолжить</a>"
-        );
+        msg($tchar .
+            " в режиме торговли, но не с вами. Возможно, вам нужно подождать, пока он начнет с вами обмен.<br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Продолжить</a>");
     }
     if ($id != "") {
         $id = str_replace("*", "", $id);
@@ -93,56 +80,48 @@ if (isset($loc_i[$loc][$login]["trade"])) {
             msg("У вас нет этого предмета");
         }
         // проверим кол-во
-        if ($tcount > 1 && !$num) {        // запросим кол-во
+        if ($tcount > 1 && ! $num) {        // запросим кол-во
             $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
                     $tcount . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&trade=$trade&id=$id&num=$(num)\">Отправить</a>";
             msg($stmp, "Добавить", 1, "", "num", $tcount);
         }
         $num = intval($num);
-        if (!$num || $num < 1) {
+        if ( ! $num || $num < 1) {
             $num = 1;
         }    // если не указано, то 1 предмет
         if ($num > $tcount) {
             $num = $tcount;
         }    // и максимум берем все что есть
         if ($tc > 0) {
-            $loc_i[$loc][$login]["trade"]["i"] = preg_replace(
-                '/' . $id . ':\d+/',
-                $id . ":" . ($tc + $num),
-                $loc_i[$loc][$login]["trade"]["i"]
-            );
-        }
-        else {
+            $loc_i[$loc][$login]["trade"]["i"] = preg_replace('/' . $id . ':\d+/', $id . ":" . ($tc + $num),
+                $loc_i[$loc][$login]["trade"]["i"]);
+        } else {
             if ($loc_i[$loc][$login]["trade"]["i"]) {
                 $loc_i[$loc][$login]["trade"]["i"] .= "|" . $id . ":" . $num;
-            }
-            else {
+            } else {
                 $loc_i[$loc][$login]["trade"]["i"] = $id . ":" . $num;
             }
         }
-        $loc_i[$loc][$to]["trade"]["ito"] = $loc_i[$loc][$login]["trade"]["i"];
+        $loc_i[$loc][$to]["trade"]["ito"]  = $loc_i[$loc][$login]["trade"]["i"];
         $loc_i[$loc][$login]["trade"]["a"] = 0;
-        $loc_i[$loc][$to]["trade"]["a"] = 0;
+        $loc_i[$loc][$to]["trade"]["a"]    = 0;
     }
 
     if ($trade == "del") {    // удаляем предмет
         if (strpos($loc_i[$loc][$login]["trade"]["i"], $id . ":") === false) {
             msg("В вашем списке для обмена нет этого предмета");
         }
-        $loc_i[$loc][$login]["trade"]["i"] = preg_replace(
-            '/\|?' . $id . ':\d+\|?/',
-            "|",
-            $loc_i[$loc][$login]["trade"]["i"]
-        );
+        $loc_i[$loc][$login]["trade"]["i"] = preg_replace('/\|?' . $id . ':\d+\|?/', "|",
+            $loc_i[$loc][$login]["trade"]["i"]);
         if (substr($loc_i[$loc][$login]["trade"]["i"], 0, 1) == "|") {
             $loc_i[$loc][$login]["trade"]["i"] = substr($loc_i[$loc][$login]["trade"]["i"], 1);
         }
         if (substr($loc_i[$loc][$login]["trade"]["i"], -1) == "|") {
             $loc_i[$loc][$login]["trade"]["i"] = substr($loc_i[$loc][$login]["trade"]["i"], 0, -1);
         }
-        $loc_i[$loc][$to]["trade"]["ito"] = $loc_i[$loc][$login]["trade"]["i"];
+        $loc_i[$loc][$to]["trade"]["ito"]  = $loc_i[$loc][$login]["trade"]["i"];
         $loc_i[$loc][$login]["trade"]["a"] = 0;
-        $loc_i[$loc][$to]["trade"]["a"] = 0;
+        $loc_i[$loc][$to]["trade"]["a"]    = 0;
     }
 
     $b = 1;
@@ -156,8 +135,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
     // подготовим списки вещей
     if ($loc_i[$loc][$login]["trade"]["i"]) {
         $i = explode("|", $loc_i[$loc][$login]["trade"]["i"]);
-    }
-    else {
+    } else {
         $i = [];
     }
     foreach (array_keys($i) as $j) {
@@ -165,8 +143,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
     }
     if ($loc_i[$loc][$login]["trade"]["ito"]) {
         $ito = explode("|", $loc_i[$loc][$login]["trade"]["ito"]);
-    }
-    else {
+    } else {
         $ito = [];
     }
     foreach (array_keys($ito) as $j) {
@@ -183,7 +160,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
             $loc_i[$loc][$to]["trade"]["ito"] . $loc_i[$loc][$to]["trade"]["i"]
         ) {
             $loc_i[$loc][$login]["trade"]["a"] = 0;
-            $loc_i[$loc][$to]["trade"]["a"] = 0;
+            $loc_i[$loc][$to]["trade"]["a"]    = 0;
         }
         if ($loc_i[$loc][$login]["trade"]["a"] && $loc_i[$loc][$to]["trade"]["a"]) {    // обмен
             // проверим наличие предметов
@@ -195,18 +172,15 @@ if (isset($loc_i[$loc][$login]["trade"])) {
                     $b = 1;
                     if (strpos($i[$j][0], "_") !== false) {
                         $ti = substr($i[$j][0], 0, strpos($i[$j][0], "_"));
-                    }
-                    else {
+                    } else {
                         $ti = $i[$j][0];
                     }
                     if (substr($i[$j][0], 0, 5) == "i.rr.") {
                         $item = explode("|", "руна|50");
-                    }
-                    else {
+                    } else {
                         if (file_exists("items/" . $ti)) {
                             $item = explode("|", (file_get_contents("items/" . $ti)));
-                        }
-                        else {
+                        } else {
                             die("err: no items/" . $i[$j][0]);
                         }
                     }
@@ -221,18 +195,15 @@ if (isset($loc_i[$loc][$login]["trade"])) {
                     $b = 1;
                     if (strpos($ito[$j][0], "_") !== false) {
                         $ti = substr($ito[$j][0], 0, strpos($ito[$j][0], "_"));
-                    }
-                    else {
+                    } else {
                         $ti = $ito[$j][0];
                     }
                     if (substr($ito[$j][0], 0, 5) == "i.rr.") {
                         $item = explode("|", "руна|50");
-                    }
-                    else {
+                    } else {
                         if (file_exists("items/" . $ti)) {
                             $item = explode("|", (file_get_contents("items/" . $ti)));
-                        }
-                        else {
+                        } else {
                             die("err: no items/" . $ito[$j][0]);
                         }
                     }
@@ -262,18 +233,15 @@ if (isset($loc_i[$loc][$login]["trade"])) {
         foreach (array_keys($ito) as $j) {
             if (strpos($ito[$j][0], "_") !== false) {
                 $ti = substr($ito[$j][0], 0, strpos($ito[$j][0], "_"));
-            }
-            else {
+            } else {
                 $ti = $ito[$j][0];
             }
             if (substr($ito[$j][0], 0, 5) == "i.rr.") {
                 $item = explode("|", "руна|50");
-            }
-            else {
+            } else {
                 if (file_exists("items/" . $ti)) {
                     $item = explode("|", (file_get_contents("items/" . $ti)));
-                }
-                else {
+                } else {
                     die("err: no items/" . $ito[$j][0]);
                 }
             }
@@ -290,18 +258,15 @@ if (isset($loc_i[$loc][$login]["trade"])) {
         foreach (array_keys($i) as $j) {
             if (strpos($i[$j][0], "_") !== false) {
                 $ti = substr($i[$j][0], 0, strpos($i[$j][0], "_"));
-            }
-            else {
+            } else {
                 $ti = $i[$j][0];
             }
             if (substr($i[$j][0], 0, 5) == "i.rr.") {
                 $item = explode("|", "руна|50");
-            }
-            else {
+            } else {
                 if (file_exists("items/" . $ti)) {
                     $item = explode("|", (file_get_contents("items/" . $ti)));
-                }
-                else {
+                } else {
                     die("err: no items/" . $i[$j][0]);
                 }
             }
@@ -313,8 +278,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
         }
         if ($loc_i[$loc][$to]["trade"]["a"]) {
             $stmp .= "<br/>" . $tchar . " согласен";
-        }
-        else {
+        } else {
             $stmp .= "<br/>" . $tchar . " пока не согласен";
         }
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&trade=agry\">Я согласен</a><br/><a href=\"$PHP_SELF?sid=$sid&list=inv\">Добавить предмет</a><br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Обновить</a><br/><a href=\"#say\">Сказать</a><br/><a href=\"$PHP_SELF?sid=$sid&trade=cancel\">Отмена</a><br/><br/><a href=\"$PHP_SELF?sid=$sid&trade=help\">Помощь</a>";
