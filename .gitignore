@@ -1,4 +1,6 @@
-.idea
+# ide files
+/.vscode/
+/.idea/
 # игнорим временные файлы
 /game/online/u.*
 # игнорм все кроме .htaccess
