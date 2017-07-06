@@ -25,7 +25,7 @@ abstract class AbstractImage
     public function __construct($file_name)
     {
         $this->file_name = $file_name;
-        $this->info      = getimagesize($file_name, $this->ext_info);
+        $this->info      = \getimagesize($file_name, $this->ext_info);
         $this->image     = $this->loadFile($file_name);
     }
 
@@ -49,7 +49,7 @@ abstract class AbstractImage
      */
     public function __destruct()
     {
-        imagedestroy($this->image);
+        \imagedestroy($this->image);
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class AbstractImage
      */
     public function allocateColor($red, $green, $blue)
     {
-        return imagecolorallocate($this->image, $red, $green, $blue);
+        return \imagecolorallocate($this->image, $red, $green, $blue);
     }
 
     /**
@@ -73,12 +73,12 @@ abstract class AbstractImage
      */
     public function setPixel($x, $y, $color)
     {
-        return imagesetpixel($this->image, $x, $y, $color);
+        return \imagesetpixel($this->image, $x, $y, $color);
     }
 
     public function filledRectangle($x1, $y1, $x2, $y2, $color)
     {
-        return imagefilledrectangle($this->image, $x1, $y1, $x2, $y2, $color);
+        return \imagefilledrectangle($this->image, $x1, $y1, $x2, $y2, $color);
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class AbstractImage
      */
     public function colorAt($x, $y)
     {
-        return imagecolorat($this->image, $x, $y);
+        return \imagecolorat($this->image, $x, $y);
     }
 
     /**

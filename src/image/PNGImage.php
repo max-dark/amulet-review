@@ -23,7 +23,7 @@ class PNGImage extends AbstractImage
      */
     public function loadFile($file_name)
     {
-        return imagecreatefrompng($file_name);
+        return \imagecreatefrompng($file_name);
     }
 
     /** запись картинки в $file_name или STDOUT
@@ -34,6 +34,6 @@ class PNGImage extends AbstractImage
      */
     public function writeFile($file_name = null)
     {
-        return imagepng($this->getImage(), $file_name);
+        return \imagepng($this->getImage(), $file_name);
     }
 }
