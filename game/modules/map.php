@@ -1,6 +1,9 @@
 <?php
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'image.php';
+use MaxDark\Amulet\image\AbstractImage;
+use MaxDark\Amulet\image\JpegImage;
+use MaxDark\Amulet\image\PNGImage;
+use MaxDark\Amulet\image\WBMPImage;
 
 /**
  * 
@@ -110,7 +113,7 @@ function show_map($char, $flag, $image_type)
 }
 
 /**
- * @param Image $image
+ * @param AbstractImage $image
  * @param int   $x
  * @param int   $y
  * @param int   $fg_color
@@ -126,7 +129,7 @@ function set_mark(&$image, $x, $y, $fg_color, $bg_color)
  * @param int $image_type
  * @param int $id
  *
- * @return Image
+ * @return AbstractImage
  */
 function create_image($image_type, $id)
 {
