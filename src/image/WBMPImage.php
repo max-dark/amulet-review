@@ -23,7 +23,7 @@ class WBMPImage extends AbstractImage
      */
     public function loadFile($file_name)
     {
-        return imagecreatefromwbmp($file_name);
+        return \imagecreatefromwbmp($file_name);
     }
 
     /** запись картинки в $file_name или STDOUT
@@ -34,6 +34,6 @@ class WBMPImage extends AbstractImage
      */
     public function writeFile($file_name = null)
     {
-        return imagewbmp($this->getImage(), $file_name);
+        return \imagewbmp($this->getImage(), $file_name);
     }
 }

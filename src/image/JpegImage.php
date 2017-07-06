@@ -23,7 +23,7 @@ class JpegImage extends AbstractImage
      */
     public function loadFile($file_name)
     {
-        return imagecreatefromjpeg($file_name);
+        return \imagecreatefromjpeg($file_name);
     }
 
     /**
@@ -35,6 +35,6 @@ class JpegImage extends AbstractImage
      */
     public function writeFile($file_name = null)
     {
-        return imagejpeg($this->getImage(), $file_name);
+        return \imagejpeg($this->getImage(), $file_name);
     }
 }
