@@ -1,4 +1,7 @@
 <?php
+
+use MaxDark\Amulet\database\DB;
+
 /**
  * @global login
  * @global loc
