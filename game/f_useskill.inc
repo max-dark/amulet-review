@@ -17,7 +17,7 @@
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 if ($use == 'skill.necro') {
-    include "f_necro.dat";
+    include "f_necro.inc";
 }
 if ($use == 'skill.meditation') {
     if ($char[3] >= $char[4]) {

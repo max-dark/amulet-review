@@ -323,10 +323,10 @@ function attack(
                 }
                 // если убили, добавим труп
                 if ($tchar[1] < 1) {
-                    include "f_kill.dat";
+                    include "f_kill.inc";
                 } else {
                     $loc_i[$loct][$to]["char"] = implode("|", $tchar);
-                } // иначе сохраним в f_kill.dat
+                } // иначе сохраним в f_kill.inc
 
             } else {
                 if ( ! $answer) {

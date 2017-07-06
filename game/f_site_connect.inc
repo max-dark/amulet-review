@@ -64,7 +64,7 @@ if ($clan && (check_clan($clan, $login)) == "no") {
 // ок, получили данные, пробуем войти в игру
 $t     = filemtime('../news/news.htm');
 $tnews = date("d/m/Y", $t);
-include_once('f_site_connect2.dat');
+include_once('f_site_connect2.inc');
 if (filesize("online/" . $login) == 1 || strpos($s, "cnick=1") === false) {
     @unlink("online/" . $login);
 }

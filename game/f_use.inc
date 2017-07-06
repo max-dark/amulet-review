@@ -25,13 +25,13 @@ if ($use) {
         else {
             $scroll = 0;    // со свитка?
             if (substr($use, 0, 2) == "i.") {
-                include "f_useitem.dat";
+                include "f_useitem.inc";
             }
             if (substr($use, 0, 2) == "m.") {
-                include "f_usemagic.dat";
+                include "f_usemagic.inc";
             }
             if (substr($use, 0, 6) == "skill.") {
-                include "f_useskill.dat";
+                include "f_useskill.inc";
             }
         }
     } else {

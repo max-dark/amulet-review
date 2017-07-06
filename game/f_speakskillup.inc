@@ -29,10 +29,10 @@ $max   = $tmp[4];
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 if (substr($skill, 0, 2) == "m.") {
-    include "f_speakskillupm.dat";
+    include "f_speakskillupm.inc";
 }
 if (substr($skill, 0, 2) == "p.") {
-    include "f_speakskillupp.dat";
+    include "f_speakskillupp.inc";
 }
 
 $lev = 0;

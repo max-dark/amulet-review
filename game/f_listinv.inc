@@ -17,7 +17,7 @@
 // список инвентори
 $items = explode("|", $loc_i[$loc][$login]["items"]);
 if ($up || $down) {
-    include "f_listinvm.dat";
+    include "f_listinvm.inc";
 }
 
 // в $to цель, если есть

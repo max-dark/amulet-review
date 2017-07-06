@@ -110,19 +110,19 @@ if (($magic[6] && $to) || ! $magic[6]) {
                     if (rand(0, 100) <= $cast) {    // удалось
                         // все заклинания
                         if (substr($use, 0, 4) == "m.w.") {
-                            include "plugin/m.w.dat";
+                            include "plugin/m.w.inc";
                         } else {
                             if (substr($use, 0, 6) == "m.heal") {
-                                include "plugin/m.heal.dat";
+                                include "plugin/m.heal.inc";
                             } else {
                                 if (substr($use, 0, 4) == "m.s.") {
-                                    include "plugin/m.s.dat";
+                                    include "plugin/m.s.inc";
                                 } else {
-                                    $inc_plugin = "plugin/" . $use . ".dat";
+                                    $inc_plugin = "plugin/" . $use . ".inc";
                                     if (file_exists($inc_plugin)) {
                                         include $inc_plugin;
                                     } else {
-                                        die("err: no plugin/" . $use . ".dat");
+                                        die("err: no plugin/" . $use . ".inc");
                                     }
                                 }
                             }
@@ -133,7 +133,7 @@ if (($magic[6] && $to) || ! $magic[6]) {
                         addjournal($loc, "all", $char[0] . "(заклинание сорвалось)", $login);
                         $loss = 1;
                         if (substr($use, 0, 4) == "m.w.") {
-                            include "plugin/m.w.dat";
+                            include "plugin/m.w.inc";
                         }
                     }
                 } else {

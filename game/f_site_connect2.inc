@@ -87,7 +87,7 @@ if ( ! $tfound) {
 }
 
 if ($p != $tp) {
-    include_once("f_npass.dat");
+    include_once("f_npass.inc");
 }
 
 if ($tfound == 2) {

@@ -73,25 +73,25 @@ if (substr($use, 0, 4) == 'i.m.' || substr($use, 0, 4) == 'i.r.') {
         $use  = $scroll;
         $list = 'all';
     } else {
-        require "f_usemagic.dat";
+        require "f_usemagic.inc";
     }    // чтобы вывести список целей
 } else {
     if (substr($use, 0, 4) == 'i.w.' || substr($use, 0, 4) == 'i.a.') {
-        include "plugin/i.w.dat";
+        include "plugin/i.w.inc";
     } else {
         if (substr($use, 0, 4) == "i.f.") {
-            include "plugin/i.f.dat";
+            include "plugin/i.f.inc";
         } else {
             if (substr($use, 0, 4) == "i.i.") {
-                include "plugin/i.i.dat";
+                include "plugin/i.i.inc";
             } else {
                 if (substr($use, 0, 4) == "i.bc") {
-                    include "plugin/i.bc.dat";
+                    include "plugin/i.bc.inc";
                 } else {
                     if (substr($use, 0, 4) == "i.ms") {
-                        include "plugin/i.ms.dat";
+                        include "plugin/i.ms.inc";
                     } else {
-                        $inc_plugin = "plugin/" . $use . ".dat";
+                        $inc_plugin = "plugin/" . $use . ".inc";
                         if (file_exists($inc_plugin)) {
                             include $inc_plugin;
                         } else {

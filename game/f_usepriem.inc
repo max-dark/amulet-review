@@ -214,7 +214,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                         ($tdef[0] != "p.d.s" || $tdef[0] == "p.d.s" && rand(0, 100) > $tdef[3])
                     ) {
                         $tatk = 1;
-                        require("plugin/m.kon.dat");
+                        require("plugin/m.kon.inc");
                     }
                     if ($tdef[0] == "p.d.s") {
                         $loc_i[$loc][$to]["def"] = "";
