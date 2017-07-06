@@ -1,6 +1,6 @@
 <?php
 
-$npc = array(
+return [
 
     'char' => 'Лeкcли|100|100|100|100||||||||',
 
@@ -12,4 +12,4 @@ $npc = array(
 
     'bank' => '90:1:4=i.f.meat.fried:1|80:1:4=i.f.sausage:1|90:1:2=i.f.vetchina:1|60:1:2=i.f.ham:1|90:1:3=i.set.shampur:1|90:1:2=i.w.k.razd:1|90:10:20=i.spichka:1',
 
-);
+];

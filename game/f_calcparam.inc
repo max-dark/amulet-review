@@ -1,140 +1,219 @@
 <?php
 /**Пересчет характеристик персонажа
- * @param string $loc локация
+ *
+ * @param string $loc   локация
  * @param string $login персонаж
  */
 function calcparam($loc, $login)
 {
-    if ($login == "u.qv") return;
+    if ($login == "u.qv") {
+        return;
+    }
 
     global $loc_i, $game;
-    if (!isset($loc_i[$loc][$login])) return;
+    if ( ! isset($loc_i[$loc][$login])) {
+        return;
+    }
 
-    $auser = $loc_i[$loc][$login];
-    $char = explode("|", $auser["char"]);
+    $auser  = $loc_i[$loc][$login];
+    $char   = explode("|", $auser["char"]);
     $skills = explode("|", $auser["skills"]);
 
     $char[2] = 10 + $skills[0] * 10;
-    if ($game["fid"] == $login && $game["floc"] == $loc) $char[2] += 10;
+    if ($game["fid"] == $login && $game["floc"] == $loc) {
+        $char[2] += 10;
+    }
     $char[4] = 10 + $skills[2] * 10;
 
-    $twar = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    $twar[6] = $skills[1] + $skills[12] + ($skills[0] - 1) * 2;
-    $twar[7] = 2 * ($skills[1] + $skills[11] + ($skills[0] - 1) * 2);
-    $twar[9] = 5 * ($skills[2] + $skills[15] - ($skills[0] + 1));
+    $twar     = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $twar[6]  = $skills[1] + $skills[12] + ($skills[0] - 1) * 2;
+    $twar[7]  = 2 * ($skills[1] + $skills[11] + ($skills[0] - 1) * 2);
+    $twar[9]  = 5 * ($skills[2] + $skills[15] - ($skills[0] + 1));
     $twar[10] = 10 * ($skills[2] + $skills[14] - $skills[0]);
     $twar[11] = 15 * ($skills[14] + $skills[2] - ($skills[0] + 1));
-// считаем крутость exp
-    for ($i = 0; $i < count($skills); $i++) if ($i != 3) $twar[13] += $skills[$i];    // кроме level
+    // считаем крутость exp
+    for ($i = 0; $i < count($skills); $i++) {
+        if ($i != 3) {
+            $twar[13] += $skills[$i];
+        }
+    }    // кроме level
 
-// что одето
-    $b = 0;
+    // что одето
+    $b    = 0;
     $hits = 0;
-    $art = "";
+    $art  = "";
     if ($auser["equip"]) {
         $equip = explode("|", $auser["equip"]);
-        foreach (array_keys($equip) as $i) if ($equip[$i]) {
-            if (strpos($equip[$i], "_") !== false) $tid = substr($equip[$i], 0, strpos($equip[$i], "_")); else $tid = $equip[$i];
-            if (!$equip[$i] || strpos($auser["items"], $equip[$i] . ":") === false || !file_exists("items/" . $tid) || !$tid) {
-                unset($equip[$i]);
-                $auser["equip"] = implode("|", $equip);
-                continue;
-            }
-            // загружаем предмет
-            $item = explode("|", (file_get_contents("items/" . $tid)));
-            $str = "0:0:0";
-            if (substr($equip[$i], 0, 4) == "i.a." && $item[3]) $str = $item[3];
-            if (substr($equip[$i], 0, 4) == "i.w." && $item[4]) $str = $item[4];
-            $str = explode(":", $str);
-
-            if ($skills[1] < $str[1]) $dex = $str[1] - $skills[1]; else $dex = 0;
-            if ($skills[2] < $str[2]) $int = $str[2] - $skills[2]; else $int = 0;
-            if ($skills[0] < $str[0]) $str = $str[0] - $skills[0]; else $str = 0;// обязат. последним!
-            $hits += $dex * 10;
-
-            if (substr($equip[$i], 0, 4) == "i.a." && substr($equip[$i], 0, 6) != "i.a.s.") {
-                $tarm = $item[2] - $str * 2 - $int * 2;
-                if ($tarm > 0) $twar[5] += $tarm;
-            }
-            if (substr($equip[$i], 0, 6) == "i.a.s.") {
-                $tarm = $item[2] - $str * 2 - $int * 2;
-                if ($tarm > 0) $twar[8] = $tarm;
-            }
-
-            if (substr($equip[$i], 0, 4) == "i.w.") {    //weapon
-                $b = 1;
-                $twar[3] = $item[5] - round($skills[1] / 2);
-                if (substr($equip[$i], 0, 6) == "i.w.r.") $twar[4] = 1;
-                $twar[12] = $item[6];
-                if ($twar[4]) {        // стрельба
-                    $twar[14] = $item[7];    // патроны
-                    $twar[0] += 10 * ($skills[1] + $skills[10] - 1);
-                    if ($char[12]) $twar[0] -= 10;
-                } else {        // холодное оружие
-                    $twar[14] = $item[7];
-                    $twar[0] += 10 * ($skills[1] + $skills[9]);
+        foreach (array_keys($equip) as $i) {
+            if ($equip[$i]) {
+                if (strpos($equip[$i], "_") !== false) {
+                    $tid = substr($equip[$i], 0, strpos($equip[$i], "_"));
+                } else {
+                    $tid = $equip[$i];
                 }
-                $twar[1] += $item[2] - $str * 2 - $int * 2;
-                $twar[2] += $item[3] - $str * 2 - $int * 2;
-                if (substr($equip[$i], 0, 8) != "i.w.r.c.") {
-                    $twar[1] += $skills[0];
-                    $twar[2] += $skills[0];
+                if ( ! $equip[$i] || strpos($auser["items"], $equip[$i] . ":") === false ||
+                     ! file_exists("items/" . $tid) || ! $tid
+                ) {
+                    unset($equip[$i]);
+                    $auser["equip"] = implode("|", $equip);
+                    continue;
                 }
-            }
-            // артефакт
-            if ($tid != $equip[$i] || strpos($equip[$i], "..") !== false) {
-                $xF = preg_match_all("/\.\.(\w+)/", $equip[$i], $regF);
-                for ($j = 0; $j < $xF; $j++) {
-                    $ti = explode("|", implode(file("items/i.i." . $regF[1][$j])));
-                    $ti = explode(",", $ti[2]);
-                    for ($k = 0; $k < count($ti); $k++) {
-                        $tir = explode(":", $ti[$k]);
-                        if (strpos($art, "|" . $regF[1][$j]) === false) {
-                            if ($tir[0] > 50) $char[$tir[0] - 50] += $tir[1]; else $twar[$tir[0]] += $tir[1];
-                        }
+                // загружаем предмет
+                $item = explode("|", (file_get_contents("items/" . $tid)));
+                $str  = "0:0:0";
+                if (substr($equip[$i], 0, 4) == "i.a." && $item[3]) {
+                    $str = $item[3];
+                }
+                if (substr($equip[$i], 0, 4) == "i.w." && $item[4]) {
+                    $str = $item[4];
+                }
+                $str = explode(":", $str);
+
+                if ($skills[1] < $str[1]) {
+                    $dex = $str[1] - $skills[1];
+                } else {
+                    $dex = 0;
+                }
+                if ($skills[2] < $str[2]) {
+                    $int = $str[2] - $skills[2];
+                } else {
+                    $int = 0;
+                }
+                if ($skills[0] < $str[0]) {
+                    $str = $str[0] - $skills[0];
+                } else {
+                    $str = 0;
+                }// обязат. последним!
+                $hits += $dex * 10;
+
+                if (substr($equip[$i], 0, 4) == "i.a." && substr($equip[$i], 0, 6) != "i.a.s.") {
+                    $tarm = $item[2] - $str * 2 - $int * 2;
+                    if ($tarm > 0) {
+                        $twar[5] += $tarm;
                     }
-                    $art .= "|" . $regF[1][$j];
+                }
+                if (substr($equip[$i], 0, 6) == "i.a.s.") {
+                    $tarm = $item[2] - $str * 2 - $int * 2;
+                    if ($tarm > 0) {
+                        $twar[8] = $tarm;
+                    }
+                }
+
+                if (substr($equip[$i], 0, 4) == "i.w.") {    //weapon
+                    $b       = 1;
+                    $twar[3] = $item[5] - round($skills[1] / 2);
+                    if (substr($equip[$i], 0, 6) == "i.w.r.") {
+                        $twar[4] = 1;
+                    }
+                    $twar[12] = $item[6];
+                    if ($twar[4]) {        // стрельба
+                        $twar[14] = $item[7];    // патроны
+                        $twar[0] += 10 * ($skills[1] + $skills[10] - 1);
+                        if ($char[12]) {
+                            $twar[0] -= 10;
+                        }
+                    } else {        // холодное оружие
+                        $twar[14] = $item[7];
+                        $twar[0] += 10 * ($skills[1] + $skills[9]);
+                    }
+                    $twar[1] += $item[2] - $str * 2 - $int * 2;
+                    $twar[2] += $item[3] - $str * 2 - $int * 2;
+                    if (substr($equip[$i], 0, 8) != "i.w.r.c.") {
+                        $twar[1] += $skills[0];
+                        $twar[2] += $skills[0];
+                    }
+                }
+                // артефакт
+                if ($tid != $equip[$i] || strpos($equip[$i], "..") !== false) {
+                    $xF = preg_match_all("/\.\.(\w+)/", $equip[$i], $regF);
+                    for ($j = 0; $j < $xF; $j++) {
+                        $ti = explode("|", implode(file("items/i.i." . $regF[1][$j])));
+                        $ti = explode(",", $ti[2]);
+                        for ($k = 0; $k < count($ti); $k++) {
+                            $tir = explode(":", $ti[$k]);
+                            if (strpos($art, "|" . $regF[1][$j]) === false) {
+                                if ($tir[0] > 50) {
+                                    $char[$tir[0] - 50] += $tir[1];
+                                } else {
+                                    $twar[$tir[0]] += $tir[1];
+                                }
+                            }
+                        }
+                        $art .= "|" . $regF[1][$j];
+                    }
                 }
             }
         }
     }
 
-    if (!$b) {                    // рукопашная
+    if ( ! $b) {                    // рукопашная
         $twar[1] += $skills[0] + $skills[8] - 1;
         $twar[2] += $skills[0] + $skills[8] + 1;
         $twar[0] += 10 * ($skills[1] + $skills[8] + 2);
-        if ($twar[0] >= 100) $twar[0] = 95;
-        if ($char[12]) $twar[0] -= 20;
-        $twar[3] = 5 - round($skills[1] / 2);
+        if ($twar[0] >= 100) {
+            $twar[0] = 95;
+        }
+        if ($char[12]) {
+            $twar[0] -= 20;
+        }
+        $twar[3]  = 5 - round($skills[1] / 2);
         $twar[12] = "кулаками";
     }
 
-// штраф
-    if (strpos($auser["equip"], "..do") !== false) $hits += 20;
+    // штраф
+    if (strpos($auser["equip"], "..do") !== false) {
+        $hits += 20;
+    }
     $twar[0] -= $hits;
 
-// проверки
-    if ($twar[0] <= 0) $twar[0] = 5;
-    if ($twar[0] > 95) $twar[0] = 95;
-    if ($twar[1] < 0) $twar[1] = 0;
-    if ($twar[2] < 0) $twar[2] = 0;
-    if ($twar[3] < 3) $twar[3] = 3;
-    if ($twar[5] < 0) $twar[5] = 0;
-    if ($twar[6] < 0) $twar[6] = 0;
-    if ($twar[7] < 0) $twar[7] = 0;
-    if ($twar[9] < 0) $twar[9] = 0;
-    if ($twar[10] < 0) $twar[10] = 0;
-    if ($twar[7] && strpos($auser["equip"], "i.a.s.") === false) $twar[7] = 0;
-    if ($char[1] > $char[2]) $char[1] = $char[2];
-    if ($char[3] > $char[4]) $char[3] = $char[4];
+    // проверки
+    if ($twar[0] <= 0) {
+        $twar[0] = 5;
+    }
+    if ($twar[0] > 95) {
+        $twar[0] = 95;
+    }
+    if ($twar[1] < 0) {
+        $twar[1] = 0;
+    }
+    if ($twar[2] < 0) {
+        $twar[2] = 0;
+    }
+    if ($twar[3] < 3) {
+        $twar[3] = 3;
+    }
+    if ($twar[5] < 0) {
+        $twar[5] = 0;
+    }
+    if ($twar[6] < 0) {
+        $twar[6] = 0;
+    }
+    if ($twar[7] < 0) {
+        $twar[7] = 0;
+    }
+    if ($twar[9] < 0) {
+        $twar[9] = 0;
+    }
+    if ($twar[10] < 0) {
+        $twar[10] = 0;
+    }
+    if ($twar[7] && strpos($auser["equip"], "i.a.s.") === false) {
+        $twar[7] = 0;
+    }
+    if ($char[1] > $char[2]) {
+        $char[1] = $char[2];
+    }
+    if ($char[3] > $char[4]) {
+        $char[3] = $char[4];
+    }
 
-// ок, сохраняем...
+    // ок, сохраняем...
     $auser["char"] = implode("|", $char);
     if ($auser["war"]) {
-        $killd = explode("|", $auser["war"]);
+        $killd    = explode("|", $auser["war"]);
         $twar[15] = $killd[15];
         $twar[16] = $killd[16];
     }
-    $auser["war"] = implode("|", $twar);
+    $auser["war"]        = implode("|", $twar);
     $loc_i[$loc][$login] = $auser;
 }

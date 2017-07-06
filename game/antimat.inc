@@ -16,7 +16,6 @@ $gw[] = "миди";
 $gw[] = "яблок";
 $gw[] = "бладе";
 
-
 // Массив плохих слов - только кириллица
 
 $bw[] = "><у";
@@ -60,7 +59,6 @@ $bw[] = "низд";
 $bw[] = "нисд";
 $bw[] = "нузд";
 $bw[] = "нусд";
-
 
 $bw[] = "пызд";
 $bw[] = "пысд";
@@ -156,57 +154,67 @@ $bw[] = "дпачи";
 $bw[] = "дпацхи";
 
 $change2 = [
-    'Ä' => 'a', 'Å' => 'a', 'Æ' => 'a', 'à' => 'a', 'ä' => 'a', 'å' => 'a',
-    'Ö' => 'o', 'ö' => 'o', 'ø' => 'o', 'ò' => 'o',
-    'è' => 'e', 'é' => 'e', 'É' => 'e',
-    'Ü' => 'u', 'ü' => 'u', 'ù' => 'u',
-    'Ø' => 'i', 'Ñ' => 'i',
-    'Π' => 'p', 'π' => 'p',
+    'Ä' => 'a',
+    'Å' => 'a',
+    'Æ' => 'a',
+    'à' => 'a',
+    'ä' => 'a',
+    'å' => 'a',
+    'Ö' => 'o',
+    'ö' => 'o',
+    'ø' => 'o',
+    'ò' => 'o',
+    'è' => 'e',
+    'é' => 'e',
+    'É' => 'e',
+    'Ü' => 'u',
+    'ü' => 'u',
+    'ù' => 'u',
+    'Ø' => 'i',
+    'Ñ' => 'i',
+    'Π' => 'p',
+    'π' => 'p',
     'Δ' => 'd',
     'Λ' => 'l',
     'ß' => 'b'
 ];
 
-
 /**
  * split utf-8 string to array of chars
+ *
  * @param string $str
+ *
  * @return array
  */
-function chars_of($str) {
+function chars_of($str)
+{
     return preg_split('/(?<!^)(?!$)/u', $str);
 }
 
 /**
  * utf-8 analog for strtr function
+ *
  * @param string $str
  * @param string $from
  * @param string $to
+ *
  * @return string
  */
-function mb_strtr($str, $from, $to) {
-    return strtr(
-        $str,
-        array_combine(
-            chars_of($from),
-            chars_of($to)
-        )
-    );
+function mb_strtr($str, $from, $to)
+{
+    return strtr($str, array_combine(chars_of($from), chars_of($to)));
 }
 
 $en2ru = [];
-
 
 function GetBadWord($s) // Возвращает первое плохое слово или пустую строку
 
 {
     global $gw, $bw, $change2, $en2ru;
-    
+
     if (empty($en2ru)) {
-        $en2ru = array_combine(
-            chars_of('a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9'),
-            chars_of('ааббцвгдежззийклмноопрсстуфхххцчшуяя')
-        );
+        $en2ru = array_combine(chars_of('a@b6cvgde*z3ijklmno0prs$tufhx+c4wy&9'),
+            chars_of('ааббцвгдежззийклмноопрсстуфхххцчшуяя'));
     }
     $s = strtr($s, $change2);
     $s = str_replace("&amp;", "я", $s);
@@ -227,7 +235,7 @@ function GetBadWord($s) // Возвращает первое плохое сло
 
     // Пробелы убираем интеллектуально
     $bspos = 0;
-    $s = " $s ";
+    $s     = " $s ";
     for ($i = 1; $i < strlen($s); $i++) {
         $ch = $s[$i];
         if (($ch == " ") or ($ch == ",") or ($ch == ".")) {
@@ -239,7 +247,7 @@ function GetBadWord($s) // Возвращает первое плохое сло
             $bspos = $i;
         }
     }
-    $s = str_replace("-", "", trim($s));
+    $s     = str_replace("-", "", trim($s));
     $s_out = $s;
 
     // Преобразуем в нижний регистр
@@ -250,13 +258,13 @@ function GetBadWord($s) // Возвращает первое плохое сло
     for ($i = 0; $i < count($gw); $i++) {
         $pos = mb_strpos($s, $gw[$i]);
         while ($pos !== false) {
-            $s = mb_substr($s, 0, $pos) . mb_substr($s, $pos + mb_strlen($gw[$i]));
+            $s     = mb_substr($s, 0, $pos) . mb_substr($s, $pos + mb_strlen($gw[$i]));
             $s_out = mb_substr($s_out, 0, $pos) . mb_substr($s_out, $pos + strlen($gw[$i]));
-            $pos = mb_strpos($s, $gw[$i]);
+            $pos   = mb_strpos($s, $gw[$i]);
         }
     }
 
-    $s = " $s";
+    $s     = " $s";
     $s_out = " $s_out";
 
     for ($i = 0; $i < count($bw); $i++) {
@@ -271,5 +279,6 @@ function GetBadWord($s) // Возвращает первое плохое сло
             return $s;
         }
     }
+
     return "";
 }

@@ -1,11 +1,44 @@
 <?php
 
+use MaxDark\Amulet\image\AbstractImage;
+use MaxDark\Amulet\image\JpegImage;
+use MaxDark\Amulet\image\PNGImage;
+use MaxDark\Amulet\image\WBMPImage;
 
-require_once 'modules/image.php';
+/**
+ * 
+ * @param int $x
+ * @param int $y
+ *
+ * @return int[]
+ */
+function getLocationType($x, $y)
+{
+    if ($y > 1101) {
+        // Волчий остров
+        $x    = round(($x - 20) / 6);
+        $y    = round(($y - 1101) / 6);
+        $type = 2;
+    } else {
+        if ($x > 1650) {
+            // территория Ансалона
+            $x    = round(($x - 450 - 1200) / 15);
+            $y    = round($y / 15);
+            $type = 1;
+        } else {
+            // основная территория
+            $x    = round(($x - 450) / 12);
+            $y    = round($y / 12);
+            $type = 0;
+        }
+    }
+    return [$type, $x, $y];
+}
 
 /**
  * @param string $location
- * @return array
+ *
+ * @return int[]
  */
 function calculateCoordinates($location)
 {
@@ -13,50 +46,37 @@ function calculateCoordinates($location)
     switch (substr($location, 0, 4)) {
         case "c.1.":
             $location = "x1429x168";
-            break;
+        break;
         case "c.2.":
             $location = "x781x429";
-            break;
+        break;
         case "c.3.":
             $location = "x1129x369";
-            break;
+        break;
         case "c.4.":
             $location = "x2320x348";
-            break;
+        break;
         default:
-            if ($location == "_begin") $location = "x1158x523";
-            if ($location == "arena")  $location = "x1086x501";
+            if ($location == "_begin") {
+                $location = "x1158x523";
+            }
+            if ($location == "arena") {
+                $location = "x1086x501";
+            }
     }
 
-    /** @noinspection PhpUnusedLocalVariableInspection */
-    list($type, $x, $y) = explode("x", $location);
-    if ($y > 1101) {
-        // Волчий остров
-        $x = round(($x - 20) / 6);
-        $y = round(($y - 1101) / 6);
-        $type = 2;
-    } else
-        if ($x > 1650) {
-            // территория Ансалона
-            $x = round(($x - 450 - 1200) / 15);
-            $y = round($y / 15);
-            $type = 1;
-        } else {
-            // основная территория
-            $x = round(($x - 450) / 12);
-            $y = round($y / 12);
-            $type = 0;
-        }
-    return array($type, $x, $y);
+    list(, $x, $y) = explode("x", $location);
+
+    return getLocationType($x, $y);
 }
 
-
 /**
- * @param string $char локация персонажа
- * @param string $flag локация флага
- * @param int $image_type формат изображения
+ * @param string $char       локация персонажа
+ * @param string $flag       локация флага
+ * @param int    $image_type формат изображения
  */
-function show_map($char, $flag, $image_type) {
+function show_map($char, $flag, $image_type)
+{
     list($char_map, $char_x, $char_y) = calculateCoordinates($char);
     list($flag_map, $flag_x, $flag_y) = calculateCoordinates($flag);
 
@@ -64,7 +84,7 @@ function show_map($char, $flag, $image_type) {
 
     $white_color = $image->allocateColor(0xff, 0xff, 0xff);
     $black_color = $image->allocateColor(0, 0, 0);
-    $color = $image->colorAt($char_x + 1, $char_y + 1);
+    $color       = $image->colorAt($char_x + 1, $char_y + 1);
     if ($color == 0 || $color == 0xFFFFDC) {
         $bg_color = 1;
         $fg_color = $white_color;
@@ -93,11 +113,11 @@ function show_map($char, $flag, $image_type) {
 }
 
 /**
- * @param Image $image
- * @param int $x
- * @param int $y
- * @param int $fg_color
- * @param int $bg_color
+ * @param AbstractImage $image
+ * @param int   $x
+ * @param int   $y
+ * @param int   $fg_color
+ * @param int   $bg_color
  */
 function set_mark(&$image, $x, $y, $fg_color, $bg_color)
 {
@@ -108,27 +128,30 @@ function set_mark(&$image, $x, $y, $fg_color, $bg_color)
 /**
  * @param int $image_type
  * @param int $id
- * @return Image
+ *
+ * @return AbstractImage
  */
 function create_image($image_type, $id)
 {
     switch ($image_type) {
         case 1:
             $image = new WBMPImage(build_name($id, "wbmp"));
-            break;
+        break;
         case 2:
             $image = new JpegImage(build_name($id, "jpg"));
-            break;
+        break;
         default:
             $image = new PNGImage(build_name($id, "png"));
-            break;
+        break;
     }
+
     return $image;
 }
 
 /**
- * @param int $id
+ * @param int    $id
  * @param string $file_ext
+ *
  * @return string
  */
 function build_name($id, $file_ext)

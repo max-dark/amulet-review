@@ -1,6 +1,6 @@
 <?php
 
-$npc = array(
+return [
 
     'char' => 'бoльшaя coбaкa|30|30|1|1||||2||||',
 
@@ -8,4 +8,4 @@ $npc = array(
 
     'osvej' => 'i.h.k.klyki:1|i.f.meat:1',
 
-);
+];

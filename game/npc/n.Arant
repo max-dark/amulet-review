@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Аpaнт|100|100|100|100||||||||',
-    'war' => '80|9|14|5|1||20||||||лукoм|||x1085x587:1:2',
+return [
+    'char'  => 'Аpaнт|100|100|100|100||||||||',
+    'war'   => '80|9|14|5|1||20||||||лукoм|||x1085x587:1:2',
     'items' => 'i.a.b.leather:1|i.a.w.c:1|i.w.r.b.berezov:1',
     'equip' => 'i.a.b.leather|i.a.w.c|i.w.r.b.berezov',
-    'bank' => '90:12:24=i.w.r.stone:1|90:4:12=i.w.r.surriken:1|70:1:4=i.w.r.prasha:1|70:4:10=i.w.r.drotik:1|90:1:8=i.w.r.knife:1|70:1:2=i.w.r.bumerang:1|80:1:8=i.w.r.tomagavk:1|80:1:4=i.w.r.pilum:1|70:1:2=i.w.r.molot:1|70:1:1=i.w.r.spear:1|90:3:8=i.set.bow:1|90:1:2=i.set.plotn:1|90:1:10=i.set.arrow:1|90:1:6=i.set.bolt:1|90:12:32=i.arrow:1|90:6:28=i.bolt:1|90:1:5=i.w.r.b.detsk:1|90:1:4=i.w.r.b.short:1|80:1:4=i.w.r.b.bow:1|80:1:4=i.w.r.b.long:1|70:1:3=i.w.r.b.ivov:1|70:1:2=i.w.r.b.berezov:1|70:1:2=i.w.r.b.sport:1|60:1:2=i.w.r.b.hunter:1|50:1:2=i.w.r.b.battle:1|20:1:2=i.w.r.b.compozit:1|90:1:6=i.w.r.c.ruchn:1|80:1:4=i.w.r.c.legk:1|80:1:4=i.w.r.c.gazov:1|80:1:3=i.w.r.c.arbalet:1|70:1:2=i.w.r.c.sredn:1|50:1:2=i.w.r.c.heavy:1|40:1:2=i.w.r.c.osadn:1|20:1:2=i.w.r.c.impersk:1',
-);
+    'bank'  => '90:12:24=i.w.r.stone:1|90:4:12=i.w.r.surriken:1|70:1:4=i.w.r.prasha:1|70:4:10=i.w.r.drotik:1|90:1:8=i.w.r.knife:1|70:1:2=i.w.r.bumerang:1|80:1:8=i.w.r.tomagavk:1|80:1:4=i.w.r.pilum:1|70:1:2=i.w.r.molot:1|70:1:1=i.w.r.spear:1|90:3:8=i.set.bow:1|90:1:2=i.set.plotn:1|90:1:10=i.set.arrow:1|90:1:6=i.set.bolt:1|90:12:32=i.arrow:1|90:6:28=i.bolt:1|90:1:5=i.w.r.b.detsk:1|90:1:4=i.w.r.b.short:1|80:1:4=i.w.r.b.bow:1|80:1:4=i.w.r.b.long:1|70:1:3=i.w.r.b.ivov:1|70:1:2=i.w.r.b.berezov:1|70:1:2=i.w.r.b.sport:1|60:1:2=i.w.r.b.hunter:1|50:1:2=i.w.r.b.battle:1|20:1:2=i.w.r.b.compozit:1|90:1:6=i.w.r.c.ruchn:1|80:1:4=i.w.r.c.legk:1|80:1:4=i.w.r.c.gazov:1|80:1:3=i.w.r.c.arbalet:1|70:1:2=i.w.r.c.sredn:1|50:1:2=i.w.r.c.heavy:1|40:1:2=i.w.r.c.osadn:1|20:1:2=i.w.r.c.impersk:1',
+];

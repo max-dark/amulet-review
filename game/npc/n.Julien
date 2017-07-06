@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Жульeн|100|100|100|100||||||||',
-    'war' => '80|4|11|5|||||||||кулaкaми|||x1185x560:20:60',
+return [
+    'char'  => 'Жульeн|100|100|100|100||||||||',
+    'war'   => '80|4|11|5|||||||||кулaкaми|||x1185x560:20:60',
     'items' => 'i.a.e.s:1',
     'equip' => 'i.a.e.s',
-    'bank' => '90:1:4=i.magicbook:1|80:1:2=i.rr.empty:1|80:1:2=i.w.k.smage:1|50:1:1=i.w.u.jmage:1|70:1:1=i.a.e.mage:1|90:1:3=i.m.mark:1|90:1:8=i.m.recall:1|60:1:1=i.r.mark:1|70:1:1=i.r.recall:1|60:1:8=i.m.heal:1|90:1:6=i.m.createfood:1|60:1:4=i.m.s.wolf:1|70:1:6=i.m.w.arrow:1|70:1:4=i.m.w.firearrow:1|60:1:6=i.m.w.lighting:1|90:1:2=i.r.createfood:1|70:1:2=i.r.s.wolf:1|90:1:2=i.r.w.arrow:1|65:1:2=i.r.w.firearrow:1',
-);
+    'bank'  => '90:1:4=i.magicbook:1|80:1:2=i.rr.empty:1|80:1:2=i.w.k.smage:1|50:1:1=i.w.u.jmage:1|70:1:1=i.a.e.mage:1|90:1:3=i.m.mark:1|90:1:8=i.m.recall:1|60:1:1=i.r.mark:1|70:1:1=i.r.recall:1|60:1:8=i.m.heal:1|90:1:6=i.m.createfood:1|60:1:4=i.m.s.wolf:1|70:1:6=i.m.w.arrow:1|70:1:4=i.m.w.firearrow:1|60:1:6=i.m.w.lighting:1|90:1:2=i.r.createfood:1|70:1:2=i.r.s.wolf:1|90:1:2=i.r.w.arrow:1|65:1:2=i.r.w.firearrow:1',
+];

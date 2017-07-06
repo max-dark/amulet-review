@@ -1,23 +1,30 @@
 <?php
-/**Добавление/обновление таймера
- * @param string $loct локация
- * @param int $curr текущий таймер
- * @param int $time период
- * @param string $text текст для установки или old для использования старого
- * @param int $delete флаг удаления текущего
+/**
+ * Добавление/обновление таймера
  */
-function addtimer($loct, $curr, $time, $text = "old", $delete = 1)
+/**
+ * Добавление/обновление таймера
+ *
+ * @param string       $location_id локация
+ * @param int          $curr        тек. таймер в локации $location_id
+ * @param int          $time        период
+ * @param string|array $value       описание таймера в виде текста либо массива для установки или old для использования
+ *                                  старого
+ * @param int          $delete      флаг удаления текущего
+ */
+function addtimer($location_id, $curr, $time, $value = "old", $delete = 1)
 {
-
-//$curr - тек. таймер в локации $loct
-    global $loc_i, $loc_t, $loc, $login;
-    loadloc($loct);
-    $new = time() + $time;
-    while (isset($loc_t[$loct][$new]))
-        $new++;
-    if ($text == "old")
-        $text = $loc_t[$loct][$curr];
-    $loc_t[$loct][$new] = $text;
-    if ($delete && $curr)
-        unset($loc_t[$loct][$curr]);
+    global $loc_t;
+    loadloc($location_id);
+    $new_time = time() + $time;
+    while (isset($loc_t[$location_id][$new_time])) {
+        $new_time++;
+    }
+    if ($value == "old") {
+        $value = $loc_t[$location_id][$curr];
+    }
+    $loc_t[$location_id][$new_time] = $value;
+    if ($delete && $curr) {
+        unset($loc_t[$location_id][$curr]);
+    }
 }

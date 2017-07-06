@@ -1,6 +1,7 @@
 <?php
 /**
  * Конфигурация игры
+ *
  * @file game/config.php
  */
 
@@ -14,10 +15,14 @@ $dbpass = 'pass';
 /** @var string $dbname имя базы */
 $dbname = 'amulet';
 
+define('BASE_DIR', __DIR__);
+define('NPC_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'npc' . DIRECTORY_SEPARATOR);
+define('SPEACK_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'speak' . DIRECTORY_SEPARATOR);
+
 //=========================
 
 /** @var string $PHP_SELF мотор игры */
-$PHP_SELF = 'g.php';
+$PHP_SELF = 'index.php';
 /** @var string $GAME_NAME */
 $GAME_NAME = 'Моя игра';
 /** @var int $g_max максимум игроков */
@@ -79,3 +84,5 @@ $g_attr_one = 5;
 $g_skills = 50;
 /** @var int $g_skills_one максимальный уровень навыка */
 $g_skills_one = 5;
+
+$f_all = false;

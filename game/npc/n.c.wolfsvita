@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'волк [свита]|350|350|1|1||||4||||',
-    'war' => '95|20|30|4||30|30|||10|60|60|алебардой|60||',
-    'osvej' => 'i.h.s.wolf:1|i.h.k.wolf:1|i.h.kog.wolf:1|i.f.meat:1',
+return [
+    'char'     => 'волк [свита]|350|350|1|1||||4||||',
+    'war'      => '95|20|30|4||30|30|||10|60|60|алебардой|60||',
+    'osvej'    => 'i.h.s.wolf:1|i.h.k.wolf:1|i.h.kog.wolf:1|i.f.meat:1',
     'itemsrnd' => 'i.money:40:0:200|i.q.blackstone:10:0:1',
-    'items' => 'i.w.t.alebarda:1',
-);
+    'items'    => 'i.w.t.alebarda:1',
+];

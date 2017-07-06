@@ -1,7 +1,7 @@
 <?php
-$npc = array(
-    'char' => 'вopoнa|5|5|1|1||||2||||',
-    'war' => '70|0|3|3|||15||||||клювoм|2||',
-    'osvej' => 'i.h.p.vorona:8|i.f.meat:1',
+return [
+    'char'     => 'вopoнa|5|5|1|1||||2||||',
+    'war'      => '70|0|3|3|||15||||||клювoм|2||',
+    'osvej'    => 'i.h.p.vorona:8|i.f.meat:1',
     'itemsrnd' => 'i.med.b:10:0:1|i.ring.r:5:0:1|i.ring.l:10:0:1',
-);
+];

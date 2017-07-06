@@ -1,6 +1,6 @@
 <?php
 
-$npc = array(
+return [
 
     'char' => 'бeлкa|6|6|1|1||||1||||',
 
@@ -8,4 +8,4 @@ $npc = array(
 
     'osvej' => 'i.h.s.skin:1',
 
-);
+];

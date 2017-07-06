@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Рeнe-зомби|140|140|1|1||||||||',
-    'war' => '95|12|23|4||20|5|||20|90|70|мечом|35||',
+return [
+    'char'     => 'Рeнe-зомби|140|140|1|1||||||||',
+    'war'      => '95|12|23|4||20|5|||20|90|70|мечом|35||',
     'itemsrnd' => 'i.money:80:40:80|i.m.w.icefirst:60:0:1',
-    'items' => 'i.a.b.latndosp:1|i.a.e.s:1|i.w.s.dvuruchn:1',
-    'equip' => 'i.a.b.latndosp|i.a.e.s|i.w.s.dvuruchn',
-);
+    'items'    => 'i.a.b.latndosp:1|i.a.e.s:1|i.w.s.dvuruchn:1',
+    'equip'    => 'i.a.b.latndosp|i.a.e.s|i.w.s.dvuruchn',
+];

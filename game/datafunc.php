@@ -1,5 +1,6 @@
 <?php
-require_once ('modules/database.php');
+
+use MaxDark\Amulet\database\DB;
 
 $NOT_SET = "NOT_SET";
 require("antimat.inc"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)
@@ -7,97 +8,106 @@ require("antimat.inc"); // Антимат-фильтр ( чтобы ники м�
 function InitParam($N, $V)
 {
     global $Names, $Values;
-    $Names = $N;
+    $Names  = $N;
     $Values = $V;
 }
 
 function GetParam($Name)
 {
     global $Names, $Values, $NOT_SET;
-    
-    $Name = strtolower($Name);
+
+    $Name  = strtolower($Name);
     $Nlist = explode(":", $Names);
-    for ($i = 0; $i < count($Nlist); $i++)
-        if ($Nlist[$i] == $Name)
+    for ($i = 0; $i < count($Nlist); $i++) {
+        if ($Nlist[$i] == $Name) {
             break;
-    if ($i == count($Nlist))
+        }
+    }
+    if ($i == count($Nlist)) {
         return $NOT_SET;
+    }
     $Vlist = explode(":", $Values);
-    
+
     return stripslashes(str_replace("!~!", ":", $Vlist[$i]));
 }
-
 
 function SetParam($Name, $Value)
 {
     global $Names, $Values, $NOT_SET;
     $Nlist = explode(":", $Names);
-    $Name = strtolower($Name);
+    $Name  = strtolower($Name);
     $Value = addslashes(str_replace(":", "!~!", $Value));
-    for ($i = 0; $i < count($Nlist); $i++)
-        if ($Nlist[$i] == $Name)
+    for ($i = 0; $i < count($Nlist); $i++) {
+        if ($Nlist[$i] == $Name) {
             break;
+        }
+    }
 
     if ($i == count($Nlist) and ($Value != $NOT_SET)) { // Добавляем имя и значение
         $Names .= ":$Name";
         $Values .= ":$Value";
     } else {
-        $Vlist = explode(":", $Values);
+        $Vlist     = explode(":", $Values);
         $Vlist[$i] = $Value;
-        $Values = implode(":", $Vlist);
+        $Values    = implode(":", $Vlist);
         if ($Value == $NOT_SET) { // Удаление имени и значения
             $Nlist[$i] = $NOT_SET;
-            $Names = implode(":", $Nlist);
-            $Names = str_replace(":$NOT_SET", "", $Names);
-            $Values = str_replace(":$NOT_SET", "", $Values);
+            $Names     = implode(":", $Nlist);
+            $Names     = str_replace(":$NOT_SET", "", $Names);
+            $Values    = str_replace(":$NOT_SET", "", $Values);
         }
     }
 }
 
-
 /**
  * Получение массива параметров для пользователя $nick
+ *
  * @param string $nick
  * @param string $pass
  * @param string $fields
- * @param bool $skippass
+ * @param bool   $skippass
+ *
  * @return array [message, result]
  */
 function checkpass($nick, $pass, $fields, $skippass = false)
 {
     global $PassDelay;
-    if ($fields == "")
+    if ($fields == "") {
         $fields = "`pass`,`lastrefr`";
-    else if ($fields !== "*")
-        $fields .= ",`pass`,`lastrefr`";
+    } else {
+        if ($fields !== "*") {
+            $fields .= ",`pass`,`lastrefr`";
+        }
+    }
 
-    $now = time();
-    $result = [];
+    $now     = time();
+    $result  = [];
     $message = '';
-    $sql = "select $fields from `users` where `nick` = :nickname";
-    $query = DB::link()->prepare($sql);
+    $sql     = "select $fields from `users` where `nick` = :nickname";
+    $query   = DB::link()->prepare($sql);
     $query->execute([
-        ':nickname' => $nick
-    ]);
+            ':nickname' => $nick
+        ]);
     if ($query->rowCount() != 1) {
         $message = "Логин не найден";
-    }
-    else {
+    } else {
         $result = $query->fetch(PDO::FETCH_ASSOC);
-        $dt = $PassDelay - $now + $result['lastrefr'];
+        $dt     = $PassDelay - $now + intval($result['lastrefr']);
         if ($dt > 0) {
             $message = "Повторите через $dt sec";
-        }
-        else if ($result['pass'] != $pass && !$skippass) {
-            $sql = "update `users` set `lastrefr` = :lastrefr where `nick` = :nickname";
-            $query = DB::link()->prepare($sql);
-            $query->execute([
-                ':lastrefr' => $now,
-                ':nickname' => $nick
-            ]);
-            $message = "Неверный пароль";
+        } else {
+            if ($result['pass'] != $pass && ! $skippass) {
+                $sql   = "UPDATE `users` SET `lastrefr` = :lastrefr WHERE `nick` = :nickname";
+                $query = DB::link()->prepare($sql);
+                $query->execute([
+                        ':lastrefr' => $now,
+                        ':nickname' => $nick
+                    ]);
+                $message = "Неверный пароль";
+            }
         }
     }
+
     return [$message, $result];
 }
 
@@ -110,136 +120,162 @@ function openDB()
     $msg = '';
     try {
         DB::link([
-            'server'   => $server,
-            'dbname'   => $dbname,
-            'login'    => $user,
-            'password' => $dbpass,
-        ]);
+                'server'   => $server,
+                'dbname'   => $dbname,
+                'login'    => $user,
+                'password' => $dbpass,
+            ]);
+    } catch (PDOException $e) {
+        $msg = defined('DEBUG') ? $e->getMessage() : "База данных недоступна. Повторите через 5мин";
     }
-    catch (PDOException $e) {
-        $msg =  defined('DEBUG') ? $e->getMessage() : "База данных недоступна. Повторите через 5мин";
-    }
+
     return $msg;
 }
 
 /**
  * Возвращает пустую строку в случае успеха или сообщение об ошибке.
+ *
  * @param string $login
  * @param string $pass
  * @param mixed  $data
+ *
  * @return string error message
  */
 function SetData($login, $pass, $data)
 {
     global $error, $Names, $Values;
-    if (empty($login)) return "Логин не задан";
-    if (empty($pass)) return "Пароль не задан";
+    if (empty($login)) {
+        return "Логин не задан";
+    }
+    if (empty($pass)) {
+        return "Пароль не задан";
+    }
 
     $maxdata = 5000; // Максимальная длина данных
-    if (strlen($data) > $maxdata) return "Слишком длинная строка.";
+    if (strlen($data) > $maxdata) {
+        return "Слишком длинная строка.";
+    }
 
     $error = openDB();
-    if ($error != "") return $error;
+    if ($error != "") {
+        return $error;
+    }
 
-    list($ok, $result) = checkpass($login, $pass, '`names`,`vals`',  true);    // сохраняет без пароля!
-    if ($ok != "")
+    list($ok, $result) = checkpass($login, $pass, '`names`,`vals`', true);    // сохраняет без пароля!
+    if ($ok != "") {
         return $ok;
+    }
     InitParam($result["names"], $result["vals"]);
 
     SetParam('gamedata', $data);
 
-    $sqlUpd = 'update `users` set `names` = :vnames, `vals` = :vals where `nick` = :nickname';
-    DB::link()
-        ->prepare($sqlUpd)
-        ->execute([
+    $sqlUpd = 'UPDATE `users` SET `names` = :vnames, `vals` = :vals WHERE `nick` = :nickname';
+    DB::link()->prepare($sqlUpd)->execute([
             ':vnames'   => $Names,
             ':vals'     => $Values,
             ':nickname' => $login
         ]);
+
     return "";
 }
 
 /**
  * Возвращает пустую строку в случае успеха (данные возвращаются в $data) или сообщение об ошибке.
+ *
  * @param string $login
  * @param string $pass
+ *
  * @return string
  */
 function GetData($login, $pass)
 {
     global $error, $NOT_SET;
-    if (empty($login)) return "Логин не задан";
-    if (empty($pass)) return "Пароль не задан";
-
+    if (empty($login)) {
+        return "Логин не задан";
+    }
+    if (empty($pass)) {
+        return "Пароль не задан";
+    }
 
     $error = openDB();
-    if ($error != "") return $error;
+    if ($error != "") {
+        return $error;
+    }
 
     list($message, $result) = checkpass($login, $pass, "`names`,`vals`");
     $data = [];
     if ($message == "") {
         InitParam($result["names"], $result["vals"]);
         $data = GetParam("gamedata");
-        if ($data == $NOT_SET)
+        if ($data == $NOT_SET) {
             $message = "Данные не найдены";
+        }
     }
 
     return [$message, $data];
 }
 
 /**
- * Регистрация нового пользователя (oldpass = "") или смена пароля.
+ * Регистрация нового пользователя (oldPass = "") или смена пароля.
  * Возвращает пустую строку в случае успеха или сообщение об ошибке.
+ *
  * @param string $login
- * @param string $oldpass
- * @param string $newpass
+ * @param string $oldPass
+ * @param string $newPass
+ *
  * @return string
  */
-function SetUser($login, $oldpass, $newpass)
+function SetUser($login, $oldPass, $newPass)
 {
     global $RegStatus, $DefRefrInt, $DefMessLim, $CommonMode;
 
-    if (empty($login)) return "Логин не задан";
-    if (empty($newpass)) return "Пароль не задан";
+    if (empty($login)) {
+        return "Логин не задан";
+    }
+    if (empty($newPass)) {
+        return "Пароль не задан";
+    }
     //if (!ValidNN($login)) return "Неверный синтаксис в логине";
     //if (!ValidPass($newpass)) return "Неверный синтаксис в пароле";
 
-    $login = substr($login, 0, 10);
-    $newpass = substr($newpass, 0, 10);
+    $login   = substr($login, 0, 10);
+    $newPass = substr($newPass, 0, 10);
 
     $BadWord = GetBadWord($login);
-    if ($BadWord != "") return "Логин содержит запрещённое слово";
+    if ($BadWord != "") {
+        return "Логин содержит запрещённое слово";
+    }
 
     $error = openDB();
-    if ($error != "") return $error;
+    if ($error != "") {
+        return $error;
+    }
 
-    if ($oldpass != "") {
-        $ok = checkpass($login, $oldpass, "")[0];
-        if ($ok != "") return $ok;
-        $sql = 'update `users` set `pass` = :newpass where `nick` = :login and `pass` = :oldpass';
-        DB::link()
-            ->prepare($sql)
-            ->execute([
-                ':newpass' => $newpass,
+    if ($oldPass != "") {
+        $ok = checkpass($login, $oldPass, "")[0];
+        if ($ok != "") {
+            return $ok;
+        }
+        $sql = 'UPDATE `users` SET `pass` = :newpass WHERE `nick` = :login AND `pass` = :oldpass';
+        DB::link()->prepare($sql)->execute([
+                ':newpass' => $newPass,
                 ':login'   => $login,
-                ':oldpass' => $oldpass
+                ':oldpass' => $oldPass
             ]);
     } else {
-        $sql = "select * from `users` where `nick` = :nickname";
+        $sql   = "SELECT * FROM `users` WHERE `nick` = :nickname";
         $query = DB::link()->prepare($sql);
         $query->execute([
-            ':nickname' => $login
-        ]);
+                ':nickname' => $login
+            ]);
         $Count = $query->rowCount();
-        if ($Count != 0)
+        if ($Count != 0) {
             return "Такой логин уже зарегистирован";
+        }
         $now = time();
-        $sql = 'insert into `users`'.
-            ' (`status`,`sent`,`regtime`,`refrint`,`messlim`,`mode`,`nick`,`pass`)'.
-            ' values (?, ?, ?, ?, ?, ?, ?, ?)';
-        DB::link()
-            ->prepare($sql)
-            ->execute([
+        $sql = 'INSERT INTO `users`' . ' (`status`,`sent`,`regtime`,`refrint`,`messlim`,`mode`,`nick`,`pass`)' .
+               ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        DB::link()->prepare($sql)->execute([
                 $RegStatus,
                 '0',
                 $now,
@@ -247,7 +283,7 @@ function SetUser($login, $oldpass, $newpass)
                 $DefMessLim,
                 $CommonMode,
                 $login,
-                $newpass
+                $newPass
             ]);
     }
 

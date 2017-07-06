@@ -1,8 +1,8 @@
 <?php
-$npc = array(
-    'char' => 'Слейтер-зомби|100|100|1|1||||||||',
-    'war' => '80|24|39|5|||||||||из самострела|50||',
-    'items' => 'i.a.e.j:1|i.a.o.s1:1|i.a.d.zsl1:1|i.a.c.tuf1:1|i.a.h.b1:1',
-    'equip' => 'i.a.e.j|i.a.o.s1|i.a.d.zsl1|i.a.c.tuf1|i.a.h.b1',
+return [
+    'char'     => 'Слейтер-зомби|100|100|1|1||||||||',
+    'war'      => '80|24|39|5|||||||||из самострела|50||',
+    'items'    => 'i.a.e.j:1|i.a.o.s1:1|i.a.d.zsl1:1|i.a.c.tuf1:1|i.a.h.b1:1',
+    'equip'    => 'i.a.e.j|i.a.o.s1|i.a.d.zsl1|i.a.c.tuf1|i.a.h.b1',
     'itemsrnd' => 'i.money:90:30:70|i.w.r.c.gazov2:0,3:0:1',
-);
+];
