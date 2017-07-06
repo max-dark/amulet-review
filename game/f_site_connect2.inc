@@ -144,6 +144,7 @@ if ($tfound == 2) {
 $sid = substr($login, 2) . "." . $p . "." . chr(rand(97, 122));
 
 // проверим клан
+/// FIXME: PHP Notice:  Undefined variable: clan
 if ($clan == "no") {
     addjournal($loc, $login, "Вы изгнаны из клана, поговорите с Мирандером");
     $char[0]                     = preg_replace("/ \*.*?\*/", "", $char[0]);
@@ -165,6 +166,7 @@ if ($char[13]) {
     }
 }
 
+/// FIXME: PHP Notice:  Undefined variable: tnews
 msg("Добро пожаловать, " . $char[0] . "!
       <br/><a href=\"?site=news\">Новости </a>[" . $tnews . "]
       <br/><a href=\"?sid=$sid&cnick=1\">Настройки</a>

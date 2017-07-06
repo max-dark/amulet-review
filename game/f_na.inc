@@ -40,6 +40,7 @@ if ( ! $char[10] && $char[12]) {
         $b = 1;
     }
 } else {
+    /// FIXME: PHP Notice:  Undefined offset: 3
     if (time() > $move[3]) {
         if ($char[12] && count($steps) >= $move[0]) {
             $b = 1;

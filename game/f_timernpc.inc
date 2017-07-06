@@ -36,7 +36,8 @@ if (is_array($loc_t[$i][$j])) {
     $twar       = explode("|", $npc["war"]);
     $twar[15]   = $i . ":" . $ta[1];
     $npc["war"] = implode("|", $twar);
-    if ($ta[2]) {
+    /// FIXME: PHP Notice:  Undefined offset: 2
+    if (!empty($ta[2])) {
         $tchar       = explode("|", $npc["char"]);
         $tchar[10]   = $ta[2];
         $npc["char"] = implode("|", $tchar);
@@ -52,7 +53,7 @@ if (isset($npc["itemsrnd"])) {
             $trnd  = explode(":", $irnd[$k]);
             $trndc = round(rand($trnd[2], $trnd[3]));
             if (rand(0, 100) <= $trnd[1] && $trndc > 0) {
-                if (empty(["items"])) {
+                if (empty($npc["items"])) {
                     $npc["items"] = $trnd[0] . ":" . $trndc;
                 } else {
                     $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;

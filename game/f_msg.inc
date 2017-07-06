@@ -16,6 +16,7 @@
  * @global translit
  */
 if ($msg) {
+    $del = Request("del");
     if ($del && strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") !== false) {
         $loc_i[$loc][$login]["msgt"] = substr($loc_i[$loc][$login]["msgt"],
             strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") + strlen("{" . $del . "}"));
