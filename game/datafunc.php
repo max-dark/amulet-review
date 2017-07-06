@@ -1,5 +1,6 @@
 <?php
-require_once('modules/database.php');
+
+use MaxDark\Amulet\database\DB;
 
 $NOT_SET = "NOT_SET";
 require("antimat.inc"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)

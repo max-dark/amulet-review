@@ -1,5 +1,7 @@
 <?php
 
+namespace MaxDark\Amulet\database;
+
 /**
  * Class DB
  */

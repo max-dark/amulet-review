@@ -24,6 +24,8 @@
  * @global g_smenu
  */
 
+// class loader bootstrap
+require_once '../vendor/autoload.php';
 require_once('config.php'); // настройки игры
 require_once('datafunc.php'); // функции игры
 require_once('game_function.php'); // игровые функции

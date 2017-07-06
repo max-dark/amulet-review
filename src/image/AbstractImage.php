@@ -1,10 +1,12 @@
 <?php
 
+namespace MaxDark\Amulet\image;
+
 /**
  * Class Image
  * Обертка для GD
  */
-abstract class Image
+abstract class AbstractImage
 {
     /** @var resource $image */
     private $image;
@@ -122,92 +124,5 @@ abstract class Image
     protected function getImage()
     {
         return $this->image;
-    }
-}
-
-/**
- * Class PNGImage
- */
-class PNGImage extends Image
-{
-    /**
-     * загрузка картинки
-     *
-     * @param $file_name
-     *
-     * @return resource
-     */
-    public function loadFile($file_name)
-    {
-        return imagecreatefrompng($file_name);
-    }
-
-    /** запись картинки в $file_name или STDOUT
-     *
-     * @param string|null $file_name
-     *
-     * @return bool
-     */
-    public function writeFile($file_name = null)
-    {
-        return imagepng($this->getImage(), $file_name);
-    }
-}
-
-/**
- * Class JpegImage
- */
-class JpegImage extends Image
-{
-    /**
-     * загрузка картинки
-     *
-     * @param $file_name
-     *
-     * @return resource
-     */
-    public function loadFile($file_name)
-    {
-        return imagecreatefromjpeg($file_name);
-    }
-
-    /** запись картинки в $file_name или STDOUT
-     *
-     * @param string|null $file_name
-     *
-     * @return bool
-     */
-    public function writeFile($file_name = null)
-    {
-        return imagejpeg($this->getImage(), $file_name);
-    }
-}
-
-/**
- * Class WBMPImage
- */
-class WBMPImage extends Image
-{
-    /**
-     * загрузка картинки
-     *
-     * @param $file_name
-     *
-     * @return resource
-     */
-    public function loadFile($file_name)
-    {
-        return imagecreatefromwbmp($file_name);
-    }
-
-    /** запись картинки в $file_name или STDOUT
-     *
-     * @param string|null $file_name
-     *
-     * @return bool
-     */
-    public function writeFile($file_name = null)
-    {
-        return imagewbmp($this->getImage(), $file_name);
     }
 }

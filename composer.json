@@ -1,0 +1,21 @@
+{
+    "name": "max-dark/amulet-review",
+    "description": "Online RPG Amulet Drakona(code review)",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Max Dark",
+            "email": "maxim.dark@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "MaxDark\\Amulet\\": "src/"
+        }
+    }
+}
