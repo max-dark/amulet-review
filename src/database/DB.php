@@ -22,7 +22,7 @@ class DB
             if (is_array($config)) {
                 self::$link = new \PDO(sprintf('mysql:host=%s;dbname=%s;charset=utf8', $config['server'],
                     $config['dbname']), $config['login'], $config['password'], [
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
                     ]);
             }
         }
