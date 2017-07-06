@@ -34,7 +34,7 @@ $stmp .= "
 <postfield name='say' value='$(say)'/>
 </go></anchor>";
 
-if ($tt) {
+if (!empty($tt)) {
     $stmp .= "<br/><a href='?sid=" . $sid . "&trade=" . $tt . "'>Обмен</a>";
 }
 

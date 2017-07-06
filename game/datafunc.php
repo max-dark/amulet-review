@@ -92,7 +92,7 @@ function checkpass($nick, $pass, $fields, $skippass = false)
         $message = "Логин не найден";
     } else {
         $result = $query->fetch(PDO::FETCH_ASSOC);
-        $dt     = $PassDelay - $now + $result['lastrefr'];
+        $dt     = $PassDelay - $now + intval($result['lastrefr']);
         if ($dt > 0) {
             $message = "Повторите через $dt sec";
         } else {

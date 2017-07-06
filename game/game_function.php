@@ -244,7 +244,7 @@ function doai($i)
                 }
                 if (substr($j, 0, 2) == 'u.' || substr($j, 0, 2) == 'n.') {
                     $char = explode("|", $loc_i[$i][$j]["char"]);
-                    $tm   = time() - $char[5];
+                    $tm   = time() - intval($char[5]);
                     if ($tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]) &&
                         (substr($j, 0, 2) == 'n.' || (substr($j, 0, 2) == 'u.' && ! $char[8]))
                     ) {
@@ -419,6 +419,8 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
         return;
     }
     $ars = ["Появился", "исчез", "Пришел", "ушел", "прискакал", "поскакал", "пронесся"];
+
+    /// FIXME: PHP Notice:  Undefined index: ''
     if (substr($id, 0, 2) == "u." &&
         (strpos($loc_i[$from][$id]["user"], "|f|") !== false || strpos($loc_i[$to][$id]["user"], "|f|") !== false)
     ) {
