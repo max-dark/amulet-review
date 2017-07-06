@@ -276,7 +276,7 @@ function doai($i)
                             substr($j, 0, 4) != 'n.s.' && substr($j, 0, 4) != 'n.o.' && substr($j, 0, 4) != 'n.z.'
                         ) {
                             $b = 0;
-                            require "f_run.dat";
+                            require "f_run.inc";
                             if ($b) {
                                 continue;
                             }
@@ -305,7 +305,7 @@ function doai($i)
                             continue;
                         }
                         if (isset($loc_i[$i][$j]["owner"])) {
-                            require "f_owner.dat";
+                            require "f_owner.inc";
                             if ($b) {
                                 continue;
                             }
@@ -336,12 +336,12 @@ function doai($i)
                         if (substr($j, 0, 4) == "n.o." && substr($i, 0, 2) == "c." && substr($i, 3) != ".in" &&
                             ( ! $char[7] || ! isset($loc_i[$i][$char[7]]))
                         ) {
-                            require "f_no.dat";
+                            require "f_no.inc";
                         }
                         if ( ! $char[7] && ! $owner[1] && ($char[10] || ( ! $char[10] && $char[12])) &&
                              substr($j, 0, 4) != "n.o."
                         ) {
-                            require "f_na.dat";
+                            require "f_na.inc";
                             if ($b) {
                                 continue;
                             }

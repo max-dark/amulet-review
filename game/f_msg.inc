@@ -254,7 +254,7 @@ TAG;
     }
 
     if ($msg == "up" || $msg == "down") {
-        include "f_msgm.dat";
+        include "f_msgm.inc";
     }
 
     if ($msg == 'help') {

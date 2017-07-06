@@ -15,7 +15,7 @@ $loc_i[$loc][$login]["macrol"] = "take|$take||";
 if ($take) {            //linkПоднять
     // $take=id предмета [$id=id предмета с трупа, $num=кол-во]
     if (substr($take, 0, 9) == "n.a.losh.") {
-        include "f_usekon.dat";
+        include "f_usekon.inc";
     }
 
     if ($take == "i.flag" && isset($loc_i[$loc]["i.flag"]) && ! $char[8]) {
@@ -37,7 +37,7 @@ if ($take) {            //linkПоднять
         }
         if (isset($loc_i[$loc][$take])) {
             if ($take == "i.s.lodka") {
-                include "f_uselodka.dat";
+                include "f_uselodka.inc";
             }
             if ($take == "i.s.arena") {
                 $b = 0;
@@ -83,10 +83,10 @@ if ($take) {            //linkПоднять
             //  с трупа
             if (substr($take, 0, 6) == 'i.s.d.') {
                 if ($id) {
-                    include "f_takediedid.dat";
+                    include "f_takediedid.inc";
                 }
                 if ( ! $id) {
-                    include "f_takediednoid.dat";
+                    include "f_takediednoid.inc";
                 }
             }
 

@@ -150,23 +150,23 @@ if ( ! empty($site)) { // если задана страница переход�
     /** @var array[] $pages */
     $pages = [
         // форма логина
-        'main'     => 'f_site_main.dat',
+        'main'     => 'f_site_main.inc',
         // статистика
         'stat'     => 'f_site_stat.inc',
-        'flag'     => 'f_site_flag.dat',
-        'castle'   => 'f_site_castle.dat',
-        'clans'    => 'f_site_clans.dat',
+        'flag'     => 'f_site_flag.inc',
+        'castle'   => 'f_site_castle.inc',
+        'clans'    => 'f_site_clans.inc',
         // вход в игру
         // TODO: упростить механизм входа
-        'connect'  => 'f_site_connect.dat',
-        'connect2' => 'f_site_connect2.dat',
+        'connect'  => 'f_site_connect.inc',
+        'connect2' => 'f_site_connect2.inc',
         // информация
         'faq'      => 'f_site_faq.inc',
-        'news'     => 'f_site_news.dat',
-        'online'   => 'f_site_online.dat',
+        'news'     => 'f_site_news.inc',
+        'online'   => 'f_site_online.inc',
         // регистрация в игре
-        'gamereg'  => 'f_site_gamereg.dat',
-        'reg2'     => 'f_site_reg2.dat'
+        'gamereg'  => 'f_site_gamereg.inc',
+        'reg2'     => 'f_site_reg2.inc'
     ];
     if (array_key_exists($site, $pages)) {
         if (file_exists($pages[$site])) {
@@ -183,7 +183,7 @@ if (time() > $game["lastai"] + 240) {
 }
 if ( ! file_exists("online/" . $login)) {
     $f_c = 1;
-    include_once "f_site_connect2.dat";
+    include_once "f_site_connect2.inc";
 }
 $tmp = file("online/" . $login);
 $loc = trim($tmp[0]);
@@ -194,7 +194,7 @@ if ( ! isset($loc_i[$loc][$login])) {
 }
 $wtf_user = $loc_i[$loc][$login]["user"];
 if ($p != substr($wtf_user, 0, strpos($wtf_user, "|"))) {
-    include_once("f_npass.dat");
+    include_once("f_npass.inc");
 }
 unset($wtf_user);
 
@@ -368,20 +368,20 @@ if ($use) {
             $scroll = 0; // со свитка
             switch (substr($use, 0, 2)) {
                 case "i.": {
-                    include_once "f_useitem.dat";
+                    include_once "f_useitem.inc";
                 }
                 break;
                 case "m.": {
-                    include_once "f_usemagic.dat";
+                    include_once "f_usemagic.inc";
                 }
                 break;
                 case "p.": {
-                    include_once "f_usepriem.dat";
+                    include_once "f_usepriem.inc";
                 }
                 break;
                 default:
                     if (substr($use, 0, 6) == "skill.") {
-                        include_once "f_useskill.dat";
+                        include_once "f_useskill.inc";
                     }
                 break;
             }
@@ -413,7 +413,7 @@ switch ($cl) {
     break;
 }
 if ($list || $list = $cl) {
-    $inc_list = "f_list" . $list . ".dat";
+    $inc_list = "f_list" . $list . ".inc";
     include_once $inc_list;
 }
 if (false !== $map) {

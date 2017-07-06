@@ -19,7 +19,7 @@
  */
 
 if ($up || $down) {
-    include "f_speakfrombankm.dat";
+    include "f_speakfrombankm.inc";
 }
 
 if ($speak == "n.t.bankir" && $char[14] != "t") {

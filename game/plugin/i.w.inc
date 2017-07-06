@@ -10,11 +10,11 @@
 $equip = $loc_i[$loc][$login]["equip"];
 // если в руках нож и есть $to, то освежевание
 if ($to && substr($use, 0, 6) == 'i.w.k.') {
-    include __DIR__ . DIRECTORY_SEPARATOR . "i.w.k.dat";
+    include __DIR__ . DIRECTORY_SEPARATOR . "i.w.k.inc";
 } else // рубка деревьев
 {
     if ($to && substr($use, 0, 6) == 'i.w.t.') {
-        include __DIR__ . DIRECTORY_SEPARATOR . "i.w.t.dat";
+        include __DIR__ . DIRECTORY_SEPARATOR . "i.w.t.inc";
     } else {
         if (strpos($use, "_") !== false) {
             $ti = substr($use, 0, strpos($use, "_"));

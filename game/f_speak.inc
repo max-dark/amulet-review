@@ -25,21 +25,21 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
     }
     // чат
     if ($speak == 1) {
-        include "f_speak1.dat";
+        include "f_speak1.inc";
     } else {
         $tchar = explode("|", $loc_i[$loc][$speak]["char"]);
         // с квестовым NPC
         if ($npc_subtype == "n.q.") {
-            include "f_speakq.dat";
+            include "f_speakq.inc";
         } // со своим
         else {
             if ($npc_subtype == "n.o.") {
-                include "f_speako.dat";
+                include "f_speako.inc";
             } else {
                 if (!empty([$loc][$speak]["owner"])) {
                     $owner = explode("|", $loc_i[$loc][$speak]["owner"]);
                     if ($owner[0] == $login) {
-                        include "f_speakowner.dat";
+                        include "f_speakowner.inc";
                     }
                     msg($tchar . " принадлежит другому персонажу");
                 } else {
@@ -68,7 +68,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                                 msg("Прости, но я продаю палладинское оружие и броню только стражникам барона Дитриха или тем кто имеет грамоту от Лорда Хагена");
                             }
                             $trader   = explode("|", $dialog[$id]);
-                            $inc_name = "f_speak" . $id . (empty($to) ? ".dat" : "to.dat");
+                            $inc_name = "f_speak" . $id . (empty($to) ? ".inc" : "to.inc");
                             include $inc_name;
                         }
 
@@ -76,7 +76,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                             if ( ! isset($dialog["bank"])) {
                                 msg($tchar[0] . " не банкир");
                             }
-                            $inc_name = "f_speak" . $id . (empty($to) ? ".dat" : "to.dat");
+                            $inc_name = "f_speak" . $id . (empty($to) ? ".inc" : "to.inc");
                             include $inc_name;
                         }
 
@@ -93,7 +93,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                             eval(substr($title, 6));
                         }
                         if (substr($title, 0, 5) == "skill") {
-                            include "f_speakskillup.dat";
+                            include "f_speakskillup.inc";
                         }
                         $stmp = "<p>" . $title;
                         for ($i = 1; $i < count($dialog); $i += 2) {
