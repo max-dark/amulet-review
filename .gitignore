@@ -5,3 +5,6 @@
 /game/online/u.*
 # игнорм все кроме .htaccess
 !/game/data/clans/.htaccess
+
+# composer files
+/vendor/
