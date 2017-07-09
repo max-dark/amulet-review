@@ -77,7 +77,7 @@ function msg(
      * is_page_mode_menu = (!$is_page_mode_menu && $page_type == 'main' && $g_menu == Menu::mode_page)
      * is_page_mode_menu = is_page_mode_menu && ! is_links_mode_menu;
      *
-     * @var bool
+     * @var $is_page_mode_menu bool
      */
     $is_page_mode_menu  = Request('fm');
     /**
@@ -87,7 +87,7 @@ function msg(
      * is_links_mode_menu = (!$is_links_mode_menu && $page_type == 'main' && $g_menu == Menu::mode_links)
      * is_links_mode_menu = is_links_mode_menu && ! is_page_mode_menu;
      *
-     * @var bool
+     * @var $is_links_mode_menu bool
      */
     $is_links_mode_menu = Request('fm2');
 
@@ -259,8 +259,10 @@ function msg(
             $wml .= '<do name="b1" type="options" label="В игру">' .
                     "<go href=\"$url_base\"/></do>";
         }
+        /// FIXME: не нравится мне это условие, баг в нем чую...
         if ($page_type == 'inv' && $g_menu == Menu::mode_short ||
-            $page_type == 'main' && $g_menu == Menu::mode_full || $is_page_mode_menu
+            $g_menu == Menu::mode_full && $page_type == 'main' ||
+            $is_page_mode_menu
         ) {
             $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
                     "<go href=\"$url_base&cs=1&cj=1\"/></do>" . // чат
