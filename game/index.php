@@ -61,7 +61,8 @@ $ce    = Request('ce');
 $ci    = Request('ci');
 $cm    = Request('cm');
 $cs    = Request('cs');
-$cj    = Request('cj');
+
+/* @var $cl string "command list"(?) == i|p|m */
 $cl    = Request('cl');
 $id    = Request('id');
 $adm   = Request('adm');
@@ -296,14 +297,16 @@ if ($ce) {
     include_once "f_logout.inc";
 }
 
-// подгружаемые модули
+// макросы
 if ($cm) {
-    // TODO: избавиться от eval
+    // задан номер - выполнить
     if ($cm > 0 && $cm < 9) {
         $cm--;
-        $m  = @explode("/", $loc_i[$loc][$login]["macro"]);
-        $m  = @explode("|", $m[$cm]);
-        $ml = @explode("|", $loc_i[$loc][$login]["macrol"]);
+        $m  = explode("/", $loc_i[$loc][$login]["macro"]);
+        $m  = explode("|", $m[$cm]);
+        $ml = explode("|", $loc_i[$loc][$login]["macrol"]);
+        
+        // TODO: избавиться от eval
         if ($m[0] == "last" && $ml[0]) {
             eval('$' . $ml[0] . "=\"" . $ml[1] . "\";");
         } else {
@@ -323,6 +326,7 @@ if ($cm) {
             }
         }
     } else {
+        // управление макросами
         include_once "f_macro.inc";
     }
 }
