@@ -59,6 +59,19 @@ if ($cnick == "1") {
 	<br/><a href=\"?site=faq&id=err\">Помощь</a>";
 
 } else {
+    // get vars from request
+    $age = Request('age');
+    $size = Request('size');
+    $list = Request('list');
+    $j2loc = Request('j2loc');
+    $j2go = Request('j2go');
+    $menu = Request('menu');
+    $sounds = Request('sounds');
+    $joff = Request('joff');
+    $smenu = Request('smenu');
+    $map = Request('map');
+    $smf = Request('smf');
+
     if (strtolower($cnick) != strtolower($char[0])) {
         msg("<p>Нельзя поменять имя на другое (было имя: " . $char[0] . ", вы ввели новое: " . $cnick .
             "), можно только изменить его написание (например, сделать первую букву заглавной).");
