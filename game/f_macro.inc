@@ -18,6 +18,8 @@
 $macro = $cm;
 if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
     if ($macro == "save") { // сохраняем
+        $name = Request('name');
+        $num = intval(Request('num'));
         if ( ! $name) {
             msg("Не указано имя макроса, используйте англ. буквы.", "Макросы", 0);
         }
@@ -88,7 +90,7 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
             $m = explode("/", $loc_i[$loc][$login]["macro"]);
         }
         for ($i = 1; $i < 9; $i++) {
-            if ($m[$i - 1]) {
+            if (!empty($m[$i - 1])) {
                 $mn = explode("|", $m[$i - 1]);
                 $mn = $mn[4];
             } else {
