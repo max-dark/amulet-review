@@ -44,7 +44,7 @@ require_once 'modules/constants.php';
 function msg(
     $message,
     $page_title = 'Амулет Дракона',
-    $show_journal = 1,
+    $show_journal = true,
     $page_type = '',
     $var_name = '',
     $var_value = ''
@@ -153,8 +153,8 @@ function msg(
         $page_journal = explode('<br/>', $page_journal);
         if (count($page_journal) > $g_list) {
             array_splice($page_journal, 0, count($page_journal) - $g_list);
-            $page_journal = implode('<br/>', $page_journal);
         }
+        $page_journal = implode('<br/>', $page_journal);
     }
     // добавить описание локации
     if ($page_d && file_exists('loc_f/' . $loc)) {
