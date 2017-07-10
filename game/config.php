@@ -17,7 +17,7 @@ $dbname = 'amulet';
 
 define('BASE_DIR', __DIR__);
 define('NPC_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'npc' . DIRECTORY_SEPARATOR);
-define('SPEACK_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'speak' . DIRECTORY_SEPARATOR);
+define('SPEAK_DIR', __DIR__ . DIRECTORY_SEPARATOR . 'speak' . DIRECTORY_SEPARATOR);
 
 //=========================
 
@@ -29,7 +29,7 @@ $GAME_NAME = 'Моя игра';
 $g_max = 100;
 /** @var string $g_admin логин админа */
 $g_admin = 'u.user';
-/** @var string $gm_id вход админом для обслуживания */
+/** @var string $gm_id ключ для входа админом */
 $gm_id = 'hrenvam';
 
 /** @var int $g_list Размер списков (3..30) */
@@ -85,4 +85,5 @@ $g_skills = 50;
 /** @var int $g_skills_one максимальный уровень навыка */
 $g_skills_one = 5;
 
+// флаг "сбросить все"
 $f_all = false;

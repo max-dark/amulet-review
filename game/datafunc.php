@@ -1,9 +1,14 @@
 <?php
+/**
+ * Функции для работы с БД
+ */
 
 use MaxDark\Amulet\database\DB;
 
 $NOT_SET = "NOT_SET";
-require("antimat.inc"); // Антимат-фильтр ( чтобы ники матерные не регистрировали)
+
+// Антимат-фильтр ( чтобы ники матерные не регистрировали)
+require("antimat.inc");
 
 function InitParam($N, $V)
 {
@@ -60,7 +65,9 @@ function SetParam($Name, $Value)
 }
 
 /**
- * Получение массива параметров для пользователя $nick
+ * Получение массива параметров для пользователя $nick.
+ *
+ * FIXME: имя функции не соответствует выполняемым действиям
  *
  * @param string $nick
  * @param string $pass
@@ -112,6 +119,8 @@ function checkpass($nick, $pass, $fields, $skippass = false)
 }
 
 /**
+ * Init DB connection
+ *
  * @return string error message
  */
 function openDB()
@@ -133,11 +142,12 @@ function openDB()
 }
 
 /**
+ * Записывает gamedata в БД
  * Возвращает пустую строку в случае успеха или сообщение об ошибке.
  *
- * @param string $login
- * @param string $pass
- * @param mixed  $data
+ * @param string $login логин
+ * @param string $pass пароль
+ * @param string $data данные для сохранения
  *
  * @return string error message
  */
@@ -161,9 +171,9 @@ function SetData($login, $pass, $data)
         return $error;
     }
 
-    list($ok, $result) = checkpass($login, $pass, '`names`,`vals`', true);    // сохраняет без пароля!
-    if ($ok != "") {
-        return $ok;
+    list($status, $result) = checkpass($login, $pass, '`names`,`vals`', true);    // сохраняет без пароля!
+    if ($status != "") {
+        return $status;
     }
     InitParam($result["names"], $result["vals"]);
 
@@ -185,21 +195,21 @@ function SetData($login, $pass, $data)
  * @param string $login
  * @param string $pass
  *
- * @return string
+ * @return array
  */
 function GetData($login, $pass)
 {
     global $error, $NOT_SET;
     if (empty($login)) {
-        return "Логин не задан";
+        return ["Логин не задан", null];
     }
     if (empty($pass)) {
-        return "Пароль не задан";
+        return ["Пароль не задан", null];
     }
 
     $error = openDB();
     if ($error != "") {
-        return $error;
+        return [$error, null];
     }
 
     list($message, $result) = checkpass($login, $pass, "`names`,`vals`");
@@ -218,6 +228,7 @@ function GetData($login, $pass)
 /**
  * Регистрация нового пользователя (oldPass = "") или смена пароля.
  * Возвращает пустую строку в случае успеха или сообщение об ошибке.
+ * FIXME: dead code - случаев использования не найдено
  *
  * @param string $login
  * @param string $oldPass

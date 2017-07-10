@@ -27,14 +27,13 @@
 // class loader bootstrap
 require_once '../vendor/autoload.php';
 require_once('config.php'); // настройки игры
-require_once('datafunc.php'); // функции игры
+require_once('datafunc.php'); // функции БД
 require_once('game_function.php'); // игровые функции
 
 $QUERY_STRING = get_value($_SERVER, 'QUERY_STRING');
 
 $g_query_string = $QUERY_STRING;
 $tmp            = urldecode($QUERY_STRING);
-//parse_str($tmp);
 
 /** @var array $loc_i предметы, НПС и игроки в загруженных локациях */
 $loc_i = [];
@@ -46,6 +45,7 @@ $loc_tt = [];
 $game = [];
 
 $gm  = Request('gm');
+// ИД пользователя
 $sid = Request('sid');
 /** @var string $site */
 $site  = Request('site');
@@ -56,15 +56,21 @@ $go    = Request('go');
 $gal   = Request('gal');
 $ctele = Request('ctele');
 $stele = Request('stele');
+// "Атаковать"
 $ca    = Request('ca');
+// "Сохранить"
 $ce    = Request('ce');
+// "Инфо"
 $ci    = Request('ci');
+// Макросы
 $cm    = Request('cm');
+// Чат
 $cs    = Request('cs');
 
 /* @var $cl string "command list"(?) == i|p|m */
 $cl    = Request('cl');
 $id    = Request('id');
+// функции админки
 $adm   = Request('adm');
 $use   = Request('use');
 $to    = Request('to');
@@ -148,25 +154,33 @@ if (have_key($game, "msg") && $gm != $gm_id) {
     msg($game["msg"]);
 }
 if ( ! empty($site)) { // если задана страница перехода
-    /** @var array[] $pages */
+    /** @var string[] $pages */
     $pages = [
-        // форма логина
+        // форма входа. Так же служит для задания логина нового пользователя
         'main'     => 'f_site_main.inc',
-        // статистика
+        // ссылки на  статистику
         'stat'     => 'f_site_stat.inc',
+        // инфо о флаге
         'flag'     => 'f_site_flag.inc',
+        // замки и их владельцы
         'castle'   => 'f_site_castle.inc',
+        // кланы и их участники
         'clans'    => 'f_site_clans.inc',
         // вход в игру
         // TODO: упростить механизм входа
         'connect'  => 'f_site_connect.inc',
         'connect2' => 'f_site_connect2.inc',
         // информация
+        // ЧаВо
         'faq'      => 'f_site_faq.inc',
+        // новости
         'news'     => 'f_site_news.inc',
+        // список игроков онлайн
         'online'   => 'f_site_online.inc',
         // регистрация в игре
+        // форма ввода информации о новом игроке
         'gamereg'  => 'f_site_gamereg.inc',
+        // проверяет данные и записывает их в БД
         'reg2'     => 'f_site_reg2.inc'
     ];
     if (array_key_exists($site, $pages)) {
@@ -179,9 +193,10 @@ if ( ! empty($site)) { // если задана страница переход�
 }
 // Если время вышло
 if (time() > $game["lastai"] + 240) {
-    // провести зачистку
+    // проверка всех онлайн и удаление в оффлайн
     include_once "f_online.inc";
 }
+// пользователь оффлайн
 if ( ! file_exists("online/" . $login)) {
     $f_c = 1;
     include_once "f_site_connect2.inc";
@@ -193,6 +208,7 @@ if ( ! isset($loc_i[$loc][$login])) {
     @unlink("online/" . $login);
     msg("Нет данных");
 }
+// проверка пароля
 $wtf_user = $loc_i[$loc][$login]["user"];
 if ($p != substr($wtf_user, 0, strpos($wtf_user, "|"))) {
     include_once("f_npass.inc");
@@ -206,9 +222,11 @@ if ($wtf_options) {
 }
 unset($wtf_options);
 
-if ($cnick) { // перейти к настройкам
+if ($cnick) {
+    // перейти к настройкам
     include_once "f_cnick.inc";
 }
+// переход в другую локу
 if ($go) {
     if ($loc == "x927x253" && $go == "x902x254") {
         msg("Стражник: Стой!");
@@ -293,6 +311,7 @@ if ( ! isset($loc_i[$loc][$login]) || ! $login) {
 }
 $char = explode("|", $loc_i[$loc][$login]["char"]);
 
+// "сохранить"
 if ($ce) {
     include_once "f_logout.inc";
 }
@@ -330,10 +349,11 @@ if ($cm) {
         include_once "f_macro.inc";
     }
 }
-
+// админка
 if ($adm && file_exists("f_admin.inc")) {
     include_once "f_admin.inc";
 }
+// говорить/взять
 if ($speak || $speak = $cs) {
     if (substr($speak, 0, 2) == "i.") {
         $take = $speak;
@@ -341,12 +361,16 @@ if ($speak || $speak = $cs) {
         include_once "f_speak.inc";
     }
 }
+// взять предмет
+// для записок и книг переходим к look
 if ($take) {
     include_once "f_take.inc";
 }
+// чат
 if ($say) {
     include_once "f_say.inc";
 }
+// атака
 if ($ca) {
     $loc_i[$loc][$login]["macrol"] = "ca|$ca||";
     $char[7]                       = $ca;
@@ -354,9 +378,12 @@ if ($ca) {
     attack($loc, $login, $ca);
     $char = explode("|", $loc_i[$loc][$login]["char"]);
 }
+// выбросить
 if ($drop) {
     include_once "f_drop.inc";
 }
+// использовать предмет/умение
+// для записок и книг переходим к look
 if ($use) {
     $loc_i[$loc][$login]["macrol"] = "use|$use|to|$to";
     if ($char[6] - time() > 120) {
@@ -394,14 +421,19 @@ if ($use) {
     } else {
         addjournal($loc, $login, "Вы должны отдохнуть " . round($char[6] - time() + 1) . " сек");
     }
-} // раньше $list
+}
+// Осмотреть/информация
 if ($look || $look = $ci) {
+    // раньше $list
     // после $take и $use
+    // при ci == 1 устанавливается page_d = true - флаг "вывести описание локации"
     include_once "f_look.inc";
 }
+// "почта"
 if ($msg) {
     include_once "f_msg.inc";
 }
+// торговля/обмен
 if ($trade) {
     include_once "f_trade.inc";
 }
@@ -416,10 +448,12 @@ switch ($cl) {
         $cl = "priem";
     break;
 }
+// управление списками предметов, умений и тд
 if ($list || $list = $cl) {
     $inc_list = "f_list" . $list . ".inc";
     include_once $inc_list;
 }
+// показать карту
 if (false !== $map) {
     include_once "f_map.inc";
     msg(map_page($loc, $game, $g_map, $PHP_SELF, $sid));
@@ -428,8 +462,10 @@ if (false !== $map) {
 // MAIN PAGE
 $stmp = "";
 if (!empty($loc_i[$loc][$login]["msgt"])) {
+    // есть почта
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&msg=1\">[msg]</a><br/>";
 }
+// HP/MP
 $stmp .= $char[1] . "/" . $char[2] . " (" . $char[3] . "/" . $char[4] . ")";
 $st = "";
 if ($char[12]) {
@@ -439,6 +475,7 @@ if ($char[8]) {
     $st .= " призрак";
 }
 if ($char[9]) {
+    // преступник(время до снятия этого "звания")
     $st .= " " . $char[9] . " (" . (round(($char[10] - time()) / 60) + 1) . " мин)";
 }
 if ($game["fid"] == $login) {
@@ -447,6 +484,7 @@ if ($game["fid"] == $login) {
 if ($st) {
     $stmp .= ", вы " . $st;
 }
+// действует защита
 if (!empty([$loc][$login]["def"])) {
     $tdef = explode("|", $loc_i[$loc][$login]["def"]);
     if (time() > $tdef[2]) {
@@ -455,6 +493,7 @@ if (!empty([$loc][$login]["def"])) {
         $stmp .= "<br/>" . $tdef[1] . " (" . ($tdef[2] - time()) . " сек)";
     }
 }
+// мы в замке
 if (substr($loc, 3) == ".in" || substr($loc, 3) == ".gate") {
     include_once "f_castle.inc";
 }
