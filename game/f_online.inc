@@ -33,7 +33,9 @@ while (($fname = readdir($dh)) !== false) {
 
     $count++;
     $tmp = file("online/" . $fname);
+    // пользователь в процессе входа
     if ($tmp[0] == ".") {
+        // удалить подвисших
         if (filemtime("online/" . $fname) < time() - 60) {
             @unlink("online/" . $fname);
         }
@@ -42,7 +44,11 @@ while (($fname = readdir($dh)) !== false) {
     $tmp[0] = trim($tmp[0]);
     $tmp[1] = intval(trim($tmp[1]));
 
-    /** @var array $tavern_rooms комнаты в таверне */
+    /**
+     * Комнаты в таверне.
+     *
+     * @var string[] $tavern_rooms
+     */
     $tavern_rooms = [
         "x1087x543",
         "x1080x539",
@@ -51,7 +57,7 @@ while (($fname = readdir($dh)) !== false) {
     ];
     if (time() > $tmp[1] + $g_logout || $f_all == 1 || $f_all == $tmp[0]) {
         loadloc($tmp[0]);
-        $res = "";
+        $save_error = "";
         if (isset($loc_i[$tmp[0]][$fname])) {
             if ($game["floc"] == $tmp[0] && $game["fid"] == $fname) {
                 $loc1                   = (in_array($tmp[0], $tavern_rooms)) ? "x1095x532" : $tmp[0];
@@ -69,16 +75,16 @@ while (($fname = readdir($dh)) !== false) {
             unset($auser["trade"]);
             $tp = explode("|", $auser["user"]);
             if ($auser["user"] && $auser["char"] && $auser["skills"] && $auser["war"]) {
-                $res = SetData(substr($fname, 2), $tp[0], serialize($auser));
-                if ( ! $res) {
+                $save_error = SetData(substr($fname, 2), $tp[0], serialize($auser));
+                if ( ! $save_error) {
                     addnpc($fname, $tmp[0], "");
                 }
             }
-            if ( ! $res || $f_all == 1 || $f_all == $tmp[0]) {
+            if ( ! $save_error || $f_all == 1 || $f_all == $tmp[0]) {
                 unset($loc_i[$tmp[0]][$fname]);
             }
         }
-        if ( ! $res || $f_all == 1 || $f_all == $tmp[0]) {
+        if ( ! $save_error || $f_all == 1 || $f_all == $tmp[0]) {
             @unlink("online/" . $fname);
             $count--;
         }

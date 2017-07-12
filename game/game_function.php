@@ -31,7 +31,7 @@ function have_key($arr, $key)
  */
 function load_file($file_name)
 {
-    $file_name = BASE_DIR . DIRECTORY_SEPARATOR . $file_name;
+    $file_name = BASE_DIR . $file_name;
 
     return file_exists($file_name) ? (require $file_name) : null;
 }
@@ -85,7 +85,8 @@ function Request($key)
     return get_value($_REQUEST, $key);
 }
 
-/** Запись состояния
+/**
+ * Запись состояния.
  *
  */
 function savegame()
@@ -97,10 +98,13 @@ function savegame()
         // сохраняем измененные локации
         foreach ($loc_tt as $i => $val) {
             $arr      = [];
+            // переходы
             $arr["d"] = $loc_tt[$i]["d"];
+            // предметы, NPC и пользователи
             if (!empty($loc_i[$i])) {
                 $arr["i"] = $loc_i[$i];
             }
+            // таймеры
             if (!empty($loc_t[$i])) {
                 $arr["t"] = $loc_t[$i];
             }
@@ -135,7 +139,7 @@ function savegame()
 }
 
 /**
- * @brief Отправка сообщения
+ * Добавление записи в журнал событий.
  *
  * @param string $loc  локация
  * @param string $to   кому сообщение. all - отправка всем
@@ -161,29 +165,41 @@ function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
     }
 }
 
-/**"ИИ". Обновление состояния в локации
+/**
+ * "ИИ". Обновление состояния в локации.
+ *
+ * "искусственный интеллект", проверяем локацию с именем $i
  *
  * @param string $i локация
  */
 function doai($i)
-{ // искусственный интеллект, проверяем локацию с именем $i
+{
     global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_list, $start, $g_destroy, $g_crim, $g_logout, $login;
     $g_regen = 30;
 
+    /**
+     * тип локи и переходы
+     *
+     * @var string[] $locai
+     */
     $locai = explode("|", $loc_tt[$i]["d"]);
 
     // таймеры
     if (isset($loc_t[$i])) {
         foreach ($loc_t[$i] as $j => $val) {
             if (time() > $j) {
-                if (gettype($loc_t[$i][$j]) == "array" || substr($loc_t[$i][$j], 0, 2) == "n.") {
+                // респ НПС
+                if (is_array($loc_t[$i][$j]) || substr($loc_t[$i][$j], 0, 2) == "n.") {
                     require "f_timernpc.inc";
                     continue;
                 }
+                // респ предметов
                 if (substr($loc_t[$i][$j], 0, 2) == "i.") {
                     require "f_timeritem.inc";
                     continue;
                 }
+                // скриптовые таймеры - использования не найдено
+                // FIXME: избавтся от eval
                 $loct = $i;
                 $curr = $j;
                 eval($loc_t[$i][$j]);
@@ -194,16 +210,25 @@ function doai($i)
     $users = [];
     $guard = 0;
     $ti    = explode("x", $i != '_begin' ? $i : 'x1158x523');
+    // получить список кримов и наличие гварда на локе
     if ($loc_i[$i]) {
         foreach ($loc_i[$i] as $j => $val) {
             if ($j != "u.qv") {
                 if (substr($j, 0, 2) == 'u.') {
                     $uc = explode("|", $loc_i[$i][$j]["char"]);
+                    // пропускаем призраков
                     if ( ! $uc[8]) {
                         $us = explode("|", $loc_i[$i][$j]["skills"]);
+                        // попытка спрятаться
                         if (rand(0, 100) > $us[17] * 6) {
                             $users[] = $j;
                         }
+                        /*
+                         * кримом считаются:
+                         * преступники - если он не на пиратской локе($locai[1] != 3)
+                         * пират на земле тамплиеров($locai[1] == 2 && $uc[14] == "p")
+                         * тамплиер на земле пиратов($locai[1] == 3 && $uc[14] == "t")
+                         */
                         if ($locai[1] != 3 && $uc[9] ||
                             $ti[2] >= 1099 && ($locai[1] == 2 && $uc[14] == "p" || $locai[1] == 3 && $uc[14] == "t")
                         ) {
@@ -220,6 +245,9 @@ function doai($i)
             }
         }
     }
+
+    // добавляем гварда если нужно
+    // на безопасной територии гварды охотятся за преступниками
     if ($locai[1] == 1 && count($crim) > 0 && ! $guard) {
         require "f_addguard.inc";
     }
@@ -227,23 +255,30 @@ function doai($i)
     // по всем объектам
     if ($loc_i[$i]) {
         foreach ($loc_i[$i] as $j => $val) {
+            // FIXME: странное условие - как может быть не установлено значение, если индекс установлен?
             if (isset($loc_i[$i][$j])) {
+                // удаление "протухших" предметов
                 if (substr($j, 0, 2) == 'i.') {
+                    // похоже на костыль: удалить флаг, если он есть на другой локе
                     if ($j == "i.flag" && $game["floc"] != $i) {
                         unset($loc_i[$i][$j]);
                         continue;
                     }
+                    // пропуск предметов в замках
                     if (substr($i, 0, 2) == "c." && substr($j, 0, 4) != "i.s.") {
                         continue;
                     }
+                    // удалить предмет с локи, если истекло его время
                     $tmp = explode("|", $loc_i[$i][$j]);
                     if ($tmp[2] && time() > $tmp[2]) {
                         unset($loc_i[$i][$j]);
                     }
                     continue;
                 }
+                // для игроков и НПС
                 if (substr($j, 0, 2) == 'u.' || substr($j, 0, 2) == 'n.') {
                     $char = explode("|", $loc_i[$i][$j]["char"]);
+                    // реген ХП/МП.
                     $tm   = time() - intval($char[5]);
                     if ($tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]) &&
                         (substr($j, 0, 2) == 'n.' || (substr($j, 0, 2) == 'u.' && ! $char[8]))
@@ -254,24 +289,33 @@ function doai($i)
                             $skills[5]  = 0;
                             $skills[16] = 0;
                         }
+                        // скорость восстановления зависит от умений:
+                        // ХП - от "регенерации"
                         $char[1] = min($char[1] += round($tm / ($g_regen - $skills[16] * 4)), $char[2]);
+                        // МП - от "медетации"
                         $char[3] = min($char[3] += round($tm / ($g_regen - $skills[5] * 4)), $char[4]);
                         $char[5] = time();
                     }
+                    // для игрока
                     if (substr($j, 0, 2) == 'u.') {
+                        // сброс преступлений по сроку давности
                         if ($char[9] && time() > $char[10]) {
                             $char[9]  = 0;
                             $char[10] = "";
                         }
                         if ($j == $login) {
-                            $char[11] = time();
+                            $char[11] = time(); // обновить таймер последнего действия
                         }
+                        // удалить покинувших игру персонажей
                         if ($char[11] && time() > $char[11] + $g_logout * 5 && ! file_exists("online/" . $j)) {
                             unset($loc_i[$i][$j]);
                             continue;
                         }
                     }
+                    // для НПС
                     if (substr($j, 0, 2) == 'n.') {
+                        // с шансом 50% НПС попробует убежать с текущей локи, если ХП меньше 1/4
+                        // не станут убегать: охранники(n.o.*), зомби(n.z.*) и призванные магией(n.s.*)
                         if ($loc == $i && time() > $char[6] && $char[1] < $char[2] / 4 && rand(0, 100) < 50 &&
                             substr($j, 0, 4) != 'n.s.' && substr($j, 0, 4) != 'n.o.' && substr($j, 0, 4) != 'n.z.'
                         ) {
@@ -281,12 +325,14 @@ function doai($i)
                                 continue;
                             }
                         }
+                        // прекращаем атаковать призраков
                         if ($char[7] && isset($loc_i[$i][$char[7]]) && substr($char[7], 0, 2) == "u.") {
                             $tc = explode("|", $loc_i[$i][$char[7]]["char"]);
                             if ($tc[8]) {
                                 $char[7] = "";
                             }
                         }
+                        // жар-птица убегает от игроков
                         if ($j == "n.a.b.jarpt.1") {
                             $b = 0;
                             foreach ($loc_i[$i] as $k => $v) {
@@ -300,10 +346,12 @@ function doai($i)
                                 continue;
                             }
                         }
+                        // отпустить гварда, если он давно бездействует(?)
                         if (substr($j, 0, 4) == "n.g." && time() > $char[11]) {
                             addnpc($j, $i, "");
                             continue;
                         }
+                        // обработка подчиненных НПС
                         if (isset($loc_i[$i][$j]["owner"])) {
                             require "f_owner.inc";
                             if ($b) {
@@ -312,6 +360,7 @@ function doai($i)
                         } else {
                             $owner[1] = "";
                         }
+                        // преследование цели атаки
                         if ($char[7] && ! $owner[1] && ! isset($loc_i[$i][$char[7]])) {
                             $b = 0;
                             if (substr($j, 0, 4) != "n.o." && $j != "n.a.b.jarpt.1") {
@@ -323,21 +372,27 @@ function doai($i)
                                 $char[7] = "";
                             }
                         }
+                        // установить цель атаки
                         if ( ! $char[7]) {
+                            // гварды атакуют кримов
                             if (count($crim) > 0 &&
                                 (substr($j, 0, 4) == "n.g." || substr($j, 0, 4) == "n.t." || substr($j, 0, 4) == "n.p.")
                             ) {
                                 $char[7] = $crim[rand(0, count($crim) - 1)];
                             }
+                            // кримы атакуют пользователей
                             if (($char[9] || substr($j, 0, 4) == 'n.c.') && count($users) > 0) {
                                 $char[7] = $users[rand(0, count($users) - 1)];
                             }
                         }
+                        // охрана замка
                         if (substr($j, 0, 4) == "n.o." && substr($i, 0, 2) == "c." && substr($i, 3) != ".in" &&
                             ( ! $char[7] || ! isset($loc_i[$i][$char[7]]))
                         ) {
                             require "f_no.inc";
                         }
+                        // если нет цели и хозяина, то случайное перемещение НПС
+                        // охрана замка остается на месте
                         if ( ! $char[7] && ! $owner[1] && ($char[10] || ( ! $char[10] && $char[12])) &&
                              substr($j, 0, 4) != "n.o."
                         ) {
@@ -348,10 +403,13 @@ function doai($i)
                         }
                     }
                     $loc_i[$i][$j]["char"] = implode("|", $char);
+                    // НПС атакует, если выбрана цель
                     if ($char[7] && substr($j, 0, 2) != "u.") {
                         attack($i, $j, $char[7]);
                     }
                 } else {
+                    // какой то мусор на локе - удалить
+                    // по идее сюда попадать не должно
                     unset($loc_i[$i][$j]);
                     continue;
                 }
@@ -360,7 +418,8 @@ function doai($i)
     }
 }
 
-/**Подгружает локацию $loc
+/**
+ * Подгружает локацию $loc.
  * ВНИМАНИЕ: изменяет глобальные переменные $loc_i, $loc_t, $loc_tt
  *
  * @param string $loc
@@ -398,7 +457,8 @@ function loadloc($loc)
     }
 }
 
-/** Перемещение НПС(?)
+/**
+ * Перемещение НПС(?)
  *
  * @param string $id   индификатор
  * @param string $from откуда
@@ -509,7 +569,8 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
     }
 }
 
-/**Вспомогательная функция для перерасчета длины строк в файлах состояния
+/**
+ * Вспомогательная функция для перерасчета длины строк в файлах состояния
  *
  * @param string $s строка для перерачета
  *

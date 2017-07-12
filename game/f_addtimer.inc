@@ -17,6 +17,7 @@ function addtimer($location_id, $curr, $time, $value = "old", $delete = 1)
     global $loc_t;
     loadloc($location_id);
     $new_time = time() + $time;
+    // одновременный респ невозможен - ищем ближайший свободный
     while (isset($loc_t[$location_id][$new_time])) {
         $new_time++;
     }

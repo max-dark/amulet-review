@@ -104,7 +104,8 @@ if (substr($to, 0, 2) == 'u.') {
     }
     calcparam($loc, $to);    // пересчитаем параметры
     addjournal($loc, $to, "Вы погибли!");
-} else {    // npc респавн
+} else {
+    // npc респавн
     if ($twar[15]) {
         $resp = explode(":", $twar[15]);
         if ($resp[3]) {

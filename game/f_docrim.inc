@@ -1,6 +1,7 @@
 <?php
 
-/**Превращает персонажа в преступника
+/**
+ * Превращает персонажа в "крима" - нарушителя
  *
  * @param string $loc   локация
  * @param string $login логин
@@ -9,7 +10,7 @@
 function docrim($loc, $login, $title = "преступник")
 {
 
-    global $game, $loc_i, $g_crim;
+    global $loc_i, $g_crim;
     if (substr($loc, 0, 2) == "c." && substr($loc, 3) != ".in") {
         return;
     }
