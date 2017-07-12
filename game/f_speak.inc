@@ -31,9 +31,11 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
         // с квестовым NPC
         if ($npc_subtype == "n.q.") {
             include "f_speakq.inc";
-        } // со своим
+        }
         else {
+            // со своим
             if ($npc_subtype == "n.o.") {
+                // диалог с стражником замка
                 include "f_speako.inc";
             } else {
                 if (!empty([$loc][$speak]["owner"])) {
@@ -53,6 +55,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         // load dialog array
                         $dialog = require $dialog;
                         if ($char[7] == $speak) {
+                            // FIXME: явный баг. непонятно, что имелось в виду
                             $char[7];
                             $loc_i[$loc][$login]["char"] = implode("|", $char);
                         };
@@ -90,6 +93,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         $dialog = explode("#", $dialog[$id]);
                         $title  = $dialog[0];    // может быть переназначен в "eval: "
                         if (substr($title, 0, 6) == "eval: ") {
+                            // скриптовая часть диалога
+                            // TODO: избавиться от eval
                             eval(substr($title, 6));
                         }
                         if (substr($title, 0, 5) == "skill") {
@@ -100,6 +105,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                             $title = $dialog[$i];
                             $id    = $dialog[$i + 1];
                             if (substr($title, 0, 6) == "eval: ") {
+                                // скриптовая часть диалога
+                                // TODO: избавиться от eval
                                 eval(substr($title, 6));
                             }
                             if ($title) {

@@ -13,8 +13,9 @@
  * @global locai
  */
 if (time() > $game["lastai"] + 240) {
+    // обновим список
     include "f_online.inc";
-}    // обновим список
+}
 $g_list = 10;
 $stmp   = "";
 if ( ! $start) {

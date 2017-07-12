@@ -10,10 +10,10 @@
  * @param string $ft          откуда брать items|bank
  * @param string $tt          куда добавлять  items|bank
  * @param int    $journal     флаг занесения в журнал
- * @param int    $time_delete время действия
+ * @param int    $time_delete время действия(-1 - получить время из конфига)
  * @param int    $msg         флаг вывода сообщения
  *
- * @return int флаг успеха(?)
+ * @return int флаг успеха(?)/количество
  */
 function additem(
     $loc,
@@ -142,7 +142,7 @@ function additem(
 
         if ($from != "loc") {
             if (substr($from, 0, 6) == "i.s.d.") {
-                $d = 1;
+                $d = 1; // забираем с трупа
             } else {
                 $d = 0;
             }
