@@ -1,6 +1,7 @@
 <?php
 
-/**Добавляет экспу
+/**
+ * Добавляет экспу
  *
  * @param string $loc локация
  * @param string $to  логин
@@ -25,7 +26,8 @@ function addexp($loc, $to, $exp)
         }
         $loc_i[$loc][$to]["skills"] = implode("|", $skills);
         if ($skills[3] == 0) {
+            // level up - нужен пересчет
             calcparam($loc, $to);
-        } //levelup
+        }
     }
 }
