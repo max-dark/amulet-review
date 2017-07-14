@@ -134,7 +134,7 @@ if ($do == 'tele') {
         } else {
             addnpc($to[0], $loc, strtolower($to[1]));
         }
-        @mail("romka8@list.ru", "qv teleport " . $to[0] . ":" . $to[1], date("d/m Y H:i", time()));
+        //@mail("romka8@list.ru", "qv teleport " . $to[0] . ":" . $to[1], date("d/m Y H:i", time()));
     } else {
         if ($loc == "qv") {
             foreach ($loc_i[$loc] as $k => $val) {
@@ -192,7 +192,7 @@ if ($do == "set") {
     $tc[11]                     = $sres;
     $tc[12]                     = tsrus($sweap);
     $loc_i[$loc][$login]["war"] = implode("|", $tc);
-    @mail("romka8@list.ru", "qv set " . $name . ": " . $loc_i[$loc][$login]["war"], date("d/m Y H:i", time()));
+    //@mail("romka8@list.ru", "qv set " . $name . ": " . $loc_i[$loc][$login]["war"], date("d/m Y H:i", time()));
 }
 
 if ($do == "sum") {
@@ -310,8 +310,8 @@ if ($do == "sum") {
             $loc_i[$loc][$tsum . "." . rand(99, 9999)] = $npc;
         }
     }
-    @mail("romka8@list.ru", "qv summon " . $tsum . ":" . $tnum . ":" . $tfollow . " " . $tsn,
-        date("d/m Y H:i", time()));
+    //@mail("romka8@list.ru", "qv summon " . $tsum . ":" . $tnum . ":" . $tfollow . " " . $tsn,
+    //    date("d/m Y H:i", time()));
 }
 
 if ($do == "listid") {
@@ -358,7 +358,7 @@ if ($do == 'filter' && $inp) {
 
 if ($do == 'add' && $item) {
     additem($loc, "", $login, $item, $num);
-    @mail("romka8@list.ru", "qv add " . $item . ":" . $num, date("d/m Y H:i", time()));
+    //@mail("romka8@list.ru", "qv add " . $item . ":" . $num, date("d/m Y H:i", time()));
 }
 
 if ($do == 'geti' && $inp) {
@@ -407,7 +407,7 @@ if ($do == 'geti' && $inp) {
         additem($loc, "", $arr[2], $arr[0], $arr[1]);
         addjournal($loc, $login, "Предмет " . $arr[0] . ":" . $arr[1] . " добавлен к NPC " . $arr[2]);
     }
-    @mail("romka8@list.ru", "qv addi " . $inp, date("d/m Y H:i", time()));
+    //@mail("romka8@list.ru", "qv addi " . $inp, date("d/m Y H:i", time()));
 }
 
 if ($do == 'addi' && $inp) {
@@ -428,7 +428,7 @@ if ($do == 'addi' && $inp) {
 
     additem($loc, "", $arr[2], $arr[0], $arr[1]);
     addjournal($loc, $login, "Предмет " . $arr[0] . ":" . $arr[1] . " добавлен к NPC " . $arr[2]);
-    @mail("romka8@list.ru", "qv addi NPC " . $inp, date("d/m Y H:i", time()));
+    //@mail("romka8@list.ru", "qv addi NPC " . $inp, date("d/m Y H:i", time()));
 }
 
 if ($do == 'getms' && $inp) {
@@ -445,7 +445,7 @@ if ($do == 'getms' && $inp) {
         msg("id " . $id . " не существует");
     }
     additem($loc, "", $login, "i.ms_" . $inp, 1);
-    @mail("romka8@list.ru", "qv addms " . $inp, date("d/m Y H:i", time()));
+    //@mail("romka8@list.ru", "qv addms " . $inp, date("d/m Y H:i", time()));
 }
 
 if ($do == 'listit') {

@@ -1,19 +1,23 @@
 <?php
 
-/** Добавление вещи в инвентарь
+/**
+ * Управление вещами: добавить, передать, удалить, посчитать количество
+ *
+ * FIXME: Имя метода не соответствует.
+ * FIXME: Выполняет несколько операций и требуется разделение на разные функции.
  *
  * @param string $loc         локация
- * @param string $from        от кого
- * @param string $to          кому
+ * @param string $from        от кого userId|"loc"|""
+ * @param string $to          кому userId|"loc"|""
  * @param string $item        что
  * @param mixed  $count       количество либо 'count' для авторасчета
  * @param string $ft          откуда брать items|bank
  * @param string $tt          куда добавлять  items|bank
  * @param int    $journal     флаг занесения в журнал
- * @param int    $time_delete время действия
+ * @param int    $time_delete время действия(-1 - получить время из конфига)
  * @param int    $msg         флаг вывода сообщения
  *
- * @return int флаг успеха(?)
+ * @return int флаг успеха(?)/количество
  */
 function additem(
     $loc,
@@ -78,6 +82,7 @@ function additem(
 
     // получение кол-ва
     if ($count == "count") {
+        // из локации
         if ($from == "loc") {
             if ( ! isset($loc_i[$loc][$item])) {
 
@@ -88,6 +93,7 @@ function additem(
                 return $tmp[1];
             }
         } else {
+            // у НПС/игрока
             $res = intval(preg_replace('/.*' . $item . ':(\d+).*/', "\\1", $loc_i[$loc][$from][$ft]));
 
             return $res;
@@ -142,7 +148,7 @@ function additem(
 
         if ($from != "loc") {
             if (substr($from, 0, 6) == "i.s.d.") {
-                $d = 1;
+                $d = 1; // забираем с трупа
             } else {
                 $d = 0;
             }

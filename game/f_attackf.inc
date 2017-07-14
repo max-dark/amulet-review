@@ -4,7 +4,7 @@
  * @param string $loc    Локация
  * @param string $from   кто атакует
  * @param string $to     кого атакуют
- * @param string $magic  тип магии(?)
+ * @param string $magic  маг атака(?)
  * @param int    $answer флаг что атака в ответ(?)
  * @param int    $rmagic хз
  * @param string $priem  тип приема(?)

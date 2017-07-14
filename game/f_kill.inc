@@ -16,6 +16,10 @@
  * @global twar
  * @global fwar
  * @global fcrim
+ * @global tcrim
+ * @global wife
+ * @global clan
+ * @global clan1
  */
 // если убили
 $fchar[7]                   = "";
@@ -93,6 +97,7 @@ if (substr($to, 0, 2) == 'u.') {
     }
     $tchar[12]                = "";
     $loc_i[$loc][$to]["char"] = implode("|", $tchar);
+    // если игрок-крим убивает некрима
     if ( ! $tcrim && $fcrim && substr($from, 0, 2) == "u." && $from != $to) {    //killedby
         if ($twar[15]) {
             $tmp      = explode(":", $twar[15]);
@@ -104,7 +109,8 @@ if (substr($to, 0, 2) == 'u.') {
     }
     calcparam($loc, $to);    // пересчитаем параметры
     addjournal($loc, $to, "Вы погибли!");
-} else {    // npc респавн
+} else {
+    // npc респавн
     if ($twar[15]) {
         $resp = explode(":", $twar[15]);
         if ($resp[3]) {
@@ -147,6 +153,7 @@ if (substr($from, 0, 2) == 'u.') {
     if (substr($to, 0, 2) == 'u.') {
         $fwarr     = explode("|", $loc_i[$loc][$from]["war"]);
         $fwarr[16] = $to;
+        // если некрим убивает игрока-крима
         if ( ! $fcrim && $tcrim && substr($to, 0, 2) == "u." && $from != $to) {    //killedto
             if ($fwarr[15]) {
                 $tmp       = explode(":", $fwarr[15]);
