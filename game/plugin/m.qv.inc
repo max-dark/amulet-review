@@ -33,66 +33,67 @@ if ( ! $do) {
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
     $tw = explode("|", $loc_i[$loc][$login]["war"]);
 
-    msg("
-1. <a href=\"#say\">Сказать всем</a><br/>
-2. <a href=\"#pers\">Персонаж</a><br/>
-3. <a href=\"#tele\">Телепорт</a><br/>
-4. <a href=\"#sum\">Призвать</a><br/>
-5. <a href=\"#it\">Предмет</a><br/>
-6. <a href=\"$PHP_SELF?sid=$sid&use=$use&do=res\">Воскреснуть</a>
+    msg(<<<XML
+1. <a href="#say">Сказать всем</a><br/>
+2. <a href="#pers">Персонаж</a><br/>
+3. <a href="#tele">Телепорт</a><br/>
+4. <a href="#sum">Призвать</a><br/>
+5. <a href="#it">Предмет</a><br/>
+6. <a href="$PHP_SELF?sid=$sid&use=$use&do=res">Воскреснуть</a>
 
-</p></card><card id=\"sum\" title=\"Призвать\"><p>
-<input name=\"tsum\" emptyok=\"true\" type=\"text\" value=\"n.c.orc:1:1\"/>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=sum&tsum=$(tsum)&tsi=$(tsi)&tso=$(tso)&tr=$(tr)&tqn=$(tqn)\">Призвать</a>(id_name_weapon:count:follow)
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=listid\">[Список id]</a>
-<br/><select name=\"tr\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
-<br/>Предметы (например: i.money:2000|i.w.s.short:1): <input name=\"tsi\" emptyok=\"true\" type=\"text\" value=\"\"/>
-<br/>При освежевании: <input name=\"tso\" emptyok=\"true\" type=\"text\" value=\"\"/>
-<br/><br/>Сделать NPC мирным (диалог при найме | при отказе | в локации, куда надо отвести | id локации | отдать предметы: i.money:2000|i.w.s.short:1 | не разговаривать, если нет предмета | id предмета) : <input name=\"tqn\" emptyok=\"true\" type=\"text\" value=\"\"/>
+</p></card><card id="sum" title="Призвать"><p>
+<input name="tsum" emptyok="true" type="text" value="n.c.orc:1:1"/>
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=sum&tsum=$(tsum)&tsi=$(tsi)&tso=$(tso)&tr=$(tr)&tqn=$(tqn)">Призвать</a>(id_name_weapon:count:follow)
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=listid">[Список id]</a>
+<br/><select name="tr" multiple="true" value="1"><option value="1">Транслит</option></select>
+<br/>Предметы (например: i.money:2000|i.w.s.short:1): <input name="tsi" emptyok="true" type="text" value=""/>
+<br/>При освежевании: <input name="tso" emptyok="true" type="text" value=""/>
+<br/><br/>Сделать NPC мирным (диалог при найме | при отказе | в локации, куда надо отвести | id локации | отдать предметы: i.money:2000|i.w.s.short:1 | не разговаривать, если нет предмета | id предмета) : <input name="tqn" emptyok="true" type="text" value=""/>
 <br/>Обязательны только диалоги при найме и отказе (учтите, с обеих сторон от | должны быть пробелы).
 
-</p></card><card id=\"it\" title=\"Предмет\"><p>
-<input name=\"tit\" emptyok=\"true\" type=\"text\" value=\"i.w.\"/>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=filter&inp=$(tit)\">Список (id)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=geti&inp=$(tit)\">Артефакт (id_master_..am..do:count:npc)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=getms&inp=$(tit)\">Свиток призыва (id_name)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=listit\">[помощь]</a>
+</p></card><card id="it" title="Предмет"><p>
+<input name="tit" emptyok="true" type="text" value="i.w."/>
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=filter&inp=$(tit)">Список (id)</a>
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=geti&inp=$(tit)">Артефакт (id_master_..am..do:count:npc)</a>
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=getms&inp=$(tit)">Свиток призыва (id_name)</a>
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=listit">[помощь]</a>
 
-</p></card><card id=\"pers\" title=\"Персонаж\"><p>
-Имя: <input name=\"name\" emptyok=\"true\" type=\"text\" value=\"" . $tc[0] . "\"/>
-Описание: <input name=\"sdesc\" emptyok=\"true\" type=\"text\" value=\"Opisanie otsutstvuet\"/>
-<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
-<br/>Жизнь: <input name=\"slife\" emptyok=\"true\" value=\"" . $tc[1] . "\"/>
-<br/>Мана: <input name=\"smana\" emptyok=\"true\" value=\"" . $tc[3] . "\"/>
-<br/>Меткость: <input name=\"shit\" emptyok=\"true\" value=\"" . $tw[0] . "\"/>%
-<br/>Скорость: <input name=\"sspeed\" emptyok=\"true\" value=\"" . $tw[3] . "\"/> сек
-<br/>Урон min: <input name=\"sdmin\" emptyok=\"true\" value=\"" . $tw[1] . "\"/>
-<br/>Урон max: <input name=\"sdmax\" emptyok=\"true\" value=\"" . $tw[2] . "\"/>
-Чем бьет: <input name=\"sweap\" emptyok=\"true\" type=\"text\" value=\"" . $tw[12] . "\"/>
-<br/>Броня: <input name=\"sarm\" emptyok=\"true\" value=\"" . $tw[5] . "\"/>
-<br/>Сопр.магии: <input name=\"sres\" emptyok=\"true\" value=\"" . $tw[10] . "\"/>%
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=set&name=$(name)&translit=$(translit)&slife=$(slife)&shit=$(shit)&sspeed=$(sspeed)&sdmin=$(sdmin)&sdmax=$(sdmax)&sarm=$(sarm)&sres=$(sres)&sweap=$(sweap)&smana=$(smana)&sdesc=$(sdesc)\">Отправить</a>
+</p></card><card id="pers" title="Персонаж"><p>
+Имя: <input name="name" emptyok="true" type="text" value="{$tc[0]}"/>
+Описание: <input name="sdesc" emptyok="true" type="text" value="Opisanie otsutstvuet"/>
+<br/><select name="translit" multiple="true" value="1"><option value="1">Транслит</option></select>
+<br/>Жизнь: <input name="slife" emptyok="true" value="{$tc[1]}"/>
+<br/>Мана: <input name="smana" emptyok="true" value="{$tc[3]}"/>
+<br/>Меткость: <input name="shit" emptyok="true" value="{$tw[0]}"/>%
+<br/>Скорость: <input name="sspeed" emptyok="true" value="{$tw[3]}"/> сек
+<br/>Урон min: <input name="sdmin" emptyok="true" value="{$tw[1]}"/>
+<br/>Урон max: <input name="sdmax" emptyok="true" value="{$tw[2]}"/>
+Чем бьет: <input name="sweap" emptyok="true" type="text" value="{$tw[12]}"/>
+<br/>Броня: <input name="sarm" emptyok="true" value="{$tw[5]}"/>
+<br/>Сопр.магии: <input name="sres" emptyok="true" value="{$tw[10]}"/>%
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=set&name=$(name)&translit=$(translit)&slife=$(slife)&shit=$(shit)&sspeed=$(sspeed)&sdmin=$(sdmin)&sdmax=$(sdmax)&sarm=$(sarm)&sres=$(sres)&sweap=$(sweap)&smana=$(smana)&sdesc=$(sdesc)">Отправить</a>
 
-</p></card><card id=\"say\" title=\"Say all\"><p>
-<input name=\"text\" emptyok=\"true\" type=\"text\" maxlength=\"140\"/>\n<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
-<br/><anchor>Отправить<go href=\"$PHP_SELF?sid=$sid&use=$use&do=say\" method=\"get\">
-<postfield name=\"text\" value=\"$(text)\"/>
-<postfield name=\"translit\" value=\"$(translit)\"/>
+</p></card><card id="say" title="Say all"><p>
+<input name="text" emptyok="true" type="text" maxlength="140"/>\n<br/><select name="translit" multiple="true" value="1"><option value="1">Транслит</option></select>
+<br/><anchor>Отправить<go href="$PHP_SELF?sid=$sid&use=$use&do=say" method="get">
+<postfield name="text" value="$(text)"/>
+<postfield name="translit" value="$(translit)"/>
 </go></anchor>
 
-</p></card><card id=\"tele\" title=\"Teleport\"><p>
-<input name=\"to\" emptyok=\"true\" type=\"text\" maxlength=\"140\"/>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=$(to)\">Teleport(loc или id:loc)</a>
-<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=portal&to=$(to)\">Портал(loc)</a><br/><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=qv\">База</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1011x396\">Сев.вор</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1259x510\">Вост.вор</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1173x603\">Южн.вор</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1284x393\">Кладбище</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1476x277\">Пещера</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1884x246\">Ансалон</a><br/>
-<a href=\"$PHP_SELF?sid=$sid&use=$use&do=tele&to=x147x1227\">Остров центр</a>
-", $loc);
+</p></card><card id="tele" title="Teleport"><p>
+<input name="to" emptyok="true" type="text" maxlength="140"/>
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=$(to)">Teleport(loc или id:loc)</a>
+<br/><a href="$PHP_SELF?sid=$sid&use=$use&do=portal&to=$(to)">Портал(loc)</a><br/><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=qv">База</a><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1011x396">Сев.вор</a><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1259x510">Вост.вор</a><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1173x603">Южн.вор</a><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1284x393">Кладбище</a><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1476x277">Пещера</a><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=x1884x246">Ансалон</a><br/>
+<a href="$PHP_SELF?sid=$sid&use=$use&do=tele&to=x147x1227">Остров центр</a>
+XML
+, $loc);
 }
 if ($do == "say") {
 

@@ -118,19 +118,19 @@ if ($tfound == 2) {
         }
     }
     $tuser    = explode("|", $auser["user"]);
-    $tuser[3] = intval($tuser[3]); // bug fix!!!
+    $tuser[3] = intval($tuser[3]); //Возраст
     if ($tuser[3] == 0) {
         $tuser[3] = 16;
     }
     $auser["user"] = implode("|", $tuser);
-    $char[5]       = time(); // регенерация
-    $char[6]       = time() - 1;
-    $char[11]      = time();
-    $char[15]      = time() - 10;
-    $char[16]      = time() - 10;
+    $char[5]       = time(); // таймер регенерации
+    $char[6]       = time() - 1; // таймер атаки
+    $char[11]      = time(); // таймер последнего обновления
+    $char[15]      = time() - 10; // FIXME: использования не найдено
+    $char[16]      = time() - 10; // FIXME: использования не найдено(возможно лишняя "Copy-Paste")
     if ($char[9]) {
-        $char[10] = time() + $char[10] - $auser["time"];
-    } //time_crim
+        $char[10] = time() + $char[10] - $auser["time"]; //time_crim
+    }
     unset($auser["time"]);
     unset($auser["loc"]);
     unset($auser["def"]);
@@ -138,7 +138,8 @@ if ($tfound == 2) {
     $auser["char"] = implode("|", $char);
     loadloc($loc);
     $loc_i[$loc][$login] = $auser;
-    addnpc($login, "", $loc); // журнал
+    // FIXME: добавим событие появления в журнал(костыль)
+    addnpc($login, "", $loc);
 }
 
 $sid = substr($login, 2) . "." . $p . "." . chr(rand(97, 122));

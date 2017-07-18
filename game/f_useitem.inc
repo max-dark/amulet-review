@@ -56,50 +56,52 @@ if ($use{2} > 0 && $use{2} < 10) {
 if (strpos($loc_i[$loc][$login]["items"], $use . ":") === false) {
     msg("<p>Использовать можно только те предметы, что у вас в рюкзаке");
 }
-if (substr($use, 0, 4) == 'i.m.' || substr($use, 0, 4) == 'i.r.') {
-    $scroll = $use;
-    $use    = "m." . substr($use, 4);    // ниже исп. магию
-    if (strpos($use, "_") !== false) {
-        $ti = substr($use, 0, strpos($use, "_"));
-    } else {
-        $ti = $use;
-    }
-    if (file_exists("items/" . $ti)) {
-        $m = explode("|", (file_get_contents("items/" . $ti)));
-    } else {
-        die("err: no items/" . $use);
-    }
-    if ($m[6] && ! $to) {
-        $use  = $scroll;
-        $list = 'all';
-    } else {
-        require "f_usemagic.inc";
-    }    // чтобы вывести список целей
-} else {
-    if (substr($use, 0, 4) == 'i.w.' || substr($use, 0, 4) == 'i.a.') {
-        include "plugin/i.w.inc";
-    } else {
-        if (substr($use, 0, 4) == "i.f.") {
-            include "plugin/i.f.inc";
+
+$item_type = substr($use, 0, 4);
+switch ($item_type) {
+    case 'i.m.':
+    case 'i.r.':
+        $scroll = $use;
+        $use = "m." . substr($use, 4);    // ниже исп. магию
+        if (strpos($use, "_") !== false) {
+            $ti = substr($use, 0, strpos($use, "_"));
         } else {
-            if (substr($use, 0, 4) == "i.i.") {
-                include "plugin/i.i.inc";
-            } else {
-                if (substr($use, 0, 4) == "i.bc") {
-                    include "plugin/i.bc.inc";
-                } else {
-                    if (substr($use, 0, 4) == "i.ms") {
-                        include "plugin/i.ms.inc";
-                    } else {
-                        $inc_plugin = "plugin/" . $use . ".inc";
-                        if (file_exists($inc_plugin)) {
-                            include $inc_plugin;
-                        } else {
-                            addjournal($loc, $login, "Никакого эффекта");
-                        }
-                    }
-                }
-            }
+            $ti = $use;
         }
-    }
+        if (file_exists("items/" . $ti)) {
+            $m = explode("|", (file_get_contents("items/" . $ti)));
+        } else {
+            die("err: no items/" . $use);
+        }
+        if ($m[6] && !$to) {
+            $use = $scroll;
+            $list = 'all';
+        } else {
+            require "f_usemagic.inc"; // чтобы вывести список целей
+        }
+        break;
+    case 'i.w.':
+    case 'i.a.':
+        include "plugin/i.w.inc";
+        break;
+    case "i.f.":
+        include "plugin/i.f.inc";
+        break;
+    case "i.i.":
+        include "plugin/i.i.inc";
+        break;
+    case "i.bc":
+        include "plugin/i.bc.inc";
+        break;
+    case "i.ms":
+        include "plugin/i.ms.inc";
+        break;
+    default:
+        $inc_plugin = "plugin/" . $use . ".inc";
+        if (file_exists($inc_plugin)) {
+            include $inc_plugin;
+        } else {
+            addjournal($loc, $login, "Никакого эффекта");
+        }
+        break;
 }

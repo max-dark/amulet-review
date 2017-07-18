@@ -141,25 +141,25 @@ function savegame()
 /**
  * Добавление записи в журнал событий.
  *
- * @param string $loc  локация
+ * @param string $locId  локация
  * @param string $to   кому сообщение. all - отправка всем
  * @param string $msg  сообщение
  * @param string $no1  исключение из доставки
  * @param string $no2  исключение из доставки
  * @param string $cont разделитель
  */
-function addjournal($loc, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
+function addjournal($locId, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
 {
-    global $loc_i, $login;
-    if ( ! $loc_i[$loc]) {
+    global $loc_i;
+    if ( ! $loc_i[$locId]) {
         return;
     }
     $msg = preg_replace('/ \*.*?\*/', '', $msg);
-    foreach ($loc_i[$loc] as $i => $val) {
-        if (substr($i, 0, 2) == "u." && ($i == $to || $to == "all") && $i != $no1 && $i != $no2) {
-            $loc_i[$loc][$i]["journal"] .= $cont . $msg;
-            if (strlen($loc_i[$loc][$i]["journal"]) > 800) {
-                $loc_i[$loc][$i]["journal"] = ".." . substr($loc_i[$loc][$i]["journal"], -800);
+    foreach ($loc_i[$locId] as $id => $val) {
+        if (substr($id, 0, 2) == "u." && ($id == $to || $to == "all") && $id != $no1 && $id != $no2) {
+            $loc_i[$locId][$id]["journal"] .= $cont . $msg;
+            if (strlen($loc_i[$locId][$id]["journal"]) > 800) {
+                $loc_i[$locId][$id]["journal"] = ".." . substr($loc_i[$locId][$id]["journal"], -800);
             }
         }
     }
@@ -420,9 +420,14 @@ function doai($i)
 
 /**
  * Подгружает локацию $loc.
- * ВНИМАНИЕ: изменяет глобальные переменные $loc_i, $loc_t, $loc_tt
  *
- * @param string $loc
+ * Загружает состояние локации в `$loc_tt[$loc]`
+ *
+ * Копирует список объектов в `$loc_i[$loc]`
+ *
+ * Копирует список таймеров в `$loc_t[$loc]`
+ *
+ * @param string $loc ID локации
  */
 function loadloc($loc)
 {
@@ -458,11 +463,15 @@ function loadloc($loc)
 }
 
 /**
- * Перемещение НПС(?)
+ * Перемещение НПС/пользователей.
  *
- * @param string $id   индификатор
- * @param string $from откуда
- * @param string $to   куда
+ * Выполняет перемещение между локациями и удаление из локации.
+ *
+ * FIXME: название не соответствует, так как в основном используется перемещения/удаления
+ *
+ * @param string $id   ID NPC/пользователя
+ * @param string $from откуда, ID локации
+ * @param string $to   куда, ID локации
  * @param int    $gal  флаг перемещения галопом
  * @param int    $hide флаг скрытного перемещения
  */
@@ -494,7 +503,8 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
             "пронеслась"
         ];
     }
-    $tnpc = "";
+    $tnpc = [];
+    // уход из локации $from
     if ($from && isset($loc_i[$from][$id])) {
         $floc  = explode("|", $loc_tt[$from]["d"]);
         $tnpc  = $loc_i[$from][$id];
@@ -515,8 +525,10 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
         }
         unset($loc_i[$from][$id]);
     }
+    // появление в локации $to
     if ($to && isset($loc_i[$to])) {
         if ( ! $tnpc && isset($loc_i[$to][$id])) {
+            // по сути является костылем
             $tnpc  = $loc_i[$to][$id];
             $tchar = substr($tnpc["char"], 0, strpos($tnpc["char"], "|"));
         }
@@ -532,7 +544,8 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
                         addjournal($to, "all", $ars[2] . " " . $tchar, $id);
                     }
                 }
-                if (substr($id, 0, 2) == "n.") { // история следов npc
+                if (substr($id, 0, 2) == "n.") {
+                    // история следов npc
                     $tchar = explode("|", $tnpc["char"]);
                     $steps = explode(":", $tchar[12]);
                     if (count($steps) == 0) {
@@ -570,7 +583,9 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
 }
 
 /**
- * Вспомогательная функция для перерасчета длины строк в файлах состояния
+ * Вспомогательная функция для перерасчета длины строк в файлах состояния.
+ *
+ * Требуется в основном после ручной правки файлов состояния.
  *
  * @param string $s строка для перерачета
  *
