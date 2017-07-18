@@ -110,7 +110,7 @@ if (substr($to, 0, 2) == 'u.') {
     calcparam($loc, $to);    // пересчитаем параметры
     addjournal($loc, $to, "Вы погибли!");
 } else {
-    // npc респавн
+    // установка таймера респа NPC
     if ($twar[15]) {
         $resp = explode(":", $twar[15]);
         if ($resp[3]) {
@@ -120,7 +120,7 @@ if (substr($to, 0, 2) == 'u.') {
             $tchar[3] = $tchar[4];
             // сбросить цель атаки
             $tchar[7] = "";
-            // убрать коня
+            // очистить "шаги"/"следы"
             $tchar[12]                = "";
             $loc_i[$loc][$to]["char"] = implode("|", $tchar);
             $loc_i[$loc][$to]["id"]   = $to;
@@ -165,6 +165,7 @@ if (substr($from, 0, 2) == 'u.') {
         $loc_i[$loc][$from]["war"] = implode("|", $fwarr);
     }
     if (substr($to, 0, 2) != "u.") {    //killedto
+        // TODO: заменить на addExp
         $skills = explode("|", $loc_i[$loc][$from]["skills"]);
         $skills[3] += $twar[13];
         addjournal($loc, $from, "Опыт +" . intval($twar[13]));
@@ -175,7 +176,7 @@ if (substr($from, 0, 2) == 'u.') {
         }
         $loc_i[$loc][$from]["skills"] = implode("|", $skills);
         if ($skills[3] == 0) {
-            calcparam($loc, $from); //levelup
+            calcparam($loc, $from); // level up
         }
     }
 }

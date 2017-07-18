@@ -56,10 +56,13 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         $dialog = require $dialog;
                         if ($char[7] == $speak) {
                             // FIXME: явный баг. непонятно, что имелось в виду
-                            $char[7];
+                            //$char[7];
+                            // Может быть "прекратить атаковать при начале разговора"?
+                            $char[7] = '';
                             $loc_i[$loc][$login]["char"] = implode("|", $char);
                         };
 
+                        // разговор с торговцем
                         if ($id == 'buy' || $id == 'sell') {
                             if ( ! empty($dialog[$id])) {
                                 msg($tchar[0] . " торговать не будет");
@@ -75,6 +78,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                             include $inc_name;
                         }
 
+                        // разговор с банкиром
                         if ($id == 'tobank' || $id == 'frombank') {
                             if ( ! isset($dialog["bank"])) {
                                 msg($tchar[0] . " не банкир");
@@ -84,7 +88,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         }
 
                         if (empty($id)) {
-                            $id = "begin";    // FIX: начальная тема "begin"
+                            // начальная тема "begin"
+                            $id = "begin";
                         }
                         if ( ! isset($dialog[$id])) {
                             msg("Отсутствует тема \"$id\" в диалоге \"$speak\", сообщите разработчику игры, спасибо",
@@ -97,6 +102,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                             // TODO: избавиться от eval
                             eval(substr($title, 6));
                         }
+
+                        // обучение
                         if (substr($title, 0, 5) == "skill") {
                             include "f_speakskillup.inc";
                         }
@@ -117,7 +124,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         if (count($dialog) == 1) {
                             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid\">[Конец диалога]</a>";
                         }
-                        $stmp = str_replace("<name>", $char[0], $stmp);    // заменяем <name> на имя игрока
+                        // заменяем <name> на имя игрока
+                        $stmp = str_replace("<name>", $char[0], $stmp);
                         msg($stmp, $tchar[0], 1);
 
                     } else {
