@@ -25,20 +25,43 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
     }
     if ($speak == 1) {
         // чат
-        include "f_speak1.inc";
+        if ($to && isset($loc_i[$loc][$to])) {
+            $tt    = $to;
+            $tchar = explode("|", $loc_i[$loc][$to]["char"]);
+            $to    = $tchar[0] . ", ";
+        } else {
+            $to = "";
+        }
+        $stmp = "<p>";
+        if (!empty($to)) {
+            $stmp .= "<input name=\"to\" emptyok=\"true\" type=\"text\" value=\"$to\"/><br />";
+        }
+        $stmp .= "<input name=\"say\" emptyok=\"true\" type=\"text\" maxlength=\"250\" value=\"\"/>\n";
+        $stmp .= "<br/>\n";
+        $stmp .= "<anchor>Сказать\n";
+        $stmp .= "<go href=\"?sid=$sid\" method=\"post\">\n";
+        $stmp .= "<postfield name=\"to\" value=\"$(to)\"/>\n";
+        $stmp .= "<postfield name=\"say\" value=\"$(say)\"/>\n";
+        $stmp .= "</go></anchor>";
+
+        if (!empty($tt)) {
+            $stmp .= "<br/><a href=\"?sid=$sid&trade=$tt\">Обмен</a>";
+        }
+
+        msg($stmp, "Сказать", 1);
     } else {
         $tchar = explode("|", $loc_i[$loc][$speak]["char"]);
         if ($npc_subtype == "n.q.") {
             // с квестовым NPC
-            include "f_speakq.inc";
+            include "f_speakq.inc"; // без возврата управления
         } elseif ($npc_subtype == "n.o.") {
             // диалог с стражником замка
-            include "f_speako.inc";
+            include "f_speako.inc"; // возможен возврат управления(?)
         } elseif (!empty([$loc][$speak]["owner"])) {
             // со своим
             $owner = explode("|", $loc_i[$loc][$speak]["owner"]);
             if ($owner[0] == $login) {
-                include "f_speakowner.inc";
+                include "f_speakowner.inc"; // возможен возврат управления
             }
             msg($tchar . " принадлежит другому персонажу");
         } elseif (file_exists("speak/" . $speak) || $npc_subtype == "n.g.") {
@@ -47,9 +70,9 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 msg("<p>Вы не можете разговаривать с " . $tchar[0] . ", т.к. он вас атакует");
             }
             // диалог загрузится в $dialog (у стражи тоже)
-            $dialog = $npc_subtype == "n.g." ? "speak/n.g.guard" : "speak/{$speak}";
+            $dialog_file = $npc_subtype == "n.g." ? "speak/n.g.guard" : "speak/{$speak}";
             // load dialog array
-            $dialog = require $dialog;
+            $dialog = require $dialog_file;
             if ($char[7] == $speak) {
                 // FIXME: явный баг. непонятно, что имелось в виду
                 //$char[7];
@@ -80,7 +103,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     msg($tchar[0] . " не банкир");
                 }
                 $inc_name = "f_speak" . $id . (empty($to) ? ".inc" : "to.inc");
-                include $inc_name;
+                include $inc_name; // без возврата управления
             }
 
             if (empty($id)) {
@@ -91,8 +114,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 msg("Отсутствует тема \"$id\" в диалоге \"$speak\", сообщите разработчику игры, спасибо",
                     "Ошибка");
             }
-            $dialog = explode("#", $dialog[$id]);
-            $title = $dialog[0];    // может быть переназначен в "eval: "
+            $current_dialog = explode("#", $dialog[$id]);
+            $title = $current_dialog[0]; // может быть переназначен в "eval: "
             if (substr($title, 0, 6) == "eval: ") {
                 // скриптовая часть диалога
                 // TODO: избавиться от eval
@@ -101,23 +124,22 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
 
             // обучение
             if (substr($title, 0, 5) == "skill") {
-                include "f_speakskillup.inc";
+                include "f_speakskillup.inc"; // без возврата управления
             }
             $stmp = "<p>" . $title;
-            for ($i = 1; $i < count($dialog); $i += 2) {
-                $title = $dialog[$i];
-                $id = $dialog[$i + 1];
+            for ($i = 1; $i < count($current_dialog); $i += 2) {
+                $title = $current_dialog[$i]; // может быть переназначен в "eval: "
+                $id = $current_dialog[$i + 1]; // может быть переназначен в "eval: "
                 if (substr($title, 0, 6) == "eval: ") {
                     // скриптовая часть диалога
                     // TODO: избавиться от eval
                     eval(substr($title, 6));
                 }
                 if ($title) {
-                    $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=" . $id . "\">" . $title .
-                        "</a>";
+                    $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">$title</a>";
                 }
             }
-            if (count($dialog) == 1) {
+            if (count($current_dialog) == 1) {
                 $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid\">[Конец диалога]</a>";
             }
             // заменяем <name> на имя игрока
