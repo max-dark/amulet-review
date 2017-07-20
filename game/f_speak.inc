@@ -659,8 +659,21 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     msg("Прости, но я продаю палладинское оружие и броню только стражникам барона Дитриха или тем кто имеет грамоту от Лорда Хагена");
                 }
                 $trader = explode("|", $dialog[$id]);
-                $inc_name = "f_speak" . $id . (empty($to) ? ".inc" : "to.inc");
-                include $inc_name;
+
+                switch (empty($to) ? $id : $id . "to"){
+                    case 'buy':
+                        require 'f_speakbuy.inc';
+                        break;
+                    case 'buyto':
+                        require 'f_speakbuyto.inc';
+                        break;
+                    case 'sell':
+                        require 'f_speaksell.inc';
+                        break;
+                    case 'sellto':
+                        require 'f_speaksellto.inc';
+                        break;
+                }
             }
 
             // разговор с банкиром
@@ -668,8 +681,20 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 if (!isset($dialog["bank"])) {
                     msg($tchar[0] . " не банкир");
                 }
-                $inc_name = "f_speak" . $id . (empty($to) ? ".inc" : "to.inc");
-                include $inc_name; // без возврата управления
+                switch (empty($to) ? $id : $id . "to"){
+                    case 'frombank':
+                        require 'f_speakfrombank.inc';
+                        break;
+                    case 'frombankto':
+                        require 'f_speakfrombankto.inc';
+                        break;
+                    case 'tobank':
+                        require 'f_speaktobank.inc';
+                        break;
+                    case 'tobankto':
+                        require 'f_speaktobankto.inc';
+                        break;
+                }
             }
 
             if (empty($id)) {
