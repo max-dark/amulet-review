@@ -53,7 +53,57 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
         $tchar = explode("|", $loc_i[$loc][$speak]["char"]);
         if ($npc_subtype == "n.q.") {
             // с квестовым NPC
-            include "f_speakq.inc"; // без возврата управления
+            // диалог с квестовым NPC:
+            // при первом обращении присоединяется, при втором уходит.
+            // только следует, выдает инфу в in и out.
+            // присоединиться нанятый может только если рядом нет хозяина, иначе говорит, что следует за таким-то
+
+            if (isset($loc_i[$loc][$speak]["nspeak"])) {
+                $items = explode(" | ", $loc_i[$loc][$speak]["nspeak"]);
+                if ($items[1] && strpos($loc_i[$loc][$login]["items"], $items[1] . ":") === false) {
+                    msg($items[0] . "<br/><a href=\"?sid=$sid\">Гм... Понятно</a>", $tchar[0]);
+                }
+            }
+
+            $owner = $loc_i[$loc][$speak]["owner"];
+            if (!$owner || !isset($loc_i[$loc][substr($owner, 0, strpos($owner, "|"))])) {
+                $loc_i[$loc][$speak]["owner"] = $login . "|" . $login . "||";
+                msg($loc_i[$loc][$speak]["in"] . "<br/><a href=\"?sid=$sid\">Хорошо, следуй за мной</a>", $tchar[0]);
+            } elseif (substr($owner, 0, strpos($owner, "|")) == $login) {
+                if (isset($loc_i[$loc][$speak]["ok"]) &&
+                    substr($loc_i[$loc][$speak]["ok"], 0, strpos($loc_i[$loc][$speak]["ok"], " | ")) == $loc
+                ) {
+                    $items = explode(" | ", $loc_i[$loc][$speak]["ok"]);
+                    if ($items[2]) {
+                        $it = explode("|", $items[2]);
+                    } else {
+                        $it = "";
+                    }
+                    if ($it) {
+                        foreach ($it as $i) {
+                            $i = explode(":", $i);
+                            additem($loc, "", $login, $i[0], $i[1]);
+                        }
+                    }
+                    if (isset($loc_i[$loc][$speak]["nspeak"])) {
+                        $it1 = explode(" | ", $loc_i[$loc][$speak]["nspeak"]);
+                        if ($it1[1] && strpos($loc_i[$loc][$login]["items"], $it1[1] . ":") !== false) {
+                            additem($loc, $login, "", $it1[1], 1);
+                        }
+                    }
+                    addnpc($speak, $loc, "");
+                    unset($loc_i[$loc][$speak]);
+                    msg($items[1] . "<br/><a href=\"?sid=$sid\">Ну ладно, прощай</a>", $tchar[0]);
+                } else {
+                    unset($loc_i[$loc][$speak]["owner"]);
+                    msg($loc_i[$loc][$speak]["out"] . "<br/><a href=\"?sid=$sid\">Мне пора, прощай</a>", $tchar[0]);
+                }
+            } else {
+                $tc = explode("|", $loc_i[$loc][substr($owner, 0, strpos($owner, "|"))]["char"]);
+                msg("Извини, " . $char[0] . ", но я сейчас следую за " . $tc[0] . ", с тобой могу пойти только если " . $tc[0] .
+                    " откажется провожать меня или я потеряю его из вида.<br/><a href=\"?sid=$sid\">Понятно, пока</a>",
+                    $tchar[0]);
+            }
         } elseif ($npc_subtype == "n.o.") {
             // диалог с стражником замка
             include "f_speako.inc"; // возможен возврат управления(?)
