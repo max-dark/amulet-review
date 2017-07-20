@@ -10,12 +10,10 @@
  * @global PHP_SELF
  * @global char
  * @global id
- * @global war
  * @global tchar
  * @global g_list
  * @global trader
  * @global title
- * @global skilldown
  * @global to
  */
 
@@ -173,6 +171,7 @@ if ($max) {
 }
 
 // надо ли понизить
+$skilldown = Request('skilldown');
 if ($skill == 'str' || $skill == 'dex' || $skill == 'int') {    //АТТР
     if ($skills[$arr_skills[$skill]] >= $g_attr_one) {
         msg("<p>Невозможно повысить, т.к. аттрибут уже на максимальном уровне " . $g_attr_one, $tchar[0]);
@@ -248,7 +247,7 @@ if ($skill == 'str' || $skill == 'dex' || $skill == 'int') {    //АТТР
 // хватит ли денег
 if ($cost) {
     $twar = explode("|", $loc_i[$loc][$login]["war"]);
-    if ($war[13] == 0) {
+    if ($twar[13] == 0) {
         calcparam($loc, $login);
     }
     if ($lev == 5) {
