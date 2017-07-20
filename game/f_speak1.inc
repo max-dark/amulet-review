@@ -22,20 +22,19 @@ if ($to && isset($loc_i[$loc][$to])) {
     $to = "";
 }
 $stmp = "<p>";
-if ($to) {
-    $stmp .= "<input name='to' emptyok='true' type='text' value='" . $to . "'/><br />";
+if (!empty($to)) {
+    $stmp .= "<input name=\"to\" emptyok=\"true\" type=\"text\" value=\"$to\"/><br />";
 }
-$stmp .= "
-<input name='say' emptyok='true' type='text' maxlength='250' value=''/>
-<br/>
-<anchor>Сказать
-<go href='?sid=" . $sid . "' method='post'>
-<postfield name='to' value='$(to)'/>
-<postfield name='say' value='$(say)'/>
-</go></anchor>";
+$stmp .= "<input name=\"say\" emptyok=\"true\" type=\"text\" maxlength=\"250\" value=\"\"/>\n";
+$stmp .= "<br/>\n";
+$stmp .= "<anchor>Сказать\n";
+$stmp .= "<go href=\"?sid=$sid\" method=\"post\">\n";
+$stmp .= "<postfield name=\"to\" value=\"$(to)\"/>\n";
+$stmp .= "<postfield name=\"say\" value=\"$(say)\"/>\n";
+$stmp .= "</go></anchor>";
 
 if (!empty($tt)) {
-    $stmp .= "<br/><a href='?sid=" . $sid . "&trade=" . $tt . "'>Обмен</a>";
+    $stmp .= "<br/><a href=\"?sid=$sid&trade=$tt\">Обмен</a>";
 }
 
 msg($stmp, "Сказать", 1);
