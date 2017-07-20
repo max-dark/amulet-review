@@ -19,7 +19,50 @@
  */
 
 if ($up || $down) {
-    include "f_speakfrombankm.inc";
+    // перемещение в банке
+    $items = explode("|", $loc_i[$loc][$login]["bank"]);
+    if ($up) {
+        if (strpos($loc_i[$loc][$login]["bank"], $up . ":") === false) {
+            msg("Нет такого предмета");
+        }
+        for ($i = 0; $i < count($items); $i++) {
+            if (strpos($items[$i], $up . ":") !== false) {
+                break;
+            }
+        }
+        if ($i == 0) {
+            array_push($items, $items[$i]);
+            array_shift($items);
+        } else {
+            $tc            = $items[$i - 1];
+            $items[$i - 1] = $items[$i];
+            $items[$i]     = $tc;
+        }
+        $loc_i[$loc][$login]["bank"] = implode("|", $items);
+        msg("Предмет передвинут вверх.");
+    }
+    if ($down) {
+        $up = $down;
+        if (strpos($loc_i[$loc][$login]["bank"], $up . ":") === false) {
+            msg("Нет такого предмета");
+        }
+        for ($i = 0; $i < count($items); $i++) {
+            if (strpos($items[$i], $up . ":") !== false) {
+                break;
+            }
+        }
+        if ($i == count($items) - 1) {
+            array_unshift($items, $items[$i]);
+            array_pop($items);
+        } else {
+            $tc            = $items[$i + 1];
+            $items[$i + 1] = $items[$i];
+            $items[$i]     = $tc;
+        }
+
+        $loc_i[$loc][$login]["bank"] = implode("|", $items);
+        msg("Предмет передвинут вниз.");
+    }
 }
 
 if ($speak == "n.t.bankir" && $char[14] != "t") {
@@ -30,7 +73,7 @@ if ($speak == "n.p.bankir" && $char[14] != "p") {
 }
 // список
 $items = explode("|", $loc_i[$loc][$login]["bank"]);
-if ( ! $items) {
+if (empty($items)) {
     msg("У вас в банке нет ни одного предмета", $tchar[0]);
 }
 $stmp = "";
