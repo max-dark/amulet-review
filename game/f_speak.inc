@@ -649,7 +649,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
 
             // разговор с торговцем
             if ($id == 'buy' || $id == 'sell') {
-                if (!empty($dialog[$id])) {
+                if (!isset($dialog[$id])) {
                     msg($tchar[0] . " торговать не будет");
                 }
                 $user_items = $loc_i[$loc][$login]["items"];
