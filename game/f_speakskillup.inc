@@ -59,7 +59,24 @@ if (substr($skill, 0, 2) == "m.") {
     msg("<p>Вы выучили новое заклинание!", $tchar[0]);
 }
 if (substr($skill, 0, 2) == "p.") {
-    include "f_speakskillupp.inc"; // без возврата управления
+    // приемы
+    // проверки
+    if (strpos($loc_i[$loc][$login]["priem"], $skill . ":") !== false) {
+        msg("<p>Вы уже знаете этот прием", $tchar[0]);
+    }
+    if ($cost) {
+        $money = intval(preg_replace('/.*i\.money:(\d+).*/', "\\1", $loc_i[$loc][$login]["items"]));
+        if ($money < $cost) {
+            msg("<p>У вас недостаточно денег (надо " . $cost . " монет)", $tchar[0]);
+        }
+        additem($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
+    }
+    if ( ! $loc_i[$loc][$login]["priem"]) {
+        $loc_i[$loc][$login]["priem"] = $skill . ":1";
+    } else {
+        $loc_i[$loc][$login]["priem"] .= "|" . $skill . ":1";
+    }
+    msg("<p>Вы выучили новый прием!", $tchar[0]);
 }
 
 $lev = 0;
