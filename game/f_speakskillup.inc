@@ -29,10 +29,37 @@ $max   = $tmp[4];
 
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 if (substr($skill, 0, 2) == "m.") {
-    include "f_speakskillupm.inc";
+    // магия
+    // проверки
+    if (strpos($loc_i[$loc][$login]["magic"], $skill . ":") !== false) {
+        msg("<p>У вас уже есть это заклинание", $tchar[0]);
+    }
+    if ($min) {
+        if ($skills[13] < $min) {
+            msg("<p>У вас недостаточный навык магии (надо минимум " . $min . ")", $tchar[0]);
+        }
+    }
+    if ($max) {
+        if ($skills[13] > $max) {
+            msg("<p>У вас слишком высокий навык магии (максимум " . $max . ")", $tchar[0]);
+        }
+    }
+    if ($cost) {
+        $money = intval(preg_replace('/.*i\.money:(\d+).*/', "\\1", $loc_i[$loc][$login]["items"]));
+        if ($money < $cost) {
+            msg("<p>У вас недостаточно денег (надо " . $cost . " монет)", $tchar[0]);
+        }
+        additem($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
+    }
+    if ( ! $loc_i[$loc][$login]["magic"]) {
+        $loc_i[$loc][$login]["magic"] = $skill . ":1";
+    } else {
+        $loc_i[$loc][$login]["magic"] .= "|" . $skill . ":1";
+    }
+    msg("<p>Вы выучили новое заклинание!", $tchar[0]);
 }
 if (substr($skill, 0, 2) == "p.") {
-    include "f_speakskillupp.inc";
+    include "f_speakskillupp.inc"; // без возврата управления
 }
 
 $lev = 0;
