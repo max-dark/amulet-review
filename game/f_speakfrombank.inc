@@ -104,7 +104,7 @@ for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
         if ($k[1] > 1) {
             $item .= " (" . $k[1] . ")";
         }
-        $stmp .= "\n<br/><anchor>$item<go href=\"#menu\"><setvar name=\"to\" value=\"$k[0]\"/></go></anchor>";
+        $stmp .= "\n<br/><anchor>$item<go href=\"#menu\"><setvar name=\"to\" value=\"{$k[0]}\"/></go></anchor>";
     }
 }
 #end: список
