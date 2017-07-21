@@ -615,7 +615,7 @@ function getBaseItemId($itemId)
  * @param string $baseId
  * @return string[]
  */
-function findItemById($baseId)
+function findItemByBaseId($baseId)
 {
     if (substr($baseId, 0, 5) == "i.rr.") {
         $item = explode("|", "руна|50");
@@ -629,4 +629,13 @@ function findItemById($baseId)
         }
     }
     return $item;
+}
+
+/**
+ * @param $itemId
+ * @return string[]
+ */
+function findItemByFullId($itemId)
+{
+    return findItemByBaseId(getBaseItemId($itemId));
 }

@@ -19,7 +19,7 @@
  */
 
 // продаем $to
-$item = findItemById(getBaseItemId($to));
+$item = findItemByFullId($to);
 
 // фильтр
 if ($trader[1]) {

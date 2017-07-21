@@ -54,7 +54,7 @@ for ($i = $start; $i < $start + $g_list && $i < $xF; $i++) {
     $itemId = $regF[1][$i];
     if ($itemId) {
         $itemCount = $regF[2][$i];
-        $item = findItemById(getBaseItemId($itemId));
+        $item = findItemByFullId($itemId);
         $tmp = $item[0];
         if (strpos($itemId, "..") !== false) {
             $tmp .= " *";

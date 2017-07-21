@@ -21,7 +21,7 @@
  */
 
 // $to из банка
-$item = findItemById(getBaseItemId($to));
+$item = findItemByFullId($to);
 
 $count = intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["bank"]));
 if ($count == 0) {

@@ -17,7 +17,7 @@
  * @global to
  */
 
-$item = findItemById(getBaseItemId($to));
+$item = findItemByFullId($to);
 
 if (strpos($loc_i[$loc][$speak]["bank"], $to . ":") === false) {
     msg("У меня нет " . $item[0]);
