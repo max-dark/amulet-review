@@ -26,20 +26,7 @@ if ($to) {
     foreach (array_keys($items) as $i) {
         if ($items[$i]) {
             $k = explode(":", $items[$i]);
-            if (strpos($k[0], "_") !== false) {
-                $ti = substr($k[0], 0, strpos($k[0], "_"));
-            } else {
-                $ti = $k[0];
-            }
-            if (substr($k[0], 0, 5) == "i.rr.") {
-                $title = explode("|", "руна|50");
-            } else {
-                if (file_exists("items/" . $ti)) {
-                    $title = explode("|", (file_get_contents("items/" . $ti)));
-                } else {
-                    continue;
-                }
-            }
+            $title = findItemByFullId($k[0]);
             $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=skill.steal&to=" . $to . "&id=" . $k[0] . "\">";
             if (strpos($k[0], "..") !== false) {
                 $title[0] .= " *";

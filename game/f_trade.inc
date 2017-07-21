@@ -170,20 +170,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
                     $i[$j][1]
                 ) {
                     $b = 1;
-                    if (strpos($i[$j][0], "_") !== false) {
-                        $ti = substr($i[$j][0], 0, strpos($i[$j][0], "_"));
-                    } else {
-                        $ti = $i[$j][0];
-                    }
-                    if (substr($i[$j][0], 0, 5) == "i.rr.") {
-                        $item = explode("|", "руна|50");
-                    } else {
-                        if (file_exists("items/" . $ti)) {
-                            $item = explode("|", (file_get_contents("items/" . $ti)));
-                        } else {
-                            die("err: no items/" . $i[$j][0]);
-                        }
-                    }
+                    $item = findItemByFullId($i[$j][0]);
                     addjournal($loc, $login, "У вас нет: " . $i[$j][1] . " " . $item[0]);
                     break;
                 }
@@ -193,20 +180,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
                     $ito[$j][1]
                 ) {
                     $b = 1;
-                    if (strpos($ito[$j][0], "_") !== false) {
-                        $ti = substr($ito[$j][0], 0, strpos($ito[$j][0], "_"));
-                    } else {
-                        $ti = $ito[$j][0];
-                    }
-                    if (substr($ito[$j][0], 0, 5) == "i.rr.") {
-                        $item = explode("|", "руна|50");
-                    } else {
-                        if (file_exists("items/" . $ti)) {
-                            $item = explode("|", (file_get_contents("items/" . $ti)));
-                        } else {
-                            die("err: no items/" . $ito[$j][0]);
-                        }
-                    }
+                    $item = findItemByFullId($ito[$j][0]);
                     addjournal($loc, $login, "У " . $tchar . " нет: " . $ito[$j][1] . " " . $item[0]);
                     break;
                 }
@@ -231,20 +205,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
             $stmp .= "<br/>[пусто]";
         }
         foreach (array_keys($ito) as $j) {
-            if (strpos($ito[$j][0], "_") !== false) {
-                $ti = substr($ito[$j][0], 0, strpos($ito[$j][0], "_"));
-            } else {
-                $ti = $ito[$j][0];
-            }
-            if (substr($ito[$j][0], 0, 5) == "i.rr.") {
-                $item = explode("|", "руна|50");
-            } else {
-                if (file_exists("items/" . $ti)) {
-                    $item = explode("|", (file_get_contents("items/" . $ti)));
-                } else {
-                    die("err: no items/" . $ito[$j][0]);
-                }
-            }
+            $item = findItemByFullId($ito[$j][0]);
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&look=" . $ito[$j][0] . "\">" . $item[0];
             if ($ito[$j][1] > 1) {
                 $stmp .= " (" . $ito[$j][1] . ")";
@@ -256,20 +217,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
             $stmp .= "<br/>[пусто]";
         }
         foreach (array_keys($i) as $j) {
-            if (strpos($i[$j][0], "_") !== false) {
-                $ti = substr($i[$j][0], 0, strpos($i[$j][0], "_"));
-            } else {
-                $ti = $i[$j][0];
-            }
-            if (substr($i[$j][0], 0, 5) == "i.rr.") {
-                $item = explode("|", "руна|50");
-            } else {
-                if (file_exists("items/" . $ti)) {
-                    $item = explode("|", (file_get_contents("items/" . $ti)));
-                } else {
-                    die("err: no items/" . $i[$j][0]);
-                }
-            }
+            $item = findItemByFullId($i[$j][0]);
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&trade=del&id=" . $i[$j][0] . "\">" . $item[0];
             if ($i[$j][1] > 1) {
                 $stmp .= " (" . $i[$j][1] . ")";

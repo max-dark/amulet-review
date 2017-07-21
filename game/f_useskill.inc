@@ -101,20 +101,7 @@ if ($use == 'skill.steal') {
                         foreach (array_keys($items) as $i) {
                             if ($items[$i]) {
                                 $k = explode(":", $items[$i]);
-                                if (strpos($k[0], "_") !== false) {
-                                    $ti = substr($k[0], 0, strpos($k[0], "_"));
-                                } else {
-                                    $ti = $k[0];
-                                }
-                                if (substr($k[0], 0, 5) == "i.rr.") {
-                                    $title = explode("|", "руна|50");
-                                } else {
-                                    if (file_exists("items/" . $ti)) {
-                                        $title = explode("|", (file_get_contents("items/" . $ti)));
-                                    } else {
-                                        continue;
-                                    }
-                                }
+                                $title = findItemByFullId($k[0]);
                                 $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=skill.steal&to=" . $to . "&id=" .
                                          $k[0] . "\">";
                                 if (strpos($k[0], "..") !== false) {
@@ -150,23 +137,10 @@ if ($use == 'skill.steal') {
                     if ($steal > 0) {
                         if (rand(0, 100) < $steal) {
                             $count = intval(preg_replace('/.*' . $id . ':(\d+).*/', "\\1", $loc_i[$loc][$to]["items"]));
-                            if (strpos($id, "_") !== false) {
-                                $ti = substr($id, 0, strpos($id, "_"));
-                            } else {
-                                $ti = $id;
-                            }
-                            if (substr($id, 0, 5) == "i.rr.") {
-                                $item = explode("|", "руна|50");
-                            } else {
-                                if (file_exists("items/" . $ti)) {
-                                    $item = explode("|", (file_get_contents("items/" . $ti)));
-                                } else {
-                                    $count = 0;
-                                }
-                            }
                             if ($count == 0) {
                                 msg("<p>У " . $tchar[0] . " нет этого предмета");
                             }
+                            $item = findItemByFullId($id);
                             additem($loc, $to, $login, $id, $count, "items", "items", 0, -1, 1);//не сообщая в журнал
                             addjournal($loc, $login, "Вы украли у " . $tchar[0] . " " . $count . " " . $item[0] . "!");
                             if ($tskills && $loc_c[1]) {

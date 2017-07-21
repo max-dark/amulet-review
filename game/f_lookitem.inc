@@ -13,19 +13,9 @@
  * @global $look
  */
 $tlook = $look;
-if (strpos($look, "_") !== false) {
-    $look = substr($look, 0, strpos($look, "_"));
-}
+$look = getBaseItemId($look);
 if (substr($look, 0, 6) != 'i.s.d.') {
-    if (substr($look, 0, 5) == "i.rr.") {
-        $item = explode("|", "руна|50");
-    } else {
-        if (file_exists("items/" . $look)) {
-            $item = explode("|", (file_get_contents("items/" . $look)));
-        } else {
-            die("err: no items/" . $look);
-        }
-    }
+    $item = findItemByBaseId($look);
 }
 function tsret($s)
 {

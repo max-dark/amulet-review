@@ -365,11 +365,7 @@ if ($do == 'add' && $item) {
 if ($do == 'geti' && $inp) {
     $arr = explode(":", $inp);
 
-    if (strpos($arr[0], "_") !== false) {
-        $fn = substr($arr[0], 0, strpos($arr[0], "_"));
-    } else {
-        $fn = $arr[0];
-    }
+    $fn = getBaseItemId($arr[0]);
     if ( ! file_exists("items/" . $fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
@@ -413,11 +409,7 @@ if ($do == 'geti' && $inp) {
 
 if ($do == 'addi' && $inp) {
     $arr = explode(":", $inp);
-    if (strpos($arr[0], "_") !== false) {
-        $fn = substr($arr[0], 0, strpos($arr[0], "_"));
-    } else {
-        $fn = $arr[0];
-    }
+    $fn = getBaseItemId($arr[0]);
     if ( ! file_exists("items/" . $fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
@@ -437,11 +429,7 @@ if ($do == 'getms' && $inp) {
         msg("Свитки призыва можно создавать только на основе id монстров или животных, т.е. n.c.xxx или n.a.xxx");
     }
     $inp = preg_replace('/([^.A-z])/', "", $inp);
-    if (strpos($inp, "_") !== false) {
-        $id = substr($inp, 0, strpos($inp, "_"));
-    } else {
-        $id = $inp;
-    }
+    $id = getBaseItemId($inp);
     if ( ! file_exists("npc/" . $id)) {
         msg("id " . $id . " не существует");
     }

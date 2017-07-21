@@ -16,11 +16,7 @@ if ($to && substr($use, 0, 6) == 'i.w.k.') {
     if ($to && substr($use, 0, 6) == 'i.w.t.') {
         include __DIR__ . DIRECTORY_SEPARATOR . "i.w.t.inc";
     } else {
-        if (strpos($use, "_") !== false) {
-            $ti = substr($use, 0, strpos($use, "_"));
-        } else {
-            $ti = $use;
-        }
+        $ti = getBaseItemId($use);
         if (strpos($equip, $ti) === false) {    // одеваем
             if (substr($use, 0, 4) == 'i.w.') {
                 if (strpos($equip, "i.w.") === false) {

@@ -76,28 +76,19 @@ if (isset($loc_i[$loc][$look])) {
         $equip = explode("|", $loc_i[$loc][$look]["equip"]);
         foreach ($equip as $i) {
             if ($i) {
-                if (strpos($i, "_") !== false) {
-                    $ti = substr($i, 0, strpos($i, "_"));
-                } else {
-                    $ti = $i;
-                }
-                if (file_exists("items/" . $ti)) {
-                    $item = explode("|", (file_get_contents("items/" . $ti)));
-                    if (substr($i, 0, 4) == "i.a.") {
-                        if ( ! $sto) {
-                            $sto = $item[0];
-                        } else {
-                            $sto .= ", " . $item[0];
-                        }
+                $item = findItemByFullId($i);
+                if (substr($i, 0, 4) == "i.a.") {
+                    if ( ! $sto) {
+                        $sto = $item[0];
                     } else {
-                        if ( ! $str) {
-                            $str = $item[0];
-                        } else {
-                            $str .= ", " . $item[0];
-                        }
+                        $sto .= ", " . $item[0];
                     }
                 } else {
-                    die("err: no items/" . $i);
+                    if ( ! $str) {
+                        $str = $item[0];
+                    } else {
+                        $str .= ", " . $item[0];
+                    }
                 }
             }
         }

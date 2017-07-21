@@ -603,6 +603,7 @@ function calcser($s)
 function getBaseItemId($itemId)
 {
     $position = strpos($itemId, "_");
+    // является самодельным предметом?
     if ($position !== false) {
         $baseId = substr($itemId, 0, $position);
     } else {

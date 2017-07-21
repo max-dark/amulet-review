@@ -58,11 +58,7 @@ function calcparam($loc, $login)
         foreach (array_keys($equip) as $i) {
             if ($equip[$i]) {
                 // является самодельным предметом?
-                if (strpos($equip[$i], "_") !== false) {
-                    $tid = substr($equip[$i], 0, strpos($equip[$i], "_"));
-                } else {
-                    $tid = $equip[$i];
-                }
+                $tid = getBaseItemId($equip[$i]);
                 // удалить несуществующий предмет
                 if ( ! $equip[$i] || strpos($auser["items"], $equip[$i] . ":") === false ||
                      ! file_exists("items/" . $tid) || ! $tid
