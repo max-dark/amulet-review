@@ -15,47 +15,44 @@
 if (isset($loc_i[$loc][$look])) {
     $char = explode("|", $loc_i[$loc][$look]["char"]);    // для оптимизации
     $stmp = "<p>Тип: ";
-    if (substr($look, 0, 9) == 'n.a.losh.') {
-        $stmp .= "лошадь, на ней можно ездить, если она принадлежит вам (выберите в меню Говорить, Сесть в седло)";
-    } else {
-        if (substr($look, 0, 4) == 'n.a.') {
+    $npc_subtype = substr($look, 0, 4);
+    switch ($npc_subtype) {
+        case 'n.a.':
             $stmp .= "животное";
-        } else {
-            if (substr($look, 0, 4) == 'n.m.') {
-                $stmp .= "гном";
+            break;
+        case 'n.m.':
+            $stmp .= "гном";
+            break;
+        case 'n.w.':
+            $stmp .= "божественаая личность";
+            break;
+        case 'n.c.':
+            $stmp .= "монстр";
+            break;
+        case 'n.z.':
+            $stmp .= "зомби, поднятый из мертвых с помощью некромантии";
+            break;
+        case 'n.g.':
+            $stmp .= "городская стража";
+            break;
+        case 'n.s.':
+            $stmp .= "призван с помощью магии";
+            break;
+        case 'n.h.':
+            $stmp .= "лекарь, может воскрешать мертвых (для этого надо поговорть с ним)";
+            break;
+        default:
+            if (substr($look, 0, 9) == 'n.a.losh.') {
+                $stmp .= "лошадь, на ней можно ездить, если она принадлежит вам (выберите в меню Говорить, Сесть в седло)";
             } else {
-                if (substr($look, 0, 4) == 'n.w.') {
-                    $stmp .= "божественаая личность";
-                } else {
-                    if (substr($look, 0, 4) == 'n.c.') {
-                        $stmp .= "монстр";
-                    } else {
-                        if (substr($look, 0, 4) == 'n.z.') {
-                            $stmp .= "зомби, поднятый из мертвых с помощью некромантии";
-                        } else {
-                            if (substr($look, 0, 4) == 'n.g.') {
-                                $stmp .= "городская стража";
-                            } else {
-                                if (substr($look, 0, 4) == 'n.s.') {
-                                    $stmp .= "призван с помощью магии";
-                                } else {
-                                    if (substr($look, 0, 4) == 'n.h.') {
-                                        $stmp .= "лекарь, может воскрешать мертвых (для этого надо поговорть с ним)";
-                                    } else {
-                                        $stmp .= "человек";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                $stmp .= "человек";
             }
-        }
+            break;
     }
     if (file_exists("speak/" . $look)) {
         $stmp .= "<br/>Может с вами говорить";
     }
-    if (substr($look, 0, 4) == 'n.a.' && $char[8]) {
+    if ($npc_subtype == 'n.a.' && $char[8]) {
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=char.tame\">Сложность приручения</a>: " . $char[8];
     }
 
