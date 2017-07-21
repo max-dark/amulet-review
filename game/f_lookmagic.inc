@@ -12,11 +12,7 @@
  * @global char
  * @global $look
  */
-if (file_exists("items/" . $look)) {
-    $m = explode("|", (file_get_contents("items/" . $look)));
-} else {
-    die("err: no items/" . $look);
-}
+$m = findItemByBaseId($look);
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 function tsret($s)
 {

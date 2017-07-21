@@ -30,11 +30,9 @@ if ($use{2} > 0 && $use{2} < 10) {
     }
 }
 
-if (file_exists("items/" . $use)) {
-    $priem = explode("|", (file_get_contents("items/" . $use)));
-} else {
-    die("err: no items/" . $use);
-}
+$priem = findItemByBaseId($use);
+
+// FIXME: possible bug: mistake in var name: $priem -> $magic
 if (strpos($loc_i[$loc][$login]["priem"], $use . ":") === false) {
     msg("Вы не знаете прием " . $magic[0] . ", найдите NPC, который поможет его изучить.");
 }

@@ -216,13 +216,7 @@ if (substr($look, 0, 6) == 'i.s.d.') {
                                                                         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=weapon.speed\">Скорость</a>: " .
                                                                                  intval($item[5]);
                                                                         if ($item[7]) {
-                                                                            if (file_exists("items/" . $item[7])) {
-                                                                                $tmp = explode("|",
-                                                                                    (file_get_contents("items/" .
-                                                                                                       $item[7])));
-                                                                            } else {
-                                                                                die("err: no items/" . $item[7]);
-                                                                            }
+                                                                            $tmp = findItemByBaseId($item[0]);
                                                                             $stmp .= "<br/>Использует: " . $tmp[0];
                                                                         }
                                                                     }
@@ -253,7 +247,7 @@ if (strpos($tlook, "..") !== false) {
     $stmp .= "<br/>Инкрустированы самоцветы:";
     $xF = preg_match_all("/\.\.(\w+)/", $tlook, $regF);
     for ($i = 0; $i < $xF; $i++) {
-        $ti = explode("|", (file_get_contents("items/i.i." . $regF[1][$i])));
+        $ti = findItemByBaseId("i.i." . $regF[1][$i]);
         $stmp .= "<br/><b>" . $ti[0] . "</b>:<br/>" . $ti[3];
     }
 }
@@ -261,7 +255,7 @@ if (substr($tlook, 0, 5) == "i.bc_") {
     $stmp .= "<br/>Букет состоит из цветов:";
     $xF = preg_match_all("/(\w)(\d+)/", substr($tlook, strrpos($tlook, "_") + 1), $regF);
     for ($i = 0; $i < $xF; $i++) {
-        $ti = explode("|", (file_get_contents("items/i.bc." . $regF[1][$i])));
+        $ti = findItemByBaseId("i.bc." . $regF[1][$i]);
         $stmp .= "<br/>" . $ti[0];
         if ($regF[2][$i] > 1) {
             $stmp .= " (" . $regF[2][$i] . ")";

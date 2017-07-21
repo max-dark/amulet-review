@@ -68,7 +68,7 @@ function calcparam($loc, $login)
                     continue;
                 }
                 // загружаем предмет
-                $item = explode("|", (file_get_contents("items/" . $tid)));
+                $item = findItemByBaseId($tid);
                 // Считаем штраф от уровня скилов
                 $str  = "0:0:0";
                 // для брони

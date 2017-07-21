@@ -347,7 +347,7 @@ if ($do == 'filter' && $inp) {
     $dh   = opendir("items/");
     while (($fname = readdir($dh)) !== false) {
         if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
-            $item = explode("|", (file_get_contents("items/" . $fname)));
+            $item = findItemByBaseId($fname);
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=add&item=$fname&num=$(num)\">" . $item[0] .
                      "</a>";
             $count++;

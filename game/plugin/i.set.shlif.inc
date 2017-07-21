@@ -13,11 +13,7 @@ if ($to) {
     if (substr($to, 0, 4) != "i.c." || substr($to, strlen($to) - 5) == ".good") {
         msg("Шлифовать можно только неограненные драгоценные камни");
     }
-    if (file_exists("items/" . $to)) {
-        $item = explode("|", (file_get_contents("items/" . $to)));
-    } else {
-        die("err: no items/" . $to);
-    }
+    $item = findItemByBaseId($to);
     if (intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"])) < 1) {
         msg("У вас нет " . $item[0] . ", чтобы отшлифовать его");
     }

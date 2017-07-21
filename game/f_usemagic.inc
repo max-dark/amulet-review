@@ -39,11 +39,7 @@ if ($use{2} > 0 && $use{2} < 10) {
     }
 }
 
-if (file_exists("items/" . $use)) {
-    $magic = explode("|", (file_get_contents("items/" . $use)));
-} else {
-    die("err: no items/" . $use);
-}
+$magic = findItemByBaseId($use);
 if ( ! $scroll) {
     if (strpos($loc_i[$loc][$login]["magic"], $use . ":") === false) {
         msg("В вашей книге заклинаний нет " . $magic[0] . ", найдите NPC, который поможет его изучить.");

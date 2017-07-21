@@ -222,7 +222,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 $dh   = opendir("items/");
                 while (($fname = readdir($dh)) !== false) {
                     if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
-                        $item = explode("|", (file_get_contents("items/" . $fname)));
+                        $item = findItemByBaseId($fname);
                         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&adm=adni&inp=$fname&val=1\">" . $item[0] . "</a>";
                         $count++;
                     }
