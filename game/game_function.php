@@ -595,3 +595,38 @@ function calcser($s)
 {
     return "s:" . strlen($s) . ":\"" . $s . "\";";
 }
+
+/**
+ * @param string $itemId
+ * @return string
+ */
+function getBaseItemId($itemId)
+{
+    $position = strpos($itemId, "_");
+    if ($position !== false) {
+        $baseId = substr($itemId, 0, $position);
+    } else {
+        $baseId = $itemId;
+    }
+    return $baseId;
+}
+
+/**
+ * @param string $baseId
+ * @return string[]
+ */
+function findItemById($baseId)
+{
+    if (substr($baseId, 0, 5) == "i.rr.") {
+        $item = explode("|", "руна|50");
+    } else {
+        $filename = BASE_DIR . "items/" . $baseId;
+        if (file_exists($filename)) {
+            $item = explode("|", file_get_contents($filename));
+        } else {
+            // TODO: replace with exception
+            die("err: no items/" . $baseId);
+        }
+    }
+    return $item;
+}
