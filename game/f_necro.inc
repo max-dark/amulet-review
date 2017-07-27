@@ -42,7 +42,7 @@ if (in_array($target_type, ["i.s.d.n.c.", "i.s.d.n.a."])) {
 }
 $id = substr($to, 6, strrpos($to, ".") - 6);
 $id = substr($id, 0, strrpos($id, "."));
-if ( ! file_exists("npc/" . $id)) {
+if ( ! npcExists($id)) {
     msg("Ошибка: нет npc/" . $id . ", сообщите разработчику");
 }
 if ($char[3] < 6) {
@@ -78,7 +78,7 @@ if (rand(0, 100) <= $skills[31] * 5 + $skills[2] * 2) {
 
     unset($loc_i[$loc][$to]);
     // подготовим труп
-    $npc      = include "npc/" . $id;
+    $npc      = loadNpcById($id);
     $tchar    = explode("|", $npc["char"]);
     $tchar[0] = $title . "-зомби";
     $tchar[2] = round($tchar[2] * 0.7);

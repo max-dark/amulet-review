@@ -258,9 +258,8 @@ if ($login == $g_admin || $gm == $gm_id) {
                 if ( ! isset($loc_i[$loc][$inp])) {
                     msg("рядом с вами нет npc с id " . $inp . " (регистр учитывается)");
                 }
-                $npc = "npc/" . $inp;
-                $npc = include $npc;
-                if (gettype($npc) !== "array") {
+                $npc = loadNpcById($inp);
+                if (!is_array($npc)) {
                     msg("ошибка загрузки npc/" . $inp);
                 }
                 $loc_i[$loc][$inp]["bank"] = $npc["bank"];

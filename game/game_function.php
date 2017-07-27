@@ -312,8 +312,8 @@ function calcparam($loc, $login)
             if ($equip[$i]) {
                 $tid = getBaseItemId($equip[$i]);
                 // удалить несуществующий предмет
-                if ( ! $equip[$i] || strpos($auser["items"], $equip[$i] . ":") === false ||
-                    ! file_exists("items/" . $tid) || ! $tid
+                if ( empty($equip[$i]) || strpos($auser["items"], $equip[$i] . ":") === false ||
+                    ! itemExists($tid) || empty($tid)
                 ) {
                     unset($equip[$i]);
                     $auser["equip"] = implode("|", $equip);
@@ -1348,20 +1348,6 @@ function have_key($arr, $key)
 }
 
 /**
- * Загружает указанный файл
- *
- * @param string $file_name
- *
- * @return mixed
- */
-function load_file($file_name)
-{
-    $file_name = BASE_DIR . $file_name;
-
-    return file_exists($file_name) ? (require $file_name) : null;
-}
-
-/**
  * получить значение из массива
  *
  * @param array  $arr
@@ -1526,12 +1512,12 @@ function doai($i)
                         if (in_array(substr($tid, 0, 4), ["n.c.", "n.a."])) {
                             $tid = substr($tid, 0, strrpos($tid, "."));
                         }
-                        if ( ! file_exists("npc/" . $tid)) {
+                        if ( ! npcExists($tid)) {
                             unset($loc_t[$i][$j]);
 
-                            return;//("err: no npc/".$tid);
+                            continue;//("err: no npc/".$tid);
                         }
-                        $npc        = include "npc/" . $tid;
+                        $npc        = loadNpcById($tid);
                         $tid        = $ta[0];
                         $twar       = explode("|", $npc["war"]);
                         $twar[15]   = $i . ":" . $ta[1];
@@ -2258,6 +2244,15 @@ function calcser($s)
 }
 
 /**
+ * @param string $baseId
+ * @return bool
+ */
+function itemExists($baseId)
+{
+    return file_exists(ITEMS_DIR . $baseId);
+}
+
+/**
  * @param string $itemId
  * @return string
  */
@@ -2282,8 +2277,8 @@ function findItemByBaseId($baseId)
     if (substr($baseId, 0, 5) == "i.rr.") {
         $item = explode("|", "руна|50");
     } else {
-        $filename = BASE_DIR . "items/" . $baseId;
-        if (file_exists($filename)) {
+        if (itemExists($baseId)) {
+            $filename = ITEMS_DIR . $baseId;
             $item = explode("|", file_get_contents($filename));
         } else {
             // TODO: replace with exception
@@ -2300,4 +2295,22 @@ function findItemByBaseId($baseId)
 function findItemByFullId($itemId)
 {
     return findItemByBaseId(getBaseItemId($itemId));
+}
+
+/**
+ * @param string $id
+ * @return string[]
+ */
+function loadNpcById($id)
+{
+    return require NPC_DIR . $id;
+}
+
+/**
+ * @param string $id
+ * @return bool
+ */
+function npcExists($id)
+{
+    return file_exists(NPC_DIR . $id);
 }

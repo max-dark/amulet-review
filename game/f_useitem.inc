@@ -23,7 +23,7 @@ if ($use == "i.h") {
     $char[12]                    = "";
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     calcparam($loc, $login);
-    $npc    = include "npc/n.a.losh";
+    $npc    = loadNpcById("n.a.losh");
     $tc1    = explode("|", $npc["char"]);
     $tc1[5] = time();
     if ($tc[1] < $tc1[1]) {

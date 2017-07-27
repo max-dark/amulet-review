@@ -112,8 +112,7 @@ if (substr($look, 0, 6) == 'i.s.d.') {
                     $stmp .= trans(substr($tlook, strrpos($tlook, "_") + 1));
                 } else {
 
-                    $npc = "npc/" . substr($tlook, 5);
-                    $npc = @include $npc;
+                    $npc = loadNpcById(substr($tlook, 5));
                     $tc = explode("|", $npc["char"]);
                     $stmp .= $tc[0];
                 }
