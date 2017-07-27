@@ -66,9 +66,9 @@ switch ($item_type) {
         $m = findItemByFullId($use);
         if ($m[6] && !$to) {
             $use = $scroll;
-            $list = 'all';
+            $list = 'all'; // чтобы вывести список целей
         } else {
-            require "f_usemagic.inc"; // чтобы вывести список целей
+            require "f_usemagic.inc";
         }
         break;
     case 'i.w.':

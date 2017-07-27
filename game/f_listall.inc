@@ -32,7 +32,7 @@ if (count($loc_i[$loc]) > 1) {
         if ($keys[$i] != $login) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=" . $keys[$i] . "&use=$use";
             if ($glava == 1) {
-                $stmp .= "&glava=1";
+                $stmp .= "&glava=1"; // используется в plugin/i.guildstone.inc
             }
             $stmp .= "\">";
             if (substr($keys[$i], 0, 2) == "i.") {

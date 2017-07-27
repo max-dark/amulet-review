@@ -32,9 +32,8 @@ if ($use{2} > 0 && $use{2} < 10) {
 
 $priem = findItemByBaseId($use);
 
-// FIXME: possible bug: mistake in var name: $priem -> $magic
 if (strpos($loc_i[$loc][$login]["priem"], $use . ":") === false) {
-    msg("Вы не знаете прием " . $magic[0] . ", найдите NPC, который поможет его изучить.");
+    msg("Вы не знаете прием " . $priem[0] . ", найдите NPC, который поможет его изучить.");
 }
 if ($to == $login || ! $to) {
     msg("Нельзя применять прием к самому себе");
@@ -63,65 +62,67 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
             $magic                        = $war;
             $magic[0] -= $ihit;
 
-            if ($use == "p.b") {
-                $magic[1] = round($magic[1] * 0.7);
-                $magic[2] = round($magic[2] * 0.7);
-                $magic[3] = round($magic[3] * 0.5);
-            }
-            if ($use == "p.d") {
-                $magic[0] -= 15;
-                $magic[3] = -1;
-            }
-            if ($use == "p.me") {
-                $magic[0] -= 10;
-                $magic[3] = -1;
-            }
-            if ($use == "p.m") {
-                $magic[1] = round($magic[1] * 0.7);
-                $magic[2] = round($magic[2] * 0.7);
-                $magic[0] += 40;
-            }
-            if ($use == "p.n") {
-                $magic[1] = round($magic[1] * 0.6);
-                $magic[2] = round($magic[2] * 0.6);
-            }
-            if ($use == "p.r") {
-                $magic[1] = round($magic[1] * 0.4);
-                $magic[2] = round($magic[2] * 0.4);
-            }
-            if ($use == "p.vw") {
-                $magic[1] = round($magic[1] * 0.2);
-                $magic[2] = round($magic[2] * 0.2);
-            }
-            if ($use == "p.vs") {
-                $magic[1] = round($magic[1] * 0.2);
-                $magic[2] = round($magic[2] * 0.2);
-            }
-            if ($use == "p.g") {
-                $magic[0] -= 30;
-                if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
-                    $magic[1] += $skills[0] * 2 + $skills[9];
-                    $magic[2] += $skills[0] * 2 + $skills[9];
-                } else {
-                    $magic[1] += $skills[0] + $skills[8];
-                    $magic[2] += $skills[0] + $skills[8];
-                }
-            }
-            if ($use == "p.p") {
-                $magic[0] -= 20;
-                if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
-                    $magic[2] += $skills[0] * 3 + $skills[9] * 2;
-                } else {
-                    $magic[2] += $skills[0] * 2 + $skills[8];
-                }
-            }
-            if ($use == "p.s") {
-                $magic[0] -= 10;
-                if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
-                    $magic[2] += $skills[0] * 2 + $skills[9];
-                } else {
-                    $magic[2] += $skills[0] + $skills[8];
-                }
+            switch ($use) {
+                case "p.b":
+                    $magic[1] = round($magic[1] * 0.7);
+                    $magic[2] = round($magic[2] * 0.7);
+                    $magic[3] = round($magic[3] * 0.5);
+                    break;
+                case "p.d":
+                    $magic[0] -= 15;
+                    $magic[3] = -1;
+                    break;
+                case "p.me":
+                    $magic[0] -= 10;
+                    $magic[3] = -1;
+                    break;
+                case "p.m":
+                    $magic[1] = round($magic[1] * 0.7);
+                    $magic[2] = round($magic[2] * 0.7);
+                    $magic[0] += 40;
+                    break;
+                case "p.n":
+                    $magic[1] = round($magic[1] * 0.6);
+                    $magic[2] = round($magic[2] * 0.6);
+                    break;
+                case "p.r":
+                    $magic[1] = round($magic[1] * 0.4);
+                    $magic[2] = round($magic[2] * 0.4);
+                    break;
+                case "p.vw":
+                    $magic[1] = round($magic[1] * 0.2);
+                    $magic[2] = round($magic[2] * 0.2);
+                    break;
+                case "p.vs":
+                    $magic[1] = round($magic[1] * 0.2);
+                    $magic[2] = round($magic[2] * 0.2);
+                    break;
+                case "p.g":
+                    $magic[0] -= 30;
+                    if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
+                        $magic[1] += $skills[0] * 2 + $skills[9];
+                        $magic[2] += $skills[0] * 2 + $skills[9];
+                    } else {
+                        $magic[1] += $skills[0] + $skills[8];
+                        $magic[2] += $skills[0] + $skills[8];
+                    }
+                    break;
+                case "p.p":
+                    $magic[0] -= 20;
+                    if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
+                        $magic[2] += $skills[0] * 3 + $skills[9] * 2;
+                    } else {
+                        $magic[2] += $skills[0] * 2 + $skills[8];
+                    }
+                    break;
+                case "p.s":
+                    $magic[0] -= 10;
+                    if (strpos($loc_i[$loc][$login]["equip"], "i.w.") !== false) {
+                        $magic[2] += $skills[0] * 2 + $skills[9];
+                    } else {
+                        $magic[2] += $skills[0] + $skills[8];
+                    }
+                    break;
             }
 
             if ($magic[0] < 1) {
@@ -163,64 +164,67 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                 } else {
                     $tdef = [0, "", ""];
                 }
-                if ($use == "p.n") {
-                    if (rand(0, 100) <= $magic[0] - 40 &&
-                        ($tdef[0] != "p.d.n" || $tdef[0] == "p.d.n" && rand(0, 100) > $tdef[3])
-                    ) {
-                        addjournal($loc, $to, "Вас оглушили!");
-                        addjournal($loc, "all", substr($to, 2) . " оглушен!", $to);
-                        $tc                       = explode("|", $loc_i[$loc][$to]["char"]);
-                        $tc[6]                    = time() + 15;
-                        $loc_i[$loc][$to]["char"] = implode("|", $tc);
-                    }
-                    if ($tdef[0] == "p.d.n") {
-                        $loc_i[$loc][$to]["def"] = "";
-                    }
-                }
-                if ($use == "p.r") {
-                    if (rand(0, 100) <= $magic[0] - 70 &&
-                        ($tdef[0] != "p.d.r" || $tdef[0] == "p.d.r" && rand(0, 100) > $tdef[3]) &&
-                        strpos($loc_i[$loc][$to]["equip"], "i.w.") !== false
-                    ) {
-                        addjournal($loc, $to, "У вас выбито оружие!");
-                        addjournal($loc, "all", "У " . substr($to, 2) . " выбито оружие!", $to);
-                        additem($loc, $to, 'loc',
-                            preg_replace('/.*?(i\.w\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
-                            "items", 1, -1, 1);
-                        $tc                       = explode("|", $loc_i[$loc][$to]["char"]);
-                        $tc[6]                    = time() + 5;
-                        $loc_i[$loc][$to]["char"] = implode("|", $tc);
-                    }
-                    if ($tdef[0] == "p.d.r") {
-                        $loc_i[$loc][$to]["def"] = "";
-                    }
-                }
-                if ($use == "p.vw") {
-                    if (rand(0, 100) <= $magic[0] - 40 && strpos($loc_i[$loc][$to]["equip"], "i.a.s.") !== false) {
-                        addjournal($loc, $to, "У вас выбит щит!");
-                        addjournal($loc, "all", "У " . substr($to, 2) . " выбит щит!", $to);
-                        additem($loc, $to, 'loc',
-                            preg_replace('/.*?(i\.a\.s\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
-                            "items", 1, -1, 1);
-                        $tc                       = explode("|", $loc_i[$loc][$to]["char"]);
-                        $tc[6]                    = time() + 5;
-                        $loc_i[$loc][$to]["char"] = implode("|", $tc);
-                    }
-                }
-                if ($use == "p.vs") {
-                    if (rand(0, 100) <= $magic[0] - 50 &&
-                        ($tdef[0] != "p.d.s" || $tdef[0] == "p.d.s" && rand(0, 100) > $tdef[3])
-                    ) {
-                        $tatk = 1;
-                        require("plugin/m.kon.inc");
-                    }
-                    if ($tdef[0] == "p.d.s") {
-                        $loc_i[$loc][$to]["def"] = "";
-                    }
+                switch ($use) {
+                    case "p.n":
+                        if (rand(0, 100) <= $magic[0] - 40 &&
+                            ($tdef[0] != "p.d.n" || $tdef[0] == "p.d.n" && rand(0, 100) > $tdef[3])
+                        ) {
+                            addjournal($loc, $to, "Вас оглушили!");
+                            addjournal($loc, "all", substr($to, 2) . " оглушен!", $to);
+                            $tc = explode("|", $loc_i[$loc][$to]["char"]);
+                            $tc[6] = time() + 15;
+                            $loc_i[$loc][$to]["char"] = implode("|", $tc);
+                        }
+                        if ($tdef[0] == "p.d.n") {
+                            $loc_i[$loc][$to]["def"] = "";
+                        }
+                        break;
+                    case "p.r":
+                        if (rand(0, 100) <= $magic[0] - 70 &&
+                            ($tdef[0] != "p.d.r" || $tdef[0] == "p.d.r" && rand(0, 100) > $tdef[3]) &&
+                            strpos($loc_i[$loc][$to]["equip"], "i.w.") !== false
+                        ) {
+                            addjournal($loc, $to, "У вас выбито оружие!");
+                            addjournal($loc, "all", "У " . substr($to, 2) . " выбито оружие!", $to);
+                            additem($loc, $to, 'loc',
+                                preg_replace('/.*?(i\.w\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
+                                "items", 1, -1, 1);
+                            $tc = explode("|", $loc_i[$loc][$to]["char"]);
+                            $tc[6] = time() + 5;
+                            $loc_i[$loc][$to]["char"] = implode("|", $tc);
+                        }
+                        if ($tdef[0] == "p.d.r") {
+                            $loc_i[$loc][$to]["def"] = "";
+                        }
+                        break;
+                    case "p.vw":
+                        if (rand(0, 100) <= $magic[0] - 40 && strpos($loc_i[$loc][$to]["equip"], "i.a.s.") !== false) {
+                            addjournal($loc, $to, "У вас выбит щит!");
+                            addjournal($loc, "all", "У " . substr($to, 2) . " выбит щит!", $to);
+                            additem($loc, $to, 'loc',
+                                preg_replace('/.*?(i\.a\.s\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
+                                "items", 1, -1, 1);
+                            $tc = explode("|", $loc_i[$loc][$to]["char"]);
+                            $tc[6] = time() + 5;
+                            $loc_i[$loc][$to]["char"] = implode("|", $tc);
+                        }
+                        break;
+                    case "p.vs":
+                        if (rand(0, 100) <= $magic[0] - 50 &&
+                            ($tdef[0] != "p.d.s" || $tdef[0] == "p.d.s" && rand(0, 100) > $tdef[3])
+                        ) {
+                            $tatk = 1;
+                            require("plugin/m.kon.inc");
+                        }
+                        if ($tdef[0] == "p.d.s") {
+                            $loc_i[$loc][$to]["def"] = "";
+                        }
+                        break;
                 }
             }
 
-        } else {    // защитные
+        } else {
+            // защитные
             if ($use == "p.d.p" && strpos($loc_i[$loc][$login]["equip"], "i.a.s.") === false) {
                 msg("Щит должен находиться у вас в руках");
             }

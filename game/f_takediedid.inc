@@ -13,6 +13,7 @@
  * @global num
  * @global id
  */
+
 $died   = explode("|", $loc_i[$loc][$take]);
 $tcount = intval(preg_replace('/.*' . $id . ':(\d+).*/', "\\1", $died[3]));
 if ($tcount) {
