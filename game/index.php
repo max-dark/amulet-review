@@ -215,18 +215,18 @@ if ( ! isset($loc_i[$loc][$login])) {
     msg("Нет данных");
 }
 // проверка пароля
-$wtf_user = $loc_i[$loc][$login]["user"];
-if ($p != substr($wtf_user, 0, strpos($wtf_user, "|"))) {
+$userData = $loc_i[$loc][$login]["user"];
+if ($p != substr($userData, 0, strpos($userData, "|"))) {
     include_once("f_npass.inc");
 }
-unset($wtf_user);
+unset($userData);
 
-$wtf_options = get_value($loc_i[$loc][$login], "o");
-if ($wtf_options) {
+$viewOptions = get_value($loc_i[$loc][$login], "o");
+if ($viewOptions) {
     list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map, $g_smf) = explode("|",
-        $wtf_options);
+        $viewOptions);
 }
-unset($wtf_options);
+unset($viewOptions);
 
 if ($cnick) {
     // перейти к настройкам
@@ -688,7 +688,7 @@ for ($i = 0; $i < strlen($g_smenu); $i += 2) {
 $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=$(to)\">Инфo</a>"; // "осмотреть" выбранный объект
 
 // FIXME: похоже на костыль для захваченных замков
-// удалить владельца замка из названия
+// удалить служебную информацию из названия
 if (strpos($loc_c[0], "*") !== false) {
     $loc_c[0] = substr($loc_c[0], 0, strpos($loc_c[0], "*"));
 }

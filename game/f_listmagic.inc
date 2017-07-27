@@ -76,11 +76,7 @@ if ( ! $start) {
 $keys = array_keys($items);
 for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
     $k = explode(":", $items[$keys[$i]]);
-    if (file_exists("items/" . $k[0])) {
-        $item = explode("|", (file_get_contents("items/" . $k[0])));
-    } else {
-        die("err: no items/" . $k[0]);
-    }
+    $item = findItemByBaseId($k[0]);
     if (time() < $k[1]) {
         $item = $item[0] . " [осталось " . (round(($k[1] - time()) / 60) + 1) . " минут]";
     } else {

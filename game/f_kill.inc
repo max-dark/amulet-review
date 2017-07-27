@@ -79,7 +79,7 @@ if (substr($to, 0, 2) == 'u.') {
     $tchar[7] = "";
     $tchar[8] = 1;
     if ($tchar[12]) {
-        $npc    = include "npc/n.a.losh";
+        $npc    = loadNpcById("n.a.losh");
         $tc     = explode(":", $tchar[12]);
         $tc1    = explode("|", $npc["char"]);
         $tc1[5] = time();
@@ -125,8 +125,7 @@ if (substr($to, 0, 2) == 'u.') {
             $loc_i[$loc][$to]["char"] = implode("|", $tchar);
             $loc_i[$loc][$to]["id"]   = $to;
             // подгрузить оригинал
-            $npc = "npc/" . $to;
-            $npc = include $npc;
+            $npc = loadNpcById($to);
             // сбросить настройки вещей
             $loc_i[$loc][$to]["items"] = $npc["items"];
             $loc_i[$loc][$to]["equip"] = $npc["equip"];

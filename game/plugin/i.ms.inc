@@ -17,14 +17,13 @@ if (strpos($inp, "_") !== false) {
     $inp  = substr($inp, 0, strpos($inp, "_"));
 }
 
-if ( ! file_exists("npc/" . $inp)) {
+if ( ! npcExists($inp)) {
     msg("Существо " . $inp . " не существует");
 }
 if (substr($inp, 0, 4) != "n.c." && substr($inp, 0, 4) != "n.a.") {
     msg("Призвать можно только монстров и животных");
 }
-$npc = "npc/" . $inp;
-$npc = @include $npc;
+$npc = loadNpcById($inp);
 $tc  = explode("|", $npc["char"]);
 
 if ($name) {

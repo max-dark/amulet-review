@@ -36,7 +36,7 @@ if (isset($loc_i[$loc][$to]) && substr($to, 0, 2) == 'u.' && $to != $login) {
         $tchar[6]                 = time() + 5;
         $loc_i[$loc][$to]["char"] = implode("|", $tchar);
         calcparam($loc, $to);
-        $npc    = include __DIR__ . DIRECTORY_SEPARATOR . "../npc/n.a.losh";
+        $npc    = loadNpcById("n.a.losh");
         $tc1    = explode("|", $npc["char"]);
         $tc1[5] = time();
         if ($tc[1] < $tc1[1]) {

@@ -222,8 +222,7 @@ if ($do == "sum") {
     }
     $tfollow = $tsum[2];
     $tsum    = $tsum[0];
-    $npc     = "npc/" . $tsum;
-    $npc     = @include $npc;
+    $npc     = loadNpcById($tsum);
     if ( ! $npc) {
         msg("Существа с id=$tsum не существует");
     }
@@ -347,7 +346,7 @@ if ($do == 'filter' && $inp) {
     $dh   = opendir("items/");
     while (($fname = readdir($dh)) !== false) {
         if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
-            $item = explode("|", (file_get_contents("items/" . $fname)));
+            $item = findItemByBaseId($fname);
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=add&item=$fname&num=$(num)\">" . $item[0] .
                      "</a>";
             $count++;
@@ -366,7 +365,7 @@ if ($do == 'geti' && $inp) {
     $arr = explode(":", $inp);
 
     $fn = getBaseItemId($arr[0]);
-    if ( ! file_exists("items/" . $fn)) {
+    if ( ! itemExists($fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
 
@@ -379,7 +378,7 @@ if ($do == 'geti' && $inp) {
         }
         $xF = preg_match_all("/\\.\\.(\\w\\w)/", $arr[0], $regF);
         for ($j = 0; $j < $xF; $j++) {
-            if ( ! file_exists("items/i.i." . $regF[1][$j])) {
+            if ( ! itemExists("i.i." . $regF[1][$j])) {
                 msg("Самоцвет " . $regF[1][$j] . " не существует");
             }
         }
@@ -410,7 +409,7 @@ if ($do == 'geti' && $inp) {
 if ($do == 'addi' && $inp) {
     $arr = explode(":", $inp);
     $fn = getBaseItemId($arr[0]);
-    if ( ! file_exists("items/" . $fn)) {
+    if ( ! itemExists($fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
     if ( ! $arr[2] || (substr($arr[2], 0, 2) != "n." && substr($arr[2], 0, 2) != "u.") ||
@@ -430,7 +429,7 @@ if ($do == 'getms' && $inp) {
     }
     $inp = preg_replace('/([^.A-z])/', "", $inp);
     $id = getBaseItemId($inp);
-    if ( ! file_exists("npc/" . $id)) {
+    if ( ! npcExists($id)) {
         msg("id " . $id . " не существует");
     }
     additem($loc, "", $login, "i.ms_" . $inp, 1);

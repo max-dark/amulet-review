@@ -23,7 +23,7 @@ if ($use == "i.h") {
     $char[12]                    = "";
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     calcparam($loc, $login);
-    $npc    = include "npc/n.a.losh";
+    $npc    = loadNpcById("n.a.losh");
     $tc1    = explode("|", $npc["char"]);
     $tc1[5] = time();
     if ($tc[1] < $tc1[1]) {
@@ -66,9 +66,9 @@ switch ($item_type) {
         $m = findItemByFullId($use);
         if ($m[6] && !$to) {
             $use = $scroll;
-            $list = 'all';
+            $list = 'all'; // чтобы вывести список целей
         } else {
-            require "f_usemagic.inc"; // чтобы вывести список целей
+            require "f_usemagic.inc";
         }
         break;
     case 'i.w.':
