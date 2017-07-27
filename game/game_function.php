@@ -2314,3 +2314,46 @@ function npcExists($id)
 {
     return file_exists(NPC_DIR . $id);
 }
+
+/**
+ * @param $key
+ * @return string
+ */
+function getCurrentUser($key)
+{
+    global $loc_i;
+    global $login;
+
+    return $loc_i[getCurrentLocId()][$login][$key];
+}
+
+/**
+ * @param string $key
+ * @param string $value
+ */
+function setCurrentUser($key, $value)
+{
+    global $loc_i;
+
+    $loc_i[getCurrentLocId()][getCurrentUserId()][$key] = $value;
+}
+
+/**
+ * @return string
+ */
+function getCurrentLocId()
+{
+    global $loc;
+
+    return $loc;
+}
+
+/**
+ * @return bool|mixed|string
+ */
+function getCurrentUserId()
+{
+    global $login;
+
+    return $login;
+}
