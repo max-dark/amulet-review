@@ -1,18 +1,227 @@
 <?php
-return [
-    'begin' => 'eval: 
-	$title="Здравствуй, <name>. Меня зовут Мирандер, я заношу в королевский реестр создаваемые кланы. Так-с... [заглядывает в журнал] Ты сейчас "; 
-	$tc=explode("|",$loc_i[$loc][$login]["char"]); 
-	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
-	if ($clan && file_exists("data/clans/".$clan)) $tmp=unserialize((file_get_contents("data/clans/".$clan))); else $tmp=array(); 
-	if (isset($tmp["m"][$login])) $title.="состоишь в клане ".$clan."."; 
-	else if (isset($tmp["g"][$login])) $title.="являешься главой клана ".$clan."."; 
-	else if ($clan){
-		$title.="... Упс, сожалею, но ты выгнан из клана ".$clan."."; 
-		$tc[0]=str_replace(" *".$clan."*","",$tc[0]); 
-		$loc_i[$loc][$login]["char"]=implode("|",$tc);
-		} else $title.="не состоишь ни в одном клане.";#Расскажи о кланах#info#eval: if (!$clan) $title="Я хочу создать свой клан"; else if (isset($tmp["g"][$login])) $title="Я хочу расформировать свой клан ".$clan; else $title="Я хочу покинуть клан  ".$clan;#new#Я хочу купить камень гильдии#buystone#У меня проблема с кланом#problem#Все в порядке, мне пора.#end',
 
+function getClanName($charData)
+{
+    if (strpos($charData[0], "*") === false) {
+        $clanName = "";
+    } else {
+        $clanName = substr($charData[0], strpos($charData[0], "*") + 1, strrpos($charData[0], "*") - strpos($charData[0], "*") - 1);
+    }
+    return $clanName;
+}
+
+function loadClanData($clanName)
+{
+    if ($clanName && file_exists("data/clans/" . $clanName)) {
+        $clanData = unserialize((file_get_contents("data/clans/" . $clanName)));
+    } else {
+        $clanData = [];
+    }
+    return $clanData;
+}
+
+function nGuildMaster_begin(&$title)
+{
+    $login = getCurrentUserId();
+    $charData = explode("|", getCurrentUser("char"));
+    $clanName = getClanName($charData);
+    $clanData = loadClanData($clanName);
+
+    $title = "Здравствуй, <name>. Меня зовут Мирандер, я заношу в королевский реестр создаваемые кланы. Так-с... [заглядывает в журнал] Ты сейчас ";
+
+    if (isset($clanData["m"][$login])) {
+        $title .= "состоишь в клане " . $clanName . ".";
+    } elseif (isset($clanData["g"][$login])) {
+        $title .= "являешься главой клана " . $clanName . ".";
+    } elseif ($clanName) {
+        $title .= "... Упс, сожалею, но ты выгнан из клана " . $clanName . ".";
+        $charData[0] = str_replace(" *" . $clanName . "*", "", $charData[0]);
+        setCurrentUser("char", implode("|", $charData));
+    } else {
+        $title .= "не состоишь ни в одном клане.";
+    }
+}
+
+
+function nGuildMaster_begin_new(&$title)
+{
+    $login = getCurrentUserId();
+    $charData = explode("|", getCurrentUser("char"));
+    $clanName = getClanName($charData);
+    $clanData = loadClanData($clanName);
+
+    if ($clanName) {
+        if (isset($clanData["g"][$login])) {
+            $title = "Я хочу расформировать свой клан " . $clanName;
+        } else {
+            $title = "Я хочу покинуть клан  " . $clanName;
+        }
+    } else {
+        $title = "Я хочу создать свой клан";
+    }
+}
+
+function nGuildMaster_buyStoneNow(&$title)
+{
+    $login = getCurrentUserId();
+    $loc = getCurrentLocId();
+
+    additem($loc, $login, "", "i.money", 500, "items", "items", 1, 0, 1);
+    additem($loc, "", $login, "i.guildstone", 1);
+    $title = "Держи и не теряй больше.";
+}
+
+function nGuildMaster_new(&$title)
+{
+    $login = getCurrentUserId();
+    $charData = explode("|", getCurrentUser("char"));
+    $clanName = getClanName($charData);
+    $clanData = loadClanData($clanName);
+
+    if (isset($clanData["m"][$login])) {
+        unset($clanData["m"][$login]);
+        $file = fopen("data/clans/" . $clanName, "w");
+        if ($file !== false) {
+            fputs($file, serialize($clanData));
+            fclose($file);
+        }
+        $charData[0] = str_replace(" *" . $clanName . "*", "", $charData[0]);
+        setCurrentUser("char", implode("|", $charData));
+        $title = "Ты больше не состоишь в клане " . $clanName . ".";
+    } else if (isset($clanData["g"][$login])) {
+        $charData[0] = str_replace(" *" . $clanName . "*", "", $charData[0]);
+        setCurrentUser("char", implode("|", $charData));
+        @unlink("data/clans/" . $clanName);
+        $title = "Клан " . $clanName . " расформирован, при очередном логине все твои бывшие соклановцы лишатся надписи, что состоят в клане " . $clanName;
+    } else {
+        $title = "Стоимость регистрации нового клана 1000 монет";
+    }
+}
+
+function nGuildMaster_new_begin(&$title, &$id)
+{
+    $login = getCurrentUserId();
+    $charData = explode("|", getCurrentUser("char"));
+    $clanName = getClanName($charData);
+    $clanData = loadClanData($clanName);
+
+    if (!isset($clanData["m"][$login]) && !isset($clanData["g"][$login])) {
+        $title = "Я согласен";
+        $id = "newnow";
+    } else {
+        $title = "У меня еще вопросы";
+        $id = "begin";
+    }
+}
+
+function nGuildMaster_newNow(&$title, $speak)
+{
+    global $PHP_SELF;
+    global $sid;
+    global $p;
+    $title = "Напиши имя своего будущего клана<br/><input name=\"cname\" maxlength=\"20\"/>";
+    $title .= "<br/><a href=\"$PHP_SELF?sid=$sid&p=$p&speak=$speak&id=newnow2&cname=$(cname)\">Продолжить</a>";
+}
+
+function nGuildMaster_newNow2(&$title)
+{
+    global $PHP_SELF;
+    global $sid;
+    global $p;
+    global $b;
+
+    $cname = preg_replace("/\W/", "", Request('cname'));
+    $b = 0;
+    $tc = explode("|", getCurrentUser("char"));
+    $clan = getClanName($tc);
+
+    if ($clan) {
+        $title = "Ты и так состоишь в клане " . $clan . ", вначале надо из него выйти.";
+    } else {
+        if (!$cname || strlen($cname) > 20 || preg_match("/\W/", $cname)) {
+            $title = "Неправильное имя клана, можно исп. только англ. буквы, не более 20 символов";
+        } else {
+            $dh = opendir("data/clans/");
+            while (($fname = readdir($dh)) !== false) {
+                if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
+                    if (strtolower($fname) == strtolower($cname)) {
+                        closedir($dh);
+                        msg("Клан " . $cname . " уже зарегистрирован, выбери другое название");
+                    }
+                }
+            }
+            closedir($dh);
+
+            $loc = getCurrentLocId();
+            $login = getCurrentUserId();
+            additem($loc, $login, "", "i.money", 1000, "items", "items", 1, 0, 1);
+            $tmp = [
+                "m" => [],
+                "g" => [$login => $p]
+            ];
+            $file = fopen("data/clans/" . $cname, "w");
+            if ($file !== false) {
+                fputs($file, serialize($tmp));
+                fclose($file);
+            }
+            $tc[0] .= " *" . $cname . "*";
+            setCurrentUser("char", implode("|", $tc));
+            additem($loc, "", $login, "i.guildstone", 1);
+            $title = "Поздравляю, ты теперь глава клана " . $cname . ", используй камень гильдии для управления им. Советую тебе прямо сейчас <a href=\"$PHP_SELF?sid=$sid&logout=1\">сохранить персонажа</a>.";
+            $b = 1;
+        }
+    };
+}
+
+function nGuildMaster_newNow2_newNow(&$title, &$id)
+{
+    global $b;
+    if ($b) {
+        $title = "Спасибо, до свидания";
+        $id = "end";
+    } else {
+        $title = "Назад";
+        $id = "newnow";
+    }
+}
+
+function nGuildMaster_problem(&$title, $speak)
+{
+    global $PHP_SELF;
+    global $sid;
+    global $p;
+
+    $title = "Напиши имя своего клана";
+    $title .= "<br/><input name=\"cname\" maxlength=\"20\"/>";
+    $title .= "<br/><a href=\"$PHP_SELF?sid=$sid&p=$p&speak=$speak&id=problem2&cname=$(cname)\">Продолжить</a>";
+}
+
+function nGuildMaster_problem2(&$title)
+{
+    $charData = explode("|", getCurrentUser("char"));
+    $clanName = getClanName($charData);
+    $login = getCurrentUserId();
+    if ($clanName) {
+        $title = "Ты состоишь в клане $clanName, какие могут быть проблемы?";
+    } else {
+        $cname = Request('cname');
+        $clanData = loadClanData($cname);
+        if (isset($clanData["g"][$login])) {
+            $title = "[читает записи] Ага, да ты являешься главой этого клана! [делает пометки в бумагах] Ок, все готово.";
+            $charData[0] .= " *" . $cname . "*";
+            setCurrentUser('char', implode("|", $charData));
+        } elseif (isset($clanData["m"][$login])) {
+            $title = "[читает записи] Да, действительно, ты состоишь в списках этого клана... [делает пометки в бумагах] Ок, все готово.";
+            $charData[0] .= " *" . $cname . "*";
+            setCurrentUser('char', implode("|", $charData));
+        } else {
+            $title = "Извини, но ты не числишься в списках клана " . $cname;
+        }
+    }
+}
+
+return [
+    'begin'       => 'eval: nGuildMaster_begin(&title);#Расскажи о кланах#info#eval: nGuildMaster_begin_new($title);#new#Я хочу купить камень гильдии#buystone#У меня проблема с кланом#problem#Все в порядке, мне пора.#end',
     'end'         => 'Счастливо, я буду здесь, на центральной площади.',
     'info'        => 'У тех, кто состоит в каком-нибудь клане, рядом с именем выводится название клана, заключенное в символы *. Любой игрок может создать свой собственный клан или вступить в существующий. Нападение или подбирание предметов с трупа соклановца не считается преступлением.#Как мне создать свой клан?#infonew#Как вступить в другой клан?#infojoin#Как мне выйти из своего клана?#infoout#А сейчас я в каком клане?#begin',
     'infonew'     => 'Для этого ты должен заплатить вступительный взнос и сказать мне имя твоего будущего клана, после чего получишь камень гильдии, с помощью которого сможешь управлять своим кланом - смотреть списки его состава,  приглашать в него других игроков и выгонять из клана недостойных, а также сделать главой своего клана кого-нибудь другого (передать все полномочия, при этом сам становишься рядовым клановцем).#Как мне пригласить кого-нибудь в свой клан?#infoget#Как мне посмотреть состав своего клана или выгнать кого-нибудь?#infolist#Что если я потеряю свой камень гильдии?#infolost#Как мне расформировать свой клан?#infodel#У меня есть еще вопросы#begin',
@@ -24,59 +233,12 @@ return [
     'infolist'    => 'Для этого используй камень гильдии и увидишь меню, где можешь пригласить кого-нибудь в свой клан, а также список текущего состава и список ожидающих вступления.#А если у меня нет камня гильдии?#infolost#Ок, это действительно просто#infonew#Это все что я хотел узнать#end',
     'infolost'    => 'Ты можешь в любой момент купить у меня камень гильдии или взять на время у кого-нибудь у знакомых. Своим кланом можешь управлять только ты, причем с помощью любого камня гильдии. И все же постарайся не терять свой камень, потому что он довольно дорогой, храни его в банке или другом надежном месте.#Хорошо, вернемся к началу разговора#begin#Расскажи, как создать свой клан#infonew#Ясно, мне пора#end',
     'buystone'    => 'Камень гильдии стоит 500 монет. Впрочем, ты можешь взять на время камень гильдии у кого-нибудь из своих знакомых.#Нет, я хочу купить камень гильдии, вот деньги#buystonenow#А, значит подходит любой камень? Тогда сделка отменяется#end',
-    'buystonenow' => 'eval: additem($loc,$login,"","i.money",500,"items","items",1,0,1); additem($loc,"",$login,"i.guildstone",1); $title="Держи и не теряй больше.";#Спасибо, у меня еще есть вопросы#begin#Мне пора#end',
-    'new'         => 'eval: 
-	$tc=explode("|",$loc_i[$loc][$login]["char"]);
-	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
-	if ($clan && file_exists("data/clans/".$clan)) $tmp=unserialize((file_get_contents("data/clans/".$clan))); else $tmp=array();
-	if (isset($tmp["m"][$login])) {
-		unset($tmp["m"][$login]);
-		$file = fopen ("data/clans/".$clan, "w"); 
-		if ($file!==false) {fputs($file,serialize($tmp));fclose($file);} 
-		$tc[0]=str_replace(" *".$clan."*","",$tc[0]); 
-		$loc_i[$loc][$login]["char"]=implode("|",$tc); 
-		$title="Ты больше не состоишь в клане ".$clan.".";
-		} else if (isset($tmp["g"][$login])) {
-			$tc[0]=str_replace(" *".$clan."*","",$tc[0]);
-			$loc_i[$loc][$login]["char"]=implode("|",$tc); 
-			@unlink("data/clans/".$clan);
-			$title="Клан ".$clan." расформирован, при очередном логине все твои бывшие соклановцы лишатся надписи, что состоят в клане ".$clan;
-			}else $title="Стоимость регистрации нового клана 1000 монет"; #eval: if (!isset($tmp["m"][$login]) && !isset($tmp["g"][$login])) {$title="Я согласен"; $id="newnow";} else {$title="У меня еще вопросы"; $id="begin";}#begin#Хех, может в другой раз...#end',
-
-    'newnow'   => 'eval: $title="Напиши имя своего будущего клана<br/><input name=\"cname\" maxlength=\"20\"/><br/><a href=\"$PHP_SELF?sid=$sid&p=$p&speak=$speak&id=newnow2&cname=$(cname)\">Продолжить</a>";#Я передумал#begin',
-    'newnow2'  => 'eval: 
-	$cname=preg_replace("/\W/","",$cname);
-	$b=0; 
-	$tc=explode("|",$loc_i[$loc][$login]["char"]); 
-	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
-	if ($clan) $title="Ты и так состоишь в клане ".$clan.", вначале надо из него выйти."; 
-	else if (!$cname || strlen($cname)>20 || preg_match("/\W/",$cname)) $title="Неправильное имя клана, можно исп. только англ. буквы, не более 20 символов"; 
-	else {
-		$dh = opendir("data/clans/"); 
-		while (($fname = readdir($dh))!== false) if ($fname!="." && $fname!=".." && $fname!="1.htaccess" && $fname!=".htaccess") {
-			if(strtolower($fname)==strtolower($cname)) {closedir($dh);msg("Клан ".$cname." уже зарегистрирован, выбери другое название");}
-			}
-		closedir($dh);
-		additem($loc,$login,"","i.money",1000,"items","items",1,0,1);
-		$tmp=array("m"=>array(),"g"=>array($login=>$p)); 
-		$file = fopen ("data/clans/".$cname, "w"); 
-		if ($file!==false) {fputs($file,serialize($tmp));fclose($file);} 
-		$tc[0].=" *".$cname."*"; 
-		$loc_i[$loc][$login]["char"]=implode("|",$tc); 
-		additem($loc,"",$login,"i.guildstone",1); 
-		$title="Поздравляю, ты теперь глава клана ".$cname.", используй камень гильдии для управления им. Советую тебе прямо сейчас <a href=\"$PHP_SELF?sid=$sid&logout=1\">сохранить персонажа</a>.";
-		$b=1;
-		}#eval: if ($b) {$title="Спасибо, до свидания"; $id="end";} else {$title="Назад"; $id="newnow";}#newnow',
-    'problem'  => 'eval: $title="Напиши имя своего клана<br/><input name=\"cname\" maxlength=\"20\"/><br/><a href=\"$PHP_SELF?sid=$sid&p=$p&speak=$speak&id=problem2&cname=$(cname)\">Продолжить</a>";#Я передумал#begin',
-    'problem2' => 'eval: 
-	$tc=explode("|",$loc_i[$loc][$login]["char"]);
-	if (strpos($tc[0],"*")===false) $clan=""; else $clan=substr($tc[0],strpos($tc[0],"*")+1,strrpos($tc[0],"*")-strpos($tc[0],"*")-1);
-	if (!$clan) {
-		if ($cname && file_exists("data/clans/".$cname)) $tmp=unserialize((file_get_contents("data/clans/".$cname))); else $tmp=array(); 
-		if (isset($tmp["g"][$login])) {$title="[читает записи] Ага, да ты являешься главой этого клана! [делает пометки в бумагах] Ок, все готово."; $tc[0].=" *".$cname."*"; $loc_i[$loc][$login]["char"]=implode("|",$tc);}
-		else if (isset($tmp["m"][$login])) {$title="[читает записи] Да, действительно, ты состоишь в списках этого клана... [делает пометки в бумагах] Ок, все готово."; $tc[0].=" *".$cname."*"; $loc_i[$loc][$login]["char"]=implode("|",$tc);}
-		else $title="Извини, но ты не числишься в списках клана ".$cname;
-		} else $title="Ты состоишь в клане $clan, какие могут быть проблемы?";#Гм... Понятно#begin',
+    'buystonenow' => 'eval: nGuildMaster_buyStoneNow($title);#Спасибо, у меня еще есть вопросы#begin#Мне пора#end',
+    'new'         => 'eval: nGuildMaster_new($title);#eval: nGuildMaster_new_begin($title, $id);#begin#Хех, может в другой раз...#end',
+    'newnow'      => 'eval: nGuildMaster_newNow($title, $speak);#Я передумал#begin',
+    'newnow2'     => 'eval: nGuildMaster_newNow2($title);#eval: nGuildMaster_newNow2_newNow($title);#newnow',
+    'problem'     => 'eval: nGuildMaster_problem($title, $speak);#Я передумал#begin',
+    'problem2'    => 'eval: nGuildMaster_problem2($title);#Гм... Понятно#begin',
 
 ];
 
