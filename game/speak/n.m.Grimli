@@ -1,6 +1,40 @@
 <?php
+
+function nmGrimli_hasKey()
+{
+    $loc = getCurrentLocId();
+    $login = getCurrentUserId();
+
+    return additem($loc,$login,"","i.q.keykrep1","count")>0;
+}
+
+function nmGrimli_begin_tr(&$title, &$id)
+{
+    if (nmGrimli_hasKey()) {
+        $title = "Я достал ключь от потайной комнаты";
+        $id = "gr";
+    } else {
+        $title = "Магистр, вы может меня чему нибудь научить?";
+    }
+}
+
+function nmGrimli_tucNow(&$title)
+{
+    $title = nmGrimli_hasKey() ? "skill|m.s.tucha|2000" : "у тебя нет ключа от потайной комнаты";
+}
+
+function nmGrimli_deadNow(&$title)
+{
+    $title = nmGrimli_hasKey() ? "skill|m.w.dead|2500" : "у тебя нет ключа от потайной комнаты";
+}
+
+function nmGrimli_cepNow(&$title)
+{
+    $title = nmGrimli_hasKey() ? "skill|m.w.a.chain|3000" : "у тебя нет ключа от потайной комнаты";
+}
+
 return [
-    'begin'   => 'Что ты хотел, человек?#eval: if(additem($loc,$login,"","i.q.keykrep1","count")>0) {$title="Я достал ключь от потайной комнаты";$id="gr";} else $title="Магистр, вы может меня чему нибудь научить?";#tr#Я много что хочу, тебе может весь список моих желаний предоставить?#end#я так тут гуляю.#end1',
+    'begin'   => 'Что ты хотел, человек?#eval: nmGrimli_begin_tr($title, $id);#tr#Я много что хочу, тебе может весь список моих желаний предоставить?#end#я так тут гуляю.#end1',
     'end'     => 'Я что похож на золотую рыбку, что бы исполнять твои желания? Давай проваливай отсюда.',
     'end1'    => 'Погуляй в другом месте тут занимаются серьезными делами!',
     'end2'    => 'И что бы больше я тебя тут не видел!',
@@ -17,7 +51,7 @@ return [
                  $sid . '&look=m.w.dead">Подробней...</a>#Согласен#deadnov#Можно другое заклинание?#tren',
     'tuc'     => 'Полезное заклинание, всегда приятно, что за тобой следует верный защитник.Особенно если он бросает молнии в твоих врагов. Стоит 2000 монет<br/><a href="?sid=' .
                  $sid . '&look=m.s.tucha">Подробней...</a>#Согласен#tucnov#А еще какие есть заклинания?#tren',
-    'tucnov'  => 'eval: if(additem($loc,$login,"","i.q.keykrep1","count")>0) $title="skill|m.s.tucha|2000"; else $title="у тебя нет ключа от потайной комнаты";',
-    'deadnov' => 'eval: if(additem($loc,$login,"","i.q.keykrep1","count")>0) $title="skill|m.w.dead|2500"; else $title="у тебя нет ключа от потайной комнаты";',
-    'cepnov'  => 'eval: if(additem($loc,$login,"","i.q.keykrep1","count")>0) $title="skill|m.w.a.chain|3000"; else $title="у тебя нет ключа от потайной комнаты";',
+    'tucnov'  => 'eval: nmGrimli_tucNow($title);',
+    'deadnov' => 'eval: nmGrimli_deadNow($title);',
+    'cepnov'  => 'eval: nmGrimli_cepNow($title);',
 ];
