@@ -1,10 +1,83 @@
 <?php
+
+function nMilta_haveOwn($locId, $ownerId)
+{
+    global $loc_i;
+
+    return (
+        isset($loc_i[$locId]["n.a.dog." . $ownerId]) ||
+        isset($loc_i[$locId]["n.a.b.sok." . $ownerId]) ||
+        isset($loc_i[$locId]["n.a.cow." . $ownerId]) ||
+        isset($loc_i[$locId]["n.a.pig." . $ownerId]) ||
+        isset($loc_i[$locId]["n.a.losh." . $ownerId])
+    );
+}
+
+function nMilta_makeOwn($ownerId, $isActive)
+{
+    return implode('|', [
+        $ownerId,
+        $ownerId,
+        $isActive ? $ownerId : ''
+    ]);
+}
+
+function nMilta_sell($npcId, $price, $npcName, $isActive)
+{
+    global $loc_i;
+
+    $loc = getCurrentLocId();
+    $login = getCurrentUserId();
+
+    if (nMilta_haveOwn($loc, $login)) {
+        $title = "Извини, <name>, у тебя уже есть купленное здесь животное";
+    } else {
+        additem($loc, $login, "", "i.money", $price, "items", "items", 1, 0, 1);
+        $npc = loadNpcById($npcId);
+        $npc["owner"] = nMilta_makeOwn($login, $isActive);
+        $fullId = $npcId . '.' . $login;
+        $loc_i[$loc][$fullId] = $npc;
+        addnpc($fullId, "", $loc);
+        $title = "Поздравляю, у тебя, <name>, теперь есть $npcName!";
+        if (!$isActive)
+        {
+            $title .= ' Учти, что она тебя защищать не будет, пока ты ей об этом не скажешь.';
+        }
+    }
+    return $title;
+}
+
+function nMilta_dog(&$title)
+{
+    $title = nMilta_sell('n.a.dog', 100, 'собственная собака', true);
+}
+
+function nMilta_sok(&$title)
+{
+    $title = nMilta_sell('n.a.sok', 80, 'собственный сокол', true);
+}
+
+function nMilta_losh(&$title)
+{
+    $title = nMilta_sell('n.a.losh', 90, 'собственная лошадь', false);
+}
+
+function nMilta_cow(&$title)
+{
+    $title = nMilta_sell('n.a.cow', 70, 'собственная корова', false);
+}
+
+function nMilta_pig(&$title)
+{
+    $title = nMilta_sell('n.a.pig', 70, 'собственная свинья', false);
+}
+
 return [
     'begin' => 'Здесь продаются домашние животные. Ты можешь купить себе, например, собаку, которая будет за тобой всюду ходить и охранять тебя. Только учти, что купить можно лишь одно животное, зато оно тебя не покинет до самой смерти. Выбери, кого ты хочешь купить?#Собаку [100 монет]#dog#Сокола [80 монет]#sok#Корову [70 монет]#cow#Свинью [70 монет]#pig#Лошадь [90 монет]#losh',
     'end'   => 'Пока, заходи еще',
-    'dog'   => 'eval: if (isset($loc_i[$loc]["n.a.dog.".$login]) || isset($loc_i[$loc]["n.a.b.sok.".$login]) || isset($loc_i[$loc]["n.a.cow.".$login]) || isset($loc_i[$loc]["n.a.pig.".$login]) || isset($loc_i[$loc]["n.a.losh.".$login])) $title="Извини, <name>, у тебя уже есть купленное здесь животное"; else {additem($loc,$login,"","i.money",100,"items","items",1,0,1); $npc = loadNpcById("n.a.dog"); $npc["owner"]=$login."|".$login."|".$login; $loc_i[$loc]["n.a.dog.".$login]=$npc; addnpc("n.a.dog.".$login,"",$loc); $title="Поздравляю, у тебя, <name>, теперь есть собственная собака!";}',
-    'sok'   => 'eval: if (isset($loc_i[$loc]["n.a.dog.".$login]) || isset($loc_i[$loc]["n.a.b.sok.".$login]) || isset($loc_i[$loc]["n.a.cow.".$login]) || isset($loc_i[$loc]["n.a.pig.".$login]) || isset($loc_i[$loc]["n.a.losh.".$login])) $title="Извини, <name>, у тебя уже есть купленное здесь животное"; else {additem($loc,$login,"","i.money",80,"items","items",1,0,1); $npc = loadNpcById("n.a.b.sok"); $npc["owner"]=$login."|".$login."|".$login; $loc_i[$loc]["n.a.b.sok.".$login]=$npc; addnpc("n.a.b.sok.".$login,"",$loc); $title="Поздравляю, у тебя, <name>, теперь есть собственный сокол!";}',
-    'losh'  => 'eval: if (isset($loc_i[$loc]["n.a.dog.".$login]) || isset($loc_i[$loc]["n.a.b.sok.".$login]) || isset($loc_i[$loc]["n.a.cow.".$login]) || isset($loc_i[$loc]["n.a.pig.".$login]) || isset($loc_i[$loc]["n.a.losh.".$login])) $title="Извини, <name>, у тебя уже есть купленное здесь животное"; else {additem($loc,$login,"","i.money",90,"items","items",1,0,1); $npc = loadNpcById("n.a.losh"); $npc["owner"]=$login."|".$login."|"; $loc_i[$loc]["n.a.losh.".$login]=$npc; addnpc("n.a.losh.".$login,"",$loc); $title="Поздравляю, у тебя, <name>, теперь есть собственная лошадь! Учти, что она тебя защищать не будет, пока ты ей об этом не скажешь.";}',
-    'cow'   => 'eval: if (isset($loc_i[$loc]["n.a.dog.".$login]) || isset($loc_i[$loc]["n.a.b.sok.".$login]) || isset($loc_i[$loc]["n.a.cow.".$login]) || isset($loc_i[$loc]["n.a.pig.".$login]) || isset($loc_i[$loc]["n.a.losh.".$login])) $title="Извини, <name>, у тебя уже есть купленное здесь животное"; else {additem($loc,$login,"","i.money",70,"items","items",1,0,1); $npc = loadNpcById("n.a.cow"); $npc["owner"]=$login."|".$login."|"; $loc_i[$loc]["n.a.cow.".$login]=$npc; addnpc("n.a.cow.".$login,"",$loc); $title="Поздравляю, у тебя, <name>, теперь есть собственная корова! Учти, что она тебя защищать не будет, пока ты ей об этом не скажешь.";}',
-    'pig'   => 'eval: if (isset($loc_i[$loc]["n.a.dog.".$login]) || isset($loc_i[$loc]["n.a.b.sok.".$login]) || isset($loc_i[$loc]["n.a.cow.".$login]) || isset($loc_i[$loc]["n.a.pig.".$login]) || isset($loc_i[$loc]["n.a.losh.".$login])) $title="Извини, <name>, у тебя уже есть купленное здесь животное"; else {additem($loc,$login,"","i.money",70,"items","items",1,0,1); $npc = loadNpcById("n.a.pig"); $npc["owner"]=$login."|".$login."|"; $loc_i[$loc]["n.a.pig.".$login]=$npc; addnpc("n.a.pig.".$login,"",$loc); $title="Поздравляю, у тебя, <name>, теперь есть собственная свинья! Учти, что она тебя защищать не будет, пока ты ей об этом не скажешь.";}'
+    'dog'   => 'eval: nMilta_dog($title);',
+    'sok'   => 'eval: nMilta_sok($title);',
+    'losh'  => 'eval: nMilta_losh($title)',
+    'cow'   => 'eval: nMilta_cow($title);',
+    'pig'   => 'eval: nMilta_pig($title);'
 ];
