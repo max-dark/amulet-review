@@ -10,11 +10,7 @@
 // разрезает первое в инвентори платье на 3 бинта, брюки, рубашку и юбку на 2. навык не нужен
 
 if ($to) {
-    if (file_exists("items/" . $to)) {
-        $item = explode("|", (file_get_contents("items/" . $to)));
-    } else {
-        die("err: no items/" . $to);
-    }
+    $item = findItemByBaseId($to);
     if (intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"])) < 1) {
         msg("У вас нет " . $item[0] . ", чтобы разрезать его ножницами");
     }

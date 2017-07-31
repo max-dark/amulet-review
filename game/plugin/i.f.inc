@@ -22,11 +22,7 @@ if ($use == "i.f.b.empty") {
     }
 }
 
-if (file_exists("items/" . $use)) {
-    $item = explode("|", (file_get_contents("items/" . $use)));
-} else {
-    die("err: no items/" . $use);
-}
+$item = findItemByBaseId($use);
 $char[6]                     = time() + 4;
 $loc_i[$loc][$login]["char"] = implode("|", $char);
 if ($item[2]) {

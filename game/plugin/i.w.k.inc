@@ -10,6 +10,7 @@
 if (substr($to, 0, 6) == 'i.s.d.' && isset($loc_i[$loc][$to])) {
     $died = explode("|", $loc_i[$loc][$to]);
     if ($died[4]) {
+        // добавляем трофеи в инвентарь трупа
         if ($died[3]) {
             $died[3] .= "," . $died[4];
         } else {

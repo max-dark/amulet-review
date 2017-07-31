@@ -49,32 +49,21 @@ $xF    = preg_match_all("'([^|]+):(\d+)'", $items, $regF);
 if ( ! $start) {
     $start = 0;
 }
+
 for ($i = $start; $i < $start + $g_list && $i < $xF; $i++) {
-    if ($regF[1][$i]) {
-        if (strpos($regF[1][$i], "_") !== false) {
-            $ti = substr($regF[1][$i], 0, strpos($regF[1][$i], "_"));
-        } else {
-            $ti = $regF[1][$i];
-        }
-        if (substr($regF[1][$i], 0, 5) == "i.rr.") {
-            $item = explode("|", "руна|50");
-        } else {
-            if (file_exists("items/" . $ti)) {
-                $item = explode("|", (file_get_contents("items/" . $ti)));
-            } else {
-                die("err: no items/" . $regF[1][$i]);
-            }
-        }
+    $itemId = $regF[1][$i];
+    if ($itemId) {
+        $itemCount = $regF[2][$i];
+        $item = findItemByFullId($itemId);
         $tmp = $item[0];
-        if (strpos($regF[1][$i], "..") !== false) {
+        if (strpos($itemId, "..") !== false) {
             $tmp .= " *";
         }
-        if ($regF[2][$i] > 1) {
-            $tmp .= " (" . $regF[2][$i] . ")";
+        if ($itemCount > 1) {
+            $tmp .= " (" . $itemCount . ")";
         }
         $tmp .= " за " . round($item[1] * $trader[0]) . " монет";
-        $stmp .= "\n<br/><anchor>" . $tmp . "<go href=\"#menu\"><setvar name=\"to\" value=\"" . $regF[1][$i] .
-                 "\"/></go></anchor>";
+        $stmp .= "\n<br/><anchor>$tmp<go href=\"#menu\"><setvar name=\"to\" value=\"{$itemId}\"/></go></anchor>";
     }
 }
 
@@ -93,5 +82,7 @@ if ($start + $g_list < $xF - 1) {
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" .
              ($xF - $start - $g_list) . ")</a>";
 }
-$stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Продать</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
+$stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n";
+$stmp .= "<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Продать</a>\n";
+$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
 msg($stmp, $tchar[0]);

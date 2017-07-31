@@ -21,20 +21,8 @@
  */
 
 // $to из банка
-if (strpos($to, "_") !== false) {
-    $ti = substr($to, 0, strpos($to, "_"));
-} else {
-    $ti = $to;
-}
-if (substr($to, 0, 5) == "i.rr.") {
-    $item = explode("|", "руна|50");
-} else {
-    if (file_exists("items/" . $ti)) {
-        $item = explode("|", (file_get_contents("items/" . $ti)));
-    } else {
-        die("err: no items/" . $to);
-    }
-}
+$item = findItemByFullId($to);
+
 $count = intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["bank"]));
 if ($count == 0) {
     msg("В банке нет " . $item[0], $tchar[0]);

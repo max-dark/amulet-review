@@ -22,9 +22,10 @@ $dbname = 'amulet';
 // структура каталогов
 //=========================
 
-define('BASE_DIR', __DIR__ . DIRECTORY_SEPARATOR);
-define('NPC_DIR', BASE_DIR . 'npc' . DIRECTORY_SEPARATOR);
-define('SPEAK_DIR', BASE_DIR . 'speak' . DIRECTORY_SEPARATOR);
+const BASE_DIR = __DIR__ . DIRECTORY_SEPARATOR;
+const NPC_DIR = BASE_DIR . 'npc' . DIRECTORY_SEPARATOR;
+const ITEMS_DIR = BASE_DIR . 'items' . DIRECTORY_SEPARATOR;
+const SPEAK_DIR = BASE_DIR . 'speak' . DIRECTORY_SEPARATOR;
 
 //=========================
 // настройки движка

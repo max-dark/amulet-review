@@ -222,8 +222,7 @@ if ($do == "sum") {
     }
     $tfollow = $tsum[2];
     $tsum    = $tsum[0];
-    $npc     = "npc/" . $tsum;
-    $npc     = @include $npc;
+    $npc     = loadNpcById($tsum);
     if ( ! $npc) {
         msg("Существа с id=$tsum не существует");
     }
@@ -347,7 +346,7 @@ if ($do == 'filter' && $inp) {
     $dh   = opendir("items/");
     while (($fname = readdir($dh)) !== false) {
         if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
-            $item = explode("|", (file_get_contents("items/" . $fname)));
+            $item = findItemByBaseId($fname);
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&do=add&item=$fname&num=$(num)\">" . $item[0] .
                      "</a>";
             $count++;
@@ -365,12 +364,8 @@ if ($do == 'add' && $item) {
 if ($do == 'geti' && $inp) {
     $arr = explode(":", $inp);
 
-    if (strpos($arr[0], "_") !== false) {
-        $fn = substr($arr[0], 0, strpos($arr[0], "_"));
-    } else {
-        $fn = $arr[0];
-    }
-    if ( ! file_exists("items/" . $fn)) {
+    $fn = getBaseItemId($arr[0]);
+    if ( ! itemExists($fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
 
@@ -383,7 +378,7 @@ if ($do == 'geti' && $inp) {
         }
         $xF = preg_match_all("/\\.\\.(\\w\\w)/", $arr[0], $regF);
         for ($j = 0; $j < $xF; $j++) {
-            if ( ! file_exists("items/i.i." . $regF[1][$j])) {
+            if ( ! itemExists("i.i." . $regF[1][$j])) {
                 msg("Самоцвет " . $regF[1][$j] . " не существует");
             }
         }
@@ -413,12 +408,8 @@ if ($do == 'geti' && $inp) {
 
 if ($do == 'addi' && $inp) {
     $arr = explode(":", $inp);
-    if (strpos($arr[0], "_") !== false) {
-        $fn = substr($arr[0], 0, strpos($arr[0], "_"));
-    } else {
-        $fn = $arr[0];
-    }
-    if ( ! file_exists("items/" . $fn)) {
+    $fn = getBaseItemId($arr[0]);
+    if ( ! itemExists($fn)) {
         msg("Предмета с id " . $arr[0] . " не существует");
     }
     if ( ! $arr[2] || (substr($arr[2], 0, 2) != "n." && substr($arr[2], 0, 2) != "u.") ||
@@ -437,12 +428,8 @@ if ($do == 'getms' && $inp) {
         msg("Свитки призыва можно создавать только на основе id монстров или животных, т.е. n.c.xxx или n.a.xxx");
     }
     $inp = preg_replace('/([^.A-z])/', "", $inp);
-    if (strpos($inp, "_") !== false) {
-        $id = substr($inp, 0, strpos($inp, "_"));
-    } else {
-        $id = $inp;
-    }
-    if ( ! file_exists("npc/" . $id)) {
+    $id = getBaseItemId($inp);
+    if ( ! npcExists($id)) {
         msg("id " . $id . " не существует");
     }
     additem($loc, "", $login, "i.ms_" . $inp, 1);

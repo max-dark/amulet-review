@@ -17,20 +17,8 @@
  * @global to
  */
 
-if (strpos($to, "_") !== false) {
-    $ti = substr($to, 0, strpos($to, "_"));
-} else {
-    $ti = $to;
-}
-if (substr($to, 0, 5) == "i.rr.") {
-    $item = explode("|", "руна|50");
-} else {
-    if (file_exists("items/" . $ti)) {
-        $item = explode("|", (file_get_contents("items/" . $ti)));
-    } else {
-        die("err: no items/" . $to);
-    }
-}
+$item = findItemByFullId($to);
+
 if (strpos($loc_i[$loc][$speak]["bank"], $to . ":") === false) {
     msg("У меня нет " . $item[0]);
 }

@@ -222,7 +222,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 $dh   = opendir("items/");
                 while (($fname = readdir($dh)) !== false) {
                     if ($fname != "." && $fname != ".." && substr($fname, 0, strlen($inp)) == $inp) {
-                        $item = explode("|", (file_get_contents("items/" . $fname)));
+                        $item = findItemByBaseId($fname);
                         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&adm=adni&inp=$fname&val=1\">" . $item[0] . "</a>";
                         $count++;
                     }
@@ -258,9 +258,8 @@ if ($login == $g_admin || $gm == $gm_id) {
                 if ( ! isset($loc_i[$loc][$inp])) {
                     msg("рядом с вами нет npc с id " . $inp . " (регистр учитывается)");
                 }
-                $npc = "npc/" . $inp;
-                $npc = include $npc;
-                if (gettype($npc) !== "array") {
+                $npc = loadNpcById($inp);
+                if (!is_array($npc)) {
                     msg("ошибка загрузки npc/" . $inp);
                 }
                 $loc_i[$loc][$inp]["bank"] = $npc["bank"];

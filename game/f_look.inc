@@ -30,11 +30,7 @@ if ($look) {
                         include "f_lookmagic.inc";
                     } else {
                         if (substr($look, 0, 2) == 'p.') {
-                            if (file_exists("items/" . $look)) {
-                                $item = explode("|", (file_get_contents("items/" . $look)));
-                            } else {
-                                die("err: no items/" . $look);
-                            }
+                            $item = findItemByBaseId($look);
                             $skills = explode("|", $loc_i[$loc][$login]["skills"]);
                             $stmp   = "<a href=\"$PHP_SELF?sid=$sid&look=p\">Период</a>: " . $item[1] . "<br/>" .
                                       $item[2];

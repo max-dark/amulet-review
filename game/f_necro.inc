@@ -17,15 +17,16 @@
 if ($skills[31] == 0) {
     msg("Ваш навык некроманта равен нулю, вы не умеете поднимать мертвых.");
 }
-if ( ! $to) {
+if (empty($to)) {
     $stmp = "";
     foreach (array_keys($loc_i[$loc]) as $i) {
-        if (substr($i, 0, 10) == "i.s.d.n.c." || substr($i, 0, 10) == "i.s.d.n.a.") {
+        $item_subtype = substr($i, 0, 10);
+        if (in_array($item_subtype, ["i.s.d.n.c.", "i.s.d.n.a."])) {
             $k = explode("|", $loc_i[$loc][$i]);
             $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=skill.necro&to=" . $i . "\">" . $k[0] . "</a>";
         }
     }
-    if ( ! $stmp) {
+    if (empty($stmp)) {
         $stmp = "<p>Рядом нет трупов, поднимать из мертвых можно только монстров и животных.";
     } else {
         $stmp = "<p>Выберите труп:" . $stmp;
@@ -35,12 +36,13 @@ if ( ! $to) {
 if ( ! isset($loc_i[$loc][$to])) {
     msg("Нет цели");
 }
-if (substr($to, 0, 10) != "i.s.d.n.c." && substr($to, 0, 10) != "i.s.d.n.a.") {
+$target_type = substr($to, 0, 10);
+if (in_array($target_type, ["i.s.d.n.c.", "i.s.d.n.a."])) {
     msg("Поднимать можно только трупы монстров и животных");
 }
 $id = substr($to, 6, strrpos($to, ".") - 6);
 $id = substr($id, 0, strrpos($id, "."));
-if ( ! file_exists("npc/" . $id)) {
+if ( ! npcExists($id)) {
     msg("Ошибка: нет npc/" . $id . ", сообщите разработчику");
 }
 if ($char[3] < 6) {
@@ -76,7 +78,7 @@ if (rand(0, 100) <= $skills[31] * 5 + $skills[2] * 2) {
 
     unset($loc_i[$loc][$to]);
     // подготовим труп
-    $npc      = include "npc/" . $id;
+    $npc      = loadNpcById($id);
     $tchar    = explode("|", $npc["char"]);
     $tchar[0] = $title . "-зомби";
     $tchar[2] = round($tchar[2] * 0.7);
@@ -101,12 +103,18 @@ if (rand(0, 100) <= $skills[31] * 5 + $skills[2] * 2) {
     }
     $twar[13] = 0;
     unset($twar[15]);
-    $npc["war"]                      = implode("|", $twar);
-    $tc                              = rand(300, 300 + ($skills[31] + $skills[2]) * 90);
-    $tc                              = time() + $tc;
-    $npc["owner"]                    = $login . "|" . $login . "|" . $login . "|" . $tc . "|1";
-    $loc_i[$loc]["n.z." . $id . "." . chr(rand(97, 122)) . chr(rand(97, 122)) . chr(rand(97, 122)) .
-                 chr(rand(97, 122))] = $npc;
+    $npc["war"] = implode("|", $twar);
+    $tc = rand(300, 300 + ($skills[31] + $skills[2]) * 90);
+    $tc = time() + $tc;
+    $npc["owner"] = implode('|',[
+        $login, // хозяин
+        $login, // за кем следуем
+        $login, // кого охраняем
+        $tc,    // время следования
+        1       // флаг, удалить нпс, когда отпустили
+    ]);
+    $zombie = "n.z." . $id . "." . chr(rand(97, 122)) . chr(rand(97, 122)) . chr(rand(97, 122)) . chr(rand(97, 122));
+    $loc_i[$loc][$zombie] = $npc;
     addjournal($loc, $login, "Вы подняли из мертвых " . $title);
     addjournal($loc, "all", $char[0] . " поднял из мертвых " . $title, $login);
     if (rand(1, 100) < 5) {

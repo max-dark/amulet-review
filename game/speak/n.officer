@@ -1,32 +1,158 @@
 <?php
+
+function nOfficer_begin_killedTo(&$title, &$k)
+{
+    $title = "";
+    $war = explode("|", getCurrentUser("war"));
+    if ($war[15]) {
+        $k = explode(":", $war[15]);
+        if ($k[1]) {
+            $title = "Я хочу получить награду за голову " . substr($k[1], 2);
+        }
+    }
+}
+
+function nOfficer_begin_killedBy(&$title, &$k)
+{
+    $title="";if($k[0]) $title="Я хочу назначить награду за голову ".substr($k[0],2);
+}
+
+function nOfficer_stat(&$title)
+{
+    $title = "";
+    if (file_exists("data/wanted.dat")) {
+        $list = unserialize((file_get_contents("data/wanted.dat")));
+        if ($list) {
+            arsort($list);
+        }
+        if (!$list) {
+            $list = array();
+        }
+        if (count($list) > 0) {
+            unset($list[""]);
+            $title = "Объявлена награда:<br/>";
+            foreach (array_keys($list) as $i) {
+                if (strpos($list[$i], "получил") === false) {
+                    $title .= substr($i, 2) . ": " . $list[$i] . " монет<br/>";
+                } else {
+                    $title .= substr($i, 2) . ": " . $list[$i] . "<br/>";
+                }
+            }
+        } else {
+            $title = "Список пуст";
+        }
+    } else {
+        $title = "Еще никто ни за кого не назначал награду.";
+    }
+}
+
+function nOfficer_killedTo(&$title)
+{
+    if (file_exists("data/wanted.dat")) {
+        $list = unserialize(file_get_contents("data/wanted.dat"));
+        $title = "";
+        $war = explode("|", getCurrentUser("war"));
+        if ($war[15]) {
+            $k = explode(":", $war[15]);
+            if (!$k[1]) {
+                msg("Ты никого из преступником не убил или уже получил награду");
+            }
+            if (strpos($list[$k[1]], "получил") === false && intval($list[$k[1]]) > 0) {
+                $char = explode("|", getCurrentUser("char"));
+                $title = "Награда за голову " . substr($k[1],
+                        2) . " составила в сумме " . intval($list[$k[1]]) . " монет";
+                additem(getCurrentLocId(), "", getCurrentUserId(), "i.money", intval($list[$k[1]]));
+                $list[$k[1]] = intval($list[$k[1]]) . " монет получил " . $char[0];
+                $k[1] = "";
+                $file = fopen("data/wanted.dat", "w");
+                if ($file !== false) {
+                    fputs($file, serialize($list));
+                    fclose($file);
+                }
+                $war[15] = implode(":", $k);
+                setCurrentUser("war", implode("|", $war));
+            } else {
+                $title = "За " . substr($k[1], 2) . " никто награду не назначал";
+            }
+        }
+    } else {
+        $title = "Еще никто ни за кого не назначал награду.";
+    }
+}
+
+function nOfficer_killedBy(&$title, $speak)
+{
+    global $PHP_SELF;
+    global $sid;
+
+    $title="Укажите размер награды:\n";
+    $title .= "<br/><input name=\"num\" value=\"1\"/>\n";
+    $title .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=killedby2&num=$(num)\">Отправить</a>";
+}
+
+function nOfficer_killedBy2(&$title)
+{
+
+    $title = "";
+    if (file_exists("data/wanted.dat")) {
+        $list = unserialize(file_get_contents("data/wanted.dat"));
+        if ($list) {
+            arsort($list);
+        }
+    } else {
+        $list = array();
+    }
+
+    $war = explode("|", getCurrentUser("war"));
+    if ($war[15]) {
+        $k = explode(":", $war[15]);
+        $num = Request('num');
+        if ($k[0] && $num != "count") {
+            if (!$list) {
+                $list = array();
+            }
+            $keys = array_keys($list);
+            if (!isset($list[$k[0]]) && count($list) > 20 && intval($list[$keys[count($keys) - 1]]) >= $num) {
+                msg("Извините, ваша награда меньше, чем минимальная в списке, назначьте больше.");
+            }
+            additem(getCurrentLocId(), getCurrentUserId(), "", "i.money", $num, "items", "items", 1, 0, 1);
+            if (count($list) > 20) {
+                array_splice($list, 20);
+            }
+            if (strpos($list[$k[0]], "получил") !== false) {
+                $list[$k[0]] = 0;
+            }
+            $list[$k[0]] += $num;
+            $file = fopen("data/wanted.dat", "w");
+            if ($file !== false) {
+                fputs($file, serialize($list));
+                fclose($file);
+            }
+            $title = "Награда за " . substr($k[0], 2) . " назначена";
+            $k[0] = "";
+            $war[15] = implode(":", $k);
+            setCurrentUser("war", implode("|", $war));
+        }
+    }
+}
+
+function nOfficer_merfy(&$title)
+{
+    $tf = file("speak/h.merfy");
+    $title = $tf[rand(0, count($tf) - 1)];
+}
+
 return [
-    'begin'     => 'Приветствую тебя, <name>. Я офицер Санчес, у меня ты можешь назначить награду за голову преступника, который на тебя напал, а также получить вознаграждение, если убьешь кого-нибудь из списка разыскиваемых. Чем могу быть полезен?#eval: $title="";$war=explode("|",$loc_i[$loc][$login]["war"]); if ($war[15]) {$k=explode(":",$war[15]);if($k[1]) $title="Я хочу получить награду за голову ".substr($k[1],2);}#killedto#eval: $title="";if($k[0]) $title="Я хочу назначить награду за голову ".substr($k[0],2);#killedby#О какой награде идет речь?#do#Я хочу посмотреть список кого разыскивают#stat#Что-то скучно...#hum#Ничего особенного, мне пора#end',
+    'begin'     => 'Приветствую тебя, <name>. Я офицер Санчес, у меня ты можешь назначить награду за голову преступника, который на тебя напал, а также получить вознаграждение, если убьешь кого-нибудь из списка разыскиваемых. Чем могу быть полезен?#eval: nOfficer_begin_killedTo($title, $k)#killedto#eval: nOfficer_begin_killedBy($title, $k);#killedby#О какой награде идет речь?#do#Я хочу посмотреть список кого разыскивают#stat#Что-то скучно...#hum#Ничего особенного, мне пора#end',
     'do'        => 'Любой горожанин имеет право назначить награду за поимку преступника, который на него напал. Если несколько человек назначают награду за одного преступника, то их вклады суммируются. Первый, кто убьет бандита, может забрать заработанные деньги. Кроме того, я веду список розыскиваемых преступников, который можно посмотреть в любой момент.#Что мне делать, если меня несправедливо убили?#killby#Что мне делать, если я убью розыскиваемого преступника?#killto#Ясно, вернемся к началу#begin',
     'killby'    => 'Если тебя незаконно убили, то приходи сюда и поговори со мной, после чего можешь назначить любую сумму за его поимку.#Ясно, поговорить с тобой#begin',
     'killto'    => 'Точно так же поговори со мной и получишь свою награду. Главное, после свершения правосудия не убивай больше никого из людей-преступников (животные и монстры не считаются), так как запоминается только последний бой.#Ок, если завалю кого, приду сюда#begin',
-    'stat'      => 'eval: $title=""; if(file_exists("data/wanted.dat")) {$list=unserialize((file_get_contents("data/wanted.dat"))); if ($list) arsort($list); if (!$list) $list=array(); if (count($list)>0) {unset($list[""]);$title="Объявлена награда:<br/>";foreach(array_keys($list) as $i) if (strpos($list[$i],"получил")===false) $title.=substr($i,2).": ".$list[$i]." монет<br/>"; else $title.=substr($i,2).": ".$list[$i]."<br/>";}else $title="Список пуст";} else $title="Еще никто ни за кого не назначал награду.";#У меня еще пара вопросов#begin#Мне пора#end',
+    'stat'      => 'eval: nOfficer_stat($title);#У меня еще пара вопросов#begin#Мне пора#end',
     'end'       => 'Удачи тебе, и не нарушай закон',
-    'killedto'  => 'eval: if(file_exists("data/wanted.dat")) {$list=unserialize((file_get_contents("data/wanted.dat"))); $title=""; $war=explode("|",$loc_i[$loc][$login]["war"]); if ($war[15]) {$k=explode(":",$war[15]); if (!$k[1]) msg("Ты никого из преступником не убил или уже получил награду"); if (strpos($list[$k[1]],"получил")===false && intval($list[$k[1]])>0) {$title="Награда за голову ".substr($k[1],2)." составила в сумме ".intval($list[$k[1]])." монет"; additem($loc,"",$login,"i.money",intval($list[$k[1]])); $list[$k[1]]=intval($list[$k[1]])." монет получил ".$char[0]; $k[1]=""; $file = fopen ("data/wanted.dat", "w");if($file!==false) {fputs($file,serialize($list));fclose($file);} $war[15]=implode(":",$k);$loc_i[$loc][$login]["war"]=implode("|",$war);} else $title="За ".substr($k[1],2)." никто награду не назначал";}}else $title="Еще никто ни за кого не назначал награду.";#Кто там еще остался?#stat#Спасибо, до свидания#end',
-    'killedby'  => 'eval: $title="Укажите размер награды:\n<br/><input name=\"num\" value=\"1\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=killedby2&num=$(num)\">Отправить</a>";',
-    'killedby2' => 'eval: 
-$title="";
-	if(file_exists("data/wanted.dat")) $list=unserialize((file_get_contents("data/wanted.dat"))); else $list=array();
-	if ($list) arsort($list);
-	$war=explode("|",$loc_i[$loc][$login]["war"]); 
-	if ($war[15]) {
-		$k=explode(":",$war[15]);
-		if($k[0] && $num!="count") {
-			if (!$list) $list=array();
-			$keys=array_keys($list);
-			if (!isset($list[$k[0]]) && count($list)>20 && intval($list[$keys[count($keys)-1]])>=$num) msg("Извините, ваша награда меньше, чем минимальная в списке, назначьте больше.");
-			additem($loc,$login,"","i.money",$num,"items","items",1,0,1);
-			if(count($list)>20) array_splice($list,20); 
-			if(strpos($list[$k[0]],"получил")!==false) $list[$k[0]]=0;
-			$list[$k[0]]+=$num; $file = fopen ("data/wanted.dat", "w");if($file!==false) {fputs($file,serialize($list));fclose($file);} $title="Награда за ".substr($k[0],2)." назначена";
-			$k[0]=""; $war[15]=implode(":",$k);$loc_i[$loc][$login]["war"]=implode("|",$war);
-			}
-		};#Хочу посмотреть список#stat#Мне пора#end',
+    'killedto'  => 'eval: nOfficer_killedTo($title);#Кто там еще остался?#stat#Спасибо, до свидания#end',
+    'killedby'  => 'eval: nOfficer_killedBy($title, $speak);',
+    'killedby2' => 'eval: nOfficer_killedBy2($title);#Хочу посмотреть список#stat#Мне пора#end',
     'hum'       => 'Ах тебе скучно, да? Ну тогда послушай парочку законов Мерфи, сразу поймешь что все не так плохо как кажется! Потому что все намного хуже...#Давай, рассказывай!#merfy#А кто еще в городе любит травить байки?#more#Нет уж, спасибо#begin',
     'more'      => 'Ходят слухи, что Гарри в таверне любит цитировать некоего Фоменко, да и про футбол с удовольствием расскажет. А вот если предпочитаешь армейский юмор, то лучше Маркуса из казарм на юго-западе города никого не найдешь, это уж точно!#Ясно#hum',
-    'merfy'     => 'eval: $tf=file("speak/h.merfy"); $title=$tf[rand(0,count($tf)-1)];#Давай еще!#merfy#Не смешно, но все же продолжай#merfy#Да ну, надоело...#begin',
+    'merfy'     => 'eval: nOfficer_merfy($title);#Давай еще!#merfy#Не смешно, но все же продолжай#merfy#Да ну, надоело...#begin',
 ];

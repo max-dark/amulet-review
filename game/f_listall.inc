@@ -32,7 +32,7 @@ if (count($loc_i[$loc]) > 1) {
         if ($keys[$i] != $login) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=" . $keys[$i] . "&use=$use";
             if ($glava == 1) {
-                $stmp .= "&glava=1";
+                $stmp .= "&glava=1"; // используется в plugin/i.guildstone.inc
             }
             $stmp .= "\">";
             if (substr($keys[$i], 0, 2) == "i.") {
@@ -109,20 +109,7 @@ if ($loc_i[$loc][$login]["items"] != "") {
     for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
         if ($items[$keys[$i]]) {
             $k = explode(":", $items[$keys[$i]]);
-            if (strpos($k[0], "_") !== false) {
-                $tk = substr($k[0], 0, strpos($k[0], "_"));
-            } else {
-                $tk = $k[0];
-            }
-            if (substr($k[0], 0, 5) == "i.rr.") {
-                $item = explode("|", "руна|50");
-            } else {
-                if (file_exists("items/" . $tk)) {
-                    $item = explode("|", (file_get_contents("items/" . $tk)));
-                } else {
-                    die("err: no items/" . $k[0]);
-                }
-            }
+            $item = findItemByFullId($k[0]);
             $item = $item[0];
             if (strpos($k[0], "..") !== false) {
                 $item .= " *";

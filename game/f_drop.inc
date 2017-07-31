@@ -38,23 +38,11 @@ if ($drop) {            //linkБросить
     $tcount = intval(preg_replace('/.*' . $drop . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"]));
     if ($tcount > 0) {
         // бросаем предмет в локацию
-        $tdrop = $drop;
-        if (strpos($drop, "_") !== false) {
-            $drop = substr($drop, 0, strpos($drop, "_"));
-        }
-        if (substr($drop, 0, 5) == "i.rr.") {
-            $title = explode("|", "руна|50");
-        } else {
-            if (file_exists("items/" . $drop)) {
-                $title = explode("|", (file_get_contents("items/" . $drop)));
-            } else {
-                die("err: no items/" . $drop);
-            }
-        }
+        $title = findItemByFullId($drop); // FIXME: dead code?
         // проверим кол-во
         if ($tcount > 1 && ! $num) {        // запросим кол-во
             $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
-                    $tcount . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&drop=$tdrop&num=$(num)\">Отправить</a>";
+                    $tcount . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&drop=$drop&num=$(num)\">Отправить</a>";
             msg($stmp, "Бросить", 1, "", "num", $tcount);
         }
         if ( ! $num || $num < 1) {
@@ -63,7 +51,7 @@ if ($drop) {            //linkБросить
         if ($num > $tcount) {
             $num = $tcount;
         }    // и максимум берем все что есть
-        additem($loc, $login, "loc", $tdrop, $num, "items", "items", 1, -1, 1);
+        additem($loc, $login, "loc", $drop, $num, "items", "items", 1, -1, 1);
     }
 }
 
