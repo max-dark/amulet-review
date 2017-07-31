@@ -1,4 +1,56 @@
 <?php
+
+function nwMihail_sell($points, $hours)
+{
+    global $loc_i;
+
+    $loc = getCurrentLocId();
+    $login = getCurrentUserId();
+
+    $fullId = "n.he.feja." . $login;
+
+    if (isset($loc_i[$loc][$fullId])) {
+        $title = "Извини, <name>, у тебя уже есть  фея";
+    } else {
+        $tmp = explode("|", getCurrentUser("skills"));
+        if ($tmp[4] < $points) {
+            $title = "У тебя не достаточно очков опыта, приходи когда станешь опытнее. ";
+        }
+        else {
+            $tmp[4] = $tmp[4] - $points;
+            setCurrentUser("skills", implode("|", $tmp));
+            calcparam($loc, $login);
+            $npc = loadNpcById("n.he.feja");
+            $npc["owner"] = implode('|', [
+                $login,
+                $login,
+                $login,
+                time() + 60 * 60 * $hours,
+                1
+            ]);
+            $loc_i[$loc][$fullId] = $npc;
+            addnpc($fullId, "", $loc);
+            $title = " <p>очки опыта -$points</p> Теперь  фея будет пополнять твое здоровье каждые 20 секунд если ты конечно в этом нуждаешься. Советую сказать ей что бы она тебя не защищала, что бы ее саму не разтерзали монстры";
+        }
+    }
+    return $title;
+}
+
+function nwMihail_get1(&$title)
+{
+    $title = nwMihail_sell(1, 2);
+}
+
+function nwMihail_get2(&$title)
+{
+    $title = nwMihail_sell(2, 5);
+}
+
+function nwMihail_get3(&$title)
+{
+    $title = nwMihail_sell(3, 9);
+}
+
 return [
     'begin' => 'Остановись <name>, Туда нельзя тебе идти.#Как нельзя?! Там ведь живут темные гномы, я как раз собрался убить парочку из них.#as#Да кто ты такой что бы не пускать меня туда?#who#Я слышал что у тебя можно нанять фею?#fea#Ну, нельзя так нельзь.#end',
     'as'    => 'Я заключил ультиматум с темными гномами, они теперь не будут нападать на мирный город, а если ты зайдешь на их территорию, все договоренности сразу же прекратятся.#Ну и ладно я их не боюсь, отойди в сторону, я хочу пройти.#who#А зачем нужен этот ультиматум?#as1#А зачем тебе это надо, спасать гномов?#za',
@@ -10,7 +62,7 @@ return [
     'fea'   => 'Да у меня можно нанять фею#Сколько это будет мне стоить?#sk#А что она может?#cht',
     'sk'    => 'Мне не нужны деньги, но я бы не отказался от твоих очков опыта.На какое время ты хочешь нанять фею?#На 2 часа за одно очко опыта#get1#На 5 часов за два очка опыта #get2#На 9 часов за три очка опыта #get3#Понял, как нибудь в следующий раз.#end',
     'cht'   => 'Фея нежное и хрупкое существо, но она способно лечить, ну б бою она конечно не ахти, поэтому скажи ей сразу что бы она тебя не защищала, а то ты быстро с ней растанешься.#Я возьму фею#sk# В другой раз#end',
-    'get1'  => 'eval: if (isset($loc_i[$loc]["n.he.feja.".$login])) $title="Извини, <name>, у тебя уже есть  фея"; else { $tmp=explode("|", $loc_i[$loc][$login]["skills"]); if ($tmp[4]<1) msg("У тебя не достаточно очков опыта, приходи когда станешь опытнее. "); $tmp[4]=$tmp[4]-1; $loc_i[$loc][$login]["skills"]=implode("|",$tmp); calcparam($loc,$login); $npc = loadNpcById("n.he.feja"); $tc=explode("|",$npc["char"]);  $npc["char"]=implode("|",$tc); $npc["owner"]=$login."|".$login."|".$login."|".(time()+60*60*2)."|1"; $loc_i[$loc]["n.he.feja.".$login]=$npc; addnpc("n.he.feja.".$login,"",$loc); $title=$tn." <p>очки опыта -1</p> Теперь  фея будет пополнять твое здоровье каждые 20 секунд если ты конечно в этом нуждаешься. Советую сказать ей что бы она тебя не защищала, что бы ее саму не разтерзали монстры";}#Хорошо, пока#end',
-    'get2'  => 'eval: if (isset($loc_i[$loc]["n.he.feja.".$login])) $title="Извини, <name>, у тебя уже есть  фея"; else { $tmp=explode("|", $loc_i[$loc][$login]["skills"]); if ($tmp[4]<2) msg("У тебя не достаточно очков опыта, приходи когда станешь опытнее. "); $tmp[4]=$tmp[4]-2; $loc_i[$loc][$login]["skills"]=implode("|",$tmp); calcparam($loc,$login); $npc = loadNpcById("n.he.feja"); $tc=explode("|",$npc["char"]);  $npc["char"]=implode("|",$tc); $npc["owner"]=$login."|".$login."|".$login."|".(time()+60*60*5)."|1"; $loc_i[$loc]["n.he.feja.".$login]=$npc; addnpc("n.he.feja.".$login,"",$loc); $title=$tn." <p>очки опыта -2</p> Теперь  фея будет пополнять твое здоровье каждые 20 секунд если ты конечно в этом нуждаешься. Советую сказать ей что бы она тебя не защищала, что бы ее саму не разтерзали монстры";}#Хорошо, пока#end',
-    'get3'  => 'eval: if (isset($loc_i[$loc]["n.he.feja.".$login])) $title="Извини, <name>, у тебя уже есть  фея"; else { $tmp=explode("|", $loc_i[$loc][$login]["skills"]); if ($tmp[4]<3) msg("У тебя не достаточно очков опыта, приходи когда станешь опытнее. "); $tmp[4]=$tmp[4]-3; $loc_i[$loc][$login]["skills"]=implode("|",$tmp); calcparam($loc,$login); $npc = loadNpcById("n.he.feja"); $tc=explode("|",$npc["char"]);  $npc["char"]=implode("|",$tc); $npc["owner"]=$login."|".$login."|".$login."|".(time()+60*60*9)."|1"; $loc_i[$loc]["n.he.feja.".$login]=$npc; addnpc("n.he.feja.".$login,"",$loc); $title=$tn." <p>очки опыта -3</p> Теперь  фея будет пополнять твое здоровье каждые 20 секунд если ты конечно в этом нуждаешься. Советую сказать ей что бы она тебя не защищала, что бы ее саму не разтерзали монстры";}#Хорошо, пока#end',
+    'get1'  => 'eval: nwMihail_get1($title);#Хорошо, пока#end',
+    'get2'  => 'eval: nwMihail_get2($title);#Хорошо, пока#end',
+    'get3'  => 'eval: nwMihail_get3($title);#Хорошо, пока#end',
 ];
