@@ -1,4 +1,105 @@
 <?php
+
+function nMarkus_mercenary($hours, $price)
+{
+    global $loc_i;
+
+    $loc = getCurrentLocId();
+    $login = getCurrentUserId();
+
+    if (isset($loc_i[$loc]["n.kastle1." . $login])) {
+        $title = "Извини, <name>, у тебя уже есть наемник воин";
+    } else {
+        additem($loc, $login, "", "i.money", $price, "items", "items", 1, 0, 1);
+        $npc = loadNpcById("n.kastle1");
+        $tc = explode("|", $npc["char"]);
+        $tn = rndname();
+        $tc[0] = $tn . " [наемник]";
+        $npc["char"] = implode("|", $tc);
+        $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * $hours) . "|1";
+        $loc_i[$loc]["n.kastle1." . $login] = $npc;
+        addnpc("n.kastle1." . $login, "", $loc);
+        $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
+    }
+
+    return $title;
+}
+
+function nMarkus_get1(&$title)
+{
+    $title = nMarkus_mercenary(3, 90);
+}
+
+function nMarkus_get2(&$title)
+{
+    $title = nMarkus_mercenary(6, 160);
+}
+
+function nMarkus_get3(&$title)
+{
+    $title = nMarkus_mercenary(9, 210);
+}
+
+function nMarkus_get4(&$title, $speak)
+{
+    global $loc_i;
+
+    $loc = getCurrentLocId();
+    $login = getCurrentUserId();
+
+    if (time() > $loc_i[$loc][$speak]["qv"]) {
+        $loc_i[$loc][$speak]["qv"] = time() + rand(1800, 2400);
+        if (isset($loc_i[$loc]["n.kastle4." . $login])) {
+            $title = "Извини, <name>, у тебя уже есть наемник маг";
+        } else {
+            additem($loc, $login, "", "i.money", 300, "items", "items", 1, 0, 1);
+            $npc = loadNpcById("n.kastle4");
+            $tc = explode("|", $npc["char"]);
+            $tn = rndname();
+            $tc[0] = $tn . " [маг-наемник]";
+            $npc["char"] = implode("|", $tc);
+            $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * 3) . "|1";
+            $loc_i[$loc]["n.kastle4." . $login] = $npc;
+            addnpc("n.kastle4." . $login, "", $loc);
+            $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
+        }
+    } else {
+        $title = "Маги, ау, кажется все уже заняты, приходи  через " . round(($loc_i[$loc][$speak]["qv"] - time()) / 60 + 1) . " минут, один из них к этому времени обещал подойти.";
+    }
+}
+
+function nMarkus_army(&$title)
+{
+    $tf = file("speak/h.army");
+    $title = $tf[rand(0, count($tf) - 1)];
+}
+
+function nMarkus_speedI(&$title, &$tf)
+{
+    $tf = explode("|", getCurrentUser("user"));
+    if ($tf[3] < 18) {
+        $title = "Извини, но подобные вещи тебе лучше не слышать, пока не исполнится 18. Я же не извращенец травмировать детскую/юношескую душу...";
+    } else {
+        $title = "Так-с, тебе больше 18? Ладно, могу рассказать что народ писал в одну популярную газету под названием SpeedInfo. Но предупрежаю, впечатлительным лучше заткнуть свои ухи [улыбается].";
+    }
+}
+
+function nMarkus_speedI_speed(&$title, &$id, &$tf)
+{
+    if ($tf[3] < 18) {
+        $title = "Может быть, я еще вернусь...";
+        $id = "begin";
+    } else {
+        $title = "Буду закалять характер, рассказывай!";
+    }
+}
+
+function nMarkus_speed(&$title)
+{
+    $tf = file("speak/h.speedinfo");
+    $title = $tf[rand(0, count($tf) - 1)];
+}
+
 return [
     'begin'   => 'Как дела, старина <name>? Я Маркус, тренирую здешних ребят, что сейчас дрыхнут в казарме. Не желаешь размяться?#С удовольствием, старина Маркус!#tren#Я хочу нанять телохранителя#get#Маркус, расскажи армейскую байку!#hum#Вы ошиблись, я просто шел мимо#end',
     'tren'    => 'Вот это дело! Закатывай рукава. Я, конечно, не такой мастер, как Кантарес из двора рыцарей, но в кулачном бою мне нет равных. Да и считай учу задаром#Научи меня приемам боя#priem#Вначале помоги мне стать сильнее#str#Можешь научить рукопашной схватке?#hand#А как насчет меча?#cold#В другой раз#end',
@@ -10,10 +111,10 @@ return [
     'coldnow' => 'skill|coldweapon|80|0|2',
     'get'     => 'Нет проблем, на сколько ты хочешь нанять наемника?#На 3 часа за 90 монет#get1#На 6 часов за 160 монет#get2#На 9 часов за 210 монет#get3#Мага-наемника на 3 часа за 300 монет#get4#Где еще можно нанять охрану?#more#Я передумал#begin',
     'more'    => 'Я думаю, в замке барона Дитриха тоже можно нанять бойцов, причем наверняка лучше экипированных, ведь жалованье у них на порядок больше, чем у нас.#Ясно#get',
-    'get1'    => 'eval: if (isset($loc_i[$loc]["n.kastle1.".$login])) $title="Извини, <name>, у тебя уже есть наемник воин"; else {additem($loc,$login,"","i.money",90,"items","items",1,0,1); $npc = loadNpcById("n.kastle1"); $tc=explode("|",$npc["char"]); $tn=rndname(); $tc[0]=$tn." [наемник]"; $npc["char"]=implode("|",$tc); $npc["owner"]=$login."|".$login."|".$login."|".(time()+60*60*3)."|1"; $loc_i[$loc]["n.kastle1.".$login]=$npc; addnpc("n.kastle1.".$login,"",$loc); $title=$tn." теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";}#Хорошо, пока#end',
-    'get2'    => 'eval: if (isset($loc_i[$loc]["n.kastle1.".$login])) $title="Извини, <name>, у тебя уже есть наемник воин"; else {additem($loc,$login,"","i.money",160,"items","items",1,0,1); $npc = loadNpcById("n.kastle1"); $tc=explode("|",$npc["char"]); $tn=rndname(); $tc[0]=$tn." [наемник]"; $npc["char"]=implode("|",$tc); $npc["owner"]=$login."|".$login."|".$login."|".(time()+60*60*3*2)."|1"; $loc_i[$loc]["n.kastle1.".$login]=$npc; addnpc("n.kastle1.".$login,"",$loc); $title=$tn." теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";}#Хорошо, пока#end',
-    'get3'    => 'eval: if (isset($loc_i[$loc]["n.kastle1.".$login])) $title="Извини, <name>, у тебя уже есть наемник воин"; else {additem($loc,$login,"","i.money",210,"items","items",1,0,1); $npc = loadNpcById("n.kastle1"); $tc=explode("|",$npc["char"]); $tn=rndname(); $tc[0]=$tn." [наемник]"; $npc["char"]=implode("|",$tc); $npc["owner"]=$login."|".$login."|".$login."|".(time()+60*60*3*3)."|1"; $loc_i[$loc]["n.kastle1.".$login]=$npc; addnpc("n.kastle1.".$login,"",$loc); $title=$tn." теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";}#Хорошо, пока#end',
-    'get4'    => 'eval: if(time()>$loc_i[$loc][$speak]["qv"]) {$loc_i[$loc][$speak]["qv"]=time()+rand(1800,2400); if (isset($loc_i[$loc]["n.kastle4.".$login])) $title="Извини, <name>, у тебя уже есть наемник маг"; else {additem($loc,$login,"","i.money",300,"items","items",1,0,1); $npc = loadNpcById("n.kastle4"); $tc=explode("|",$npc["char"]); $tn=rndname(); $tc[0]=$tn." [маг-наемник]"; $npc["char"]=implode("|",$tc); $npc["owner"]=$login."|".$login."|".$login."|".(time()+60*60*3)."|1"; $loc_i[$loc]["n.kastle4.".$login]=$npc; addnpc("n.kastle4.".$login,"",$loc); $title=$tn." теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";} } else $title="Маги, ау, кажется все уже заняты, приходи  через ".round(($loc_i[$loc][$speak]["qv"]-time())/60+1)." минут, один из них к этому времени обещал подойти.";#Хорошо, пока#end',
+    'get1'    => 'eval: nMarkus_get1($title)#Хорошо, пока#end',
+    'get2'    => 'eval: nMarkus_get2($title)#Хорошо, пока#end',
+    'get3'    => 'eval: nMarkus_get3($title)#Хорошо, пока#end',
+    'get4'    => 'eval: nMarkus_get4($title, $speak);#Хорошо, пока#end',
     'priem'   => 'Вот, это разговор. Я покажу тебе пару трюков, которые даже Кантарес не знает! Хотя классику боевых приемов, конечно, надо изучать во дворе рыцарей.#Каким приемам ты можешь научить меня?#pwar#Я передумал#begin',
 
     'pwar'   => 'Смотри сам, этому больше нигде не учат. Сразу же могу показать и защитные блоки.#Меткий удар#pm#Удар в голову#pg#Защита головы#pdg#Удар по рукам#pr#Защита рук#pdr#Уклон от стрел#pdu#Я передумал#priem',
@@ -36,9 +137,9 @@ return [
                 $sid . '&look=p.d.u">Подробней...</a>#Я согласен#pdunow#Я передумал#pwar',
     'pdunow' => 'skill|p.d.u|800',
     'end'    => '[дружески хлопает вас спине] Заходи в любое время, <name>!',
-    'hum'    => 'Ха! Да сколько угодно...#Давай, рассказывай!#army#А чего-нибудь попикантней?#speedi#А кто еще в городе любит травить байки?#more#Нет уж, спасибо#begin',
-    'more'   => 'Для начала поговори с Гарри в таверне, это известый весельчак, а также любитель футбола. А вот офицер Санчес, что дежурит в банке, в свободное от погони за преступниками время коллекционирует законы Мерфи. Убойная штука, скажу я тебе! #Круто#hum',
-    'army'   => 'eval: $tf=file("speak/h.army"); $title=$tf[rand(0,count($tf)-1)];#Давай еще!#army#Не смешно, но все же продолжай#army#Да ну, надоело...#hum',
-    'speedi' => 'eval: $tf=explode("|",$loc_i[$loc][$login]["user"]); if($tf[3]<18) $title="Извини, но подобные вещи тебе лучше не слышать, пока не исполнится 18. Я же не извращенец травмировать детскую/юношескую душу..."; else $title="Так-с, тебе больше 18? Ладно, могу рассказать что народ писал в одну популярную газету под названием SpeedInfo. Но предупрежаю, впечатлительным лучше заткнуть свои ухи [улыбается].";#eval: if($tf[3]<18) {$title="Может быть, я еще вернусь...";$id="begin";} else $title="Буду закалять характер, рассказывай!";#speed#Я передумал#begin',
-    'speed'  => 'eval: $tf=file("speak/h.speedinfo"); $title=$tf[rand(0,count($tf)-1)];#Давай еще!#speed#Не смешно, но все же продолжай#speed#Да ну, надоело...#hum',
+    'hum'    => 'Ха! Да сколько угодно...#Давай, рассказывай!#army#А чего-нибудь попикантней?#speedi#А кто еще в городе любит травить байки?#more1#Нет уж, спасибо#begin',
+    'more1'   => 'Для начала поговори с Гарри в таверне, это известый весельчак, а также любитель футбола. А вот офицер Санчес, что дежурит в банке, в свободное от погони за преступниками время коллекционирует законы Мерфи. Убойная штука, скажу я тебе! #Круто#hum',
+    'army'   => 'eval: nMarkus_army($title);#Давай еще!#army#Не смешно, но все же продолжай#army#Да ну, надоело...#hum',
+    'speedi' => 'eval: nMarkus_speedI($title, $tf);#eval: nMarkus_speedI_speed($title, $id, $tf);#speed#Я передумал#begin',
+    'speed'  => 'eval: nMarkus_speed($title);#Давай еще!#speed#Не смешно, но все же продолжай#speed#Да ну, надоело...#hum',
 ];
