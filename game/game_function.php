@@ -1496,78 +1496,18 @@ function doai($i)
             if (time() > $j) {
                 // респ НПС
                 if (is_array($loc_t[$i][$j]) || substr($loc_t[$i][$j], 0, 2) == "n.") {
-                    //  загружаем в $npc из папки npc	id|resp_min:resp_max|move_num:time_min:time_max
-                    if (is_array($loc_t[$i][$j])) {
-                        $npc = $loc_t[$i][$j];
-                        $tid = $npc["id"];
-                        unset($npc["id"]);
-                    } else {
-                        $ta  = explode("|", $loc_t[$i][$j]);
-                        $tid = $ta[0];
-                        if (in_array(substr($tid, 0, 4), ["n.c.", "n.a."])) {
-                            $tid = substr($tid, 0, strrpos($tid, "."));
-                        }
-                        if ( ! npcExists($tid)) {
-                            unset($loc_t[$i][$j]);
-
-                            continue;//("err: no npc/".$tid);
-                        }
-                        $npc        = loadNpcById($tid);
-                        $tid        = $ta[0];
-                        $twar       = explode("|", $npc["war"]);
-                        $twar[15]   = $i . ":" . $ta[1];
-                        $npc["war"] = implode("|", $twar);
-                        /// FIXME: PHP Notice:  Undefined offset: 2
-                        if (!empty($ta[2])) {
-                            $tchar       = explode("|", $npc["char"]);
-                            $tchar[10]   = $ta[2];
-                            $npc["char"] = implode("|", $tchar);
-                        }
-                    }
-
-                    // случ. предметы
-                    if (isset($npc["itemsrnd"])) {
-                        // itemsrnd = item_type:chance:min_count:max_count
-                        $irnd = explode("|", $npc["itemsrnd"]);
-                        foreach (array_keys($irnd) as $k) {
-                            if ($irnd[$k]) {
-                                $trnd  = explode(":", $irnd[$k]);
-                                $trndc = round(rand($trnd[2], $trnd[3]));
-                                if (rand(0, 100) <= $trnd[1] && $trndc > 0) {
-                                    if (empty($npc["items"])) {
-                                        $npc["items"] = $trnd[0] . ":" . $trndc;
-                                    } else {
-                                        $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;
-                                    }
-                                }
-                            }
-                        }
-                        unset($npc["itemsrnd"]);
-                    }
-
-                    // респавн текущий
-                    $loc_i[$i][$tid] = $npc;
-                    unset($loc_t[$i][$j]);
+                    timerForNPC($loc_t, $loc_i, $i, $j);
                     continue;
                 }
                 // респ предметов
                 if (substr($loc_t[$i][$j], 0, 2) == "i.") {
-                    $tmp  = explode("|", $loc_t[$i][$j]);
-                    $item = findItemByBaseId($tmp[0]);
-                    $tc   = rand($tmp[1], $tmp[2]);
-                    if ($tc > 0) {
-                        $loc_i[$i][$tmp[0]] = $item[0] . "|" . $tc . "|0";
-                    } else {
-                        unset($loc_i[$i][$tmp[0]]);
-                    }
-                    addtimer($i, $j, rand($tmp[3], $tmp[4]), $loc_t[$i][$j], 1);
+                    timerForItem($loc_t, $loc_i, $i, $j);
                     continue;
                 }
                 // скриптовые таймеры - использования не найдено
-                // FIXME: избавтся от eval
-                $loct = $i;
-                $curr = $j;
-                eval($loc_t[$i][$j]);
+                // $loct = $i;
+                // $curr = $j;
+                // eval($loc_t[$i][$j]);
             }
         }
     }
@@ -1654,6 +1594,88 @@ function doai($i)
             }
         }
     }
+}
+
+/**
+ * @param array $loc_t
+ * @param array $loc_i
+ * @param string $i
+ * @param int|string $j
+ */
+function timerForItem(&$loc_t, &$loc_i, $i, $j)
+{
+    $timer = explode("|", $loc_t[$i][$j]);
+    $item = findItemByBaseId($timer[0]);
+    $count = rand($timer[1], $timer[2]);
+    if ($count > 0) {
+        $loc_i[$i][$timer[0]] = $item[0] . "|" . $count . "|0";
+    } else {
+        unset($loc_i[$i][$timer[0]]);
+    }
+    addtimer($i, $j, rand($timer[3], $timer[4]), $loc_t[$i][$j], 1);
+}
+
+/**
+ * @param array $loc_t
+ * @param array $loc_i
+ * @param string $i
+ * @param int|string $j
+ */
+function timerForNPC(&$loc_t, &$loc_i, $i, $j)
+{
+//  загружаем в $npc из папки npc	id|resp_min:resp_max|move_num:time_min:time_max
+    if (is_array($loc_t[$i][$j])) {
+        $npc = $loc_t[$i][$j];
+        $tid = $npc["id"];
+        unset($npc["id"]);
+    } else {
+        $ta = explode("|", $loc_t[$i][$j]);
+        $tid = $ta[0];
+        if (in_array(substr($tid, 0, 4), ["n.c.", "n.a."])) {
+            $tid = substr($tid, 0, strrpos($tid, "."));
+        }
+        if (!npcExists($tid)) {
+            unset($loc_t[$i][$j]);
+
+            goto nextTimer;//("err: no npc/".$tid);
+        }
+        $npc = loadNpcById($tid);
+        $tid = $ta[0];
+        $twar = explode("|", $npc["war"]);
+        $twar[15] = $i . ":" . $ta[1];
+        $npc["war"] = implode("|", $twar);
+        /// FIXME: PHP Notice:  Undefined offset: 2
+        if (!empty($ta[2])) {
+            $tchar = explode("|", $npc["char"]);
+            $tchar[10] = $ta[2];
+            $npc["char"] = implode("|", $tchar);
+        }
+    }
+
+    // случ. предметы
+    if (isset($npc["itemsrnd"])) {
+        // itemsrnd = item_type:chance:min_count:max_count
+        $irnd = explode("|", $npc["itemsrnd"]);
+        foreach (array_keys($irnd) as $k) {
+            if ($irnd[$k]) {
+                $trnd = explode(":", $irnd[$k]);
+                $trndc = round(rand($trnd[2], $trnd[3]));
+                if (rand(0, 100) <= $trnd[1] && $trndc > 0) {
+                    if (empty($npc["items"])) {
+                        $npc["items"] = $trnd[0] . ":" . $trndc;
+                    } else {
+                        $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;
+                    }
+                }
+            }
+        }
+        unset($npc["itemsrnd"]);
+    }
+
+    // респавн текущий
+    $loc_i[$i][$tid] = $npc;
+    unset($loc_t[$i][$j]);
+    nextTimer:;
 }
 
 /**
