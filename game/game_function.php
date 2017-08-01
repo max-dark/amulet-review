@@ -1477,53 +1477,26 @@ function addjournal($locId, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
 }
 
 /**
- * "ИИ". Обновление состояния в локации.
- *
- * "искусственный интеллект", проверяем локацию с именем $i
- *
- * @param string $i локация
+ * @param $loc_i
+ * @param $locId
+ * @param $locType
+ * @return array
  */
-function doai($i)
+function makeLists(&$loc_i, $locId, $locType)
 {
-    global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_logout, $login;
-    $g_regen = 30;
-
-    $locai = explode("|", $loc_tt[$i]["d"]);
-
-    // таймеры
-    if (isset($loc_t[$i])) {
-        foreach ($loc_t[$i] as $j => $val) {
-            if (time() > $j) {
-                // респ НПС
-                if (is_array($loc_t[$i][$j]) || substr($loc_t[$i][$j], 0, 2) == "n.") {
-                    timerForNPC($loc_t, $loc_i, $i, $j);
-                    continue;
-                }
-                // респ предметов
-                if (substr($loc_t[$i][$j], 0, 2) == "i.") {
-                    timerForItem($loc_t, $loc_i, $i, $j);
-                    continue;
-                }
-                // скриптовые таймеры - использования не найдено
-                // $loct = $i;
-                // $curr = $j;
-                // eval($loc_t[$i][$j]);
-            }
-        }
-    }
-    $crim  = [];
+    $crim = [];
     $users = [];
     $guard = 0;
-    $ti    = explode("x", $i != '_begin' ? $i : 'x1158x523');
+    $ti = explode("x", $locId != '_begin' ? $locId : 'x1158x523');
     // получить список кримов и наличие гварда на локе
-    if ($loc_i[$i]) {
-        foreach ($loc_i[$i] as $j => $val) {
+    if ($loc_i[$locId]) {
+        foreach ($loc_i[$locId] as $j => $val) {
             if ($j != "u.qv") {
                 if (substr($j, 0, 2) == 'u.') {
-                    $uc = explode("|", $loc_i[$i][$j]["char"]);
+                    $uc = getCharData($loc_i, $locId, $j);
                     // пропускаем призраков
-                    if ( ! $uc[8]) {
-                        $us = explode("|", $loc_i[$i][$j]["skills"]);
+                    if (!$uc[8]) {
+                        $us = explode("|", $loc_i[$locId][$j]["skills"]);
                         // попытка спрятаться
                         if (rand(0, 100) > $us[17] * 6) {
                             $users[] = $j;
@@ -1534,8 +1507,8 @@ function doai($i)
                          * пират на земле тамплиеров($locai[1] == 2 && $uc[14] == "p")
                          * тамплиер на земле пиратов($locai[1] == 3 && $uc[14] == "t")
                          */
-                        if ($locai[1] != 3 && $uc[9] ||
-                            $ti[2] >= 1099 && ($locai[1] == 2 && $uc[14] == "p" || $locai[1] == 3 && $uc[14] == "t")
+                        if ($locType != 3 && $uc[9] ||
+                            $ti[2] >= 1099 && ($locType == 2 && $uc[14] == "p" || $locType == 3 && $uc[14] == "t")
                         ) {
                             $crim[] = $j;
                         }
@@ -1550,46 +1523,93 @@ function doai($i)
             }
         }
     }
+    return array($crim, $users, $guard);
+}
+
+/**
+ * @param array $loc_i
+ * @param string $locId
+ */
+function addGuard(&$loc_i, $locId)
+{
+    srand((float)microtime() * 10000000);
+    $id = "n.g." . rand(5, 9999);
+    $title = rndname() . " [стража]";
+    $loc_i[$locId][$id] = [
+        "char" => $title . "|1000|1000|100|100|" . time() . "1||||||" . (time() + 600),
+        "war" => "100|100|100|2|0|10|20|0|0|10|30|40|алебардой|0||",
+        "items" => "i.w.t.alebarda:1",
+        "equip" => "i.w.t.alebarda"
+    ];
+    addjournal($locId, "all", "Появился " . $title);
+}
+
+/**
+ * "ИИ". Обновление состояния в локации.
+ *
+ * "искусственный интеллект", проверяем локацию с именем $i
+ *
+ * @param string $locId локация
+ */
+function doai($locId)
+{
+    global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_logout, $login;
+    $g_regen = 30;
+
+    $locInfo = explode("|", $loc_tt[$locId]["d"]);
+
+    // таймеры
+    if (isset($loc_t[$locId])) {
+        foreach ($loc_t[$locId] as $id => $val) {
+            if (time() > $id) {
+                // респ НПС
+                if (is_array($loc_t[$locId][$id]) || substr($loc_t[$locId][$id], 0, 2) == "n.") {
+                    timerForNPC($loc_t, $loc_i, $locId, $id);
+                    continue;
+                }
+                // респ предметов
+                if (substr($loc_t[$locId][$id], 0, 2) == "i.") {
+                    timerForItem($loc_t, $loc_i, $locId, $id);
+                    continue;
+                }
+                // скриптовые таймеры - использования не найдено
+                // $loct = $i;
+                // $curr = $j;
+                // eval($loc_t[$i][$j]);
+            }
+        }
+    }
+    list($crim, $users, $guard) = makeLists($loc_i, $locId, $locInfo[1]);
 
     // добавляем гварда если нужно
     // на безопасной територии гварды охотятся за преступниками
-    if ($locai[1] == 1 && count($crim) > 0 && ! $guard) {
-        srand((float)microtime() * 10000000);
-        for ($k = 0; $k < 1; $k++) {
-            $id             = "n.g." . rand(5, 9999);
-            $title          = rndname() . " [стража]";
-            $loc_i[$i][$id] = [
-                "char"  => $title . "|1000|1000|100|100|" . time() . "1||||||" . (time() + 600),
-                "war"   => "100|100|100|2|0|10|20|0|0|10|30|40|алебардой|0||",
-                "items" => "i.w.t.alebarda:1",
-                "equip" => "i.w.t.alebarda"
-            ];
-            addjournal($i, "all", "Появился " . $title);
-        }
+    if ($locInfo[1] == 1 && count($crim) > 0 && ! $guard) {
+        addGuard($loc_i, $locId);
     }
 
     // по всем объектам
-    if ($loc_i[$i]) {
-        foreach ($loc_i[$i] as $j => $val) {
+    if ($loc_i[$locId]) {
+        foreach ($loc_i[$locId] as $id => $val) {
             // FIXME: странное условие - как может быть не установлено значение, если индекс установлен?
-            if (!isset($loc_i[$i][$j])) {
+            if (!isset($loc_i[$locId][$id])) {
                 continue;
             }
-            switch (substr($j, 0, 2)) {
+            switch (substr($id, 0, 2)) {
                 case 'i.':
                     // удаление "протухших" предметов
-                    stepForItem($loc_i, $i, $j, $game);
+                    stepForItem($loc_i, $locId, $id, $game);
                     break;
                 case 'u.':
-                    stepForUser($loc_i, $i, $j, $login, $g_regen, $g_logout);
+                    stepForUser($loc_i, $locId, $id, $login, $g_regen, $g_logout);
                     break;
                 case 'n.':
-                    stepForNPC($loc_tt, $loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $users, $lcen);
+                    stepForNPC($loc_tt, $loc_i, $locInfo, $locId, $id, $g_regen, $loc, $crim, $users, $enemyList);
                     break;
                 default:
                     // какой то мусор на локе - удалить
                     // по идее сюда попадать не должно
-                    unset($loc_i[$i][$j]);
+                    // TODO: добавить логирование срабатывания
+                    unset($loc_i[$locId][$id]);
                     break;
             }
         }
