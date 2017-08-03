@@ -66,9 +66,6 @@ class WordFilter
      */
     public function getBadWord($s)
     {
-        $gw = $this->gw;
-        $bw = $this->bw;
-
         $s = strtr($s, $this->change2);
         $s = str_replace("&amp;", "я", $s);
         $s = str_replace("&apos;", "ь", $s);
@@ -108,26 +105,20 @@ class WordFilter
         // Преобразуем возможные замены в кириллицу
         $s = strtr($s, $this->eng2ru);
         // Удаление правильных слов
-        for ($i = 0; $i < count($gw); $i++) {
-            while (false !== ($pos = mb_strpos($s, $gw[$i]))) {
-                $s     = mb_substr($s, 0, $pos) . mb_substr($s, $pos + mb_strlen($gw[$i]));
-                $s_out = mb_substr($s_out, 0, $pos) . mb_substr($s_out, $pos + strlen($gw[$i]));
+        foreach ($this->gw as $gw) {
+            while (false !== ($pos = mb_strpos($s, $gw))) {
+                $s     = mb_substr($s, 0, $pos) . mb_substr($s, $pos + mb_strlen($gw));
+                $s_out = mb_substr($s_out, 0, $pos) . mb_substr($s_out, $pos + strlen($gw));
             }
         }
 
         $s     = " $s";
         $s_out = " $s_out";
 
-        for ($i = 0; $i < count($bw); $i++) {
-            $pos = mb_strpos($s, $bw[$i]);
-            if ($pos !== false) {
-                $pos = $pos - 5;
-                if ($pos < 0) {
-                    $pos = 0;
-                }
-                $s = mb_substr($s_out, $pos, mb_strlen($bw[$i]) + 10);
-
-                return $s;
+        foreach ($this->bw as $bw) {
+            if (false !== ($pos = mb_strpos($s, $bw))) {
+                $pos = max(0,$pos - 5);
+                return mb_substr($s_out, $pos, mb_strlen($bw) + 10);
             }
         }
 
