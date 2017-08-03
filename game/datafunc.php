@@ -7,9 +7,6 @@ use MaxDark\Amulet\database\DB;
 
 $NOT_SET = "NOT_SET";
 
-// Антимат-фильтр ( чтобы ники матерные не регистрировали)
-require("antimat.inc");
-
 function InitParam($N, $V)
 {
     global $Names, $Values;
