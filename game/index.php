@@ -27,7 +27,6 @@
 // class loader bootstrap
 require_once '../vendor/autoload.php';
 require_once('config.php'); // настройки игры
-require_once('datafunc.php'); // функции БД
 require_once('game_function.php'); // игровые функции
 
 $QUERY_STRING = get_value($_SERVER, 'QUERY_STRING');

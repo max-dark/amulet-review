@@ -14,7 +14,7 @@
  * @global skills
  */
 // проверка всех онлайн и удаление в оффлайн
-require_once("datafunc.php");
+use MaxDark\Amulet\OldCode\DBOperations;
 
 $count = 0;
 
@@ -75,7 +75,7 @@ while (($fname = readdir($dh)) !== false) {
             unset($auser["trade"]);
             $tp = explode("|", $auser["user"]);
             if ($auser["user"] && $auser["char"] && $auser["skills"] && $auser["war"]) {
-                $save_error = SetData(substr($fname, 2), $tp[0], serialize($auser));
+                $save_error = DBOperations::setData(substr($fname, 2), $tp[0], serialize($auser));
                 if ( ! $save_error) {
                     addnpc($fname, $tmp[0], "");
                 }

@@ -1,6 +1,7 @@
 <?php
 
 use MaxDark\Amulet\database\DB;
+use MaxDark\Amulet\OldCode\DBOperations;
 
 /**
  * @global login
@@ -43,7 +44,7 @@ if ($sex != 'm' && $sex != 'f') {
 }
 
 $now = time();
-openDB();
+DBOperations::openDB();
 $sqlLogin = 'INSERT INTO `users` (regtime,nick,pass,email) VALUES (?, ?, ?, ?)';
 DB::link()->prepare($sqlLogin)->execute([
         $now,
@@ -73,7 +74,7 @@ calcparam($loc, $login);
 $auser = $loc_i[$loc][$login];
 unset($loc_i[$loc][$login]);
 if ($auser["user"] && $auser["char"] && $auser["skills"] && $auser["war"]) {
-    $res = SetData($nn, $pass, serialize($auser));
+    $res = DBOperations::setData($nn, $pass, serialize($auser));
 } else {
     $res = "Неверный формат";
 }

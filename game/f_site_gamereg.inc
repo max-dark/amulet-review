@@ -1,12 +1,13 @@
 <?php
 
 use MaxDark\Amulet\database\DB;
+use MaxDark\Amulet\OldCode\DBOperations;
 
 $nn = Request('nn');
 if ( ! preg_match('|^[-0-9a-z_]+$|i', $nn)) {
     msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
 }
-openDB();
+DBOperations::openDB();
 $sql   = "SELECT * FROM `users` WHERE `nick` = :nickname";
 $query = DB::link()->prepare($sql);
 $query->execute([

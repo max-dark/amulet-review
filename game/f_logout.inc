@@ -12,6 +12,8 @@
  * @global g_list
  */
 
+use MaxDark\Amulet\OldCode\DBOperations;
+
 if ($login != $g_admin && $gm != $gm_id && $loc_i[$loc][$login]["srv"] > time() - 120) {
     $logout_msg = [
         'text'         => ("Вы только что вошли в игру, персонаж может покинуть этот сервер не раньше, чем через " .
@@ -68,7 +70,7 @@ if ($login != $g_admin && $gm != $gm_id && $loc_i[$loc][$login]["srv"] > time() 
         unset($auser["trade"]);
         $tp = explode("|", $auser["user"]);
         if ($auser["user"] && $auser["char"] && $auser["skills"] && $auser["war"]) {
-            $error_message = SetData(substr($login, 2), $tp[0], serialize($auser));
+            $error_message = DBOperations::setData(substr($login, 2), $tp[0], serialize($auser));
         } else {
             $error_message = "Неверный формат.";
         }
