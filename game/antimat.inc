@@ -1,5 +1,7 @@
 <?php
 
+use MaxDark\Amulet\OldCode\UTFTool;
+
 // Массив хороших слов - только кириллица
 $gw[] = "страху";
 $gw[] = "влюблять";
@@ -188,7 +190,7 @@ $change2 = [
  */
 function chars_of($str)
 {
-    return preg_split('/(?<!^)(?!$)/u', $str);
+    return UTFTool::chars_of($str);
 }
 
 /**
@@ -202,7 +204,7 @@ function chars_of($str)
  */
 function mb_strtr($str, $from, $to)
 {
-    return strtr($str, array_combine(chars_of($from), chars_of($to)));
+    return UTFTool::strtr($str, $from, $to);
 }
 
 $en2ru = [];
