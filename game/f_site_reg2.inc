@@ -44,14 +44,7 @@ if ($sex != 'm' && $sex != 'f') {
 }
 
 $now = time();
-DBOperations::openDB();
-$sqlLogin = 'INSERT INTO `users` (regtime,nick,pass,email) VALUES (?, ?, ?, ?)';
-DB::link()->prepare($sqlLogin)->execute([
-        $now,
-        $nn,
-        $pass,
-        $email
-    ]);
+DBOperations::insert($now, $nn, $pass, $email);
 $loc = "_begin"; // начальная локация
 
 // создаем игрока

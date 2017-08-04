@@ -173,4 +173,36 @@ class DBOperations
         return [$message, $data];
     }
 
+    /**
+     * @param string $nickname
+     * @return bool
+     */
+    public static function nicknameExists($nickname)
+    {
+        DBOperations::openDB();
+        $sql   = "SELECT `ind` FROM `users` WHERE `nick` = :nickname limit 1";
+        $query = DB::link()->prepare($sql);
+        $query->execute([
+            ':nickname' => $nickname
+        ]);
+        return $query->rowCount() !== 0;
+    }
+
+    /**
+     * @param int $now
+     * @param string $nn
+     * @param string $pass
+     * @param string $email
+     */
+    public static function insert($now, $nn, $pass, $email)
+    {
+        DBOperations::openDB();
+        $sqlLogin = 'INSERT INTO `users` (regtime,nick,pass,email) VALUES (?, ?, ?, ?)';
+        DB::link()->prepare($sqlLogin)->execute([
+            $now,
+            $nn,
+            $pass,
+            $email
+        ]);
+    }
 }
