@@ -17,7 +17,7 @@ class DBOperations
      *
      * @return string error message
      */
-    public static function openDB()
+    private static function openDB()
     {
         // TODO: remove globals
         global $server, $user, $dbpass, $dbname;
@@ -48,7 +48,7 @@ class DBOperations
      *
      * @return array [message, result]
      */
-    public static function checkpass($nick, $pass, $fields, $skippass)
+    private static function checkpass($nick, $pass, $fields, $skippass)
     {
         // TODO: remove globals
         global $PassDelay;
