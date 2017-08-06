@@ -6,7 +6,7 @@
  * @lang text
  */
 
-require_once 'modules/constants.php';
+use MaxDark\Amulet\OldCode\MenuMode;
 
 /**
  * Выводит страницу пользователю.
@@ -207,7 +207,7 @@ function msg(
         }
 
         #start: формирование меню
-        if ($page_type == '' || ($page_type == 'inv' && $g_menu != Menu::mode_short)) {
+        if ($page_type == '' || ($page_type == 'inv' && $g_menu != MenuMode::SHORT)) {
             $wml .= '<do name="b1" type="options" label="В игру">' .
                     "<go href=\"$url_base\"/></do>";
             $wml .= '<do name="b2" type="accept" label="Назад"><prev/></do>';
@@ -216,7 +216,7 @@ function msg(
 
         // только для $page_type == 'main':
         // добавить ссылку на меню в режиме Menu::mode_page
-        if ($page_type == 'main' && $g_menu == Menu::mode_page && ! $is_page_mode_menu) {
+        if ($page_type == 'main' && $g_menu == MenuMode::PAGE && ! $is_page_mode_menu) {
             $wml .= '<do name="o2" type="options" label="Меню">' .
                     "<go href=\"$url_base&fm=1&cj=1\"/></do>";
             // дальше выводим как "диалоговую"
@@ -225,7 +225,7 @@ function msg(
 
         // только для $page_type == 'main':
         // добавить ссылку на меню в режиме Menu::mode_links
-        if ($page_type == 'main' && $g_menu == Menu::mode_links && ! $is_links_mode_menu) {
+        if ($page_type == 'main' && $g_menu == MenuMode::LINKS && ! $is_links_mode_menu) {
             // FIXME: тот еще костыль...
             // добавляет на главной странице ссылку на страницу с меню.
             $message   = str_replace("</p></card><card id=\"m\"",
@@ -255,13 +255,13 @@ function msg(
             }
         }
         
-        if ($page_type == 'inv' && $g_menu == Menu::mode_short) {
+        if ($page_type == 'inv' && $g_menu == MenuMode::SHORT) {
             $wml .= '<do name="b1" type="options" label="В игру">' .
                     "<go href=\"$url_base\"/></do>";
         }
         /// FIXME: не нравится мне это условие, баг в нем чую...
-        if ($page_type == 'inv' && $g_menu == Menu::mode_short ||
-            $g_menu == Menu::mode_full && $page_type == 'main' ||
+        if ($page_type == 'inv' && $g_menu == MenuMode::SHORT ||
+            $g_menu == MenuMode::FULL && $page_type == 'main' ||
             $is_page_mode_menu
         ) {
             $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
