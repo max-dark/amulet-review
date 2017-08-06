@@ -4,6 +4,8 @@
  * Входная точка
  */
 
+use MaxDark\Amulet\OldCode\MapPage;
+
 /**
  * @global login
  * @global loc
@@ -462,8 +464,7 @@ if ($list || $list = $cl) {
 }
 // показать карту и завершить работу скрипта
 if (false !== $map) {
-    include_once "f_map.inc";
-    msg(map_page($loc, $game, $g_map, $PHP_SELF, $sid));
+    msg(MapPage::buildPage($loc, $game, $g_map, $PHP_SELF, $sid));
 }
 
 // MAIN PAGE
