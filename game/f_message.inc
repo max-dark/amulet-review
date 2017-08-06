@@ -98,26 +98,34 @@ function msg(
 
     // для "гостя"
     if (empty($login)) {
-        $show_journal = 0;
-        $page_type    = 'none';
+        $show_journal = false;
+        $page_type = 'none';
+        $userJournal = '';
+        $currentUser = [];
+    } else {
+        $currentUser = $loc_i[$loc][$login];
+        $userJournal = $loc_i[$loc][$login]['journal'];
+        $loc_i[$loc][$login]['journal'] = '';
     }
+
+    savegame();
 
     // меню в виде "действий"(<do> tag).
     if ($isMenuInPageMode) {
-        $show_journal = 0;
+        $show_journal = false;
         $page_d       = 0;
         $message      = "Нажмите кнопку Меню";
     }
     // меню в виде ссылок(<a> tag) на отдельной странице
     if ($isMenuInLinksMode) {
-        $show_journal = 0;
+        $show_journal = false;
         $page_d       = 0;
-        $message = menu_links($url_base, $loc_i[$loc][$login], $g_map);
+        $message = menu_links($url_base, $currentUser, $g_map);
     }
     
     #start: подготовка журнала
     if ($skip_journal) {
-        $show_journal = 0;
+        $show_journal = false;
     } else {
         if ($g_joff) {
             /* 
@@ -126,8 +134,7 @@ function msg(
              * Например после обработки 'del0|del1|keep0:|keep1!|del2'
              * останется '|keep0:|keep1!|'
              * */
-            $loc_i[$loc][$login]['journal'] = preg_replace('/(\||^)[^:!]*(\||$)/u', '|',
-                $loc_i[$loc][$login]['journal']);
+            $userJournal = preg_replace('/(\||^)[^:!]*(\||$)/u', '|', $userJournal);
         }
     }
     $page_journal = "";
@@ -136,36 +143,33 @@ function msg(
         $page_journal = $game['journal'];
     }
 
-    /// FIXME: PHP Notice:  Undefined index: ''
-    if ($show_journal == 1 && $loc_i[$loc][$login]['journal']) {
-        $page_journal                   = str_replace('|', '<br/>', $loc_i[$loc][$login]['journal']);
-        $loc_i[$loc][$login]['journal'] = '';
+    if ($show_journal && $userJournal) {
+        $page_journal = str_replace('|', '<br/>', $userJournal);
         if ( ! $g_j2loc) {
             $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/u', '', $page_journal);
         }
     }
     #end: подгоновка журнала
 
-    savegame();
     //#start: формирование журнала
     if ($page_journal && $show_journal) {
         // урезать количество записей в журнале
-        $page_journal = explode('<br/>', $page_journal);
-        if (count($page_journal) > $g_list) {
-            array_splice($page_journal, 0, count($page_journal) - $g_list);
+        $pieces = explode('<br/>', $page_journal);
+        if (count($pieces) > $g_list) {
+            array_splice($pieces, 0, count($pieces) - $g_list);
+            $page_journal = implode('<br/>', $pieces);
         }
-        $page_journal = implode('<br/>', $page_journal);
     }
     // добавить описание локации
     if ($page_d && file_exists('loc_f/' . $loc)) {
         $page_journal .= '<br/>' . file_get_contents('loc_f/' . $loc);
     }
 
-    // проверить размер страницы
-    $bsize = strlen($message . $page_journal) < $g_size;
     if ($page_journal && substr($page_journal, 0, 5) == '<br/>') {
         $page_journal = substr($page_journal, 5);
     }
+    // проверить размер страницы
+    $bsize = strlen($message . $page_journal) < $g_size;
     // если журнал не пуст и задано его отображение
     if ($page_journal && $show_journal) {
         $wml .= buildJournalCard($bsize, $g_query_string, $page_journal, $skip_journal);
@@ -175,7 +179,7 @@ function msg(
     #start: формирование страницы
     if ($bsize || ! $show_journal || ! $page_journal) {
         $wml .= buildMainCard(
-            $page_title, $message, $page_type, $loc_i[$loc][$login], $var_name, $var_value, $url_base,
+            $page_title, $message, $page_type, $currentUser, $var_name, $var_value, $url_base,
             $isMenuInPageMode, $isMenuInLinksMode, $g_menu, $g_map
         );
     }
@@ -206,7 +210,7 @@ WML;
  * @param string $pageTitle
  * @param string $message
  * @param string $pageType
- * @param string[] $currentUser
+ * @param string[] $userData
  * @param string $var_name
  * @param string $var_value
  * @param string $url_base
@@ -220,7 +224,7 @@ function buildMainCard(
     $pageTitle,
     $message,
     $pageType,
-    $currentUser,
+    $userData,
     $var_name,
     $var_value,
     $url_base,
@@ -229,7 +233,6 @@ function buildMainCard(
     $menuMode,
     $mapMode
 ) {
-    //$curentUser $loc_i[$loc][$login];
     $wml = '<card id="g" title="' . $pageTitle . '"';
     // включить автообновление для главной страницы
     if ($pageType == 'main') {
@@ -276,8 +279,8 @@ function buildMainCard(
     if (($pageType == 'main' || $isMenuInPageMode) && !$isMenuInLinksMode) {
         $wml .= '<do name="b1" type="options" label="Пeрcoнaж">' .
             "<go href=\"$url_base&cl=i&cj=1\"/></do>";
-        if (array_key_exists('macro', $currentUser)) {
-            $m = explode("/", $currentUser["macro"]);
+        if (array_key_exists('macro', $userData)) {
+            $m = explode("/", $userData["macro"]);
         } else {
             $m = [];
         }
