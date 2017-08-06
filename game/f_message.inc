@@ -77,9 +77,9 @@ function msg(
      * is_page_mode_menu = (!$is_page_mode_menu && $page_type == 'main' && $g_menu == Menu::mode_page)
      * is_page_mode_menu = is_page_mode_menu && ! is_links_mode_menu;
      *
-     * @var $is_page_mode_menu bool
+     * @var $isMenuInPageMode bool
      */
-    $is_page_mode_menu  = Request('fm');
+    $isMenuInPageMode  = Request('fm');
     /**
      * Флаг, что перешли с главной(page_type == 'main') страницы.
      * Как комманда показать меню в виде ссылок(<a></a> tag) на отдельной странице.
@@ -87,9 +87,9 @@ function msg(
      * is_links_mode_menu = (!$is_links_mode_menu && $page_type == 'main' && $g_menu == Menu::mode_links)
      * is_links_mode_menu = is_links_mode_menu && ! is_page_mode_menu;
      *
-     * @var $is_links_mode_menu bool
+     * @var $isMenuInLinksMode bool
      */
-    $is_links_mode_menu = Request('fm2');
+    $isMenuInLinksMode = Request('fm2');
 
     /**
      * @var $wml string код страницы
@@ -103,13 +103,13 @@ function msg(
     }
 
     // меню в виде "действий"(<do> tag).
-    if ($is_page_mode_menu) {
+    if ($isMenuInPageMode) {
         $show_journal = 0;
         $page_d       = 0;
         $message      = "Нажмите кнопку Меню";
     }
     // меню в виде ссылок(<a> tag) на отдельной странице
-    if ($is_links_mode_menu) {
+    if ($isMenuInLinksMode) {
         $show_journal = 0;
         $page_d       = 0;
         $message = menu_links($url_base, $loc_i[$loc][$login], $g_map);
@@ -168,128 +168,16 @@ function msg(
     }
     // если журнал не пуст и задано его отображение
     if ($page_journal && $show_journal) {
-        // страница влезает в ограничения?
-        if ($bsize) {
-            // отобразить через <card></card>
-            $tmp_url = "#g";
-        } else {
-            // FIXME: костыль
-            // иначе вывести продолжение на отдельную страницу
-            $tmp_url = '?' . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $g_query_string);
-        }
-        $wml .= '<card title="Журнал">' .
-                '<do type="accept" label="Дальше">' .
-                '<go href="' . $tmp_url . '"/>' .
-                '</do>' .
-                '<p>' . $page_journal .
-                '<br/><a href="' . $tmp_url . '">Дальше</a>';
-        if ($tmp_url != "#g") {
-            // BUG? бесполезное условие, т.к. $show_journal = !$skip_journal
-            $tmp_url .= ($skip_journal ? '' : '&cj=1');
-            $wml .= '/<a href="' . $tmp_url . '">к меню</a>/';
-        }
-        $wml .= '</p></card>';
+        $wml .= buildJournalCard($bsize, $g_query_string, $page_journal, $skip_journal);
     }
     #end: формирование журнала
 
     #start: формирование страницы
     if ($bsize || ! $show_journal || ! $page_journal) {
-        $wml .= '<card id="g" title="' . $page_title . '"';
-        // включить автообновление для главной страницы
-        if ($page_type == 'main') {
-            $wml .= " ontimer=\"$url_base\"><timer value=\"600\"/";
-        }
-        $wml .= ">";
-        if ($var_name) {
-            $wml .= '<onevent type="onenterforward"><refresh>' .
-                    "<setvar name=\"$var_name\" value=\"$var_value\"/>" .
-                    '</refresh></onevent>';
-        }
-
-        #start: формирование меню
-        if ($page_type == '' || ($page_type == 'inv' && $g_menu != MenuMode::SHORT)) {
-            $wml .= '<do name="b1" type="options" label="В игру">' .
-                    "<go href=\"$url_base\"/></do>";
-            $wml .= '<do name="b2" type="accept" label="Назад"><prev/></do>';
-        }
-        $o = 4;
-
-        // только для $page_type == 'main':
-        // добавить ссылку на меню в режиме Menu::mode_page
-        if ($page_type == 'main' && $g_menu == MenuMode::PAGE && ! $is_page_mode_menu) {
-            $wml .= '<do name="o2" type="options" label="Меню">' .
-                    "<go href=\"$url_base&fm=1&cj=1\"/></do>";
-            // дальше выводим как "диалоговую"
-            $page_type = '';
-        }
-
-        // только для $page_type == 'main':
-        // добавить ссылку на меню в режиме Menu::mode_links
-        if ($page_type == 'main' && $g_menu == MenuMode::LINKS && ! $is_links_mode_menu) {
-            // FIXME: тот еще костыль...
-            // добавляет на главной странице ссылку на страницу с меню.
-            $message   = str_replace("</p></card><card id=\"m\"",
-                "<br/><a href=\"$url_base&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"", $message);
-            // дальше выводим как "диалоговую"
-            $page_type = '';
-        }
-
-        // только для $page_type == 'main':
-        // доп условие: ($g_menu != Menu::mode_links)
-        // добавляет список макросов
-        if (($page_type == 'main' || $is_page_mode_menu) && ! $is_links_mode_menu) {
-            $wml .= '<do name="b1" type="options" label="Пeрcoнaж">' .
-                    "<go href=\"$url_base&cl=i&cj=1\"/></do>";
-            if (array_key_exists('macro', $loc_i[$loc][$login])) {
-                $m = explode("/", $loc_i[$loc][$login]["macro"]);
-            } else {
-                $m = [];
-            }
-            for ($i = 1; $i < 9; $i++) {
-                if (!empty($m[$i - 1])) {
-                    $mn = explode("|", $m[$i - 1]);
-                    $wml .= "<do name=\"b$o\" type=\"options\" label=\"" . $mn[4] . "\">" .
-                            "<go href=\"$url_base&cm=$i\"/></do>";
-                    $o++;
-                }
-            }
-        }
-        
-        if ($page_type == 'inv' && $g_menu == MenuMode::SHORT) {
-            $wml .= '<do name="b1" type="options" label="В игру">' .
-                    "<go href=\"$url_base\"/></do>";
-        }
-        /// FIXME: не нравится мне это условие, баг в нем чую...
-        if ($page_type == 'inv' && $g_menu == MenuMode::SHORT ||
-            $g_menu == MenuMode::FULL && $page_type == 'main' ||
-            $is_page_mode_menu
-        ) {
-            $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
-                    "<go href=\"$url_base&cs=1&cj=1\"/></do>" . // чат
-                    "<do name=\"b3\" type=\"options\" label=\"Koнтaкты\">" .
-                    "<go href=\"$url_base&msg=1&cj=1\"/></do>" . // список контактов
-                    "<do name=\"b$o\" type=\"options\" label=\"мaкpocы\">" .
-                    "<go href=\"$url_base&cm=new\"/></do>" // управление макросами
-                    ;
-            // Карта включена?
-            if ($g_map) {
-                $o++;
-                $wml .= "<do name=\"b$o\" type=\"options\" label=\"Kapтa\">" .
-                        "<go href=\"$url_base&map=$g_map\"/></do>";
-            }
-            $o++;
-            $wml .= "<do name=\"b$o\" type=\"options\" label=\"Coxpaнить\">" .
-                    "<go href=\"$url_base&ce=1\"/></do>";
-        }
-        #end: формирование меню
-
-        if (substr($message, 0, 2) != '<p') {
-            $message = "<p>" . $message;
-        }
-        if (substr($message, strlen($message) - 4) != '</p>') {
-            $message .= '</p>';
-        }
-        $wml .= $message . '</card>';
+        $wml .= buildMainCard(
+            $page_title, $message, $page_type, $loc_i[$loc][$login], $var_name, $var_value, $url_base,
+            $isMenuInPageMode, $isMenuInLinksMode, $g_menu, $g_map
+        );
     }
     #end: формирование страницы
     // Используется "маленикий шрифт"?
@@ -312,6 +200,166 @@ function msg(
 WML;
     echo $page;
     exit;
+}
+
+/**
+ * @param string $pageTitle
+ * @param string $message
+ * @param string $pageType
+ * @param string[] $currentUser
+ * @param string $var_name
+ * @param string $var_value
+ * @param string $url_base
+ * @param bool $isMenuInPageMode
+ * @param bool $isMenuInLinksMode
+ * @param int $menuMode
+ * @param int $mapMode
+ * @return string
+ */
+function buildMainCard(
+    $pageTitle,
+    $message,
+    $pageType,
+    $currentUser,
+    $var_name,
+    $var_value,
+    $url_base,
+    $isMenuInPageMode,
+    $isMenuInLinksMode,
+    $menuMode,
+    $mapMode
+) {
+    //$curentUser $loc_i[$loc][$login];
+    $wml = '<card id="g" title="' . $pageTitle . '"';
+    // включить автообновление для главной страницы
+    if ($pageType == 'main') {
+        $wml .= " ontimer=\"$url_base\"><timer value=\"600\"/";
+    }
+    $wml .= ">";
+    if ($var_name) {
+        $wml .= '<onevent type="onenterforward"><refresh>' .
+            "<setvar name=\"$var_name\" value=\"$var_value\"/>" .
+            '</refresh></onevent>';
+    }
+
+    #start: формирование меню
+    if ($pageType == '' || ($pageType == 'inv' && $menuMode != MenuMode::SHORT)) {
+        $wml .= '<do name="b1" type="options" label="В игру">' .
+            "<go href=\"$url_base\"/></do>";
+        $wml .= '<do name="b2" type="accept" label="Назад"><prev/></do>';
+    }
+    $o = 4;
+
+    // только для $page_type == 'main':
+    // добавить ссылку на меню в режиме Menu::mode_page
+    if ($pageType == 'main' && $menuMode == MenuMode::PAGE && !$isMenuInPageMode) {
+        $wml .= '<do name="o2" type="options" label="Меню">' .
+            "<go href=\"$url_base&fm=1&cj=1\"/></do>";
+        // дальше выводим как "диалоговую"
+        $pageType = '';
+    }
+
+    // только для $page_type == 'main':
+    // добавить ссылку на меню в режиме Menu::mode_links
+    if ($pageType == 'main' && $menuMode == MenuMode::LINKS && !$isMenuInLinksMode) {
+        // FIXME: тот еще костыль...
+        // добавляет на главной странице ссылку на страницу с меню.
+        $message = str_replace("</p></card><card id=\"m\"",
+            "<br/><a href=\"$url_base&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"", $message);
+        // дальше выводим как "диалоговую"
+        $pageType = '';
+    }
+
+    // только для $page_type == 'main':
+    // доп условие: ($g_menu != Menu::mode_links)
+    // добавляет список макросов
+    if (($pageType == 'main' || $isMenuInPageMode) && !$isMenuInLinksMode) {
+        $wml .= '<do name="b1" type="options" label="Пeрcoнaж">' .
+            "<go href=\"$url_base&cl=i&cj=1\"/></do>";
+        if (array_key_exists('macro', $currentUser)) {
+            $m = explode("/", $currentUser["macro"]);
+        } else {
+            $m = [];
+        }
+        for ($i = 1; $i < 9; $i++) {
+            if (!empty($m[$i - 1])) {
+                $mn = explode("|", $m[$i - 1]);
+                $wml .= "<do name=\"b$o\" type=\"options\" label=\"" . $mn[4] . "\">" .
+                    "<go href=\"$url_base&cm=$i\"/></do>";
+                $o++;
+            }
+        }
+    }
+
+    if ($pageType == 'inv' && $menuMode == MenuMode::SHORT) {
+        $wml .= '<do name="b1" type="options" label="В игру">' .
+            "<go href=\"$url_base\"/></do>";
+    }
+    /// FIXME: не нравится мне это условие, баг в нем чую...
+    if ($pageType == 'inv' && $menuMode == MenuMode::SHORT ||
+        $menuMode == MenuMode::FULL && $pageType == 'main' ||
+        $isMenuInPageMode
+    ) {
+        $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
+            "<go href=\"$url_base&cs=1&cj=1\"/></do>" . // чат
+            "<do name=\"b3\" type=\"options\" label=\"Koнтaкты\">" .
+            "<go href=\"$url_base&msg=1&cj=1\"/></do>" . // список контактов
+            "<do name=\"b$o\" type=\"options\" label=\"мaкpocы\">" .
+            "<go href=\"$url_base&cm=new\"/></do>" // управление макросами
+        ;
+        // Карта включена?
+        if ($mapMode) {
+            $o++;
+            $wml .= "<do name=\"b$o\" type=\"options\" label=\"Kapтa\">" .
+                "<go href=\"$url_base&map=$mapMode\"/></do>";
+        }
+        $o++;
+        $wml .= "<do name=\"b$o\" type=\"options\" label=\"Coxpaнить\">" .
+            "<go href=\"$url_base&ce=1\"/></do>";
+    }
+    #end: формирование меню
+
+    if (substr($message, 0, 2) != '<p') {
+        $message = "<p>" . $message;
+    }
+    if (substr($message, strlen($message) - 4) != '</p>') {
+        $message .= '</p>';
+    }
+    $wml .= $message . '</card>';
+    return $wml;
+}
+
+/**
+ * @param bool $bsize
+ * @param string $query_string
+ * @param string $page_journal
+ * @param bool $skip_journal
+ * @return string
+ */
+function buildJournalCard($bsize, $query_string, $page_journal, $skip_journal)
+{
+    // страница влезает в ограничения?
+    if ($bsize) {
+        // отобразить через <card></card>
+        $tmp_url = "#g";
+    } else {
+        // FIXME: костыль
+        // иначе вывести продолжение на отдельную страницу
+        $tmp_url = '?' . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $query_string);
+    }
+    $journalCard = '<card title="Журнал">' .
+        '<do type="accept" label="Дальше">' .
+        '<go href="' . $tmp_url . '"/>' .
+        '</do>' .
+        '<p>' . $page_journal .
+        '<br/><a href="' . $tmp_url . '">Дальше</a>';
+    if ($tmp_url != "#g") {
+        // BUG? бесполезное условие, т.к. $show_journal = !$skip_journal
+        $tmp_url .= ($skip_journal ? '' : '&cj=1');
+        $journalCard .= '/<a href="' . $tmp_url . '">к меню</a>/';
+    }
+    $journalCard .= '</p></card>';
+    return $journalCard;
 }
 
 /**
