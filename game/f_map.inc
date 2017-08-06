@@ -2,7 +2,7 @@
 
 // для вывода картинки использует m.php!!! (чтобы лишний раз не обращаться к игре)
 
-require_once 'modules/map.php';
+use MaxDark\Amulet\OldCode\MapTool;
 
 /**
  * @param string $location
@@ -15,8 +15,8 @@ require_once 'modules/map.php';
  */
 function map_page($location, $game, $map_type, $PHP_SELF, $sid)
 {
-    $char_coord = calculateCoordinates($location);
-    $flag_coord = calculateCoordinates($game["floc"]);
+    $char_coord = MapTool::calculateCoordinates($location);
+    $flag_coord = MapTool::calculateCoordinates($game["floc"]);
 
     $description = [
         "основной территории.",

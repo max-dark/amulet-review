@@ -1,5 +1,7 @@
 <?php
 
+use MaxDark\Amulet\OldCode\MapTool;
+
 require_once '../vendor/autoload.php';
 
 /**
@@ -13,9 +15,8 @@ if (array_key_exists('flag', $_GET)) {
     msg_m(file_get_contents("../story/flag.htm"));
 }
 if (array_key_exists('img', $_GET)) {
-    require_once 'modules/map.php';
     // выведем картинку
-    show_map($_GET['l'], $_GET['f'], intval($_GET['bw']));
+    MapTool::showMapImage($_GET['l'], $_GET['f'], intval($_GET['bw']));
     exit(0);
 }
 
