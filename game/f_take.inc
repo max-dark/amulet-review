@@ -108,7 +108,7 @@ if ($take) {            //linkПоднять
                 if ($num > $item[1]) {
                     $num = $item[1];
                 }    // и максимум берем все что есть
-                additem($loc, "loc", $login, $take, $num, "items", "items", 1, -1, 1);
+                manageItems($loc, "loc", $login, $take, $num, "items", "items", 1, -1, 1);
             }
 
             // портал

@@ -5,7 +5,7 @@
  */
 function nAuron_begin(&$title)
 {
-    if (additem(getCurrentLocId(), getCurrentUserId(), "", "i.q.guildmage", "count") == 0) {
+    if (manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.q.guildmage", "count") == 0) {
         $title = "У тебя нет знака гильдии магов, убирайся прочь, самозванец!";
         addnpc(getCurrentUserId(), getCurrentLocId(), "x2124x367");
     } else {

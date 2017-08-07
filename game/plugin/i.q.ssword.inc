@@ -25,7 +25,7 @@ if ($to) {    // атакуем как магией
         $war[14] = "";
         $war     = implode("|", $war);
 
-        additem($loc, $login, "", "i.q.ssword", 1, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", "i.q.ssword", 1, "items", "items", 1, 0, 1);
         attack($loc, $login, $to, $war);
     } else {
         addjournal($loc, $login, "Цель недоступна");

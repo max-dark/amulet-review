@@ -54,7 +54,7 @@ if ($drop) {            //linkБросить
         if ($num > $tcount) {
             $num = $tcount;
         }    // и максимум берем все что есть
-        additem($loc, $login, "loc", $drop, $num, "items", "items", 1, -1, 1);
+        manageItems($loc, $login, "loc", $drop, $num, "items", "items", 1, -1, 1);
     }
 }
 

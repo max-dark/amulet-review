@@ -38,8 +38,8 @@ if ($to) {
     if ($c > 0) {
         addjournal($loc, $login, "Вы разрезали " . $item[0] . " на $c бинта");
         addjournal($loc, "all", $char[0] . " разрезал " . $item[0] . " на $c бинта", $login);
-        additem($loc, $login, "", $to, 1);
-        additem($loc, "", $login, "i.bint", $c);
+        manageItems($loc, $login, "", $to, 1);
+        manageItems($loc, "", $login, "i.bint", $c);
     } else {
         addjournal($loc, $login, "Ножницами резать можно только ткань или одежду");
     }

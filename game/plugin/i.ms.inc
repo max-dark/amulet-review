@@ -9,7 +9,7 @@
  */
 // призыв монстра
 
-additem($loc, $login, "", $use, 1, "items", "items", 1, 0, 1);    // удаляем свиток
+manageItems($loc, $login, "", $use, 1, "items", "items", 1, 0, 1);    // удаляем свиток
 $inp  = substr($use, 5);
 $name = "";
 if (strpos($inp, "_") !== false) {

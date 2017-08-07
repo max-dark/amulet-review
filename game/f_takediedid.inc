@@ -34,7 +34,7 @@ if ($tcount) {
     if ($num > $tcount) {
         $num = $tcount;
     }
-    additem($loc, $take, $login, $id, $num, "items", "items", 1, -1, 1);
+    manageItems($loc, $take, $login, $id, $num, "items", "items", 1, -1, 1);
     $char                        = explode("|", $loc_i[$loc][$login]["char"]);
     $char[6]                     = time() + 2;
     $loc_i[$loc][$login]["char"] = implode("|", $char);

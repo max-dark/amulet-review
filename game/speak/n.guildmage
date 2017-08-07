@@ -5,7 +5,7 @@ function nGuildMage_enterNow(&$title)
     $login = getCurrentUserId();
     $loc = getCurrentLocId();
 
-    if (additem($loc, $login, "", "i.q.guildmage", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.guildmage", "count") > 0) {
         $title = "Добро пожаловать, <name>, проходи.";
         addnpc($login, $loc, "x2232x507");
     } else {
@@ -32,14 +32,14 @@ function nGuildMage_joinNow(&$title)
         }
     }
     if ($b) {
-        additem($loc, $login, "", "i.money", 1000, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", "i.money", 1000, "items", "items", 1, 0, 1);
         $twar = explode("|", $loc_i[$loc][$ovca]["war"]);
         if ($twar[15]) {
             $resp = explode(":", $twar[15]);
             addtimer($resp[0], 0, rand($resp[1], $resp[2]), $ovca . "|" . $resp[1] . ":" . $resp[2], 0);
         }
         addnpc($ovca, $loc);
-        additem($loc, "", $login, "i.q.guildmage", 1);
+        manageItems($loc, "", $login, "i.q.guildmage", 1);
         $title = "Поздравляю, <name>! Возьми этот знак, теперь ты можешь свободно входить в башню магии, просто поговори со мной и покажи его.";
     } else {
         $title = "<name>, ты плохо понял, каковы условия вступления в гильдию магов? Что-то я не вижу в округе ни одной блеющей скотинки...";

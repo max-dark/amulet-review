@@ -9,7 +9,7 @@ function nJofe_begin(&$title)
         //$tp = 2;
         $title = "Спасибо, <name>, что помог мне выбраться из плена. У меня ничего нет, но мой брат работал раньше в Храме Ансалона, возьми этот браслет, если увидишь служителя церкви, покажи его, это может принести тебе большую пользу.";
         addexp($loc, $login, 45);
-        additem($loc, "", $login, "i.q.jofe", 1);
+        manageItems($loc, "", $login, "i.q.jofe", 1);
         addnpc("n.Jofe", $loc, "");
         addtimer("x2051x1014", "", rand(1800, 3200), "n.Jofe|60:120");
     } else {

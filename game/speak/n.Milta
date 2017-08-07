@@ -32,7 +32,7 @@ function nMilta_sell($npcId, $price, $npcName, $isActive)
     if (nMilta_haveOwn($loc, $login)) {
         $title = "Извини, <name>, у тебя уже есть купленное здесь животное";
     } else {
-        additem($loc, $login, "", "i.money", $price, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", "i.money", $price, "items", "items", 1, 0, 1);
         $npc = loadNpcById($npcId);
         $npc["owner"] = nMilta_makeOwn($login, $isActive);
         $fullId = $npcId . '.' . $login;

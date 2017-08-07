@@ -66,8 +66,8 @@ function nGuildMaster_buyStoneNow(&$title)
     $login = getCurrentUserId();
     $loc = getCurrentLocId();
 
-    additem($loc, $login, "", "i.money", 500, "items", "items", 1, 0, 1);
-    additem($loc, "", $login, "i.guildstone", 1);
+    manageItems($loc, $login, "", "i.money", 500, "items", "items", 1, 0, 1);
+    manageItems($loc, "", $login, "i.guildstone", 1);
     $title = "Держи и не теряй больше.";
 }
 
@@ -154,7 +154,7 @@ function nGuildMaster_newNow2(&$title)
 
             $loc = getCurrentLocId();
             $login = getCurrentUserId();
-            additem($loc, $login, "", "i.money", 1000, "items", "items", 1, 0, 1);
+            manageItems($loc, $login, "", "i.money", 1000, "items", "items", 1, 0, 1);
             $tmp = [
                 "m" => [],
                 "g" => [$login => $p]
@@ -166,7 +166,7 @@ function nGuildMaster_newNow2(&$title)
             }
             $tc[0] .= " *" . $cname . "*";
             setCurrentUser("char", implode("|", $tc));
-            additem($loc, "", $login, "i.guildstone", 1);
+            manageItems($loc, "", $login, "i.guildstone", 1);
             $title = "Поздравляю, ты теперь глава клана " . $cname . ", используй камень гильдии для управления им. Советую тебе прямо сейчас <a href=\"$PHP_SELF?sid=$sid&logout=1\">сохранить персонажа</a>.";
             $b = 1;
         }

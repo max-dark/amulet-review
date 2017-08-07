@@ -26,9 +26,9 @@ function nDen_go(&$title)
 {
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
-    additem($loc, $login, "", "i.money", 50, "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.money", 50, "items", "items", 1, 0, 1);
     loadloc("arena");
-    additem("arena", "", "loc", "i.money", 50);
+    manageItems("arena", "", "loc", "i.money", 50);
     $title = "[освобождает проход] Проходи.";
     addnpc($login, $loc, "arena");
 }

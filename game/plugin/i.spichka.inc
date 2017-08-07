@@ -15,13 +15,13 @@ if (isset($loc_i[$loc]["i.log"])) {
         $char[6]                     = time() + 6;
         $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-        additem($loc, $login, "", "i.spichka", 1);    // удаляем одну спичку
-        additem($loc, "loc", "", "i.log", 1);        // удаляем одну ветку
+        manageItems($loc, $login, "", "i.spichka", 1);    // удаляем одну спичку
+        manageItems($loc, "loc", "", "i.log", 1);        // удаляем одну ветку
 
         if (rand(1, 100) < $skills[30] * 20) {
             addjournal($loc, $login, "Вы разожгли костер");
             addjournal($loc, "all", $char[0] . " разжег костер", $login);
-            additem($loc, "", "loc", "i.s.fire", 1, "items", "items", 0,
+            manageItems($loc, "", "loc", "i.s.fire", 1, "items", "items", 0,
                 $skills[30] * 60 * 2);    // горит от 2 до 10 минут
             if (rand(1, 100) < 10) {
                 addexp($loc, $login, 1);

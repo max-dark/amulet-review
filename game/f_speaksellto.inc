@@ -63,8 +63,8 @@ if ($item[1] <= 1) {
     $trader[0] = 1;
 }
 $price = round($item[1] * $num * $trader[0]);
-additem($loc, "", $login, "i.money", $price, "items", "items", 0, -1, 1);
-additem($loc, $login, "", $to, $num, "items", "items", 0, -1, 1);
+manageItems($loc, "", $login, "i.money", $price, "items", "items", 0, -1, 1);
+manageItems($loc, $login, "", $to, $num, "items", "items", 0, -1, 1);
 msg("Вы продали " . $num . " " . $item[0] . " за " . $price .
     " монет<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">Продолжить</a>");
 

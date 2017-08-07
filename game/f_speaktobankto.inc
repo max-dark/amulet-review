@@ -40,11 +40,11 @@ if ($to == "i.money" &&
     msg("Извините, в банке можно хранить не более 70000 монет");
 }
 if ($speak == "n.t.bankir") {
-    additem($loc, $login, "", "i.money", "20", "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.money", "20", "items", "items", 1, 0, 1);
 }
 if ($speak == "n.p.bankir") {
-    additem($loc, $login, "", "i.money", "200", "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.money", "200", "items", "items", 1, 0, 1);
 }
-additem($loc, $login, $login, $to, $num, "items", "bank", 0, -1, 1);
+manageItems($loc, $login, $login, $to, $num, "items", "bank", 0, -1, 1);
 msg("Вы положили в банк " . $num . " " . $item[0] .
     "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">Продолжить</a>");

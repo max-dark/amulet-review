@@ -5,8 +5,8 @@ function nSeneren_begin(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    $hagen = additem($loc, $login, "", "i.q.hagen", "count");
-    $ditrih = additem($loc, $login, "", "i.q.ditrih", "count");
+    $hagen = manageItems($loc, $login, "", "i.q.hagen", "count");
+    $ditrih = manageItems($loc, $login, "", "i.q.ditrih", "count");
     if ($hagen == 0 && $ditrih == 0) {
         $title = "Как ты сюда попал? Немедленно покинь здание.";
         addnpc($login, $loc, "x1778x493");
@@ -16,9 +16,9 @@ function nSeneren_begin(&$title)
         } else {
             $title = "Позволь благословить тебя, сын мой. Твои собратья по оружию сражались как герои.";
         }
-        $keyCount = additem($loc, $login, "", "i.q.keykrep", "count");
+        $keyCount = manageItems($loc, $login, "", "i.q.keykrep", "count");
         if ($keyCount == 0) {
-            additem($loc, "", $login, "i.q.keykrep", 1);
+            manageItems($loc, "", $login, "i.q.keykrep", 1);
             $title .= " Возьми этот ключ, с ним ты можешь проходить в крепость через подземный ход на юге, чтобы не сталкиваться с монстрами у ворот. Побереги силы для главного боя, <name>";
         }
     }
@@ -29,7 +29,7 @@ function nSeneren_begin_qv(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.jofe", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.jofe", "count") > 0) {
         $title = "Я помог Йофе и он дал мне этот браслет";
     } else {
         $title = "";
@@ -41,10 +41,10 @@ function nSeneren_qv(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.jofe", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.jofe", "count") > 0) {
         addexp($loc, $login, 100);
-        additem($loc, $login, "", "i.q.jofe", 1);
-        additem($loc, "", $login, "i.money", 250);
+        manageItems($loc, $login, "", "i.q.jofe", 1);
+        manageItems($loc, "", $login, "i.money", 250);
         $title = "Благодарю тебя, сын мой. Церковь не забывает благих поступков. Пусть эти деньги послужат в твоих руках доброму делу.";
     } else {
         $title = "У тебя нет браслета Йофе, ты разве забыл, что ложь - один из смертных грехов?";

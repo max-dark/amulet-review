@@ -23,11 +23,11 @@ function nTonny_rem(&$title)
     if (isset($loc_i[$loc]["i.s.lodkas"])) {
         $skills = explode("|", getCurrentUser("skills"));
         if ($skills[25] >= 4 || $skills[27] >= 4) {
-            $log = additem($loc, $login, "", "i.log", "count");
-            $ruda = additem($loc, $login, "", "i.ruda", "count");
+            $log = manageItems($loc, $login, "", "i.log", "count");
+            $ruda = manageItems($loc, $login, "", "i.ruda", "count");
             if ($log >= 30 && $ruda >= 20) {
-                additem($loc, $login, "", "i.log", 30);
-                additem($loc, $login, "", "i.ruda", 20);
+                manageItems($loc, $login, "", "i.log", 30);
+                manageItems($loc, $login, "", "i.ruda", 20);
                 unset($loc_i[$loc]["i.s.lodkas"]);
                 $loc_i[$loc]["i.s.lodka"] = "лодка|0|";
                 $title = "[помогает вам отремонтировать лодку, вдвоем вы справляетесь довольно быстро] Уф, кажется, готово. Удачной поездки! Не забудь только лодку потом на обратном пути пригнать сюда же, не бросай ее где попало.";

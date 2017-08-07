@@ -5,11 +5,11 @@ function nGuardKrep_enternow(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.hagen", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.hagen", "count") > 0) {
         $title = "[протягиваете грамоту, палладин внимательно ее читает] Да, все верно. Можешь пройти, <name> [вскидывает меч, отдавая вам воинский салют]";
         addnpc($login, $loc, "x1740x489");
     } else {
-        if (additem($loc, $login, "", "i.q.ditrih", "count") > 0) {
+        if (manageItems($loc, $login, "", "i.q.ditrih", "count") > 0) {
             $title = "[палладин замечает ленту стражника на вас] Люди барона Дитриха доказали свою храбрость. Ты можешь пройти внутрь, <name>";
             addnpc($login, $loc, "x1740x489");
         } else {

@@ -24,7 +24,7 @@ function nMarten_qvOK(&$title, &$b)
             0, strlen($login)) == $login) {
         $b = 1;
         $title = "Фантастика, как тебе это удалось? [нежно гладит единорога по шее] Ну-ну, хороший... О тебе будут заботиться, не бойся. [оборачивается к вам] <name>, выражаю тебе признательность от всего сердца, возьми это в  качестве награды. [уводит единорога вглубь конюшни]";
-        additem($loc, "", $login, "i.money", 200);
+        manageItems($loc, "", $login, "i.money", 200);
         addexp($loc, $login, 75);
         addnpc("n.a.edinorog.1", $loc, "");
         addtimer("x618x53", "", rand(14000, 36000), "n.a.edinorog.1|14000:36000|6:60:120");
@@ -53,7 +53,7 @@ function nMarten_horseB(&$title)
     if (isset($loc_i[$loc]["n.a.losh." . $login])) {
         $title = "Извини, <name>, у тебя уже есть купленная лошадь";
     } else {
-        additem($loc, $login, "", "i.money", 100, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", "i.money", 100, "items", "items", 1, 0, 1);
         $npc = loadNpcById("n.a.losh");
         $npc["owner"] = $login . "|" . $login . "|";
         $loc_i[$loc]["n.a.losh." . $login] = $npc;

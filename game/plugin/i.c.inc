@@ -15,8 +15,8 @@ if (intval(preg_replace('/.*' . "i.set.shlif" . ':(\d+).*/', "\\1", $loc_i[$loc]
     if ($skills[28] > 0) {
 
         if (rand(1, 100) < $skills[28] * 10) {
-            additem($loc, $login, "", $use, 1);
-            additem($loc, "", $login, $use . ".good", 1);
+            manageItems($loc, $login, "", $use, 1);
+            manageItems($loc, "", $login, $use . ".good", 1);
             addjournal($loc, $login, "Вы отшлифовали камень");
             addjournal($loc, "all", $char[0] . " отшлифовал камень");
         } else {
@@ -28,7 +28,7 @@ if (intval(preg_replace('/.*' . "i.set.shlif" . ':(\d+).*/', "\\1", $loc_i[$loc]
         if (rand(1, 100) <= 5) {
             addjournal($loc, $login, "Вы сломали набор для шлифования камней");
             addjournal($loc, "all", $char[0] . " набор для шлифования камней", $login);
-            additem($loc, $login, "", "i.set.shlif", 1);
+            manageItems($loc, $login, "", "i.set.shlif", 1);
         }
 
     }

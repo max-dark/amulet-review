@@ -6,4 +6,4 @@
  */
 // букет цветов
 $arr = "roftphlgvadibjeknmxs";
-additem($loc, "", $login, "i.bc." . $arr{rand(0, strlen($arr) - 1)}, 1);
+manageItems($loc, "", $login, "i.bc." . $arr{rand(0, strlen($arr) - 1)}, 1);

@@ -747,7 +747,7 @@ function attack(
     // патроны
     if ($fwar[14]) {
         if (strpos($loc_i[$loc][$from]["items"], $fwar[14] . ":") !== false) {
-            additem($loc, $from, "", $fwar[14], 1, "items", "", 0);
+            manageItems($loc, $from, "", $fwar[14], 1, "items", "", 0);
             if (strpos($loc_i[$loc][$from]["items"], $fwar[14] . ":") === false) {
                 addjournal($loc, $from, "Боеприпасы кончились");
             }
@@ -896,7 +896,7 @@ function attack(
                         $pjpt = 1;
                         addjournal($loc, "all", $tchar[0] . " спасает свои вещи пером жар-птицы!", $to);
                         addjournal($loc, $to, "Вы спасли свои вещи пером жар-птицы!");
-                        additem($loc, $to, "", "i.q.pjpt", 1);
+                        manageItems($loc, $to, "", "i.q.pjpt", 1);
                         $item .= "|";
                     }
                     // шкура и т.д.
@@ -1086,7 +1086,6 @@ function attack(
 /**
  * Управление вещами: добавить, передать, удалить, посчитать количество
  *
- * FIXME: Имя метода не соответствует.
  * FIXME: Выполняет несколько операций и требуется разделение на разные функции.
  *
  * @param string $loc         локация
@@ -1102,7 +1101,7 @@ function attack(
  *
  * @return int флаг успеха(?)/количество
  */
-function additem(
+function manageItems(
     $loc,
     $from,
     $to,

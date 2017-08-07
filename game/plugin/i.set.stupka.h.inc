@@ -19,11 +19,11 @@ if (intval(preg_replace('/.*' . "i.f.healherb" . ':(\d+).*/', "\\1", $loc_i[$loc
         $loc_i[$loc][$login]["char"] = implode("|", $char);
 
         // трава пропадает
-        additem($loc, $login, "", "i.f.healherb", 1);
+        manageItems($loc, $login, "", "i.f.healherb", 1);
 
         if (rand(1, 100) < $skills[23] * 20 - 5) {
-            additem($loc, $login, "", "i.f.b.empty", 1);
-            additem($loc, "", $login, "i.f.b.heal.great", 1);
+            manageItems($loc, $login, "", "i.f.b.empty", 1);
+            manageItems($loc, "", $login, "i.f.b.heal.great", 1);
             addjournal($loc, $login, "Вы сделали элексир жизни");
             addjournal($loc, "all", $char[0] . " сделал элексир жизни", $login);
             addexp($loc, $login, rand(0, 2));

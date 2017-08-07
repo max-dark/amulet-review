@@ -10,7 +10,7 @@ function nMarkus_mercenary($hours, $price)
     if (isset($loc_i[$loc]["n.kastle1." . $login])) {
         $title = "Извини, <name>, у тебя уже есть наемник воин";
     } else {
-        additem($loc, $login, "", "i.money", $price, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", "i.money", $price, "items", "items", 1, 0, 1);
         $npc = loadNpcById("n.kastle1");
         $tc = explode("|", $npc["char"]);
         $tn = rndname();
@@ -52,7 +52,7 @@ function nMarkus_get4(&$title, $speak)
         if (isset($loc_i[$loc]["n.kastle4." . $login])) {
             $title = "Извини, <name>, у тебя уже есть наемник маг";
         } else {
-            additem($loc, $login, "", "i.money", 300, "items", "items", 1, 0, 1);
+            manageItems($loc, $login, "", "i.money", 300, "items", "items", 1, 0, 1);
             $npc = loadNpcById("n.kastle4");
             $tc = explode("|", $npc["char"]);
             $tn = rndname();

@@ -31,18 +31,18 @@ function nLajma_get(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    additem($loc, $login, "", "i.money", 100, "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.money", 100, "items", "items", 1, 0, 1);
     $r = rand(0, 100);
     if ($r < 5) {
         addexp($loc, $login, 20);
     } elseif ($r >= 5 && $r < 10) {
         addexp($loc, $login, 40);
     } elseif ($r >= 10 && $r < 20) {
-        additem($loc, "", $login, "i.f.b.life", 1);
+        manageItems($loc, "", $login, "i.f.b.life", 1);
     } elseif ($r >= 20 && $r < 30) {
-        additem($loc, "", $login, "i.f.b.mana", 1);
+        manageItems($loc, "", $login, "i.f.b.mana", 1);
     } elseif ($r >= 30 && $r < 35) {
-        additem($loc, "", $login, "i.buket", 1);
+        manageItems($loc, "", $login, "i.buket", 1);
     }
 
     $title = "Сентерис благославляет тебя, <name>.";
@@ -76,7 +76,7 @@ function nLajma_svNow(&$title, $speak)
     if ($char[13]) {
         $tu[10] = explode(":", $char[13]);
         $tu[10] = $tu[10][0];
-        additem($loc, $login, "", "i.money", 500, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", "i.money", 500, "items", "items", 1, 0, 1);
         $char[13] = "";
         setCurrentUser("char", implode("|", $char));
         $title = "Вы развелись с " . substr($tu[10],
@@ -183,21 +183,21 @@ function nLajma_svOk(&$title, $speak)
                                 }
                             }
                             if ($c > 3) {
-                                if (additem($loc, $login, "", "i.ring.z", "count") > 0 && additem($loc, $tt, "",
+                                if (manageItems($loc, $login, "", "i.ring.z", "count") > 0 && manageItems($loc, $tt, "",
                                         "i.ring.z", "count") > 0) {
                                     addjournal($loc, "all", "Лайма говорит: молодожены, обменяйтесь кольцами");
-                                    additem($loc, $login, "", "i.ring.z", 1);
-                                    additem($loc, "", $login, "i.ring.z", 1);
-                                    additem($loc, $tt, "", "i.ring.z", 1);
-                                    additem($loc, "", $tt, "i.ring.z", 1);
+                                    manageItems($loc, $login, "", "i.ring.z", 1);
+                                    manageItems($loc, "", $login, "i.ring.z", 1);
+                                    manageItems($loc, $tt, "", "i.ring.z", 1);
+                                    manageItems($loc, "", $tt, "i.ring.z", 1);
                                     $char[13] = $tt;
                                     $loc_i[$loc][$login]["char"] = implode("|", $char);
                                     $tsc[13] = $login;
                                     $loc_i[$loc][$tt]["char"] = implode("|", $tsc);
                                     addjournal($loc, "all", substr($login, 2) . " и " . substr($tt,
                                             2) . ", объявляю вас мужем и женой! Жених, можете поцеловать невесту. Поздравляю!");
-                                    additem($loc, "", $login, "i.buket", 1);
-                                    additem($loc, "", $tt, "i.buket", 1);
+                                    manageItems($loc, "", $login, "i.buket", 1);
+                                    manageItems($loc, "", $tt, "i.buket", 1);
                                     unset($loc_i[$loc][$speak]["f"]);
                                     unset($loc_i[$loc][$speak]["fid"]);
                                     unset($loc_i[$loc][$speak]["m"]);

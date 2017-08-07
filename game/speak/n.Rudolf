@@ -30,8 +30,8 @@ function nRudolf_qv(&$title, $speak)
             $war[16] = "u.xxyz";
             $loc_i[$loc][$login]["war"] = implode("|", $war);
             addexp($loc, $login, 100);
-            additem($loc, "", $login, "i.money", 1000);
-            additem($loc, "", $login, "i.q.pervor", 1);
+            manageItems($loc, "", $login, "i.money", 1000);
+            manageItems($loc, "", $login, "i.q.pervor", 1);
             unset($loc_i[$loc][$speak]["qv"]);
         }
         if (!$loc_i[$loc][$speak]["qv"] || !file_exists("online/" . $loc_i[$loc][$speak]["qv"])) {

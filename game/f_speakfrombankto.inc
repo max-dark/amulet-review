@@ -40,7 +40,7 @@ if ( ! $num || $num < 1) {
 if ($num > $count) {
     $num = $count;
 }
-additem($loc, $login, $login, $to, $num, "bank", "items", 0, -1, 1);
+manageItems($loc, $login, $login, $to, $num, "bank", "items", 0, -1, 1);
 msg("Вы забрали из банка " . $num . " " . $item[0] .
     "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">Продолжить</a>");
 

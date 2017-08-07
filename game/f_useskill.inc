@@ -146,7 +146,7 @@ switch ($use) {
                                     msg("<p>У " . $tchar[0] . " нет этого предмета");
                                 }
                                 $item = findItemByFullId($id);
-                                additem($loc, $to, $login, $id, $count, "items", "items", 0, -1,
+                                manageItems($loc, $to, $login, $id, $count, "items", "items", 0, -1,
                                     1);//не сообщая в журнал
                                 addjournal($loc, $login,
                                     "Вы украли у " . $tchar[0] . " " . $count . " " . $item[0] . "!");

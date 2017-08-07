@@ -48,7 +48,7 @@ $money = intval(preg_replace('/.*i\.money:(\d+).*/', "\\1", $loc_i[$loc][$login]
 if ($money < $price) {
     msg("У вас недостаточно денег (надо " . $price . " монет)");
 }
-additem($loc, $login, "", "i.money", $price, "items", "items", 0, -1, 1);
-additem($loc, $speak, $login, $to, $num, "bank", "items", 0, -1, 1);
+manageItems($loc, $login, "", "i.money", $price, "items", "items", 0, -1, 1);
+manageItems($loc, $speak, $login, $to, $num, "bank", "items", 0, -1, 1);
 msg("Вы купили " . $num . " " . $item[0] . " за " . $price .
     " монет<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">Продолжить</a>");

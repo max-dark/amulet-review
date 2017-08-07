@@ -83,13 +83,13 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     if ($it) {
                         foreach ($it as $i) {
                             $i = explode(":", $i);
-                            additem($loc, "", $login, $i[0], $i[1]);
+                            manageItems($loc, "", $login, $i[0], $i[1]);
                         }
                     }
                     if (isset($loc_i[$loc][$speak]["nspeak"])) {
                         $it1 = explode(" | ", $loc_i[$loc][$speak]["nspeak"]);
                         if ($it1[1] && strpos($loc_i[$loc][$login]["items"], $it1[1] . ":") !== false) {
-                            additem($loc, $login, "", $it1[1], 1);
+                            manageItems($loc, $login, "", $it1[1], 1);
                         }
                     }
                     addnpc($speak, $loc, "");
@@ -238,7 +238,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 if (substr($speak, 0, 11) == "n.o.castle4") {
                     $tc = 100;
                 }
-                additem($loc, $login, "", "i.money", $tc * $val, "items", "items", 1, 0, 1);
+                manageItems($loc, $login, "", "i.money", $tc * $val, "items", "items", 1, 0, 1);
                 $owner[3] += (int)$val * 60 * 60 * 24;
                 $loc_i[$loc][$speak]["owner"] = implode("|", $owner);
                 $stmp .= "Контракт продлен на " . $val .
@@ -745,7 +745,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         if ($money < $cost) {
                             msg("<p>У вас недостаточно денег (надо " . $cost . " монет)", $tchar[0]);
                         }
-                        additem($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
+                        manageItems($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
                     }
                     if ( ! $loc_i[$loc][$login]["magic"]) {
                         $loc_i[$loc][$login]["magic"] = $skill . ":1";
@@ -765,7 +765,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         if ($money < $cost) {
                             msg("<p>У вас недостаточно денег (надо " . $cost . " монет)", $tchar[0]);
                         }
-                        additem($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
+                        manageItems($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
                     }
                     if ( ! $loc_i[$loc][$login]["priem"]) {
                         $loc_i[$loc][$login]["priem"] = $skill . ":1";
@@ -955,7 +955,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         if ($money < $cost) {
                             msg("<p>У вас недостаточно денег (надо " . $cost . " монет)");
                         }
-                        additem($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
+                        manageItems($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
                     }
                 }
 

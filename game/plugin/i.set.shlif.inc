@@ -24,8 +24,8 @@ if ($to) {
         $loc_i[$loc][$login]["char"] = implode("|", $char);
 
         if (rand(0, 100) < $skills[28] * 10) {
-            additem($loc, $login, "", $to, 1);
-            additem($loc, "", $login, $to . ".good", 1);
+            manageItems($loc, $login, "", $to, 1);
+            manageItems($loc, "", $login, $to . ".good", 1);
             addjournal($loc, $login, "Вы отшлифовали камень");
             addjournal($loc, "all", $char[0] . " отшлифовал камень", $login);
             addexp($loc, $login, rand(0, 2));
@@ -38,7 +38,7 @@ if ($to) {
         if (rand(1, 100) <= 5) {
             addjournal($loc, $login, "Вы сломали набор для шлифования камней");
             addjournal($loc, "all", $char[0] . " сломал набор для шлифования камней", $login);
-            additem($loc, $login, "", "i.set.shlif", 1);
+            manageItems($loc, $login, "", "i.set.shlif", 1);
         }
 
     } else {

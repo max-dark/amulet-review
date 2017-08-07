@@ -6,9 +6,9 @@ function nNatan_haveHearts()
     $login = getCurrentUserId();
 
     return (
-        additem($loc,$login,"","i.q.heart.k","count")>0 &&
-        additem($loc,$login,"","i.q.heart.g","count")>0 &&
-        additem($loc,$login,"","i.q.heart.o","count")>0
+        manageItems($loc,$login,"","i.q.heart.k","count")>0 &&
+        manageItems($loc,$login,"","i.q.heart.g","count")>0 &&
+        manageItems($loc,$login,"","i.q.heart.o","count")>0
     );
 }
 
@@ -23,10 +23,10 @@ function nNatan_spec(&$title)
     $login = getCurrentUserId();
 
     if (nNatan_haveHearts()) {
-        additem($loc, $login, "", "i.q.heart.g", 1);
-        additem($loc, $login, "", "i.q.heart.k", 1);
-        additem($loc, $login, "", "i.q.heart.o", 1);
-        additem($loc, "", $login, "i.q.ssword", 1);
+        manageItems($loc, $login, "", "i.q.heart.g", 1);
+        manageItems($loc, $login, "", "i.q.heart.k", 1);
+        manageItems($loc, $login, "", "i.q.heart.o", 1);
+        manageItems($loc, "", $login, "i.q.ssword", 1);
         $title = "[складывает сердца так, что их грани странным образом подходят друг к другу, после чего раскаляет конструкцию в огне в выковывает из ониксовой части лезвие, вы видите меч с прозрачнм лезвием и ребристой матовой ручкой] Надо же, похоже, получилось! Держи, надеюсь, он действительно так хорош, как написано. Заглядывай ко мне еще как будет время.";
     } else {
         $title = "Гм... Вообще-то я недавно натолкнулся среди рухляди на описание некоего Стеклянного меча, который может убить с одного удара любого человека, после чего рассыпается на осколки. Но для изготовления нужны сердца каменной, горной и ониксовой горгульи. Если найдешь, приноси, попробую сделать эту штуку.";

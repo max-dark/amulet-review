@@ -77,7 +77,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
 
     $tc = intval(preg_replace('/.*' . $id . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["trade"]["i"]));
     if ($trade == "add") {    // добавляем предмет
-        $tcount = additem($loc, $login, "", $id, "count");
+        $tcount = manageItems($loc, $login, "", $id, "count");
         if ($tcount == 0) {
             msg("У вас нет этого предмета");
         }
@@ -189,10 +189,10 @@ if (isset($loc_i[$loc][$login]["trade"])) {
             }
             if ($b == 0) {    // передаем вещи
                 foreach (array_keys($i) as $j) {
-                    additem($loc, $login, $to, $i[$j][0], $i[$j][1], "items", "items", 1, -1, 1);
+                    manageItems($loc, $login, $to, $i[$j][0], $i[$j][1], "items", "items", 1, -1, 1);
                 }
                 foreach (array_keys($ito) as $j) {
-                    additem($loc, $to, $login, $ito[$j][0], $ito[$j][1], "items", "items", 1, -1, 1);
+                    manageItems($loc, $to, $login, $ito[$j][0], $ito[$j][1], "items", "items", 1, -1, 1);
                 }
                 unset($loc_i[$loc][$login]["trade"]);
                 unset($loc_i[$loc][$to]["trade"]);

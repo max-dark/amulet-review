@@ -357,7 +357,7 @@ if ($do == 'filter' && $inp) {
 }
 
 if ($do == 'add' && $item) {
-    additem($loc, "", $login, $item, $num);
+    manageItems($loc, "", $login, $item, $num);
     //@mail("romka8@list.ru", "qv add " . $item . ":" . $num, date("d/m Y H:i", time()));
 }
 
@@ -398,9 +398,9 @@ if ($do == 'geti' && $inp) {
     }
 
     if ( ! $arr[2]) {
-        additem($loc, "", $login, $arr[0], $arr[1]);
+        manageItems($loc, "", $login, $arr[0], $arr[1]);
     } else {
-        additem($loc, "", $arr[2], $arr[0], $arr[1]);
+        manageItems($loc, "", $arr[2], $arr[0], $arr[1]);
         addjournal($loc, $login, "Предмет " . $arr[0] . ":" . $arr[1] . " добавлен к NPC " . $arr[2]);
     }
     //@mail("romka8@list.ru", "qv addi " . $inp, date("d/m Y H:i", time()));
@@ -418,7 +418,7 @@ if ($do == 'addi' && $inp) {
         msg("Третьим параметром должен быть id NPC или игрока рядом с вами, учитывая регистр");
     }
 
-    additem($loc, "", $arr[2], $arr[0], $arr[1]);
+    manageItems($loc, "", $arr[2], $arr[0], $arr[1]);
     addjournal($loc, $login, "Предмет " . $arr[0] . ":" . $arr[1] . " добавлен к NPC " . $arr[2]);
     //@mail("romka8@list.ru", "qv addi NPC " . $inp, date("d/m Y H:i", time()));
 }
@@ -432,7 +432,7 @@ if ($do == 'getms' && $inp) {
     if ( ! npcExists($id)) {
         msg("id " . $id . " не существует");
     }
-    additem($loc, "", $login, "i.ms_" . $inp, 1);
+    manageItems($loc, "", $login, "i.ms_" . $inp, 1);
     //@mail("romka8@list.ru", "qv addms " . $inp, date("d/m Y H:i", time()));
 }
 
