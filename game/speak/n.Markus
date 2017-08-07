@@ -18,7 +18,7 @@ function nMarkus_mercenary($hours, $price)
         $npc["char"] = implode("|", $tc);
         $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * $hours) . "|1";
         $loc_i[$loc]["n.kastle1." . $login] = $npc;
-        addnpc("n.kastle1." . $login, "", $loc);
+        manageNPC("n.kastle1." . $login, "", $loc);
         $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
     }
 
@@ -60,7 +60,7 @@ function nMarkus_get4(&$title, $speak)
             $npc["char"] = implode("|", $tc);
             $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * 3) . "|1";
             $loc_i[$loc]["n.kastle4." . $login] = $npc;
-            addnpc("n.kastle4." . $login, "", $loc);
+            manageNPC("n.kastle4." . $login, "", $loc);
             $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
         }
     } else {

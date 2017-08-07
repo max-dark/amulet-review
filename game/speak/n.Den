@@ -30,7 +30,7 @@ function nDen_go(&$title)
     loadloc("arena");
     manageItems("arena", "", "loc", "i.money", 50);
     $title = "[освобождает проход] Проходи.";
-    addnpc($login, $loc, "arena");
+    manageNPC($login, $loc, "arena");
 }
 
 return [

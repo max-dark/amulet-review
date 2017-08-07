@@ -38,7 +38,7 @@ function nKasten_qv(&$title, $speak)
                 $loc_i[$loc][$speak]["qv"] = time() + rand(18000, 24000);
                 manageItems($loc, $login, "", "i.q.shaman", 1);
                 $title = "Помни, <name>, если вам не удастся сразу прорваться через проход, мои ребята отступят. Удачи! [подзывает несколько человек и дает всем, включая вас, попробовать зелье, у вас перед глазами темнеет и...]";
-                addnpc($login, $loc, "x1446x60");
+                manageNPC($login, $loc, "x1446x60");
                 $npc = loadNpcById("n.strditrih");
                 $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 90) . "|1";
                 $loc_i[$loc]["n.strditrih1." . $login] = $npc;

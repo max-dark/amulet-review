@@ -23,7 +23,7 @@ foreach (array_keys($loc_i[$loc]) as $i) {
                 $tchar = explode("|", $loc_i[$loc][$i]["char"]);
                 addjournal($loc, $login, $tchar[0] . " покинул вас");
                 if ($owner[4]) {
-                    addnpc($i, $loc, "");
+                    manageNPC($i, $loc, "");
                 } else {
                     unset($loc_i[$loc][$i]["owner"]);
                 }
@@ -116,4 +116,4 @@ while (isset($loc_i[$loc][$id])) {
 }
 
 $loc_i[$loc][$id] = $item;
-addnpc($id, "", $loc);    // журнал
+manageNPC($id, "", $loc);    // журнал

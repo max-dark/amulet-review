@@ -141,7 +141,7 @@ if ($tfound == 2) {
     loadloc($loc);
     $loc_i[$loc][$login] = $auser;
     // FIXME: добавим событие появления в журнал(костыль)
-    addnpc($login, "", $loc);
+    manageNPC($login, "", $loc);
 }
 
 $sid = substr($login, 2) . "." . $p . "." . chr(rand(97, 122));

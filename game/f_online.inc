@@ -77,7 +77,7 @@ while (($fname = readdir($dh)) !== false) {
             if ($auser["user"] && $auser["char"] && $auser["skills"] && $auser["war"]) {
                 $save_error = DBOperations::setData(substr($fname, 2), $tp[0], serialize($auser));
                 if ( ! $save_error) {
-                    addnpc($fname, $tmp[0], "");
+                    manageNPC($fname, $tmp[0], "");
                 }
             }
             if ( ! $save_error || $f_all == 1 || $f_all == $tmp[0]) {

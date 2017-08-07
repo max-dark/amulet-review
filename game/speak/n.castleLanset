@@ -15,7 +15,7 @@ function nCastleLanset_get1(&$title)
     $npc["owner"] = $login . "|" . $login . "||" . (time() + 60 * 30) . "|1";
     $tid = "n.o.castle1." . rand(11, 999);
     $loc_i[$loc][$tid] = $npc;
-    addnpc($tid, "", $loc);
+    manageNPC($tid, "", $loc);
 }
 
 function nCastleLanset_get2(&$title)
@@ -33,7 +33,7 @@ function nCastleLanset_get2(&$title)
     $npc["owner"] = $login . "|" . $login . "||" . (time() + 60 * 30) . "|1";
     $tid = "n.o.castle2." . rand(11, 999);
     $loc_i[$loc][$tid] = $npc;
-    addnpc($tid, "", $loc);
+    manageNPC($tid, "", $loc);
 }
 
 function nCastleLanset_get3(&$title)
@@ -51,7 +51,7 @@ function nCastleLanset_get3(&$title)
     $npc["owner"] = $login . "|" . $login . "||" . (time() + 60 * 30) . "|1";
     $tid = "n.o.castle3." . rand(11, 999);
     $loc_i[$loc][$tid] = $npc;
-    addnpc($tid, "", $loc);
+    manageNPC($tid, "", $loc);
 }
 
 function nCastleLanset_get4(&$title)
@@ -69,7 +69,7 @@ function nCastleLanset_get4(&$title)
     $npc["owner"] = $login . "|" . $login . "||" . (time() + 60 * 30) . "|1";
     $tid = "n.o.castle4." . rand(11, 999);
     $loc_i[$loc][$tid] = $npc;
-    addnpc($tid, "", $loc);
+    manageNPC($tid, "", $loc);
 }
 
 function nCastleLanset_getm1(&$title)
@@ -89,7 +89,7 @@ function nCastleLanset_getm1(&$title)
         $npc["char"] = implode("|", $tc);
         $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * 3) . "|1";
         $loc_i[$loc]["n.kastle1." . $login] = $npc;
-        addnpc("n.kastle1." . $login, "", $loc);
+        manageNPC("n.kastle1." . $login, "", $loc);
         $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
     }
     // TODO: Выяснить для чего эта строка без переменной.
@@ -113,7 +113,7 @@ function nCastleLanset_getm2(&$title)
         $npc["char"] = implode("|", $tc);
         $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * 3) . "|1";
         $loc_i[$loc]["n.kastle2." . $login] = $npc;
-        addnpc("n.kastle2." . $login, "", $loc);
+        manageNPC("n.kastle2." . $login, "", $loc);
         $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
     }
 }
@@ -135,7 +135,7 @@ function nCastleLanset_getm3(&$title)
         $npc["char"] = implode("|", $tc);
         $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * 3) . "|1";
         $loc_i[$loc]["n.kastle3." . $login] = $npc;
-        addnpc("n.kastle3." . $login, "", $loc);
+        manageNPC("n.kastle3." . $login, "", $loc);
         $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
     }
 }
@@ -159,7 +159,7 @@ function nCastleLanset_getm4(&$title, $speak)
             $npc["char"] = implode("|", $tc);
             $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 60 * 60 * 3) . "|1";
             $loc_i[$loc]["n.kastle4." . $login] = $npc;
-            addnpc("n.kastle4." . $login, "", $loc);
+            manageNPC("n.kastle4." . $login, "", $loc);
             $title = $tn . " теперь в твоем распоряжении, <name>. Чтобы отдать приказ или определить тактику поведения, поговори с ним.";
         }
     } else {

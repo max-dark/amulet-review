@@ -20,7 +20,7 @@ function nmGnomCastle_gr(&$title)
 
     if (manageItems($loc, $login, "", "i.q.gnom", "count") > 0) {
         $title = "ага вижу проходи дружище, если еще Палента увидишь, передавай от меня огромный привет.";
-        addnpc($login, $loc, "x138x1380");
+        manageNPC($login, $loc, "x138x1380");
     } else {
         $title = "Не вижу я у тебя знака , что ты несешь?";
     }

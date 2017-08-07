@@ -6,7 +6,7 @@ function nRudolf_begin(&$title)
     if ($war[16]) {
         $title = "А, <name>, проходи, располагайся. Мы уже наслышаны о твоих подвигах...";
     } else {
-        addnpc(getCurrentUserId(), getCurrentLocId(), "x2168x297");
+        manageNPC(getCurrentUserId(), getCurrentLocId(), "x2168x297");
         $title = "Эй, тебе здесь не место! Убирайся и радуйся, что остался жив!";
     }
 }
@@ -21,7 +21,7 @@ function nRudolf_qv(&$title, $speak)
     $title = "";
     $war = explode("|", getCurrentUser("war"));
     if (!$war[16]) {
-        addnpc($login, $loc, "x2168x297");
+        manageNPC($login, $loc, "x2168x297");
         $title = "[оборачивается к охранникам] Вышвырнуть этого слюнтяя!";
     } else {
         if ($loc_i[$loc][$speak]["qv"] == $war[16] && $war[16] != $login) {

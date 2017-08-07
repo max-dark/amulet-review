@@ -37,7 +37,7 @@ function nMilta_sell($npcId, $price, $npcName, $isActive)
         $npc["owner"] = nMilta_makeOwn($login, $isActive);
         $fullId = $npcId . '.' . $login;
         $loc_i[$loc][$fullId] = $npc;
-        addnpc($fullId, "", $loc);
+        manageNPC($fullId, "", $loc);
         $title = "Поздравляю, у тебя, <name>, теперь есть $npcName!";
         if (!$isActive)
         {

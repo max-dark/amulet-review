@@ -67,7 +67,7 @@ if (rand(0, 100) <= $skills[31] * 5 + $skills[2] * 2) {
                     $tchar = explode("|", $loc_i[$loc][$i]["char"]);
                     addjournal($loc, $login, $tchar[0] . " покинул вас");
                     if ($owner[4]) {
-                        addnpc($i, $loc, "");
+                        manageNPC($i, $loc, "");
                     } else {
                         unset($loc_i[$loc][$i]["owner"]);
                     }

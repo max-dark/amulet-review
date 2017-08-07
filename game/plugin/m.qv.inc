@@ -133,18 +133,18 @@ if ($do == 'tele') {
         if (substr($to[0], 0, 2) != "n.") {
             msg("Телепортировать можно только NPC или игроков");
         } else {
-            addnpc($to[0], $loc, strtolower($to[1]));
+            manageNPC($to[0], $loc, strtolower($to[1]));
         }
         //@mail("romka8@list.ru", "qv teleport " . $to[0] . ":" . $to[1], date("d/m Y H:i", time()));
     } else {
         if ($loc == "qv") {
             foreach ($loc_i[$loc] as $k => $val) {
                 if (substr($k, 0, 2) == "n.") {
-                    addnpc($k, $loc, strtolower($to));
+                    manageNPC($k, $loc, strtolower($to));
                 }
             }
         }
-        addnpc($login, $loc, strtolower($to));
+        manageNPC($login, $loc, strtolower($to));
         $loc_c = explode("|", $loc_tt[$loc]["d"]);
     }
 }

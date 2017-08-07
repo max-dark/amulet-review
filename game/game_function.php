@@ -1898,7 +1898,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
             }
             $char[7] = "";
             setCharData($loc_i, $i, $j, $char);
-            addnpc($j, $i, $k);
+            manageNPC($j, $i, $k);
             $b = 1;
         }
         if ($b) {
@@ -1917,7 +1917,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
         $b = 0;
         foreach ($loc_i[$i] as $k => $v) {
             if (substr($k, 0, 2) == "u.") {
-                addnpc($j, $i, $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1]);
+                manageNPC($j, $i, $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1]);
                 $b = 1;
                 break;
             }
@@ -1929,7 +1929,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
     }
     // отпустить гварда, если он давно бездействует(?)
     if ($npcType == "n.g." && time() > $char[11]) {
-        addnpc($j, $i, "");
+        manageNPC($j, $i, "");
         goto nextStep;
         //continue;
     }
@@ -1954,14 +1954,14 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
             unset($loc_i[$i][$j]["owner"]);
             addjournal($i, $owner[0], $char[0] . " покинул вас");
             if ($owner[6]) {
-                addnpc($j, $i, $owner[6]);
+                manageNPC($j, $i, $owner[6]);
             } else {
                 $ttw = explode("|", $loc_i[$i][$j]["war"]);
                 if ($ttw[15]) {
                     $ttwr = explode(":", $ttw[15]);
-                    addnpc($j, $i, $ttwr[0]);
+                    manageNPC($j, $i, $ttwr[0]);
                 } else {
-                    addnpc($j, $i);
+                    manageNPC($j, $i);
                 }
             }
         }
@@ -2024,7 +2024,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
                     if ($bc) {
                         $char[7] = "";
                         setCharData($loc_i, $i, $j, $char);
-                        addnpc($j, $i, $locai[$k]);
+                        manageNPC($j, $i, $locai[$k]);
                         $char = explode("|", $loc_i[$locai[$k]][$j]["char"]);
                         $char[12] = "";
                         $loc_i[$locai[$k]][$j]["char"] = implode("|", $char);
@@ -2102,7 +2102,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
 
                     if ($b) {    // погоня
                         setCharData($loc_i, $i, $j, $char);
-                        addnpc($j, $i, $locai[$k]);
+                        manageNPC($j, $i, $locai[$k]);
                     } else {
                         $tfound = 0;
                     }
@@ -2159,7 +2159,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
             setCharData($loc_i, $i, $j, $char);
             $lt = $steps[count($steps) - 1];
             if (npcCanGoTo($j, $loc_i, $lt)) {
-                addnpc($j, $i, $lt);
+                manageNPC($j, $i, $lt);
                 $b = 1;
             }
         } else {
@@ -2181,7 +2181,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
                     $char[10] = implode(":", $move);
                     setCharData($loc_i, $i, $j, $char);
                     if (npcCanGoTo($j, $loc_i, $k)) {
-                        addnpc($j, $i, $k);
+                        manageNPC($j, $i, $k);
                         $b = 1;
                     }
                 }
@@ -2431,15 +2431,13 @@ function loadloc($loc)
  *
  * Выполняет перемещение между локациями и удаление из локации.
  *
- * FIXME: название не соответствует, так как в основном используется перемещения/удаления
- *
  * @param string $id   ID NPC/пользователя
  * @param string $from откуда, ID локации
  * @param string $to   куда, ID локации
  * @param int    $gal  флаг перемещения галопом
  * @param int    $hide флаг скрытного перемещения
  */
-function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
+function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
 {
     global $loc_i, $loc, $login, $page_d, $loc_tt, $g_j2go, $game;
 

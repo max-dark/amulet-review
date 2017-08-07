@@ -278,9 +278,9 @@ if ($go) {
         if ( ! $b) {
             $tgo = "";
         }
-        addnpc($login, $loc, $go, $tgo, $hide);
+        manageNPC($login, $loc, $go, $tgo, $hide);
         if ($b) {
-            addnpc($login, $loc, $loc_c[$b + 1], 1, $hide);
+            manageNPC($login, $loc, $loc_c[$b + 1], 1, $hide);
         }
     }
 }

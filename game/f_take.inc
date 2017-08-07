@@ -60,7 +60,7 @@ if ($take) {            //linkПоднять
                     }
                 }
                 if ($b) {
-                    addnpc($login, $loc, "x1086x501");
+                    manageNPC($login, $loc, "x1086x501");
                     msg("Вы покинули арену");
                 } else {
                     msg("Покинуть арену можно либо призраком, либо оставшись единственным в живых.");
@@ -113,7 +113,7 @@ if ($take) {            //linkПоднять
 
             // портал
             if (substr($take, 0, 11) == 'i.s.portal_') {
-                addnpc($login, $loc, substr($take, 11));
+                manageNPC($login, $loc, substr($take, 11));
                 msg("Вы проходите сквозь портал и оказываетесь в совершенно другом месте");
             }
 

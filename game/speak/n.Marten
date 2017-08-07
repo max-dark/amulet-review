@@ -26,7 +26,7 @@ function nMarten_qvOK(&$title, &$b)
         $title = "Фантастика, как тебе это удалось? [нежно гладит единорога по шее] Ну-ну, хороший... О тебе будут заботиться, не бойся. [оборачивается к вам] <name>, выражаю тебе признательность от всего сердца, возьми это в  качестве награды. [уводит единорога вглубь конюшни]";
         manageItems($loc, "", $login, "i.money", 200);
         addexp($loc, $login, 75);
-        addnpc("n.a.edinorog.1", $loc, "");
+        manageNPC("n.a.edinorog.1", $loc, "");
         manageTimers("x618x53", "", rand(14000, 36000), "n.a.edinorog.1|14000:36000|6:60:120");
     } else {
         $b = 0;
@@ -57,7 +57,7 @@ function nMarten_horseB(&$title)
         $npc = loadNpcById("n.a.losh");
         $npc["owner"] = $login . "|" . $login . "|";
         $loc_i[$loc]["n.a.losh." . $login] = $npc;
-        addnpc("n.a.losh." . $login, "", $loc);
+        manageNPC("n.a.losh." . $login, "", $loc);
         $title = "Поздравляю, у тебя, <name>, теперь есть собственная лошадь! Учти, что она тебя защищать не будет, пока ты ей об этом не скажешь.";
     }
 }

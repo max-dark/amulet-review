@@ -92,7 +92,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                             manageItems($loc, $login, "", $it1[1], 1);
                         }
                     }
-                    addnpc($speak, $loc, "");
+                    manageNPC($speak, $loc, "");
                     unset($loc_i[$loc][$speak]);
                     msg($items[1] . "<br/><a href=\"?sid=$sid\">Ну ладно, прощай</a>", $tchar[0]);
                 } else {
@@ -261,7 +261,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     msg("Сожалею, сир, но там уже полно стражников, во время боя мы будем только мешать друг другу.");
                 }
                 addjournal($loc, "all", $tchar[0] . " говорит: слушаюсь, сир");
-                addnpc($speak, $loc, substr($loc, 0, 4) . $to);
+                manageNPC($speak, $loc, substr($loc, 0, 4) . $to);
                 $stmp = "";
             }
 
@@ -611,11 +611,11 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     case 'free':    // расстаться
                         if ($owner[6]) {
                             unset($loc_i[$loc][$speak]["owner"]);
-                            addnpc($speak, $loc, $owner[6]);
+                            manageNPC($speak, $loc, $owner[6]);
                         } else {
                             if ($owner[4]) {
                                 // remove NPC from location
-                                addnpc($speak, $loc);
+                                manageNPC($speak, $loc);
                             } else {
                                 unset($loc_i[$loc][$speak]["owner"]);
                             }

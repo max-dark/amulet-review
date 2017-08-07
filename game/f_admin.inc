@@ -57,7 +57,7 @@ if ($login == $g_admin || $gm == $gm_id) {
         break;
         case 'tln':
             if ($inp) {
-                addnpc($login, $loc, strtolower($inp));
+                manageNPC($login, $loc, strtolower($inp));
                 $loc_c = explode("|", $loc_tt[$loc]["d"]);
             }
         break;

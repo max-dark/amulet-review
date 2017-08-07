@@ -9,7 +9,7 @@ function nSeneren_begin(&$title)
     $ditrih = manageItems($loc, $login, "", "i.q.ditrih", "count");
     if ($hagen == 0 && $ditrih == 0) {
         $title = "Как ты сюда попал? Немедленно покинь здание.";
-        addnpc($login, $loc, "x1778x493");
+        manageNPC($login, $loc, "x1778x493");
     } else {
         if ($hagen > 0) {
             $title = "Приветствую тебя, верный сын святой церкви. Лорд Хаген, который дал тебе эту грамоту, не мог ошибиться в своем выборе.";

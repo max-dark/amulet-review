@@ -42,5 +42,5 @@ $npc["char"]      = implode("|", $tc);
 $npc["owner"]     = $login . "|" . $login . "||0";
 $id               = "n.a." . rand(99, 9999);
 $loc_i[$loc][$id] = $npc;
-addnpc($id, "", $loc);    // журнал
+manageNPC($id, "", $loc);    // журнал
 
