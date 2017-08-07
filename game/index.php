@@ -5,6 +5,7 @@
  */
 
 use MaxDark\Amulet\OldCode\MapPage;
+use MaxDark\Amulet\OldCode\PageType;
 
 /**
  * @global login
@@ -692,5 +693,5 @@ $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=$(to)\">Инфo</a>"; // "осм�
 if (strpos($loc_c[0], "*") !== false) {
     $loc_c[0] = substr($loc_c[0], 0, strpos($loc_c[0], "*"));
 }
-msg($stmp, $loc_c[0], 1, 'main');
+msg($stmp, $loc_c[0], 1, PageType::MAIN);
 exit;

@@ -15,6 +15,8 @@
  * @global g_list
  */
 // список инвентори
+use MaxDark\Amulet\OldCode\PageType;
+
 $items = explode("|", $loc_i[$loc][$login]["items"]);
 if ($up || $down) {
     include "f_listinvm.inc";
@@ -103,4 +105,4 @@ if ($char[12]) {
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=i.h\">Покинуть седло</a>";
 }
 
-msg($stmp, "[" . date("H:i", time()) . "] Предметы ", 1, 'inv');
+msg($stmp, "[" . date("H:i", time()) . "] Предметы ", 1, PageType::INVENTORY);

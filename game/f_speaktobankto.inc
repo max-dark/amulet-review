@@ -16,6 +16,8 @@
  * @global num
  */
 // $to в банк
+use MaxDark\Amulet\OldCode\PageType;
+
 $item = findItemByFullId($to);
 $count = intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"]));
 if ($count == 0) {
@@ -24,7 +26,7 @@ if ($count == 0) {
 if ($count > 1 && ! $num) {        // кол-во
     $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $count .
             "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$to&num=$(num)\">Отправить</a>";
-    msg($stmp, $tchar[0], 1, "", "num", $count);
+    msg($stmp, $tchar[0], 1, PageType::MSG, "num", $count);
 }
 if ( ! $num || $num < 1) {
     $num = 1;

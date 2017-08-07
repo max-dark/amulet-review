@@ -19,6 +19,8 @@
  */
 
 // продаем $to
+use MaxDark\Amulet\OldCode\PageType;
+
 $item = findItemByFullId($to);
 
 // фильтр
@@ -48,7 +50,7 @@ if ($count == 0) {
 if ($count > 1 && ! $num) {        // кол-во
     $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $count .
             "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&to=$to&start=$start&num=$(num)\">Отправить</a>";
-    msg($stmp, $tchar[0], 1, "", "num", $count);
+    msg($stmp, $tchar[0], 1, PageType::MSG, "num", $count);
 }
 if ( ! $num || $num < 1) {
     $num = 1;

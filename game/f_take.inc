@@ -11,6 +11,9 @@
  * @global num
  * @global id
  */
+
+use MaxDark\Amulet\OldCode\PageType;
+
 $loc_i[$loc][$login]["macrol"] = "take|$take||";
 if ($take) {            //linkПоднять
     // $take=id предмета [$id=id предмета с трупа, $num=кол-во]
@@ -97,7 +100,7 @@ if ($take) {            //linkПоднять
                 if ($item[1] > 1 && ! $num) {        // запросим кол-во
                     $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
                             $item[1] . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&num=$(num)\">Отправить</a>";
-                    msg($stmp, "Взять", 1, "", "num", $item[1]);
+                    msg($stmp, "Взять", 1, PageType::MSG, "num", $item[1]);
                 }
                 if ( ! $num || $num < 1) {
                     $num = 1;

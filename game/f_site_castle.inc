@@ -1,5 +1,7 @@
 <?php
 
+use MaxDark\Amulet\OldCode\PageType;
+
 /**
  * @param string $file
  *
@@ -71,4 +73,4 @@ function get_castle_page()
     return implode('<br/>' . PHP_EOL, $owners);
 }
 
-msg(get_castle_page(), "Замки", 0, 'none');
+msg(get_castle_page(), "Замки", 0, PageType::GUEST);

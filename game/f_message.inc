@@ -7,6 +7,7 @@
  */
 
 use MaxDark\Amulet\OldCode\MenuMode;
+use MaxDark\Amulet\OldCode\PageType;
 
 /**
  * Выводит страницу пользователю.
@@ -15,8 +16,8 @@ use MaxDark\Amulet\OldCode\MenuMode;
  * В большинстве случаев вызывается с одним параметром: `msg('some text');`
  * Другие варианты использования
  * f_cnick.inc: `msg($stmp, "Настройки", 0);`
- * f_drop.inc: `msg($stmp, "Бросить", 1, "", "num", $tcount);`
- * f_listinv.inc: `msg($stmp, "[" . date("H:i", time()) . "] Предметы ", 1, 'inv');`
+ * f_drop.inc: `msg($stmp, "Бросить", 1, PageType::MSG, "num", $tcount);`
+ * f_listinv.inc: `msg($stmp, "[" . date("H:i", time()) . "] Предметы ", 1, PageType::INVENTORY);`
  * f_listmagic.inv: `msg($stmp, "Магия", 1);`
  * f_listpriem.inc: `msg($stmp, "Приемы", 1);`
  * f_listskill.inc: `msg($stmp, "Навыки", 1);`
@@ -30,11 +31,11 @@ use MaxDark\Amulet\OldCode\MenuMode;
  * @param string $message      Сообщение
  * @param string $page_title   Заголовок страницы
  * @param bool   $show_journal флаг, что нужно выводить журнал
- * @param string $page_type    тип страницы. возможные значения (""|none|main|inv)
- *      ""   - "диалоговая" страница(уточнить)
- *      none - "гостевая" страница - без меню и журнала(уточнить)
- *      main - основная страница(уточнить) {@see game/index.php}
- *      inv  - список действий в инвентаре(?) {@see game/f_listinv.inc}
+ * @param string $page_type    тип страницы. возможные значения PageType::(MSG|GUEST|MAIN|INVENTORY)
+ *      PageType::MSG - "диалоговая" страница(уточнить)
+ *      PageType::GUEST - "гостевая" страница - без меню и журнала(уточнить)
+ *      PageType::MAIN - основная страница(уточнить) {@see game/index.php}
+ *      PageType::INVENTORY - список действий в инвентаре(?) {@see game/f_listinv.inc}
  * 
  * @param string $var_name     имя переменной для вставки в страницу
  * @param string $var_value    значение переменной var_name
@@ -45,7 +46,7 @@ function msg(
     $message,
     $page_title = 'Амулет Дракона',
     $show_journal = true,
-    $page_type = '',
+    $page_type = PageType::MSG,
     $var_name = '',
     $var_value = ''
 ) {
@@ -74,7 +75,7 @@ function msg(
      * Флаг, что перешли с главной страницы.
      * Как комманда показать меню в виде "действий"(<do></do> tag).
      *
-     * is_page_mode_menu = (!$is_page_mode_menu && $page_type == 'main' && $g_menu == Menu::mode_page)
+     * is_page_mode_menu = (!$is_page_mode_menu && $page_type == PageType::MAIN && $g_menu == MenuMode::PAGE)
      * is_page_mode_menu = is_page_mode_menu && ! is_links_mode_menu;
      *
      * @var $isMenuInPageMode bool
@@ -84,7 +85,7 @@ function msg(
      * Флаг, что перешли с главной(page_type == 'main') страницы.
      * Как комманда показать меню в виде ссылок(<a></a> tag) на отдельной странице.
      *
-     * is_links_mode_menu = (!$is_links_mode_menu && $page_type == 'main' && $g_menu == Menu::mode_links)
+     * is_links_mode_menu = (!$is_links_mode_menu && $page_type == PageType::MAIN && $g_menu == MenuMode::LINKS)
      * is_links_mode_menu = is_links_mode_menu && ! is_page_mode_menu;
      *
      * @var $isMenuInLinksMode bool
@@ -99,7 +100,7 @@ function msg(
     // для "гостя"
     if (empty($login)) {
         $show_journal = false;
-        $page_type = 'none';
+        $page_type = PageType::GUEST;
         $userJournal = '';
         $currentUser = [];
     } else {
@@ -244,10 +245,12 @@ function buildMainCard(
 ) {
     $wml = '<card id="g" title="' . $pageTitle . '"';
     // включить автообновление для главной страницы
-    if ($pageType == 'main') {
+    if ($pageType == PageType::MAIN) {
         $wml .= " ontimer=\"$url_base\"><timer value=\"600\"/";
     }
     $wml .= ">";
+    // добавить переменную
+    // испрользуется только при $pageType == PageType::MSG
     if ($var_name) {
         $wml .= '<onevent type="onenterforward"><refresh>' .
             "<setvar name=\"$var_name\" value=\"$var_value\"/>" .
@@ -255,37 +258,37 @@ function buildMainCard(
     }
 
     #start: формирование меню
-    if ($pageType == '' || ($pageType == 'inv' && $menuMode != MenuMode::SHORT)) {
+    if ($pageType == PageType::MSG || ($pageType == PageType::INVENTORY && $menuMode != MenuMode::SHORT)) {
         $wml .= '<do name="b1" type="options" label="В игру">' .
             "<go href=\"$url_base\"/></do>";
         $wml .= '<do name="b2" type="accept" label="Назад"><prev/></do>';
     }
     $o = 4;
 
-    // только для $page_type == 'main':
-    // добавить ссылку на меню в режиме Menu::mode_page
-    if ($pageType == 'main' && $menuMode == MenuMode::PAGE && !$isMenuInPageMode) {
+    // только для $pageType == PageType::MAIN
+    // добавить ссылку на меню в режиме MenuMode::PAGE
+    if ($pageType == PageType::MAIN && $menuMode == MenuMode::PAGE && !$isMenuInPageMode) {
         $wml .= '<do name="o2" type="options" label="Меню">' .
             "<go href=\"$url_base&fm=1&cj=1\"/></do>";
         // дальше выводим как "диалоговую"
-        $pageType = '';
+        $pageType = PageType::MSG;
     }
 
-    // только для $page_type == 'main':
-    // добавить ссылку на меню в режиме Menu::mode_links
-    if ($pageType == 'main' && $menuMode == MenuMode::LINKS && !$isMenuInLinksMode) {
+    // только для $pageType == PageType::MAIN
+    // добавить ссылку на меню в режиме MenuMode::LINKS
+    if ($pageType == PageType::MAIN && $menuMode == MenuMode::LINKS && !$isMenuInLinksMode) {
         // FIXME: тот еще костыль...
         // добавляет на главной странице ссылку на страницу с меню.
         $message = str_replace("</p></card><card id=\"m\"",
             "<br/><a href=\"$url_base&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"", $message);
         // дальше выводим как "диалоговую"
-        $pageType = '';
+        $pageType = PageType::MSG;
     }
 
-    // только для $page_type == 'main':
-    // доп условие: ($g_menu != Menu::mode_links)
+    // только для $pageType == PageType::MAIN
+    // доп условие: ($menuMode != MenuMode::LINKS)
     // добавляет список макросов
-    if (($pageType == 'main' || $isMenuInPageMode) && !$isMenuInLinksMode) {
+    if (($pageType == PageType::MAIN || $isMenuInPageMode) && !$isMenuInLinksMode) {
         $wml .= '<do name="b1" type="options" label="Пeрcoнaж">' .
             "<go href=\"$url_base&cl=i&cj=1\"/></do>";
         if (array_key_exists('macro', $userData)) {
@@ -303,13 +306,13 @@ function buildMainCard(
         }
     }
 
-    if ($pageType == 'inv' && $menuMode == MenuMode::SHORT) {
+    if ($pageType == PageType::INVENTORY && $menuMode == MenuMode::SHORT) {
         $wml .= '<do name="b1" type="options" label="В игру">' .
             "<go href=\"$url_base\"/></do>";
     }
-    /// FIXME: не нравится мне это условие, баг в нем чую...
-    if ($pageType == 'inv' && $menuMode == MenuMode::SHORT ||
-        $menuMode == MenuMode::FULL && $pageType == 'main' ||
+
+    if ($pageType == PageType::INVENTORY && $menuMode == MenuMode::SHORT ||
+        $menuMode == MenuMode::FULL && $pageType == PageType::MAIN ||
         $isMenuInPageMode
     ) {
         $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
