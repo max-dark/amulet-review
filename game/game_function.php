@@ -1092,12 +1092,12 @@ function attack(
  * @param string $from        от кого userId|"loc"|""
  * @param string $to          кому userId|"loc"|""
  * @param string $itemId      что
- * @param mixed  $count       количество либо 'count' для авторасчета
+ * @param mixed  $count       количество либо 'count' для получения количества
  * @param string $ft          откуда брать items|bank
  * @param string $tt          куда добавлять  items|bank
  * @param int    $journal     флаг занесения в журнал
  * @param int    $time_delete время действия(-1 - получить время из конфига)
- * @param int    $msg         флаг вывода сообщения
+ * @param int    $msg         флаг вывода сообщения при ошибке
  *
  * @return int флаг успеха(?)/количество
  */
