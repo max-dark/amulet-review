@@ -291,11 +291,7 @@ function buildMainCard(
     if (($pageType == PageType::MAIN || $isMenuInPageMode) && !$isMenuInLinksMode) {
         $wml .= '<do name="b1" type="options" label="Пeрcoнaж">' .
             "<go href=\"$url_base&cl=i&cj=1\"/></do>";
-        if (array_key_exists('macro', $userData)) {
-            $m = explode("/", $userData["macro"]);
-        } else {
-            $m = [];
-        }
+        $m = getMacroList($userData);
         for ($i = 1; $i < 9; $i++) {
             if (!empty($m[$i - 1])) {
                 $mn = explode("|", $m[$i - 1]);
@@ -345,6 +341,20 @@ function buildMainCard(
 }
 
 /**
+ * @param string[] $userData
+ * @return string[]
+ */
+function getMacroList($userData)
+{
+    if (!empty($userData['macro'])) {
+        $m = explode("/", $userData['macro']);
+    } else {
+        $m = [];
+    }
+    return $m;
+}
+
+/**
  * @param string $tmp_url
  * @param string $journal
  * @param bool $skip_journal
@@ -372,19 +382,15 @@ function buildJournalCard($tmp_url, $journal, $skip_journal)
 
 /**
  * @param string $url_base
- * @param array  $current_user
+ * @param string[] $userData
  * @param        $map_type
  *
  * @return string
  */
-function menu_links($url_base, $current_user, $map_type)
+function menu_links($url_base, $userData, $map_type)
 {
     $message = sprintf('Главное меню:<br/><a href="%s&cl=i&cj=1">Пepcoнaж</a>', $url_base);
-    if (array_key_exists('macro', $current_user)) {
-        $macro_list = explode("/", $current_user['macro']);
-    } else {
-        $macro_list = [];
-    }
+    $macro_list = getMacroList($userData);
     for ($i = 1; $i < 9; $i++) {
         if ($macro_list[$i - 1]) {
             $current_macro = explode("|", $macro_list[$i - 1]);
