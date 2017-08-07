@@ -349,7 +349,7 @@ function getMacroList($userData)
     if (!empty($userData['macro'])) {
         $m = explode("/", $userData['macro']);
     } else {
-        $m = [];
+        $m = ["", "", "", "", "", "", "", ""];
     }
     return $m;
 }

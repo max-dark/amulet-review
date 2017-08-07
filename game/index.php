@@ -329,7 +329,7 @@ if ($cm) {
     // задан номер - выполнить
     if ($cm > 0 && $cm < 9) {
         $cm--;
-        $m  = explode("/", $loc_i[$loc][$login]["macro"]);
+        $m  = getMacroList($loc_i[$loc][$login]);
         $m  = explode("|", $m[$cm]);
         $ml = explode("|", $loc_i[$loc][$login]["macrol"]);
         
