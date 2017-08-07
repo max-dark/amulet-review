@@ -32,7 +32,7 @@ function nYan_qvOk(&$title)
         manageItems($loc, "", $login, "i.money", 80);
         addexp($loc, $login, 45);
         addnpc("n.a.dogyan.1", $loc, "");
-        addtimer("x702x312", "", rand(1800, 3200), "n.a.dogyan.1|600:1200|6:60:120");
+        manageTimers("x702x312", "", rand(1800, 3200), "n.a.dogyan.1|600:1200|6:60:120");
     } else {
         $title = "Ну и где мой пес?";
     }

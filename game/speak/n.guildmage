@@ -36,7 +36,7 @@ function nGuildMage_joinNow(&$title)
         $twar = explode("|", $loc_i[$loc][$ovca]["war"]);
         if ($twar[15]) {
             $resp = explode(":", $twar[15]);
-            addtimer($resp[0], 0, rand($resp[1], $resp[2]), $ovca . "|" . $resp[1] . ":" . $resp[2], 0);
+            manageTimers($resp[0], 0, rand($resp[1], $resp[2]), $ovca . "|" . $resp[1] . ":" . $resp[2], 0);
         }
         addnpc($ovca, $loc);
         manageItems($loc, "", $login, "i.q.guildmage", 1);

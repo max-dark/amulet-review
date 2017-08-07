@@ -977,14 +977,14 @@ function attack(
                                 $loc_i[$loc][$to]["items"] = $npc["items"];
                                 $loc_i[$loc][$to]["equip"] = $npc["equip"];
                                 $loc_i[$loc][$to]["osvej"] = $npc["osvej"];
-                                addtimer($resp[0], 0, rand($resp[1], $resp[2]), $loc_i[$loc][$to], 0);
+                                manageTimers($resp[0], 0, rand($resp[1], $resp[2]), $loc_i[$loc][$to], 0);
                             } else {
                                 if ($tchar[10]) {
                                     $tt = "|" . $tchar[10];
                                 } else {
                                     $tt = "";
                                 }
-                                addtimer($resp[0], 0, rand($resp[1], $resp[2]), $to . "|" . $resp[1] . ":" . $resp[2] . $tt, 0);
+                                manageTimers($resp[0], 0, rand($resp[1], $resp[2]), $to . "|" . $resp[1] . ":" . $resp[2] . $tt, 0);
                             }
                         }
                         // удаляем npc
@@ -1440,7 +1440,7 @@ function manageItems(
  *                                  старого
  * @param int          $delete      флаг удаления текущего
  */
-function addtimer($location_id, $curr, $time, $value = "old", $delete = 1)
+function manageTimers($location_id, $curr, $time, $value = "old", $delete = 1)
 {
     global $loc_t;
     loadloc($location_id);
@@ -1788,7 +1788,7 @@ function timerForItem(&$loc_t, &$loc_i, $i, $j)
     } else {
         unset($loc_i[$i][$timer[0]]);
     }
-    addtimer($i, $j, rand($timer[3], $timer[4]), $loc_t[$i][$j], 1);
+    manageTimers($i, $j, rand($timer[3], $timer[4]), $loc_t[$i][$j], 1);
 }
 
 /**

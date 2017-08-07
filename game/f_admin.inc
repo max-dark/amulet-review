@@ -186,7 +186,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 "<br/>magic: " . $loc_i[$loc][$login]["magic"] . "<br/>skills: " . $loc_i[$loc][$login]["skills"]);
         break;
         case 'resp':
-            addtimer($loc, 0, $val, $inp . "|$val:$new");
+            manageTimers($loc, 0, $val, $inp . "|$val:$new");
             addjournal($loc, $login, "Таймер установлен");
         break;
         case 'skillinfo':
