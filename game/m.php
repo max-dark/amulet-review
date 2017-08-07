@@ -3,6 +3,7 @@
 use MaxDark\Amulet\OldCode\MapTool;
 
 require_once '../vendor/autoload.php';
+require_once 'config.php';
 
 /**
  * карта, передается map=x123x456 и для картики img=1 bw=1|2|3, f=x123x456 место флага
