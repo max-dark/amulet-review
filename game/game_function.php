@@ -2403,10 +2403,18 @@ function loadloc($loc)
         if ( ! $loc || ! file_exists("loc_i/" . $loc)) {
             return;
         }
-        $tmp          = (file_get_contents("loc_i/" . $loc));
+        $tmp          = file_get_contents("loc_i/" . $loc);
         $loc_tt[$loc] = unserialize($tmp);
         if ( ! $loc_tt[$loc]["d"]) {
-            $tmp          = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $tmp);
+            // неудалось загрузить, попробуем исправить длины строк
+            // Требуется в основном после ручной правки файлов состояния.
+            $tmp = preg_replace_callback(
+                '/s:(?:\d+):"(.*?)";/',
+                function($m) {
+                    return "s:" . strlen($m[1]) . ":\"{$m[1]}\";";
+                },
+                $tmp
+            );
             $loc_tt[$loc] = unserialize($tmp);
         }
         if ( ! $loc_tt[$loc]["d"]) {
@@ -2542,20 +2550,6 @@ function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
             $page_d = 1;
         }
     }
-}
-
-/**
- * Вспомогательная функция для перерасчета длины строк в файлах состояния.
- *
- * Требуется в основном после ручной правки файлов состояния.
- *
- * @param string $s строка для перерачета
- *
- * @return string
- */
-function calcser($s)
-{
-    return "s:" . strlen($s) . ":\"" . $s . "\";";
 }
 
 /**
