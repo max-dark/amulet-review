@@ -172,7 +172,16 @@ function msg(
     $bsize = strlen($message . $page_journal) < $g_size;
     // если журнал не пуст и задано его отображение
     if ($page_journal && $show_journal) {
-        $wml .= buildJournalCard($bsize, $g_query_string, $page_journal, $skip_journal);
+        // страница влезает в ограничения?
+        if ($bsize) {
+            // отобразить через <card></card>
+            $tmp_url = "#g";
+        } else {
+            // FIXME: костыль
+            // иначе вывести продолжение на отдельную страницу
+            $tmp_url = '?' . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $g_query_string);
+        }
+        $wml .= buildJournalCard($tmp_url, $page_journal, $skip_journal);
     }
     #end: формирование журнала
 
@@ -333,32 +342,25 @@ function buildMainCard(
 }
 
 /**
- * @param bool $bsize
- * @param string $query_string
- * @param string $page_journal
+ * @param string $tmp_url
+ * @param string $journal
  * @param bool $skip_journal
  * @return string
  */
-function buildJournalCard($bsize, $query_string, $page_journal, $skip_journal)
+function buildJournalCard($tmp_url, $journal, $skip_journal)
 {
-    // страница влезает в ограничения?
-    if ($bsize) {
-        // отобразить через <card></card>
-        $tmp_url = "#g";
-    } else {
-        // FIXME: костыль
-        // иначе вывести продолжение на отдельную страницу
-        $tmp_url = '?' . preg_replace('/(ci|use|say|ca|drop|take|to|adm|cm|go)=/u', 'c1=', $query_string);
-    }
+
     $journalCard = '<card title="Журнал">' .
         '<do type="accept" label="Дальше">' .
         '<go href="' . $tmp_url . '"/>' .
         '</do>' .
-        '<p>' . $page_journal .
+        '<p>' . $journal .
         '<br/><a href="' . $tmp_url . '">Дальше</a>';
     if ($tmp_url != "#g") {
         // BUG? бесполезное условие, т.к. $show_journal = !$skip_journal
-        $tmp_url .= ($skip_journal ? '' : '&cj=1');
+        if (!$skip_journal) {
+            $tmp_url .= '&cj=1';
+        }
         $journalCard .= '/<a href="' . $tmp_url . '">к меню</a>/';
     }
     $journalCard .= '</p></card>';
