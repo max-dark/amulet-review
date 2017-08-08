@@ -1,4 +1,4 @@
-Copyright (c) 2016 Max Dark maxim.dark@gmail.com
+Copyright (c) 2016-2017 Max Dark maxim.dark@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

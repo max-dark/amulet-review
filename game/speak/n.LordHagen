@@ -5,10 +5,10 @@ function nLordHagen_gr(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.chasha", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.chasha", "count") > 0) {
         addexp($loc, $login, 70);
-        additem($loc, $login, "", "i.q.chasha", 1);
-        additem($loc, "", $login, "i.q.hagen", 1);
+        manageItems($loc, $login, "", "i.q.chasha", 1);
+        manageItems($loc, "", $login, "i.q.hagen", 1);
         $title = "Ты действительно принес чашу из Капитолия Ансалона. Что ж, тогда вот грамота, заверенная моей печатью. Она послужит тебе пропуском к главе любого из отрядов палладинов.";
     } else {
         $title = "Тебе нужна грамота? Что ж, ее придется заслужить. До меня дошли слухи, что в городе Ансалон разграблен знаменитый Капитолий. Если это действительно так, то если сможешь спасти из него и принести мне Чашу, я дам тебе свою грамоту, которая будет пропуском к главе любого из отрядов палладинов.";

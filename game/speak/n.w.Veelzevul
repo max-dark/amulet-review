@@ -28,7 +28,7 @@ function nwVeelzevul_begin_qv(&$title, &$id)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    $listCount = additem($loc, $login, "", "i.q.darklist", "count");
+    $listCount = manageItems($loc, $login, "", "i.q.darklist", "count");
     if ($listCount >= 3) {
         $title = "Я нашел потерянные листы из товоей книги.";
         $id = "qvok";
@@ -36,7 +36,7 @@ function nwVeelzevul_begin_qv(&$title, &$id)
         $title = "Я нашел листок из черной книги.";
         $id = "nful";
     } else {
-        if (additem($loc, $login, "", "i.a.m.vlast", "count") >= 1) {
+        if (manageItems($loc, $login, "", "i.a.m.vlast", "count") >= 1) {
             $title = "Я пришел за заданием учитель, смотри на мне амулет темной власти.";
             $id = "zad1";
         } else {
@@ -52,10 +52,10 @@ function nwVeelzevul_qvOk(&$title, $speak)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.darklist", "count") >= 3) {
+    if (manageItems($loc, $login, "", "i.q.darklist", "count") >= 3) {
         $title = "Отличная работа, мой верный слуга, теперь амулет твой. ";
-        additem($loc, $login, "", "i.q.darklist", 3, "items", "items", 1, 0, 1);
-        additem($loc, "", $login, "i.a.m.vlast", 1);
+        manageItems($loc, $login, "", "i.q.darklist", 3, "items", "items", 1, 0, 1);
+        manageItems($loc, "", $login, "i.a.m.vlast", 1);
         unset($loc_i[$loc][$speak]["qv"]);
     } else {
         $title = "У тебя недостаточно листов.";

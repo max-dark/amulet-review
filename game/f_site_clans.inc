@@ -3,6 +3,9 @@
  * @global info
  * @global g_list
  */
+
+use MaxDark\Amulet\OldCode\PageType;
+
 if ($clan) {
     if ( ! file_exists("data/clans/" . $clan)) {
         msg("Клан $clan не существует");
@@ -47,7 +50,7 @@ if ($clan) {
         $stmp .= "<br/>Больше никого в клане нет.";
     }
 
-    msg($stmp, "Клан *" . $clan . "*", 0, "none");
+    msg($stmp, "Клан *" . $clan . "*", 0, PageType::GUEST);
 }
 
 // все кланы
@@ -87,4 +90,4 @@ if (count($arr) > 0) {
     $stmp = "<p>Нет ни одного клана";
 }
 
-msg($stmp, "Кланы", 0, 'none');
+msg($stmp, "Кланы", 0, PageType::GUEST);

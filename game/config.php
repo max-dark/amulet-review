@@ -5,18 +5,18 @@
  * @file game/config.php
  */
 
+use MaxDark\Amulet\OldCode\DBConfig;
+
 //=========================
 // Настройки БД
 //=========================
 
-/** @var string $server */
-$server = 'localhost';
-/** @var string $user пользователь базы */
-$user = 'game';
-/** @var string $dbpass пароль пользователя */
-$dbpass = 'pass';
-/** @var string $dbname имя базы */
-$dbname = 'amulet';
+DBConfig::setConfig([
+    'server' => 'localhost',
+    'dbname' => 'amulet',
+    'login' => 'game',
+    'password' => 'pass',
+]);
 
 //=========================
 // структура каталогов

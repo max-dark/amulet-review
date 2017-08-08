@@ -7,8 +7,8 @@ function nSirs_vorovoj(&$title, $speak)
         $loc = getCurrentLocId();
         $login = getCurrentUserId();
 
-        if (additem($loc, $speak, "", "i.q.vorovoj", "count") > 0) {
-            additem($loc, $speak, $login, "i.q.vorovoj", 1);
+        if (manageItems($loc, $speak, "", "i.q.vorovoj", "count") > 0) {
+            manageItems($loc, $speak, $login, "i.q.vorovoj", 1);
             $title = "[смотрит на ваше крепкое телосложение] Ладно, забирай, так уж и быть. Мне только не хватало потасовок с таким амбалом, как ты. И это... лучше иди отсюда, а?";
         } else {
             $title = "Но у меня его правда нет!";

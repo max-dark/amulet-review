@@ -45,15 +45,15 @@ if ($to) {
         for ($i = 0; $i < $xF; $i++) {
             $ti .= $regF[1][$i] . $regF[2][$i];
         }
-        additem($loc, $login, "", $use, $num, "items", "items", 1, 0, 1);
-        additem($loc, $login, "", $to, 1, "items", "items", 1, 0, 1);
-        additem($loc, "", $login, substr($to, 0, strrpos($to, "_") + 1) . $ti, 1);
+        manageItems($loc, $login, "", $use, $num, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", $to, 1, "items", "items", 1, 0, 1);
+        manageItems($loc, "", $login, substr($to, 0, strrpos($to, "_") + 1) . $ti, 1);
     } else {            // объединяем с другими (или сами с собой) цветами в букет
-        additem($loc, $login, "", $use, $num, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", $use, $num, "items", "items", 1, 0, 1);
         if ($to == $use) {
-            additem($loc, "", $login, "i.bc_" . substr($login, 2) . "_" . $use{5} . $num, 1);
+            manageItems($loc, "", $login, "i.bc_" . substr($login, 2) . "_" . $use{5} . $num, 1);
         } else {
-            additem($loc, "", $login, "i.bc_" . substr($login, 2) . "_" . $use{5} . $num . $to{5} .
+            manageItems($loc, "", $login, "i.bc_" . substr($login, 2) . "_" . $use{5} . $num . $to{5} .
                                       intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$login]["items"])),
                 1);
         }

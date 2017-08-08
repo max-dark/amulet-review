@@ -16,6 +16,8 @@
  * @global num
  */
 // $to в банк
+use MaxDark\Amulet\OldCode\PageType;
+
 $item = findItemByFullId($to);
 $count = intval(preg_replace('/.*' . $to . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["items"]));
 if ($count == 0) {
@@ -24,7 +26,7 @@ if ($count == 0) {
 if ($count > 1 && ! $num) {        // кол-во
     $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $count .
             "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$to&num=$(num)\">Отправить</a>";
-    msg($stmp, $tchar[0], 1, "", "num", $count);
+    msg($stmp, $tchar[0], 1, PageType::MSG, "num", $count);
 }
 if ( ! $num || $num < 1) {
     $num = 1;
@@ -38,11 +40,11 @@ if ($to == "i.money" &&
     msg("Извините, в банке можно хранить не более 70000 монет");
 }
 if ($speak == "n.t.bankir") {
-    additem($loc, $login, "", "i.money", "20", "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.money", "20", "items", "items", 1, 0, 1);
 }
 if ($speak == "n.p.bankir") {
-    additem($loc, $login, "", "i.money", "200", "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.money", "200", "items", "items", 1, 0, 1);
 }
-additem($loc, $login, $login, $to, $num, "items", "bank", 0, -1, 1);
+manageItems($loc, $login, $login, $to, $num, "items", "bank", 0, -1, 1);
 msg("Вы положили в банк " . $num . " " . $item[0] .
     "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">Продолжить</a>");

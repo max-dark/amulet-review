@@ -550,7 +550,7 @@ function attack(
     $priem = "",
     $ptitle = ""
 ) {
-    global $loc_i, $loc_tt, $g_destroy, $g_crim, $g_exp, $PHP_SELF, $game;
+    global $loc_i, $loc_tt, $g_destroy, $g_exp, $PHP_SELF, $game;
     // проверки
     if ((substr($from, 0, 2) != 'u.' && substr($from, 0, 2) != 'n.') ||
         (substr($to, 0, 2) != 'u.' && substr($to, 0, 2) != 'n.') || ! isset($loc_i[$loc][$from]) ||
@@ -747,7 +747,7 @@ function attack(
     // патроны
     if ($fwar[14]) {
         if (strpos($loc_i[$loc][$from]["items"], $fwar[14] . ":") !== false) {
-            additem($loc, $from, "", $fwar[14], 1, "items", "", 0);
+            manageItems($loc, $from, "", $fwar[14], 1, "items", "", 0);
             if (strpos($loc_i[$loc][$from]["items"], $fwar[14] . ":") === false) {
                 addjournal($loc, $from, "Боеприпасы кончились");
             }
@@ -868,10 +868,167 @@ function attack(
                 }
                 // если убили, добавим труп
                 if ($tchar[1] < 1) {
-                    include "f_kill.inc";
+                    // если убили
+                    $fchar[7]                   = "";
+                    $loc_i[$loc][$from]["char"] = implode("|", $fchar);
+                    addjournal($loc, "all", $tchar[0] . " погиб", $to);
+                    // труп
+                    $id = "i.s.d." . $to . "." . rand(5, 99);
+                    while (isset($loc_i[$loc][$id])) {
+                        $id = "i.s.d." . $to . "." . rand(5, 99);
+                    }
+                    $item = "труп (" . $tchar[0] . ")|";
+                    if ($tcrim || substr($to, 0, 4) == "n.a." || (substr($loc, 0, 2) == "c." && substr($loc, 3) != ".in")) {
+                        $item .= "1|";
+                    } else {
+                        $item .= "0|";
+                    }
+                    $item .= time() + $g_destroy . "|";
+                    if (strpos($loc_i[$loc][$to]["items"], "i.q.pjpt:") === false || substr($to, 0, 2) != "u.") {
+                        // предметы
+                        if ($loc_i[$loc][$to]["items"]) {
+                            $item .= str_replace("|", ",", $loc_i[$loc][$to]["items"]) . "|";
+                        } else {
+                            $item .= "|";
+                        }
+                        $pjpt = 0;
+                    } else {
+                        $pjpt = 1;
+                        addjournal($loc, "all", $tchar[0] . " спасает свои вещи пером жар-птицы!", $to);
+                        addjournal($loc, $to, "Вы спасли свои вещи пером жар-птицы!");
+                        manageItems($loc, $to, "", "i.q.pjpt", 1);
+                        $item .= "|";
+                    }
+                    // шкура и т.д.
+                    if ($loc_i[$loc][$to]["osvej"]) {
+                        $item .= str_replace("|", ",", $loc_i[$loc][$to]["osvej"]);
+                    }
+                    $loc_i[$loc][$id] = $item;
+                    // убийца
+                    if (substr($to, 0, 2) == "u." && substr($from, 0, 2) == "u." && $from != $to && $tchar[7] != $from && ! $tcrim &&
+                        ( ! $clan1 || ($clan1 && $clan1 != $clan)) && ! $wife
+                    ) {
+                        $loc_i[$loc][$from]["char"] = implode("|", $fchar);
+                        docrim($loc, $from, "убийца");
+                        $fchar = explode("|", $loc_i[$loc][$from]["char"]);
+                    }
+                    // статус игрока
+                    if (substr($to, 0, 2) == 'u.') {
+                        if ($game["floc"] == $loc && $game["fid"] == $to) {
+                            addjournal($loc, "all", $tchar[0] . " потерял флаг!", $to);
+                            $loc_i[$loc]["i.flag"] = "флаг лидерства|1|0";
+                            $game["fid"]           = "";
+                        }
+                        $loc_i[$loc][$to]["equip"] = "";
+                        if ( ! $pjpt) {
+                            $loc_i[$loc][$to]["items"] = "";
+                        }
+                        $tchar[7] = "";
+                        $tchar[8] = 1;
+                        if ($tchar[12]) {
+                            $npc    = loadNpcById("n.a.losh");
+                            $tc     = explode(":", $tchar[12]);
+                            $tc1    = explode("|", $npc["char"]);
+                            $tc1[5] = time();
+                            if ($tc[1] < $tc1[1]) {
+                                $tc1[1] = $tc[1];
+                            }
+                            if (isset($loc_i[$loc][$to]["name"])) {
+                                $tc1[0] .= " " . $loc_i[$loc][$to]["name"];
+                                $npc["name"] = $loc_i[$loc][$to]["name"];
+                                unset($loc_i[$loc][$to]["name"]);
+                            }
+                            $npc["char"]                               = implode("|", $tc1);
+                            $npc["owner"]                              = $to . "|" . $to . "|0|0|0";
+                            $loc_i[$loc]["n.a.losh." . rand(99, 9999)] = $npc;
+                        }
+                        $tchar[12]                = "";
+                        $loc_i[$loc][$to]["char"] = implode("|", $tchar);
+                        // если игрок-крим убивает некрима
+                        if ( ! $tcrim && $fcrim && substr($from, 0, 2) == "u." && $from != $to) {    //killedby
+                            if ($twar[15]) {
+                                $tmp      = explode(":", $twar[15]);
+                                $twar[15] = $from . ":" . $tmp[1];
+                            } else {
+                                $twar[15] = $from . ":";
+                            }
+                            $loc_i[$loc][$to]["war"] = implode("|", $twar);
+                        }
+                        calcparam($loc, $to);    // пересчитаем параметры
+                        addjournal($loc, $to, "Вы погибли!");
+                    } else {
+                        // установка таймера респа NPC
+                        if ($twar[15]) {
+                            $resp = explode(":", $twar[15]);
+                            if ($resp[3]) {
+                                // восстановить здоровье
+                                $tchar[1] = $tchar[2];
+                                // восстановить ману
+                                $tchar[3] = $tchar[4];
+                                // сбросить цель атаки
+                                $tchar[7] = "";
+                                // очистить "шаги"/"следы"
+                                $tchar[12]                = "";
+                                $loc_i[$loc][$to]["char"] = implode("|", $tchar);
+                                $loc_i[$loc][$to]["id"]   = $to;
+                                // подгрузить оригинал
+                                $npc = loadNpcById($to);
+                                // сбросить настройки вещей
+                                $loc_i[$loc][$to]["items"] = $npc["items"];
+                                $loc_i[$loc][$to]["equip"] = $npc["equip"];
+                                $loc_i[$loc][$to]["osvej"] = $npc["osvej"];
+                                manageTimers($resp[0], 0, rand($resp[1], $resp[2]), $loc_i[$loc][$to], 0);
+                            } else {
+                                if ($tchar[10]) {
+                                    $tt = "|" . $tchar[10];
+                                } else {
+                                    $tt = "";
+                                }
+                                manageTimers($resp[0], 0, rand($resp[1], $resp[2]), $to . "|" . $resp[1] . ":" . $resp[2] . $tt, 0);
+                            }
+                        }
+                        // удаляем npc
+                        unset($loc_i[$loc][$to]);
+                    }
+                    // призрака не преследует
+                    $fchar[7]                   = "";
+                    $loc_i[$loc][$from]["char"] = implode("|", $fchar);
+
+                    // экспа и уровень
+                    if (substr($from, 0, 2) == 'u.') {
+                        if (substr($to, 0, 2) == 'u.') {
+                            $fwarr     = explode("|", $loc_i[$loc][$from]["war"]);
+                            $fwarr[16] = $to;
+                            // если некрим убивает игрока-крима
+                            if ( ! $fcrim && $tcrim && substr($to, 0, 2) == "u." && $from != $to) {    //killedto
+                                if ($fwarr[15]) {
+                                    $tmp       = explode(":", $fwarr[15]);
+                                    $fwarr[15] = $tmp[0] . ":" . $to;
+                                } else {
+                                    $fwarr[15] = ":" . $to;
+                                }
+                            }
+                            $loc_i[$loc][$from]["war"] = implode("|", $fwarr);
+                        }
+                        if (substr($to, 0, 2) != "u.") {    //killedto
+                            // TODO: заменить на addExp
+                            $skills = explode("|", $loc_i[$loc][$from]["skills"]);
+                            $skills[3] += $twar[13];
+                            addjournal($loc, $from, "Опыт +" . intval($twar[13]));
+                            if ($skills[3] > $fwar[13] * $g_exp) {
+                                $skills[3] = 0;
+                                $skills[4] += 1;
+                                addjournal($loc, $from, "Вы получили 1 очко опыта!");
+                            }
+                            $loc_i[$loc][$from]["skills"] = implode("|", $skills);
+                            if ($skills[3] == 0) {
+                                calcparam($loc, $from); // level up
+                            }
+                        }
+                    }
                 } else {
                     $loc_i[$loct][$to]["char"] = implode("|", $tchar);
-                } // иначе сохраним в f_kill.inc
+                }
 
             } else {
                 if ( ! $answer) {
@@ -929,23 +1086,22 @@ function attack(
 /**
  * Управление вещами: добавить, передать, удалить, посчитать количество
  *
- * FIXME: Имя метода не соответствует.
  * FIXME: Выполняет несколько операций и требуется разделение на разные функции.
  *
  * @param string $loc         локация
  * @param string $from        от кого userId|"loc"|""
  * @param string $to          кому userId|"loc"|""
  * @param string $itemId      что
- * @param mixed  $count       количество либо 'count' для авторасчета
+ * @param mixed  $count       количество либо 'count' для получения количества
  * @param string $ft          откуда брать items|bank
  * @param string $tt          куда добавлять  items|bank
  * @param int    $journal     флаг занесения в журнал
  * @param int    $time_delete время действия(-1 - получить время из конфига)
- * @param int    $msg         флаг вывода сообщения
+ * @param int    $msg         флаг вывода сообщения при ошибке
  *
  * @return int флаг успеха(?)/количество
  */
-function additem(
+function manageItems(
     $loc,
     $from,
     $to,
@@ -1284,7 +1440,7 @@ function additem(
  *                                  старого
  * @param int          $delete      флаг удаления текущего
  */
-function addtimer($location_id, $curr, $time, $value = "old", $delete = 1)
+function manageTimers($location_id, $curr, $time, $value = "old", $delete = 1)
 {
     global $loc_t;
     loadloc($location_id);
@@ -1477,118 +1633,26 @@ function addjournal($locId, $to, $msg, $no1 = "", $no2 = "", $cont = "|")
 }
 
 /**
- * "ИИ". Обновление состояния в локации.
- *
- * "искусственный интеллект", проверяем локацию с именем $i
- *
- * @param string $i локация
+ * @param $loc_i
+ * @param $locId
+ * @param $locType
+ * @return array
  */
-function doai($i)
+function makeLists(&$loc_i, $locId, $locType)
 {
-    global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_list, $start, $g_destroy, $g_crim, $g_logout, $login;
-    $g_regen = 30;
-
-    /**
-     * тип локи и переходы
-     *
-     * @var string[] $locai
-     */
-    $locai = explode("|", $loc_tt[$i]["d"]);
-
-    // таймеры
-    if (isset($loc_t[$i])) {
-        foreach ($loc_t[$i] as $j => $val) {
-            if (time() > $j) {
-                // респ НПС
-                if (is_array($loc_t[$i][$j]) || substr($loc_t[$i][$j], 0, 2) == "n.") {
-                    //  загружаем в $npc из папки npc	id|resp_min:resp_max|move_num:time_min:time_max
-                    if (is_array($loc_t[$i][$j])) {
-                        $npc = $loc_t[$i][$j];
-                        $tid = $npc["id"];
-                        unset($npc["id"]);
-                    } else {
-                        $ta  = explode("|", $loc_t[$i][$j]);
-                        $tid = $ta[0];
-                        if (in_array(substr($tid, 0, 4), ["n.c.", "n.a."])) {
-                            $tid = substr($tid, 0, strrpos($tid, "."));
-                        }
-                        if ( ! npcExists($tid)) {
-                            unset($loc_t[$i][$j]);
-
-                            continue;//("err: no npc/".$tid);
-                        }
-                        $npc        = loadNpcById($tid);
-                        $tid        = $ta[0];
-                        $twar       = explode("|", $npc["war"]);
-                        $twar[15]   = $i . ":" . $ta[1];
-                        $npc["war"] = implode("|", $twar);
-                        /// FIXME: PHP Notice:  Undefined offset: 2
-                        if (!empty($ta[2])) {
-                            $tchar       = explode("|", $npc["char"]);
-                            $tchar[10]   = $ta[2];
-                            $npc["char"] = implode("|", $tchar);
-                        }
-                    }
-
-                    // случ. предметы
-                    if (isset($npc["itemsrnd"])) {
-                        // itemsrnd = item_type:chance:min_count:max_count
-                        $irnd = explode("|", $npc["itemsrnd"]);
-                        foreach (array_keys($irnd) as $k) {
-                            if ($irnd[$k]) {
-                                $trnd  = explode(":", $irnd[$k]);
-                                $trndc = round(rand($trnd[2], $trnd[3]));
-                                if (rand(0, 100) <= $trnd[1] && $trndc > 0) {
-                                    if (empty($npc["items"])) {
-                                        $npc["items"] = $trnd[0] . ":" . $trndc;
-                                    } else {
-                                        $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;
-                                    }
-                                }
-                            }
-                        }
-                        unset($npc["itemsrnd"]);
-                    }
-
-                    // респавн текущий
-                    $loc_i[$i][$tid] = $npc;
-                    unset($loc_t[$i][$j]);
-                    continue;
-                }
-                // респ предметов
-                if (substr($loc_t[$i][$j], 0, 2) == "i.") {
-                    $tmp  = explode("|", $loc_t[$i][$j]);
-                    $item = findItemByBaseId($tmp[0]);
-                    $tc   = rand($tmp[1], $tmp[2]);
-                    if ($tc > 0) {
-                        $loc_i[$i][$tmp[0]] = $item[0] . "|" . $tc . "|0";
-                    } else {
-                        unset($loc_i[$i][$tmp[0]]);
-                    }
-                    addtimer($i, $j, rand($tmp[3], $tmp[4]), $loc_t[$i][$j], 1);
-                    continue;
-                }
-                // скриптовые таймеры - использования не найдено
-                // FIXME: избавтся от eval
-                $loct = $i;
-                $curr = $j;
-                eval($loc_t[$i][$j]);
-            }
-        }
-    }
-    $crim  = [];
+    $crim = [];
     $users = [];
     $guard = 0;
-    $ti    = explode("x", $i != '_begin' ? $i : 'x1158x523');
+    $ti = explode("x", $locId != '_begin' ? $locId : 'x1158x523');
     // получить список кримов и наличие гварда на локе
-    if ($loc_i[$i]) {
-        foreach ($loc_i[$i] as $j => $val) {
+    if ($loc_i[$locId]) {
+        foreach ($loc_i[$locId] as $j => $val) {
             if ($j != "u.qv") {
                 if (substr($j, 0, 2) == 'u.') {
-                    $uc = explode("|", $loc_i[$i][$j]["char"]);
+                    $uc = getCharData($loc_i, $locId, $j);
                     // пропускаем призраков
-                    if ( ! $uc[8]) {
-                        $us = explode("|", $loc_i[$i][$j]["skills"]);
+                    if (!$uc[8]) {
+                        $us = explode("|", $loc_i[$locId][$j]["skills"]);
                         // попытка спрятаться
                         if (rand(0, 100) > $us[17] * 6) {
                             $users[] = $j;
@@ -1599,8 +1663,8 @@ function doai($i)
                          * пират на земле тамплиеров($locai[1] == 2 && $uc[14] == "p")
                          * тамплиер на земле пиратов($locai[1] == 3 && $uc[14] == "t")
                          */
-                        if ($locai[1] != 3 && $uc[9] ||
-                            $ti[2] >= 1099 && ($locai[1] == 2 && $uc[14] == "p" || $locai[1] == 3 && $uc[14] == "t")
+                        if ($locType != 3 && $uc[9] ||
+                            $ti[2] >= 1099 && ($locType == 2 && $uc[14] == "p" || $locType == 3 && $uc[14] == "t")
                         ) {
                             $crim[] = $j;
                         }
@@ -1615,452 +1679,705 @@ function doai($i)
             }
         }
     }
+    return array($crim, $users, $guard);
+}
+
+/**
+ * @param array $loc_i
+ * @param string $locId
+ */
+function addGuard(&$loc_i, $locId)
+{
+    srand((float)microtime() * 10000000);
+    $id = "n.g." . rand(5, 9999);
+    $title = rndname() . " [стража]";
+    $loc_i[$locId][$id] = [
+        "char" => $title . "|1000|1000|100|100|" . time() . "1||||||" . (time() + 600),
+        "war" => "100|100|100|2|0|10|20|0|0|10|30|40|алебардой|0||",
+        "items" => "i.w.t.alebarda:1",
+        "equip" => "i.w.t.alebarda"
+    ];
+    addjournal($locId, "all", "Появился " . $title);
+}
+
+/**
+ * "ИИ". Обновление состояния в локации.
+ *
+ * "искусственный интеллект", проверяем локацию с именем $i
+ *
+ * @param string $locId локация
+ */
+function doai($locId)
+{
+    global $game, $loc, $loc_i, $loc_t, $loc_tt, $g_logout, $login;
+    $g_regen = 30;
+
+    $locInfo = explode("|", $loc_tt[$locId]["d"]);
+
+    // таймеры
+    if (isset($loc_t[$locId])) {
+        foreach ($loc_t[$locId] as $id => $val) {
+            if (time() > $id) {
+                // респ НПС
+                if (is_array($loc_t[$locId][$id]) || substr($loc_t[$locId][$id], 0, 2) == "n.") {
+                    timerForNPC($loc_t, $loc_i, $locId, $id);
+                    continue;
+                }
+                // респ предметов
+                if (substr($loc_t[$locId][$id], 0, 2) == "i.") {
+                    timerForItem($loc_t, $loc_i, $locId, $id);
+                    continue;
+                }
+                // скриптовые таймеры - использования не найдено
+                // $loct = $i;
+                // $curr = $j;
+                // eval($loc_t[$i][$j]);
+            }
+        }
+    }
+    list($crim, $users, $guard) = makeLists($loc_i, $locId, $locInfo[1]);
 
     // добавляем гварда если нужно
     // на безопасной територии гварды охотятся за преступниками
-    if ($locai[1] == 1 && count($crim) > 0 && ! $guard) {
-        srand((float)microtime() * 10000000);
-        for ($k = 0; $k < 1; $k++) {
-            $id             = "n.g." . rand(5, 9999);
-            $title          = rndname() . " [стража]";
-            $loc_i[$i][$id] = [
-                "char"  => $title . "|1000|1000|100|100|" . time() . "1||||||" . (time() + 600),
-                "war"   => "100|100|100|2|0|10|20|0|0|10|30|40|алебардой|0||",
-                "items" => "i.w.t.alebarda:1",
-                "equip" => "i.w.t.alebarda"
-            ];
-            addjournal($i, "all", "Появился " . $title);
-        }
+    if ($locInfo[1] == 1 && count($crim) > 0 && ! $guard) {
+        addGuard($loc_i, $locId);
     }
 
     // по всем объектам
-    if ($loc_i[$i]) {
-        foreach ($loc_i[$i] as $j => $val) {
+    if ($loc_i[$locId]) {
+        foreach ($loc_i[$locId] as $id => $val) {
             // FIXME: странное условие - как может быть не установлено значение, если индекс установлен?
-            if (isset($loc_i[$i][$j])) {
-                // удаление "протухших" предметов
-                if (substr($j, 0, 2) == 'i.') {
-                    // похоже на костыль: удалить флаг, если он есть на другой локе
-                    if ($j == "i.flag" && $game["floc"] != $i) {
-                        unset($loc_i[$i][$j]);
-                        continue;
-                    }
-                    // пропуск предметов в замках
-                    if (substr($i, 0, 2) == "c." && substr($j, 0, 4) != "i.s.") {
-                        continue;
-                    }
-                    // удалить предмет с локи, если истекло его время
-                    $tmp = explode("|", $loc_i[$i][$j]);
-                    if ($tmp[2] && time() > $tmp[2]) {
-                        unset($loc_i[$i][$j]);
-                    }
-                    continue;
-                }
-                // для игроков и НПС
-                if (substr($j, 0, 2) == 'u.' || substr($j, 0, 2) == 'n.') {
-                    $char = explode("|", $loc_i[$i][$j]["char"]);
-                    // реген ХП/МП.
-                    $tm   = time() - intval($char[5]);
-                    if ($tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]) &&
-                        (substr($j, 0, 2) == 'n.' || (substr($j, 0, 2) == 'u.' && ! $char[8]))
-                    ) {
-                        if (substr($j, 0, 2) == 'u.') {
-                            $skills = explode("|", $loc_i[$i][$j]["skills"]);
-                        } else {
-                            $skills[5]  = 0;
-                            $skills[16] = 0;
-                        }
-                        // скорость восстановления зависит от умений:
-                        // ХП - от "регенерации"
-                        $char[1] = min($char[1] += round($tm / ($g_regen - $skills[16] * 4)), $char[2]);
-                        // МП - от "медетации"
-                        $char[3] = min($char[3] += round($tm / ($g_regen - $skills[5] * 4)), $char[4]);
-                        $char[5] = time();
-                    }
-                    // для игрока
-                    if (substr($j, 0, 2) == 'u.') {
-                        // сброс преступлений по сроку давности
-                        if ($char[9] && time() > $char[10]) {
-                            $char[9]  = 0;
-                            $char[10] = "";
-                        }
-                        if ($j == $login) {
-                            $char[11] = time(); // обновить таймер последнего действия
-                        }
-                        // удалить покинувших игру персонажей
-                        if ($char[11] && time() > $char[11] + $g_logout * 5 && ! file_exists("online/" . $j)) {
-                            unset($loc_i[$i][$j]);
-                            continue;
-                        }
-                    }
-                    // для НПС
-                    if (substr($j, 0, 2) == 'n.') {
-                        // с шансом 50% НПС попробует убежать с текущей локи, если ХП меньше 1/4
-                        // не станут убегать: охранники(n.o.*), зомби(n.z.*) и призванные магией(n.s.*)
-                        if ($loc == $i && time() > $char[6] && $char[1] < $char[2] / 4 && rand(0, 100) < 50 &&
-                            substr($j, 0, 4) != 'n.s.' && substr($j, 0, 4) != 'n.o.' && substr($j, 0, 4) != 'n.z.'
-                        ) {
-                            $b    = 0;
-                            $k    = $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1];
-                            $loc1 = explode("|", $loc_tt[$k]["d"]);
-                            if ($locai[1] == $loc1[1]) {
-                                addjournal($loc, "all", $char[0] . " убегает");
-                                if ($char[10]) {
-                                    $move     = explode(":", $char[10]);
-                                    $move[3]  = time() + rand($move[1], $move[2]);
-                                    $char[10] = implode(":", $move);
-                                }
-                                $char[7]               = "";
-                                $loc_i[$i][$j]["char"] = implode("|", $char);
-                                addnpc($j, $i, $k);
-                                $b = 1;
-                            }
-                            if ($b) {
-                                continue;
-                            }
-                        }
-                        // прекращаем атаковать призраков
-                        if ($char[7] && isset($loc_i[$i][$char[7]]) && substr($char[7], 0, 2) == "u.") {
-                            $tc = explode("|", $loc_i[$i][$char[7]]["char"]);
-                            if ($tc[8]) {
-                                $char[7] = "";
-                            }
-                        }
-                        // жар-птица убегает от игроков
-                        if ($j == "n.a.b.jarpt.1") {
-                            $b = 0;
-                            foreach ($loc_i[$i] as $k => $v) {
-                                if (substr($k, 0, 2) == "u.") {
-                                    addnpc($j, $i, $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1]);
-                                    $b = 1;
-                                    break;
-                                }
-                            }
-                            if ($b) {
-                                continue;
-                            }
-                        }
-                        // отпустить гварда, если он давно бездействует(?)
-                        if (substr($j, 0, 4) == "n.g." && time() > $char[11]) {
-                            addnpc($j, $i, "");
-                            continue;
-                        }
-                        // обработка подчиненных НПС
-                        if (isset($loc_i[$i][$j]["owner"])) {
-                            $owner = explode("|", $loc_i[$i][$j]["owner"]);
-                            // хозяин крима крим
-                            if ($char[9] && isset($loc_i[$i][$owner[0]])) {
-                                docrim($i, $owner[0]);
-                            }
-                            if ( ! isset($owner[0])) {
-                                $owner[0] = "";
-                            }
-                            if ( ! isset($owner[1])) {
-                                $owner[1] = "";
-                            }
-                            if ( ! isset($owner[2])) {
-                                $owner[2] = "";
-                            }
-                            if ( ! isset($owner[3])) {
-                                $owner[3] = "";
-                            }
-                            if ( ! isset($owner[4])) {
-                                $owner[4] = "";
-                            }
-                            if ( ! isset($owner[5])) {
-                                $owner[5] = time() + 60 * 60;
-                            }
-
-                            $b = 0;
-                            // вышло время
-                            if ($owner[3] && time() > $owner[3] || time() > $owner[5] && substr($i, 0, 2) != "c.") {
-                                $b = 1;
-                                unset($loc_i[$i][$j]["owner"]);
-                                addjournal($loc, $owner[0], $char[0] . " покинул вас");
-                                if ($owner[6]) {
-                                    addnpc($j, $i, $owner[6]);
-                                } else {
-                                    $ttw = explode("|", $loc_i[$i][$j]["war"]);
-                                    if ($ttw[15]) {
-                                        $ttwr = explode(":", $ttw[15]);
-                                        addnpc($j, $i, $ttwr[0]);
-                                    } else {
-                                        addnpc($j, $i);
-                                    }
-                                }
-                            }
-                            // heal
-                            if (substr($j, 0, 5) == "n.he." && time() > $loc_i[$loc][$j]["h_t"] && isset($loc_i[$loc][$owner[0]])) {
-                                $tc = explode("|", $loc_i[$loc][$owner[0]]["char"]);
-                                if ($tc[1] < $tc[2]) {
-                                    addjournal($loc, "all", substr($loc_i[$loc][$j]["char"], 0, strpos($loc_i[$loc][$j]["char"], "|")) . ": " .
-                                        $loc_i[$loc][$j]["h_s"]);
-                                    $tc[1] += rand($loc_i[$loc][$j]["h_v1"], $loc_i[$loc][$j]["h_v2"]);
-                                    $htmp = rand($loc_i[$loc][$j]["h_v1"], $loc_i[$loc][$j]["h_v2"]);
-                                    addjournal($loc, $owner[0], $tchar[0] . ": жизнь +" . $htmp);
-                                    if ($tc[1] > $tc[2]) {
-                                        $tc[1] = $tc[2];
-                                    }
-                                    $loc_i[$loc][$owner[0]]["char"] = implode("|", $tc);
-                                    $loc_i[$loc][$j]["h_t"]         = time() + $loc_i[$loc][$j]["h_p"];
-                                }
-                            }
-                            if ( ! $b) {
-                                // следуем
-                                if ($owner[1] && ! isset($loc_i[$i][$owner[1]])) {
-                                    for ($k = 3; $k < count($locai); $k += 2) {
-                                        if (isset($loc_i[$locai[$k]][$owner[1]])) {
-                                            $bc = 1;
-                                            if (substr($j, 0, 4) == "n.o.") {
-                                                if (substr($i, 0, 2) == "c." && substr($i, 3) != ".in") {
-                                                    $bc = 0;
-                                                }
-                                                if ($bc && substr($k, 3) != ".in") {
-                                                    $count = 0;
-                                                    if ($loc_i[$locai[$k]]) {
-                                                        foreach (array_keys($loc_i[$locai[$k]]) as $m) {
-                                                            if (substr($m, 0, 4) == "n.o.") {
-                                                                $count++;
-                                                            }
-                                                        }
-                                                    }
-                                                    if ($count >= 5) {
-                                                        $bc = 0;
-                                                        addjournal($locai[$k], $owner[0],
-                                                            $char[0] . " говорит: я туда не пойду, там и так полно стражников");
-                                                    }
-                                                }
-                                            }
-                                            if ($bc && substr($owner[1], 0, 2) == "u.") {
-                                                $tc = explode("|", $loc_i[$locai[$k]][$owner[1]]["char"]);
-                                                if ($tc[8]) {
-                                                    $bc = 0;
-                                                }
-                                            }
-                                            if ($bc && substr($j, 0, 4) != "n.o.") {
-                                                $count = 0;
-                                                foreach ($loc_i[$locai[$k]] as $jn) {
-                                                    if (isset($jn["owner"]) && strpos($jn["owner"], $owner[1]) !== false) {
-                                                        $count++;
-                                                        if ($count > 3) {
-                                                            $bc = 0;
-                                                            break;
-                                                        }
-                                                    } //не следуют если больше трех
-                                                }
-                                            }
-                                            if ($bc) {
-                                                $char[7]               = "";
-                                                $loc_i[$i][$j]["char"] = implode("|", $char);
-                                                addnpc($j, $i, $locai[$k]);
-                                                $char                           = explode("|", $loc_i[$locai[$k]][$j]["char"]);
-                                                $char[12]                       = "";
-                                                $loc_i[$locai[$k]][$j]["char"]  = implode("|", $char);
-                                                $owner[5]                       = time() + 60 * 60;    // 1 час ждет движения
-                                                $loc_i[$locai[$k]][$j]["owner"] = implode("|", $owner);
-                                                $b                              = 1;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                                if ( ! $b) {        //$j не ушел
-
-                                    // охраняем
-                                    if (substr($j, 0, 4) != "n.o." && $owner[2] && isset($loc_i[$i][$owner[2]])) {
-                                        $k1 = array_keys($loc_i[$i]);
-                                        foreach ($k1 as $k) {
-                                            if ($k != $j && $k != $owner[2] && $k != $owner[0] && $k != $owner[1]) {
-                                                $ch = explode("|", $loc_i[$i][$k]["char"]);
-                                                if ($ch[7] == $owner[2] ||
-                                                    substr($loc_i[$loc][$ch[7]]["owner"], 0, strlen($owner[2])) == $owner[2]
-                                                ) {
-                                                    if ($locai[1] == 1) {
-                                                        $tco = explode("|", $loc_i[$loc][$owner[2]]["char"]);
-                                                        if ($tco[9]) {
-                                                            break;
-                                                        }
-                                                    }
-                                                    $char[7] = $k;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if ($b) {
-                                continue;
-                            }
-                        } else {
-                            $owner[1] = "";
-                        }
-                        // преследование цели атаки
-                        if ($char[7] && ! $owner[1] && ! isset($loc_i[$i][$char[7]])) {
-                            $b = 0;
-                            if (substr($j, 0, 4) != "n.o." && $j != "n.a.b.jarpt.1") {
-                                $tfound = 0;
-                                for ($k = 3; $k < count($locai); $k += 2) {
-                                    if (isset($loc_i[$locai[$k]][$char[7]])) {
-                                        $tfound = 1;
-                                        $loc1   = explode("|", $loc_tt[$locai[$k]]["d"]);
-                                        if ($locai[1] == $loc1[1] || substr($j, 0, 4) == "n.g.") {
-                                            $b = 1;
-                                        }
-                                        // hiding от гардов не действует
-                                        if (substr($char[7], 0, 2) == 'u.' && substr($j, 0, 4) != "n.g.") {
-                                            $skills = explode("|", $loc_i[$locai[$k]][$char[7]]["skills"]);
-                                            if (rand(0, 100) <= ($skills[17] * 4 + $skills[1])) {
-                                                $b = 0;
-                                                addjournal($locai[$k], $char[7], "Вы скрылись от погони");
-                                            }
-                                        }
-                                        // призраков не преследуем
-                                        if (substr($char[7], 0, 2) == "u.") {
-                                            $tc = explode("|", $loc_i[$locai[$k]][$char[7]]["char"]);
-                                            if ($tc[8]) {
-                                                $char[7]               = "";
-                                                $loc_i[$i][$j]["char"] = implode("|", $char);
-                                                $b                     = 0;
-                                            }
-                                        }
-
-                                        if ($b) {    // погоня
-                                            $loc_i[$i][$j]["char"] = implode("|", $char);
-                                            addnpc($j, $i, $locai[$k]);
-                                        } else {
-                                            $tfound = 0;
-                                        }
-                                        break;
-                                    }
-                                }
-                                if ( ! $tfound) {
-                                    $char[7]               = "";
-                                    $loc_i[$i][$j]["char"] = implode("|", $char);
-                                }
-
-                            }
-                            if ($b) {
-                                continue;
-                            } else {
-                                $char[7] = "";
-                            }
-                        }
-                        // установить цель атаки
-                        if ( ! $char[7]) {
-                            // гварды атакуют кримов
-                            if (count($crim) > 0 &&
-                                (substr($j, 0, 4) == "n.g." || substr($j, 0, 4) == "n.t." || substr($j, 0, 4) == "n.p.")
-                            ) {
-                                $char[7] = $crim[rand(0, count($crim) - 1)];
-                            }
-                            // кримы атакуют пользователей
-                            if (($char[9] || substr($j, 0, 4) == 'n.c.') && count($users) > 0) {
-                                $char[7] = $users[rand(0, count($users) - 1)];
-                            }
-                        }
-                        // охрана замка
-                        if (substr($j, 0, 4) == "n.o." && substr($i, 0, 2) == "c." && substr($i, 3) != ".in" &&
-                            ( ! $char[7] || ! isset($loc_i[$i][$char[7]]))
-                        ) {
-
-                            if (!isset($lcen)) {
-                                $lcen = [];
-                                $gate = substr($i, 0, 4) . "gate";
-                                loadloc($gate);
-                                $d = explode("|", $loc_tt[$gate]["d"]);
-                                if (strpos($d[0], "*") !== false) {
-                                    $clanc = substr($d[0], strpos($d[0], "*") + 1, strrpos($d[0], "*") - strpos($d[0], "*") - 1);
-                                    foreach ($loc_i[$i] as $k => $v) {
-                                        if (substr($k, 0, 2) == "u." && strpos($loc_i[$i][$k]["char"], "*" . $clanc . "*") === false &&
-                                            strpos($d[0], ":" . $k . ":") === false
-                                        ) {
-                                            $tct = explode("|", $loc_i[$i][$k]["char"]);
-                                            if ( ! $tct[8]) {
-                                                $lcen[] = $k;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (count($lcen) > 0) {
-                                $char[7] = $lcen[rand(0, count($lcen) - 1)];
-                            }
-                        }
-                        // если нет цели и хозяина, то случайное перемещение НПС
-                        // охрана замка остается на месте
-                        if ( ! $char[7] && ! $owner[1] && ($char[10] || ( ! $char[10] && $char[12])) &&
-                             substr($j, 0, 4) != "n.o."
-                        ) {
-                            // настройки перемещения
-                            $move = $char[10] ? explode(":", $char[10]) : [];
-                            // история перемещения
-                            $steps = $char[12] ? explode(":", $char[12]) : [];
-                            $b = 0;
-                            if ( ! $char[10] && $char[12]) {
-                                // возвращение NPC к месту респавна(?)
-                                $loc_i[$i][$j]["char"] = implode("|", $char);
-                                $lt                    = $steps[count($steps) - 1];
-                                $blt                   = 1;
-                                if ($j == "n.a.b.jarpt.1") {
-                                    loadloc($lt);
-                                    if (count($loc_i[$lt]) != 0) {
-                                        $blt = 0;
-                                    }
-                                }
-                                if ($blt) {
-                                    addnpc($j, $i, $lt);
-                                    $b = 1;
-                                }
-                            } else {
-                                /// FIXME: PHP Notice:  Undefined offset: 3
-                                if (time() > $move[3]) {
-                                    if ($char[12] && count($steps) >= $move[0]) {
-                                        $b = 1;
-                                        $k = $steps[count($steps) - 1];
-                                    } else {
-                                        $b = 0;
-                                        $k = $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1];
-                                    }
-                                    if ( ! isset($loc_tt[$k]["d"])) {
-                                        loadloc($k);
-                                    }
-                                    $loc1 = explode("|", $loc_tt[$k]["d"]);
-                                    if ($locai[1] == $loc1[1] || $b) {
-                                        $move[3]               = time() + rand($move[1], $move[2]);    // след. ход
-                                        $char[10]              = implode(":", $move);
-                                        $loc_i[$i][$j]["char"] = implode("|", $char);
-                                        $blt                   = 1;
-                                        if ($j == "n.a.b.jarpt.1") {
-                                            loadloc($k);
-                                            if (count($loc_i[$k]) != 0) {
-                                                $blt = 0;
-                                            }
-                                        }
-                                        if ($blt) {
-                                            addnpc($j, $i, $k);
-                                            $b = 1;
-                                        }
-                                    }
-                                }
-                            }
-                            if ($b) {
-                                continue;
-                            }
-                        }
-                    }
-                    $loc_i[$i][$j]["char"] = implode("|", $char);
-                    // НПС атакует, если выбрана цель
-                    if ($char[7] && substr($j, 0, 2) != "u.") {
-                        attack($i, $j, $char[7]);
-                    }
-                } else {
+            if (!isset($loc_i[$locId][$id])) {
+                continue;
+            }
+            switch (substr($id, 0, 2)) {
+                case 'i.':
+                    // удаление "протухших" предметов
+                    stepForItem($loc_i, $locId, $id, $game);
+                    break;
+                case 'u.':
+                    stepForUser($loc_i, $locId, $id, $login, $g_regen, $g_logout);
+                    break;
+                case 'n.':
+                    stepForNPC($loc_tt, $loc_i, $locInfo, $locId, $id, $g_regen, $loc, $crim, $users, $enemyList);
+                    break;
+                default:
                     // какой то мусор на локе - удалить
                     // по идее сюда попадать не должно
-                    unset($loc_i[$i][$j]);
-                    continue;
+                    // TODO: добавить логирование срабатывания
+                    unset($loc_i[$locId][$id]);
+                    break;
+            }
+        }
+    }
+}
+
+/**
+ * @param array $loc_t
+ * @param array $loc_i
+ * @param string $i
+ * @param int|string $j
+ */
+function timerForItem(&$loc_t, &$loc_i, $i, $j)
+{
+    $timer = explode("|", $loc_t[$i][$j]);
+    $item = findItemByBaseId($timer[0]);
+    $count = rand($timer[1], $timer[2]);
+    if ($count > 0) {
+        $loc_i[$i][$timer[0]] = $item[0] . "|" . $count . "|0";
+    } else {
+        unset($loc_i[$i][$timer[0]]);
+    }
+    manageTimers($i, $j, rand($timer[3], $timer[4]), $loc_t[$i][$j], 1);
+}
+
+/**
+ * @param array $loc_t
+ * @param array $loc_i
+ * @param string $i
+ * @param int|string $j
+ */
+function timerForNPC(&$loc_t, &$loc_i, $i, $j)
+{
+//  загружаем в $npc из папки npc	id|resp_min:resp_max|move_num:time_min:time_max
+    if (is_array($loc_t[$i][$j])) {
+        $npc = $loc_t[$i][$j];
+        $tid = $npc["id"];
+        unset($npc["id"]);
+    } else {
+        $ta = explode("|", $loc_t[$i][$j]);
+        $tid = $ta[0];
+        if (in_array(substr($tid, 0, 4), ["n.c.", "n.a."])) {
+            $tid = substr($tid, 0, strrpos($tid, "."));
+        }
+        if (!npcExists($tid)) {
+            unset($loc_t[$i][$j]);
+
+            goto nextTimer;//("err: no npc/".$tid);
+        }
+        $npc = loadNpcById($tid);
+        $tid = $ta[0];
+        $twar = explode("|", $npc["war"]);
+        $twar[15] = $i . ":" . $ta[1];
+        $npc["war"] = implode("|", $twar);
+        /// FIXME: PHP Notice:  Undefined offset: 2
+        if (!empty($ta[2])) {
+            $tchar = explode("|", $npc["char"]);
+            $tchar[10] = $ta[2];
+            $npc["char"] = implode("|", $tchar);
+        }
+    }
+
+    // случ. предметы
+    if (isset($npc["itemsrnd"])) {
+        // itemsrnd = item_type:chance:min_count:max_count
+        $irnd = explode("|", $npc["itemsrnd"]);
+        foreach (array_keys($irnd) as $k) {
+            if ($irnd[$k]) {
+                $trnd = explode(":", $irnd[$k]);
+                $trndc = round(rand($trnd[2], $trnd[3]));
+                if (rand(0, 100) <= $trnd[1] && $trndc > 0) {
+                    if (empty($npc["items"])) {
+                        $npc["items"] = $trnd[0] . ":" . $trndc;
+                    } else {
+                        $npc["items"] .= "|" . $trnd[0] . ":" . $trndc;
+                    }
                 }
             }
+        }
+        unset($npc["itemsrnd"]);
+    }
+
+    // респавн текущий
+    $loc_i[$i][$tid] = $npc;
+    unset($loc_t[$i][$j]);
+    nextTimer:;
+}
+
+/**
+ * @param array $loc_tt
+ * @param array $loc_i
+ * @param array $locai
+ * @param string $i
+ * @param string $j
+ * @param int $g_regen
+ * @param string $loc
+ * @param array $crim
+ * @param array $users
+ * @param array $lcen
+ */
+function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $users, &$lcen)
+{
+    $char = getCharData($loc_i, $i, $j);
+    $npcType = substr($j, 0, 4);
+    $targetIsUser = substr($char[7], 0, 2) == "u.";
+    // реген ХП/МП.
+    $tm = time() - intval($char[5]);
+    $needRegenerate = $tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]);
+    if ($needRegenerate) {
+        // HP
+        $char[1] = min($char[1] + round($tm / $g_regen), $char[2]);
+        // MP
+        $char[3] = min($char[3] + round($tm / $g_regen), $char[4]);
+        $char[5] = time();
+    }
+    // с шансом 50% НПС попробует убежать с текущей локи, если ХП меньше 1/4
+    // не станут убегать: охранники(n.o.*), зомби(n.z.*) и призванные магией(n.s.*)
+    $tryRun = $loc == $i && time() > $char[6] && $char[1] < $char[2] / 4 && rand(0, 100) < 50 &&
+        !in_array($npcType, ['n.s.', 'n.o.', 'n.z.']);
+    if ($tryRun) {
+        $b = 0;
+        $k = $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1];
+        $loc1 = explode("|", $loc_tt[$k]["d"]);
+        if ($locai[1] == $loc1[1]) {
+            addjournal($i, "all", $char[0] . " убегает");
+            if ($char[10]) {
+                $move = explode(":", $char[10]);
+                $move[3] = time() + rand($move[1], $move[2]);
+                $char[10] = implode(":", $move);
+            }
+            $char[7] = "";
+            setCharData($loc_i, $i, $j, $char);
+            manageNPC($j, $i, $k);
+            $b = 1;
+        }
+        if ($b) {
+            goto nextStep;
+            //continue;
+        }
+    }
+    // прекращаем атаковать призраков
+    if ($char[7] && isset($loc_i[$i][$char[7]]) && $targetIsUser) {
+        if (userIsGhost($loc_i, $i, $char[7])) {
+            $char[7] = "";
+        }
+    }
+    // жар-птица убегает от игроков
+    if ($j == "n.a.b.jarpt.1") {
+        $b = 0;
+        foreach ($loc_i[$i] as $k => $v) {
+            if (substr($k, 0, 2) == "u.") {
+                manageNPC($j, $i, $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1]);
+                $b = 1;
+                break;
+            }
+        }
+        if ($b) {
+            goto nextStep;
+            //continue;
+        }
+    }
+    // отпустить гварда, если он давно бездействует(?)
+    if ($npcType == "n.g." && time() > $char[11]) {
+        manageNPC($j, $i, "");
+        goto nextStep;
+        //continue;
+    }
+    // обработка подчиненных НПС
+    if (isset($loc_i[$i][$j]["owner"])) {
+        $owner = explode("|", $loc_i[$i][$j]["owner"]);
+        // хозяин крима крим
+        if ($char[9] && isset($loc_i[$i][$owner[0]])) {
+            docrim($i, $owner[0]);
+        }
+        fillOwner($owner);
+
+        $b = 0;
+        // вышло время
+        $timeIsOver = (
+            $owner[3] && time() > $owner[3] // время следования
+            ||
+            time() > $owner[5] && substr($i, 0, 2) != "c." // время ожидания(кроме замковых территорий)
+        );
+        if ($timeIsOver) {
+            $b = 1;
+            unset($loc_i[$i][$j]["owner"]);
+            addjournal($i, $owner[0], $char[0] . " покинул вас");
+            if ($owner[6]) {
+                manageNPC($j, $i, $owner[6]);
+            } else {
+                $ttw = explode("|", $loc_i[$i][$j]["war"]);
+                if ($ttw[15]) {
+                    $ttwr = explode(":", $ttw[15]);
+                    manageNPC($j, $i, $ttwr[0]);
+                } else {
+                    manageNPC($j, $i);
+                }
+            }
+        }
+        // heal
+        if (!$b && substr($j, 0, 5) == "n.he." && time() > $loc_i[$i][$j]["h_t"] && isset($loc_i[$i][$owner[0]])) {
+            $tc = getCharData($loc_i, $i, $owner[0]);
+            if ($tc[1] < $tc[2]) {
+                addjournal($i, "all",$char[0] . ": " . $loc_i[$i][$j]["h_s"]);
+                $htmp = rand($loc_i[$i][$j]["h_v1"], $loc_i[$i][$j]["h_v2"]);
+
+                addjournal($i, $owner[0], $char[0] . ": жизнь +" . $htmp);
+                $tc[1] = min($tc[1] + $htmp, $tc[2]);
+                setCharData($loc_i, $i, $owner[0], $tc);
+                $loc_i[$i][$j]["h_t"] = time() + $loc_i[$i][$j]["h_p"];
+            }
+        }
+        // следуем
+        if (!$b && $owner[1] && !isset($loc_i[$i][$owner[1]])) {
+            for ($k = 3; $k < count($locai); $k += 2) {
+                if (isset($loc_i[$locai[$k]][$owner[1]])) {
+                    $bc = 1;
+                    if ($npcType == "n.o.") {
+                        if (substr($i, 0, 2) == "c." && substr($i, 3) != ".in") {
+                            $bc = 0;
+                        }
+                        if ($bc && substr($k, 3) != ".in") {
+                            $count = 0;
+                            if ($loc_i[$locai[$k]]) {
+                                foreach (array_keys($loc_i[$locai[$k]]) as $m) {
+                                    if (substr($m, 0, 4) == "n.o.") {
+                                        $count++;
+                                    }
+                                }
+                            }
+                            if ($count >= 5) {
+                                $bc = 0;
+                                addjournal($locai[$k], $owner[0],
+                                    $char[0] . " говорит: я туда не пойду, там и так полно стражников");
+                            }
+                        }
+                    }
+                    if ($bc && substr($owner[1], 0, 2) == "u.") {
+                        $tc = explode("|", $loc_i[$locai[$k]][$owner[1]]["char"]);
+                        if ($tc[8]) {
+                            $bc = 0;
+                        }
+                    }
+                    if ($bc && $npcType != "n.o.") {
+                        $count = 0;
+                        foreach ($loc_i[$locai[$k]] as $jn) {
+                            if (isset($jn["owner"]) && strpos($jn["owner"], $owner[1]) !== false) {
+                                $count++;
+                                if ($count > 3) {
+                                    $bc = 0;
+                                    break;
+                                }
+                            } //не следуют если больше трех
+                        }
+                    }
+                    if ($bc) {
+                        $char[7] = "";
+                        setCharData($loc_i, $i, $j, $char);
+                        manageNPC($j, $i, $locai[$k]);
+                        $char = explode("|", $loc_i[$locai[$k]][$j]["char"]);
+                        $char[12] = "";
+                        $loc_i[$locai[$k]][$j]["char"] = implode("|", $char);
+                        $owner[5] = time() + 60 * 60;    // 1 час ждет движения
+                        $loc_i[$locai[$k]][$j]["owner"] = implode("|", $owner);
+                        $b = 1;
+                        break;
+                    }
+                }
+            }
+        }
+         // охраняем
+        if (!$b && $npcType != "n.o." && $owner[2] && isset($loc_i[$i][$owner[2]])) {
+            foreach (array_keys($loc_i[$i]) as $k) {
+                if ($k != $j && $k != $owner[2] && $k != $owner[0] && $k != $owner[1]) {
+                    $ch = getCharData($loc_i, $i, $k);
+                    if ($ch[7] == $owner[2] ||
+                        substr($loc_i[$i][$ch[7]]["owner"], 0, strlen($owner[2])) == $owner[2]
+                    ) {
+                        if ($locai[1] == 1) {
+                            $tco = getCharData($loc_i, $i, $owner[2]);
+                            if ($tco[9]) {
+                                break;
+                            }
+                        }
+                        $char[7] = $k;
+                        break;
+                    }
+                }
+            }
+        }
+        if ($b) {
+            goto nextStep;
+            //continue;
+        }
+    } else {
+        $owner[1] = "";
+    }
+    // преследование цели атаки
+    $followTarget = (
+        $char[7] && // есть цель атаки
+        !$owner[1] && // нет цели следования
+        !isset($loc_i[$i][$char[7]]) // цель атаки ушла в другую локацию
+    );
+    if ($followTarget) {
+        $b = 0;
+        // кроме замковой стражи и Жар-птицы
+        if ($npcType != "n.o." && $j != "n.a.b.jarpt.1") {
+            $tfound = 0;
+            // по соседним локациям
+            for ($k = 3; $k < count($locai); $k += 2) {
+                if (isset($loc_i[$locai[$k]][$char[7]])) {
+                    $tfound = 1;
+                    $loc1 = explode("|", $loc_tt[$locai[$k]]["d"]);
+                    if ($locai[1] == $loc1[1] || $npcType == "n.g.") {
+                        $b = 1;
+                    }
+                    // цель - пользователь
+                    if ($targetIsUser) {
+                        // hiding от гардов не действует
+                        if ($npcType != "n.g.") {
+                            $skills = explode("|", $loc_i[$locai[$k]][$char[7]]["skills"]);
+                            if (rand(0, 100) <= ($skills[17] * 4 + $skills[1])) {
+                                $b = 0;
+                                addjournal($locai[$k], $char[7], "Вы скрылись от погони");
+                            }
+                        }
+                        // призраков не преследуем
+                        if (userIsGhost($loc_i, $locai[$k], $char[7])) {
+                            $char[7] = "";
+                            setCharData($loc_i, $i, $j, $char);
+                            $b = 0;
+                        }
+                    }
+
+                    if ($b) {    // погоня
+                        setCharData($loc_i, $i, $j, $char);
+                        manageNPC($j, $i, $locai[$k]);
+                    } else {
+                        $tfound = 0;
+                    }
+                    break;
+                }
+            }
+            if (!$tfound) {
+                $char[7] = "";
+                setCharData($loc_i, $i, $j, $char);
+            }
+
+        }
+        if ($b) {
+            goto nextStep;
+        } else {
+            $char[7] = "";
+        }
+    }
+    // установить цель атаки
+    if (!$char[7]) {
+        $isGuard = in_array($npcType, ["n.g.", "n.t.", "n.p."]);
+        $isCrim = $char[9] || $npcType == 'n.c.';
+        $char[7] = selectTarget($crim, $users, $isGuard, $isCrim);
+    }
+    // охрана замка
+    $castleGuard = (
+        $npcType == "n.o." && // только для замковой охраны
+        substr($i, 0, 2) == "c." && substr($i, 3) != ".in" && // только на территории замка
+        (!$char[7] || !isset($loc_i[$i][$char[7]])) // нет цели или цель ушла
+    );
+    if ($castleGuard) {
+        if (!is_array($lcen)) {
+            $lcen = makeCastleEnemyList($loc_tt, $loc_i, $i);
+        }
+        if (count($lcen) > 0) {
+            $char[7] = $lcen[rand(0, count($lcen) - 1)];
+        }
+    }
+    // если нет цели и хозяина, то случайное перемещение НПС
+    $canMove = (
+        $npcType != "n.o." && // кроме замковой охраны
+        !$char[7] && // без цели атаки
+        !$owner[1] && // без цели сопровождения
+        ($char[10] || (!$char[10] && $char[12])) // есть настройки перемещения
+    );
+    if ($canMove) {
+        // настройки перемещения
+        $move = $char[10] ? explode(":", $char[10]) : [];
+        // история перемещения
+        $steps = $char[12] ? explode(":", $char[12]) : [];
+        $b = 0;
+        if (!$char[10] && $char[12]) {
+            // возвращение NPC к месту респавна(?)
+            setCharData($loc_i, $i, $j, $char);
+            $lt = $steps[count($steps) - 1];
+            if (npcCanGoTo($j, $loc_i, $lt)) {
+                manageNPC($j, $i, $lt);
+                $b = 1;
+            }
+        } else {
+            /// FIXME: PHP Notice:  Undefined offset: 3
+            if (time() > $move[3]) {
+                if ($char[12] && count($steps) >= $move[0]) {
+                    $b = 1;
+                    $k = $steps[count($steps) - 1];
+                } else {
+                    $b = 0;
+                    $k = $locai[2 + 2 * rand(0, (count($locai) - 2) / 2 - 1) + 1];
+                }
+                if (!isset($loc_tt[$k]["d"])) {
+                    loadloc($k);
+                }
+                $loc1 = explode("|", $loc_tt[$k]["d"]);
+                if ($locai[1] == $loc1[1] || $b) {
+                    $move[3] = time() + rand($move[1], $move[2]);    // след. ход
+                    $char[10] = implode(":", $move);
+                    setCharData($loc_i, $i, $j, $char);
+                    if (npcCanGoTo($j, $loc_i, $k)) {
+                        manageNPC($j, $i, $k);
+                        $b = 1;
+                    }
+                }
+            }
+        }
+        if ($b) {
+            goto nextStep;
+        }
+    }
+
+    setCharData($loc_i, $i, $j, $char);
+    // НПС атакует, если выбрана цель
+    if ($char[7]) {
+        attack($i, $j, $char[7]);
+    }
+    nextStep:;
+}
+
+/**
+ * @param array $loc_i
+ * @param string $locId
+ * @param string $objId
+ * @return bool
+ */
+function userIsGhost(&$loc_i, $locId, $objId)
+{
+    $char = getCharData($loc_i, $locId, $objId);
+    return !empty($char[8]);
+}
+
+/**
+ * @param array $loc_i
+ * @param string $locId
+ * @param string $objId
+ * @return array $char
+ */
+function getCharData(&$loc_i, $locId, $objId)
+{
+    return explode('|', $loc_i[$locId][$objId]['char']);
+}
+
+/**
+ * @param array $loc_i
+ * @param string $locId
+ * @param string $objId
+ * @param array $char
+ */
+function setCharData(&$loc_i, $locId, $objId, $char)
+{
+    $loc_i[$locId][$objId]['char'] = implode('|', $char);
+}
+
+/**
+ * @param string $npcId
+ * @param array $loc_i
+ * @param string $locId
+ * @return bool
+ */
+function npcCanGoTo($npcId, &$loc_i, $locId)
+{
+    $canGo = true;
+    if ($npcId == "n.a.b.jarpt.1") {
+        loadloc($locId);
+        $canGo = (count($loc_i[$locId]) == 0);
+    }
+    return $canGo;
+}
+
+/**
+ * @param array $loc_tt
+ * @param array $objects
+ * @param string $locId
+ * @return array
+ */
+function makeCastleEnemyList(&$loc_tt, &$objects, $locId)
+{
+    $enemyList = [];
+    $gate = substr($locId, 0, 4) . "gate";
+    loadloc($gate);
+    $d = explode("|", $loc_tt[$gate]["d"]);
+    $markPos = strpos($d[0], "*");
+    if ($markPos !== false) {
+        $clanc = substr($d[0], $markPos + 1, strrpos($d[0], "*") - $markPos - 1);
+        foreach ($objects[$locId] as $objId => $object) {
+            $isTarget = (
+                substr($objId, 0, 2) == "u." && // пользователь
+                strpos($object["char"], "*" . $clanc . "*") === false && // не состоит в клане владельце
+                strpos($d[0], ":" . $objId . ":") === false // не является гостем замка
+            );
+            if ($isTarget) {
+                $tct = explode("|", $object["char"]);
+                if (!$tct[8]) {
+                    $enemyList[] = $objId;
+                }
+            }
+        }
+    }
+    return $enemyList;
+}
+
+/**
+ * @param array $crim
+ * @param array $users
+ * @param bool $isGuard
+ * @param bool $isCrim
+ * @return string
+ */
+function selectTarget($crim, $users, $isGuard, $isCrim)
+{
+    $tgt = '';
+    // гварды атакуют кримов
+    if (count($crim) > 0 && $isGuard) {
+        $tgt = $crim[rand(0, count($crim) - 1)];
+    }
+    // кримы атакуют пользователей
+    if ($isCrim && count($users) > 0) {
+        $tgt = $users[rand(0, count($users) - 1)];
+    }
+    return $tgt;
+}
+
+/**
+ * @param array $owner
+ */
+function fillOwner(&$owner)
+{
+    for ($i = 0; $i < 5; ++$i) {
+        if (!isset($owner[$i])) {
+            $owner[$i] = "";
+        }
+    }
+    if (!isset($owner[5])) {
+        $owner[5] = time() + 60 * 60;
+    }
+}
+
+/**
+ * Обновление таймеров у пользователей
+ *
+ * @param array $loc_i
+ * @param string $locId
+ * @param string $id
+ * @param string $login
+ * @param int $g_regen
+ * @param int $g_logout
+ */
+function stepForUser(&$loc_i, $locId, $id, $login, $g_regen, $g_logout)
+{
+    $char = getCharData($loc_i, $locId, $id);
+    // реген ХП/МП.
+    $tm = time() - intval($char[5]);
+    $needRegenerate = empty($char[8]) && $tm > $g_regen && ($char[1] != $char[2] || $char[3] != $char[4]);
+    if ($needRegenerate) {
+        $skills = explode("|", $loc_i[$locId][$id]["skills"]);
+        // скорость восстановления зависит от умений:
+        // ХП - от "регенерации"
+        $char[1] = min($char[1] + round($tm / ($g_regen - $skills[16] * 4)), $char[2]);
+        // МП - от "медетации"
+        $char[3] = min($char[3] + round($tm / ($g_regen - $skills[5] * 4)), $char[4]);
+        $char[5] = time();
+    }
+    // сброс преступлений по сроку давности
+    if ($char[9] && time() > $char[10]) {
+        $char[9] = 0;
+        $char[10] = "";
+    }
+    if ($id == $login) {
+        $char[11] = time(); // обновить таймер последнего действия
+    }
+
+    setCharData($loc_i, $locId, $id, $char);
+    // удалить покинувших игру персонажей
+    if ($char[11] && time() > $char[11] + $g_logout * 5 && !file_exists("online/" . $id)) {
+        unset($loc_i[$locId][$id]);
+    }
+}
+
+/**
+ * Обработка предметов
+ *
+ * @param array  $objects
+ * @param string $locId
+ * @param string $id
+ * @param array  $game
+ */
+function stepForItem(&$objects, $locId, $id, $game)
+{
+    if ($id == "i.flag" && $game["floc"] != $locId) {
+        // похоже на костыль: удалить флаг, если он есть на другой локе
+        unset($objects[$locId][$id]);
+    } elseif (substr($locId, 0, 2) != "c." || substr($id, 0, 4) == "i.s.") {
+        // удалить предмет с локи, если истекло его время
+        // с пропуском предметов в замках
+        $tmp = explode("|", $objects[$locId][$id]);
+        if ($tmp[2] && time() > $tmp[2]) {
+            unset($objects[$locId][$id]);
         }
     }
 }
@@ -2086,10 +2403,18 @@ function loadloc($loc)
         if ( ! $loc || ! file_exists("loc_i/" . $loc)) {
             return;
         }
-        $tmp          = (file_get_contents("loc_i/" . $loc));
+        $tmp          = file_get_contents("loc_i/" . $loc);
         $loc_tt[$loc] = unserialize($tmp);
         if ( ! $loc_tt[$loc]["d"]) {
-            $tmp          = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $tmp);
+            // неудалось загрузить, попробуем исправить длины строк
+            // Требуется в основном после ручной правки файлов состояния.
+            $tmp = preg_replace_callback(
+                '/s:(?:\d+):"(.*?)";/',
+                function($m) {
+                    return "s:" . strlen($m[1]) . ":\"{$m[1]}\";";
+                },
+                $tmp
+            );
             $loc_tt[$loc] = unserialize($tmp);
         }
         if ( ! $loc_tt[$loc]["d"]) {
@@ -2114,15 +2439,13 @@ function loadloc($loc)
  *
  * Выполняет перемещение между локациями и удаление из локации.
  *
- * FIXME: название не соответствует, так как в основном используется перемещения/удаления
- *
  * @param string $id   ID NPC/пользователя
  * @param string $from откуда, ID локации
  * @param string $to   куда, ID локации
  * @param int    $gal  флаг перемещения галопом
  * @param int    $hide флаг скрытного перемещения
  */
-function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
+function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
 {
     global $loc_i, $loc, $login, $page_d, $loc_tt, $g_j2go, $game;
 
@@ -2227,20 +2550,6 @@ function addnpc($id, $from = "", $to = "", $gal = 0, $hide = 0)
             $page_d = 1;
         }
     }
-}
-
-/**
- * Вспомогательная функция для перерасчета длины строк в файлах состояния.
- *
- * Требуется в основном после ручной правки файлов состояния.
- *
- * @param string $s строка для перерачета
- *
- * @return string
- */
-function calcser($s)
-{
-    return "s:" . strlen($s) . ":\"" . $s . "\";";
 }
 
 /**

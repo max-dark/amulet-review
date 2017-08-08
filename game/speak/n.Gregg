@@ -17,7 +17,7 @@ function nGregg_begin(&$title, $speak)
 
 function nGregg_st6_st7(&$title, &$id)
 {
-    if (additem(getCurrentLocId(), getCurrentUserId(), "", "i.q.vorovoj", "count") > 0) {
+    if (manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.q.vorovoj", "count") > 0) {
         $title = "Я нашел вора и пришел вернуть ожерелье, Стоун невиновен!";
         $id = "qvok";
     } else {
@@ -30,9 +30,9 @@ function nGregg_qvok(&$title, $speak)
     global $loc_i;
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
-    if (additem($loc, $login, "", "i.q.vorovoj", "count") > 0) {
-        additem($loc, $login, "", "i.q.vorovoj", 1, "items", "items", 1, 0, 1);
-        additem($loc, "", $login, "i.money", 30);
+    if (manageItems($loc, $login, "", "i.q.vorovoj", "count") > 0) {
+        manageItems($loc, $login, "", "i.q.vorovoj", 1, "items", "items", 1, 0, 1);
+        manageItems($loc, "", $login, "i.money", 30);
         addexp($loc, $login, 25);
         $loc_i[$loc][$speak]["qv"] = time();
         $title = "Гм.. надо же, не ожидал... Что ж, это меняет дело. Хотя все равно это все очень подозрительно...";

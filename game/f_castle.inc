@@ -39,7 +39,7 @@ if (strpos($char[0], "*") === false) {
 if ( ! $ctele && $char[8] && substr($loc, 3) != ".in" && $clan != $clanc &&
      strpos($d[0], ":" . $login . ":") === false
 ) {
-    addnpc($login, $loc, substr($gate, 0, 4) . "in");
+    manageNPC($login, $loc, substr($gate, 0, 4) . "in");
     msg("Призрак не может находиться в не своем замке.");
 }
 
@@ -60,7 +60,7 @@ if ($ctele) {
                                 strrpos($tchar[0], "*") - strpos($tchar[0], "*") - 1);
                         }
                         if ($tclan != $clanc && strpos($d[0], ":" . $k . ":") === false) {
-                            addnpc($login, $loc, $ctele);
+                            manageNPC($login, $loc, $ctele);
 
                             return;
                         }
@@ -86,7 +86,7 @@ if (substr($loc, 3) != ".in") {
         $timez = substr($d[0], strpos($d[0], "{") + 1, strrpos($d[0], "}") - strpos($d[0], "{") - 1);
     }
     if (time() < $timez) {
-        addnpc($login, $loc, substr($gate, 0, 4) . "in");
+        manageNPC($login, $loc, substr($gate, 0, 4) . "in");
         msg("Ворота замка заперты изнутри, их могут открыть только хозяева замка, либо стражники откроют сами, когда истечет максимальный срок.");
     } else {
         if (strpos($d[0], "#") === false) {    // открываем, время истекло

@@ -24,7 +24,7 @@ if ($to) {    // атакуем как магией
     $char[6]                     = time() + 8;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-    additem($loc, $login, "", "i.b.jad", 1, "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.b.jad", 1, "items", "items", 1, 0, 1);
     attack($loc, $login, $to, $war, 0, 1);
 } else {
     $list = 'all';

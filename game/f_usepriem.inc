@@ -186,7 +186,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                         ) {
                             addjournal($loc, $to, "У вас выбито оружие!");
                             addjournal($loc, "all", "У " . substr($to, 2) . " выбито оружие!", $to);
-                            additem($loc, $to, 'loc',
+                            manageItems($loc, $to, 'loc',
                                 preg_replace('/.*?(i\.w\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
                                 "items", 1, -1, 1);
                             $tc = explode("|", $loc_i[$loc][$to]["char"]);
@@ -201,7 +201,7 @@ if (substr($use, 0, 4) == "p.d." || substr($use, 0, 4) != "p.d." && isset($loc_i
                         if (rand(0, 100) <= $magic[0] - 40 && strpos($loc_i[$loc][$to]["equip"], "i.a.s.") !== false) {
                             addjournal($loc, $to, "У вас выбит щит!");
                             addjournal($loc, "all", "У " . substr($to, 2) . " выбит щит!", $to);
-                            additem($loc, $to, 'loc',
+                            manageItems($loc, $to, 'loc',
                                 preg_replace('/.*?(i\.a\.s\.[^\|]+).*/', "\\1", $loc_i[$loc][$to]["equip"]), 1, "items",
                                 "items", 1, -1, 1);
                             $tc = explode("|", $loc_i[$loc][$to]["char"]);

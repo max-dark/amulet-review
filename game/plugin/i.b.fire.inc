@@ -26,7 +26,7 @@ $war     = implode("|", $war);
 $char[6]                     = time() + 10;
 $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-additem($loc, $login, "", "i.b.fire", 1, "items", "items", 1, 0, 1);
+manageItems($loc, $login, "", "i.b.fire", 1, "items", "items", 1, 0, 1);
 
 foreach (array_keys($loc_i[$loc]) as $to) {
     if (substr($to, 0, 2) != 'i.' && $to != $login) {

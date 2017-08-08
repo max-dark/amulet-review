@@ -12,7 +12,7 @@ function nLakosta_begin_qv(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.jofe", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.jofe", "count") > 0) {
         $title = "Я помог убежать Йофе из темницы в подземелье и он дал мне этот браслет";
     } else {
         $title = "";
@@ -24,10 +24,10 @@ function nLakosta_qv(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.jofe", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.jofe", "count") > 0) {
         addexp($loc, $login, 100);
-        additem($loc, $login, "", "i.q.jofe", 1);
-        additem($loc, "", $login, "i.f.b.health.great", 2);
+        manageItems($loc, $login, "", "i.q.jofe", 1);
+        manageItems($loc, "", $login, "i.f.b.health.great", 2);
         $title = "Благодарю тебя, сын мой. Церковь не забывает благих поступков. К сожалению, казна разграблена демонами, поэтому возьми хотя бы эти целебные элексиры, они укрепляют тело и дух.";
     } else {
         $title = "У тебя нет браслета Йофе, зачем ты обманываешь меня?";

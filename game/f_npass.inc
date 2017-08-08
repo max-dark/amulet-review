@@ -14,6 +14,8 @@
  * @global tmp
  */
 
+use MaxDark\Amulet\OldCode\PageType;
+
 if (time() < trim($tmp[2])) {
     $t = trim($tmp[2]) - time();
 } else {
@@ -36,4 +38,4 @@ if ($t) {
 } else {
     $stmp = "Неверный пароль. Если вы сменили пароль, подождите 10 минут, проверьте список онлайн и войдите в игру заново.";
 }
-msg($stmp, "Ошибка", 0, 'none');
+msg($stmp, "Ошибка", 0, PageType::GUEST);

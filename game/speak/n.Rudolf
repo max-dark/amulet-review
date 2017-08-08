@@ -6,7 +6,7 @@ function nRudolf_begin(&$title)
     if ($war[16]) {
         $title = "А, <name>, проходи, располагайся. Мы уже наслышаны о твоих подвигах...";
     } else {
-        addnpc(getCurrentUserId(), getCurrentLocId(), "x2168x297");
+        manageNPC(getCurrentUserId(), getCurrentLocId(), "x2168x297");
         $title = "Эй, тебе здесь не место! Убирайся и радуйся, что остался жив!";
     }
 }
@@ -21,7 +21,7 @@ function nRudolf_qv(&$title, $speak)
     $title = "";
     $war = explode("|", getCurrentUser("war"));
     if (!$war[16]) {
-        addnpc($login, $loc, "x2168x297");
+        manageNPC($login, $loc, "x2168x297");
         $title = "[оборачивается к охранникам] Вышвырнуть этого слюнтяя!";
     } else {
         if ($loc_i[$loc][$speak]["qv"] == $war[16] && $war[16] != $login) {
@@ -30,8 +30,8 @@ function nRudolf_qv(&$title, $speak)
             $war[16] = "u.xxyz";
             $loc_i[$loc][$login]["war"] = implode("|", $war);
             addexp($loc, $login, 100);
-            additem($loc, "", $login, "i.money", 1000);
-            additem($loc, "", $login, "i.q.pervor", 1);
+            manageItems($loc, "", $login, "i.money", 1000);
+            manageItems($loc, "", $login, "i.q.pervor", 1);
             unset($loc_i[$loc][$speak]["qv"]);
         }
         if (!$loc_i[$loc][$speak]["qv"] || !file_exists("online/" . $loc_i[$loc][$speak]["qv"])) {

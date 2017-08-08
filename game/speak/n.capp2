@@ -50,7 +50,7 @@ function nCapP2_go(&$title, $speak)
         // $game["floc"] = "x746x410";
         foreach ($loc_i["x33x1252"] as $i => $val) {
             if ($i != $speak) {
-                addnpc($i, "x33x1252", "x746x410");
+                manageNPC($i, "x33x1252", "x746x410");
                 if (substr($i, 0, 2) == "u.") {
                     $f = fopen("online/" . $i, "w");
                     fputs($f, "x746x410\n" . time());

@@ -29,7 +29,7 @@ function nSloven_qv(&$title, $speak)
     if (time() > nSloven_getTimer($speak)) {
         nSloven_resetTimer($speak);
         $title = "Вообще-то есть, у меня недавно сломался замок, ты не мог бы отнести его кузнецу Раксу, что обычно работает на центральной улице в центре города? Не волнуйся, я щедро заплачу, когда принесешь отремонтированный замок обратно.";
-        additem(getCurrentLocId(), "", getCurrentUserId(), "i.q.zamok.sl", 1);
+        manageItems(getCurrentLocId(), "", getCurrentUserId(), "i.q.zamok.sl", 1);
     } else {
         $title = "Конечно, у меня магазин все-таки, я не могу отлучаться надолго, поэтому часто требуется какая-нибудь помощь. Но сейчас все в порядке и ничего не нужно. Но ты заглядывай почаще, например, через " . round((nSloven_getTimer($speak) - time()) / 60 + 1) . " минут и обязательно получишь работу.";
     }
@@ -42,8 +42,8 @@ function nSloven_qvOk(&$title)
         $login = getCurrentUserId();
 
         $title = "Спасибо, <name>. ТЫ меня очень выручил. Возьми эти деньги за работу. Надеюсь, мы с тобой продолжим наше  сотрудничество.";
-        additem($loc, $login, "", "i.q.zamok.good", 1);
-        additem($loc, "", $login, "i.money", 70);
+        manageItems($loc, $login, "", "i.q.zamok.good", 1);
+        manageItems($loc, "", $login, "i.money", 70);
         addexp($loc, $login, 30);
     } else {
         $title = "Это шутка? У тебя нет моего замка.";

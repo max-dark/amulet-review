@@ -25,7 +25,7 @@ function nTorvill_begin(&$title, $speak)
 
 function nTorvill_begin_qv(&$title, &$id)
 {
-    if (additem(getCurrentLocId(), getCurrentUserId(), "", "i.q.klever", "count") > 0) {
+    if (manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.q.klever", "count") > 0) {
         $title = "Я нашел четырехлистный клевер";
         $id = "qvok";
     } else {
@@ -40,11 +40,11 @@ function nTorvill_qvOk(&$title, $speak)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.klever", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.klever", "count") > 0) {
         $loc_i[$loc][$speak]["qv"] = time() - 438400;
         $title = "Хорошая работа, я не буду давать тебе свитки или руны, так не уверен, что мои заклинания тебе подойдут. Если захочешь, в любое время можешь сам купить у меня что тебе нужно.";
-        additem($loc, $login, "", "i.q.klever", 1, "items", "items", 1, 0, 1);
-        additem($loc, "", $login, "i.money", 150);
+        manageItems($loc, $login, "", "i.q.klever", 1, "items", "items", 1, 0, 1);
+        manageItems($loc, "", $login, "i.money", 150);
         addexp($loc, $login, 55);
     } else {
         $title = "Ты играешь со смертью, если пытаешься меня обмануть";

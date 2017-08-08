@@ -39,7 +39,7 @@ if ($to) {
             $stmp .= "</a>";
         }
     }
-    additem($loc, $login, "", "i.q.pervor", 1, "items", "items", 1, 0, 1);
+    manageItems($loc, $login, "", "i.q.pervor", 1, "items", "items", 1, 0, 1);
     msg($stmp, $char[0], 0);
 
 } else {

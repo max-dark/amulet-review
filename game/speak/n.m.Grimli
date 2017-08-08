@@ -5,7 +5,7 @@ function nmGrimli_hasKey()
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    return additem($loc,$login,"","i.q.keykrep1","count")>0;
+    return manageItems($loc,$login,"","i.q.keykrep1","count")>0;
 }
 
 function nmGrimli_begin_tr(&$title, &$id)

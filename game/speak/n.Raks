@@ -28,7 +28,7 @@ function nRaks_qv21(&$title, $speak)
 
     if (strpos(getCurrentUser("items"), "i.q.zamok.sl:") !== false) {
         $title = "Хорошо, будет готово через полчаса. Если не трудно, отнеси потом его обратно Словену, он наверняка тебя наградит за работу.  Только учти, я тебя ждать не буду, если отнесет кто-нибудь другой, то мне все равно. Так что не опаздывай.";
-        additem($loc, $login, "", "i.q.zamok.sl", 1);
+        manageItems($loc, $login, "", "i.q.zamok.sl", 1);
         $loc_i[$loc][$speak]["qv2"] = time() + 1800;
         addexp($loc, $login, 10);
     } else {
@@ -49,7 +49,7 @@ function nRaks_qv22(&$title, &$fb, $speak)
         if (time() > $loc_i[$loc][$speak]["qv2"]) {
             $title = "Да, вот возьми. Где Словен живет, ты знаешь? От северных ворот на востоке двухэтажное каменное здание, его легко заметить.";
             $fb = 1;
-            additem($loc, "", $login, "i.q.zamok.good", 1);
+            manageItems($loc, "", $login, "i.q.zamok.good", 1);
             unset($loc_i[$loc][$speak]["qv2"]);
         } else {
             $title = "Еще нет, осталось примерно " . round(($loc_i[$loc][$speak]["qv2"] - time()) / 60 + 1) . " минут. Приходи когда закончу.";
@@ -78,7 +78,7 @@ function nRaks_qv(&$title, $speak)
     if (time() > $loc_i[$loc][$speak]["qv1"]) {
         $loc_i[$loc][$speak]["qv1"] = time() + rand(1200, 3600);
         $title = "Да, я отремонтировал инструменты для Аранта, который продает луки на юго-западе города, отнеси их ему, пожалуйста. Я бы и сам это сделал, но еще много работы, сам понимаешь...";
-        additem($loc, "", $login, "i.q.instrum", 1);
+        manageItems($loc, "", $login, "i.q.instrum", 1);
     } else {
         $title = "Пока что ничего не надо, но если еще будет интерес, обращайся, я часто ремонтирую разные вещи для горожан и иногда требуются помощники. Приходи минут через " . round(($loc_i[$loc][$speak]["qv1"] - time()) / 60 + 1);
     }

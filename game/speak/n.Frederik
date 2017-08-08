@@ -18,8 +18,8 @@ function nFrederik_saleRoomById($room, $cash)
         $ut = explode("|", getCurrentUser("user"));
         $tav[$room] = $login . ":" . (time() + 60 * 60 * 4) . ":" . $ut[0];
         nFrederik_setRoomStatus($tav);
-        additem($loc, $login, "", "i.money", $cash, "items", "items", 1, 0, 1);
-        additem($loc, "", $login, "i.key.tav" . $key, 1);
+        manageItems($loc, $login, "", "i.money", $cash, "items", "items", 1, 0, 1);
+        manageItems($loc, "", $login, "i.key.tav" . $key, 1);
         $title = "Вот твой ключ, береги его";
     } else {
         $title = "Извини, комната уже занята";
@@ -189,8 +189,8 @@ function nFrederik_getLost(&$title)
     }
 
     if ($n) {
-        additem($loc, $login, "", "i.money", 100, "items", "items", 1, 0, 1);
-        additem($loc, "", $login, "i.key.tav" . $n, 1);
+        manageItems($loc, $login, "", "i.money", 100, "items", "items", 1, 0, 1);
+        manageItems($loc, "", $login, "i.key.tav" . $n, 1);
         $title = "Вот твой новый ключ, береги его";
     } else {
         $title = "Извини, ты не значишься в книге записей посетителей";

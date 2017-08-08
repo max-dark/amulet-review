@@ -14,8 +14,8 @@
 if ($use == "i.f.b.empty") {
     include __DIR__ . DIRECTORY_SEPARATOR . 'loc_water.inc';
     if (strpos($loc_water1, $loc) !== false || strpos($loc_water2, $loc) !== false) {
-        additem($loc, $login, "", "i.f.b.empty", 1, "items", "items", 1, 0, 1);
-        additem($loc, "", $login, "i.f.b.water", 1, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", "i.f.b.empty", 1, "items", "items", 1, 0, 1);
+        manageItems($loc, "", $login, "i.f.b.water", 1, "items", "items", 1, 0, 1);
         msg("Вы наполнили водой пустую бутылку.");
     } else {
         msg("Рядом нет источника воды, чтобы наполнить бутылку водой.");
@@ -42,8 +42,8 @@ if ($item[3]) {
     addjournal($loc, $login, 'Мана +' . $item[3]);
 }
 // удаляем
-additem($loc, $login, "", $use, 1);
+manageItems($loc, $login, "", $use, 1);
 // пустая бутылка
 if (substr($use, 0, 11) == 'i.f.b.water') {
-    additem($loc, "", $login, "i.f.b.empty", 1);
+    manageItems($loc, "", $login, "i.f.b.empty", 1);
 }

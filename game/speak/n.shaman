@@ -5,7 +5,7 @@ function nShaman_qv_get(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.ditrih", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.ditrih", "count") > 0) {
         $title = "Я пришел за зельем для Кастена из замка барона Дитриха";
     } else {
         $title = "";
@@ -17,10 +17,10 @@ function nShaman_get(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.shaman", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.shaman", "count") > 0) {
         $title = "Разве тебе мало того зелья, что у тебя уже есть?";
     } else {
-        additem($loc, "", $login, "i.q.shaman", 1);
+        manageItems($loc, "", $login, "i.q.shaman", 1);
         $title = "Вот возьми, ты знаешь что с ним делать. Мне кажется, я ошибся в тебе. Будь добр, прости старика...";
     }
 }

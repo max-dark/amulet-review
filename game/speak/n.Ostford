@@ -5,11 +5,11 @@ function nOstford_begin(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    $hagen = additem($loc, $login, "", "i.q.hagen", "count");
-    $ditrih = additem($loc, $login, "", "i.q.ditrih", "count");
+    $hagen = manageItems($loc, $login, "", "i.q.hagen", "count");
+    $ditrih = manageItems($loc, $login, "", "i.q.ditrih", "count");
     if ($hagen == 0 && $ditrih == 0) {
         $title = "Как ты сюда попал? Немедленно покинь здание. Стража!";
-        addnpc($login, $loc, "x1778x493");
+        manageNPC($login, $loc, "x1778x493");
     } else {
         if ($hagen > 0) {
             $title = "Ты принес грамоту от Лорда Хагена? Рад приветствовать тебя в наших рядах, <name>! О чем ты хотел поговорить со мной?";

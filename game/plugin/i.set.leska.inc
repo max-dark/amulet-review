@@ -16,13 +16,13 @@ if (intval(preg_replace('/.*' . "i.log" . ':(\d+).*/', "\\1", $loc_i[$loc][$logi
         $char[6]                     = time() + 10;
         $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-        additem($loc, $login, "", "i.log", 1);        // удаляем 1 ветку
+        manageItems($loc, $login, "", "i.log", 1);        // удаляем 1 ветку
 
         if (rand(0, 100) < $skills[27] * 20) {
             addjournal($loc, $login, "Вы сделали удочку");
             addjournal($loc, "all", $char[0] . " сделал удочку", $login);
-            additem($loc, "", $login, "i.fishman", 1);
-            additem($loc, $login, "", "i.set.leska", 1);
+            manageItems($loc, "", $login, "i.fishman", 1);
+            manageItems($loc, $login, "", "i.set.leska", 1);
         } else {
             addjournal($loc, $login, "Вы не смогли сделать удочку");
             addjournal($loc, "all", $char[0] . " пытался сделать удочку", $login);

@@ -22,7 +22,7 @@ $war     = implode("|", $war);
 $char[6]                     = time() + 10;
 $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-additem($loc, $login, "", "i.q.pdeath", 1, "items", "items", 1, 0, 1);
+manageItems($loc, $login, "", "i.q.pdeath", 1, "items", "items", 1, 0, 1);
 if ($loc == "x2375x934") {
     addjournal($loc, "all", "[громовой голос] КАК ТЫ СМЕЕШЬ МЕНЯ ТРЕВОЖИТЬ, " . strtoupper(substr($login, 2)) . "?");
 }

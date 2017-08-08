@@ -7,7 +7,7 @@ function nGuildVor_enterNow(&$title)
     $war = explode("|", getCurrentUser("war"));
     if ($war[16]) {
         $title = "Похоже, ты наш человек. Хотя кровь на твоих руках еще ни о чем не говорит. Следи за собой и все будет нормально. Проходи.";
-        addnpc($login, $loc, "x2211x288");
+        manageNPC($login, $loc, "x2211x288");
     } else {
         $title = "Ты лжешь, по нашим данным ты еще никого из игроков не убивал, проваливай, пока цел.";
     }

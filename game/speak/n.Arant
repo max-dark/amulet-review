@@ -21,9 +21,9 @@ function nArant_qv(&$title)
 {
     if (strpos(getCurrentUser('items'), "i.q.instrum:") !== false) {
         $title = "Спасибо, <name>, мне они как раз нужны. Деньгами помочь не могу, но возьми в знак моей благодарности этот лук и немного стрел.";
-        additem(getCurrentLocId(), getCurrentUserId(), "", "i.q.instrum", 1);
-        additem(getCurrentLocId(), "", getCurrentUserId(), "i.arrow", 12);
-        additem(getCurrentLocId(), "", getCurrentUserId(), "i.w.r.b.short", 1);
+        manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.q.instrum", 1);
+        manageItems(getCurrentLocId(), "", getCurrentUserId(), "i.arrow", 12);
+        manageItems(getCurrentLocId(), "", getCurrentUserId(), "i.w.r.b.short", 1);
         addexp(getCurrentLocId(), getCurrentUserId(), 10);
     } else {
         $title = "У тебя нет инструментов!";

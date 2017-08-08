@@ -2,7 +2,7 @@
 
 function nKasten_begin_qv1(&$title)
 {
-    if (additem(getCurrentLocId(), getCurrentUserId(), "", "i.q.ditrihin", "count") > 0) {
+    if (manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.q.ditrihin", "count") > 0) {
         $title = "Я поступил на службу, Дитрих сказал получить у тебя одежду и оружие";
     } else {
         $title = "";
@@ -14,11 +14,11 @@ function nKasten_qv1(&$title)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.ditrihin", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.ditrihin", "count") > 0) {
         addexp($loc, $login, 10);
-        additem($loc, $login, "", "i.q.ditrihin", 1);
-        additem($loc, "", $login, "i.a.e.k", 1);
-        additem($loc, "", $login, "i.w.spear.long", 1);
+        manageItems($loc, $login, "", "i.q.ditrihin", 1);
+        manageItems($loc, "", $login, "i.a.e.k", 1);
+        manageItems($loc, "", $login, "i.w.spear.long", 1);
         $title = "Все верно, возьми этот плащ и копье. Лента стражника остается при тебе, носи ее чтобы было видно, тогда стража у ворот будет пропускать тебя в замок в любое время.";
     } else {
         $title = "Ты что-то напутал, а где перечень Дитриха?";
@@ -32,13 +32,13 @@ function nKasten_qv(&$title, $speak)
     $loc = getCurrentLocId();
     $login = getCurrentUserId();
 
-    if (additem($loc, $login, "", "i.q.ditrih", "count") > 0) {
+    if (manageItems($loc, $login, "", "i.q.ditrih", "count") > 0) {
         if (time() > $loc_i[$loc][$speak]["qv"]) {
-            if (additem($loc, $login, "", "i.q.shaman", "count") > 0) {
+            if (manageItems($loc, $login, "", "i.q.shaman", "count") > 0) {
                 $loc_i[$loc][$speak]["qv"] = time() + rand(18000, 24000);
-                additem($loc, $login, "", "i.q.shaman", 1);
+                manageItems($loc, $login, "", "i.q.shaman", 1);
                 $title = "Помни, <name>, если вам не удастся сразу прорваться через проход, мои ребята отступят. Удачи! [подзывает несколько человек и дает всем, включая вас, попробовать зелье, у вас перед глазами темнеет и...]";
-                addnpc($login, $loc, "x1446x60");
+                manageNPC($login, $loc, "x1446x60");
                 $npc = loadNpcById("n.strditrih");
                 $npc["owner"] = $login . "|" . $login . "|" . $login . "|" . (time() + 90) . "|1";
                 $loc_i[$loc]["n.strditrih1." . $login] = $npc;

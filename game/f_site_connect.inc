@@ -15,8 +15,11 @@
  * @global s
  */
 
+use MaxDark\Amulet\OldCode\DBOperations;
+use MaxDark\Amulet\OldCode\PageType;
+
 if ( ! preg_match('|^[-0-9a-z_\.]+$|i', $login)) {
-    msg("Неверный синтаксис в логине $login<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, 'none');
+    msg("Неверный синтаксис в логине $login<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, PageType::GUEST);
 }
 if (substr($login, 0, 2) != "u.") {
     $login = "u." . $login;
@@ -39,9 +42,9 @@ if ($file !== false) {
 }
 
 // получаем данные с основного сервера
-list($res, $data) = GetData(substr($login, 2), $p);
+list($res, $data) = DBOperations::getData(substr($login, 2), $p);
 if ($res) {
-    msg($res, 'Проверка входа', 0, 'none');
+    msg($res, 'Проверка входа', 0, PageType::GUEST);
 }
 $auser = unserialize($data);
 if ( ! $auser["char"] || ! $auser["skills"]) {
