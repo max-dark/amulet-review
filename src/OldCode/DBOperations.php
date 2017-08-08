@@ -18,16 +18,9 @@ class DBOperations
      */
     private static function openDB()
     {
-        // TODO: remove globals
-        global $server, $user, $dbpass, $dbname;
         $msg = '';
         try {
-            self::db([
-                'server' => $server,
-                'dbname' => $dbname,
-                'login' => $user,
-                'password' => $dbpass,
-            ]);
+            self::db(DBConfig::getConfig());
         } catch (\PDOException $e) {
             $msg = defined('DEBUG') ? $e->getMessage() : "База данных недоступна. Повторите через 5мин";
         }
