@@ -432,7 +432,7 @@ if ($use) {
 if ($look || $look = $ci) {
     // раньше $list
     // после $take и $use
-    // при ci == 1 устанавливается page_d = true - флаг "вывести описание локации"
+    // при ci == 1 устанавливается ViewOptions::setDescEnabled(true) - флаг "вывести описание локации"
     // возможен возврат управления
     include_once "f_look.inc";
 }
@@ -651,7 +651,7 @@ $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">обновить</a>";
 
 // Добавить ссылку на описание локи
 if (file_exists("loc_f/" . $loc)) {
-    // переход по ссылке устанавливает $page_d = "1"(смотри в f_look.inc)
+    // переход по ссылке устанавливает ViewOptions::setDescEnabled(true)(смотри в f_look.inc)
     // что используется в функции msg для добавления описания локации
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=1\">Инфo</a>";
 }

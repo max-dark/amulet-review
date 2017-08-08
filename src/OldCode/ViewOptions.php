@@ -313,11 +313,9 @@ class ViewOptions
 
     /**
      * @param bool|int $descEnabled
-     * @return bool|int
      */
-    public function &setDescEnabled($descEnabled)
+    public function setDescEnabled($descEnabled)
     {
         $this->descEnabled = $descEnabled;
-        return $this->descEnabled;
     }
 }

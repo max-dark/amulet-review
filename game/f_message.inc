@@ -8,6 +8,7 @@
 
 use MaxDark\Amulet\OldCode\MenuMode;
 use MaxDark\Amulet\OldCode\PageType;
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 /**
  * Выводит страницу пользователю.
@@ -51,9 +52,10 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $page_d, $g_size, $g_list, $g_menu, $g_j2loc, $g_joff, $g_smf, $g_map;
+    global $g_size, $g_list, $g_menu, $g_j2loc, $g_joff, $g_smf, $g_map;
     global $g_query_string;
 
+    $viewOpt = ViewOptions::getInstance();
     $url_base = "?sid=$sid";
 
     header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
@@ -114,13 +116,13 @@ function msg(
     // меню в виде "действий"(<do> tag).
     if ($isMenuInPageMode) {
         $show_journal = false;
-        $page_d       = 0;
+        $viewOpt->setDescEnabled(false);
         $message      = "Нажмите кнопку Меню";
     }
     // меню в виде ссылок(<a> tag) на отдельной странице
     if ($isMenuInLinksMode) {
         $show_journal = false;
-        $page_d       = 0;
+        $viewOpt->setDescEnabled(false);
         $message = menu_links($url_base, $currentUser, $g_map);
     }
     
@@ -162,7 +164,7 @@ function msg(
         }
     }
     // добавить описание локации
-    if ($page_d && file_exists('loc_f/' . $loc)) {
+    if ($viewOpt->getDescEnabled() && file_exists('loc_f/' . $loc)) {
         $page_journal .= '<br/>' . file_get_contents('loc_f/' . $loc);
     }
 

@@ -11,12 +11,13 @@
  * @global PHP_SELF
  * @global char
  * @global $look
- * @global page_d
  */
+
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 if ($look) {
     if ($look == 1) {
-        $page_d = "1";
+        ViewOptions::getInstance()->setDescEnabled(true);
     } else {
         switch (substr($look, 0, 2)) {
             case 'i.':
@@ -56,7 +57,7 @@ if ($look) {
                 break;
         }
     }
-    if ( ! $page_d && $stmp) {
+    if ( ! ViewOptions::getInstance()->getDescEnabled() && $stmp) {
         msg($stmp, "Описание");
     }
 }
