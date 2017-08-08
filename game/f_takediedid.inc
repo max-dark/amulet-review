@@ -14,6 +14,8 @@
  * @global id
  */
 
+use MaxDark\Amulet\OldCode\PageType;
+
 $died   = explode("|", $loc_i[$loc][$take]);
 $tcount = intval(preg_replace('/.*' . $id . ':(\d+).*/', "\\1", $died[3]));
 if ($tcount) {
@@ -24,7 +26,7 @@ if ($tcount) {
     if ($tcount > 1 && ! $num) {
         $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $tcount .
                 "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&id=$id&num=$(num)\">Отправить</a>";
-        msg($stmp, "Взять", 1, "", "num", $tcount);
+        msg($stmp, "Взять", 1, PageType::MSG, "num", $tcount);
     }
     if ( ! $num || $num < 1) {
         $num = 1;
@@ -32,7 +34,7 @@ if ($tcount) {
     if ($num > $tcount) {
         $num = $tcount;
     }
-    additem($loc, $take, $login, $id, $num, "items", "items", 1, -1, 1);
+    manageItems($loc, $take, $login, $id, $num, "items", "items", 1, -1, 1);
     $char                        = explode("|", $loc_i[$loc][$login]["char"]);
     $char[6]                     = time() + 2;
     $loc_i[$loc][$login]["char"] = implode("|", $char);

@@ -16,9 +16,9 @@ if (intval(preg_replace('/.*' . "i.f.meat" . ':(\d+).*/', "\\1", $loc_i[$loc][$l
             $char[6]                     = time() + 7;
             $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-            additem($loc, $login, "", "i.f.meat", 1);
+            manageItems($loc, $login, "", "i.f.meat", 1);
             if (rand(1, 100) < $skills[30] * 20) {
-                additem($loc, "", $login, "i.f.meat.fried", 1);
+                manageItems($loc, "", $login, "i.f.meat.fried", 1);
                 addjournal($loc, $login, "Вы поджарили мясо на костре");
                 addjournal($loc, "all", $char[0] . " поджарил мясо на костре", $login);
                 if (rand(1, 100) < 5) {

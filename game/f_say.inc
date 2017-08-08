@@ -14,12 +14,14 @@
  * @global locai
  */
 // сказать текст всем
+use MaxDark\Amulet\OldCode\WordFilter;
+
 if (strpos($say, "?sid=") !== false) {
     $say = substr($say, 0, strpos($say, "?sid="));
 }
 $s = substr($to, 2) . ' ' . $say;
 
-$ok = GetBadWord($s);
+$ok = WordFilter::getAbuse($s);
 if ($ok) {
     $s = substr($to, 2) . ' [БИП]';
 }

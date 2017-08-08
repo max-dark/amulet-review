@@ -93,7 +93,7 @@ if (($magic[6] && $to) || ! $magic[6]) {
                     }
                     // удаляем скролл
                     if ($scroll && substr($scroll, 0, 4) == 'i.m.') {
-                        additem($loc, $login, "", $scroll, 1, "items", "items", 1, -1, 1);
+                        manageItems($loc, $login, "", $scroll, 1, "items", "items", 1, -1, 1);
                     }
                     // произносим заклинание
                     if ($magic[3]) {

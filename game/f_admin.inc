@@ -57,13 +57,13 @@ if ($login == $g_admin || $gm == $gm_id) {
         break;
         case 'tln':
             if ($inp) {
-                addnpc($login, $loc, strtolower($inp));
+                manageNPC($login, $loc, strtolower($inp));
                 $loc_c = explode("|", $loc_tt[$loc]["d"]);
             }
         break;
         case 'mnn':
             if ($inp) {
-                additem($loc, "", $login, "i.money", $inp);
+                manageItems($loc, "", $login, "i.money", $inp);
             }
         break;
         case 'gtp':
@@ -105,7 +105,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 if ($new != "bank") {
                     $new = "items";
                 }
-                additem($loc, "", $to, $inp, $val . "items", $new);
+                manageItems($loc, "", $to, $inp, $val . "items", $new);
             }
         break;
         case 'del':
@@ -116,7 +116,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 if ($val == "all") {
                     $loc_i[$loc][$login][$new] = "";
                 } else {
-                    additem($loc, $login, "", strtolower($inp), $val, "items", $new);
+                    manageItems($loc, $login, "", strtolower($inp), $val, "items", $new);
                 }
                 calcparam($loc, $login);
             }
@@ -186,7 +186,7 @@ if ($login == $g_admin || $gm == $gm_id) {
                 "<br/>magic: " . $loc_i[$loc][$login]["magic"] . "<br/>skills: " . $loc_i[$loc][$login]["skills"]);
         break;
         case 'resp':
-            addtimer($loc, 0, $val, $inp . "|$val:$new");
+            manageTimers($loc, 0, $val, $inp . "|$val:$new");
             addjournal($loc, $login, "Таймер установлен");
         break;
         case 'skillinfo':

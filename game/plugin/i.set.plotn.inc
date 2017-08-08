@@ -42,12 +42,12 @@ if ($skills[27] * 20 - $arr[$to][2] > 0) {
     $char[6]                     = time() + 10;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-    additem($loc, $login, "", "i.log", $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ветки
+    manageItems($loc, $login, "", "i.log", $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ветки
 
     if (rand(0, 100) < $skills[27] * 20 - $arr[$to][2]) {
         addjournal($loc, $login, "Вы сделали " . $arr[$to][1]);
         addjournal($loc, "all", $char[0] . " сделал " . $arr[$to][1], $login);
-        additem($loc, "", $login, $arr[$to][0] . "_" . substr($login, 2) . "_", 1);
+        manageItems($loc, "", $login, $arr[$to][0] . "_" . substr($login, 2) . "_", 1);
         if (round($arr[$to][2] / 10)) {
             addexp($loc, $login, round($arr[$to][2] / 10));
         }

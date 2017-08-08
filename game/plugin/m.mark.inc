@@ -21,8 +21,8 @@ if (substr($to, 0, 5) == 'i.rr.' && strpos($loc_i[$loc][$login]["items"], $to . 
         msg("На Волчьем острове магия рун перемещения не работает из-за влияния магических самоцветов в горной породе");
     }
     $id = "i.rr." . $loc;
-    additem($loc, $login, "", $to, 1);
-    additem($loc, "", $login, $id, 1);
+    manageItems($loc, $login, "", $to, 1);
+    manageItems($loc, "", $login, $id, 1);
     addjournal($loc, $login, "Руна помечена в это место");
 } else {
     addjournal($loc, $login, "Заклинание можно использовать только на руну телепортации");

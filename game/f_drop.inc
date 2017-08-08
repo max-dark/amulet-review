@@ -14,6 +14,9 @@
  * @global char
  * @global num
  */
+
+use MaxDark\Amulet\OldCode\PageType;
+
 $loc_i[$loc][$login]["macrol"] = "drop|$drop||";
 if ($drop) {            //linkБросить
 
@@ -43,7 +46,7 @@ if ($drop) {            //linkБросить
         if ($tcount > 1 && ! $num) {        // запросим кол-во
             $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
                     $tcount . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&drop=$drop&num=$(num)\">Отправить</a>";
-            msg($stmp, "Бросить", 1, "", "num", $tcount);
+            msg($stmp, "Бросить", 1, PageType::MSG, "num", $tcount);
         }
         if ( ! $num || $num < 1) {
             $num = 1;
@@ -51,7 +54,7 @@ if ($drop) {            //linkБросить
         if ($num > $tcount) {
             $num = $tcount;
         }    // и максимум берем все что есть
-        additem($loc, $login, "loc", $drop, $num, "items", "items", 1, -1, 1);
+        manageItems($loc, $login, "loc", $drop, $num, "items", "items", 1, -1, 1);
     }
 }
 

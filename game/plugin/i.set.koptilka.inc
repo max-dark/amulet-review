@@ -42,23 +42,23 @@ if ( ! $to || ! isset($arr[$to])) {
 }
 
 if ($skills[30] * 20 - $arr[$to][2] > 0) {
-    if (additem($loc, $login, "", "i.log", "count") == 0) {
+    if (manageItems($loc, $login, "", "i.log", "count") == 0) {
         msg("Необходима ветка (которую вы можете срезать с любого дерева)");
     }
     $char[6]                     = time() + 15;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-    additem($loc, $login, "", $arr[$to][5], $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ингридиенты
-    additem($loc, $login, "", "i.log", 1, "items", "items", 1, 0, 1);            // удаляем ветку
+    manageItems($loc, $login, "", $arr[$to][5], $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ингридиенты
+    manageItems($loc, $login, "", "i.log", 1, "items", "items", 1, 0, 1);            // удаляем ветку
     if (rand(0, 100) < $skills[30] * 20 - $arr[$to][2]) {
         addjournal($loc, $login, "Вы приготовили " . $arr[$to][1]);
         addjournal($loc, "all", $char[0] . " приготовил " . $arr[$to][1], $login);
-        additem($loc, "", $login, $arr[$to][0], 1);
+        manageItems($loc, "", $login, $arr[$to][0], 1);
         if (round($arr[$to][2] / 10)) {
             addexp($loc, $login, round(rand(0, $arr[$to][2] / 10)));
         }
     } else {
-        additem($loc, "", $login, "i.f.b.empty", 1);
+        manageItems($loc, "", $login, "i.f.b.empty", 1);
         addjournal($loc, $login, "У вас сгорел" . $arr[$to][1]);
         addjournal($loc, "all", $char[0] . " сжег " . $arr[$to][1], $login);
     }

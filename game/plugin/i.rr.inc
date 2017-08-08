@@ -25,7 +25,7 @@ if ($char[3] >= $manacost) {
         // произносим заклинание
         addjournal($loc, "all", $char[0] . ": " . $words);
         if (rand(0, 100) <= $cast) {    // удалось
-            addnpc($login, $loc, substr($use, 5));
+            manageNPC($login, $loc, substr($use, 5));
             addjournal($loc, "all", $char[0] . ": " . $words, $login);
         } else {
             addjournal($loc, $login, "Заклинание сорвалось");

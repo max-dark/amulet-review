@@ -38,7 +38,7 @@ if ($loc == $tc) {
 }
 addjournal($loc, "all", $char[0] . " уплыл на лодке", $login);
 unset($loc_i[$loc]["i.s.lodka"]);
-addnpc($login, $loc, $tc);
+manageNPC($login, $loc, $tc);
 if ($b) {
     $loc_i[$loc]["i.s.lodka"] = "лодка|0|";
 } else {

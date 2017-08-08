@@ -28,4 +28,4 @@ if ($rnd > 85 && $rnd <= 100) {
     $id = "i.f.sausage";
 }
 // добавляем в локацию
-additem($loc, "", "loc", $id, 1);
+manageItems($loc, "", "loc", $id, 1);

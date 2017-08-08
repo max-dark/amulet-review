@@ -26,11 +26,7 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
         if ($num < 1 || $num > 8) {
             msg("Диапазон номера от 1 до 8", "Макросы", 0);
         }
-        if ( ! isset($loc_i[$loc][$login]["macro"])) {
-            $m = ["", "", "", "", "", "", "", ""];
-        } else {
-            $m = explode("/", $loc_i[$loc][$login]["macro"]);
-        }
+        $m = getMacroList($loc_i[$loc][$login]);
         if ( ! isset($loc_i[$loc][$login]["macrol"])) {
             $ml = [];
         } else {
@@ -64,11 +60,7 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
         if ($num < 1 || $num > 8) {
             msg("Диапазон номера от 1 до 8");
         }
-        if ( ! isset($loc_i[$loc][$login]["macro"])) {
-            $m = ["", "", "", "", "", "", "", ""];
-        } else {
-            $m = explode("/", $loc_i[$loc][$login]["macro"]);
-        }
+        $m = getMacroList($loc_i[$loc][$login]);
         unset($m[$num - 1]);
         $loc_i[$loc][$login]["macro"] = implode("/", $m);
         msg("Макрос с номером $num удален.", "Макросы", 0);
@@ -84,11 +76,7 @@ if ($macro) { //macro=obj|objv|to|tov|name/..., macrol=obj|objv|to|tov
 		<br/>Номер:
 		<select name=\"num\" value=\"1\">
 		";
-        if ( ! isset($loc_i[$loc][$login]["macro"])) {
-            $m = ["", "", "", "", "", "", "", ""];
-        } else {
-            $m = explode("/", $loc_i[$loc][$login]["macro"]);
-        }
+        $m = getMacroList($loc_i[$loc][$login]);
         for ($i = 1; $i < 9; $i++) {
             if (!empty($m[$i - 1])) {
                 $mn = explode("|", $m[$i - 1]);

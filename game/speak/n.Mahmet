@@ -17,8 +17,8 @@ function nMahmet_qvOk(&$title)
 
     if (strpos(getCurrentUser("items"), "i.q.blackstone:") !== false) {
         $title = "Отлично, давай его сюда. Да, это именно тот камень, о котором мне рассказывали. Возьми эти деньги за твой труд. Если найдешь еще такие камни, приноси тоже.";
-        additem($loc, $login, "", "i.q.blackstone", 1);
-        additem($loc, "", $login, "i.money", 40);
+        manageItems($loc, $login, "", "i.q.blackstone", 1);
+        manageItems($loc, "", $login, "i.money", 40);
         addexp($loc, $login, 15);
     } else {
         $title = "Ну и где же он? Я не вижу у тебя никаких камней. ";

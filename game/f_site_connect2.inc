@@ -14,6 +14,8 @@
  * @global pass
  */
 
+use MaxDark\Amulet\OldCode\PageType;
+
 if ($nn) {
     $login = $nn;
 }
@@ -57,7 +59,7 @@ if (file_exists("online/" . $login) && filesize("online/" . $login) != 1) {
 // если нет, то в оффлайн
 if ( ! file_exists("online/" . $login) || ( ! $tfound && ! $data)) {
     msg("Нажмите на ссылку ниже<br/><a href=\"?site=connect&amp;login=$login&p=$p&f_c=$f_c\">Продолжить</a>",
-        $GAME_NAME, 0, 'none');
+        $GAME_NAME, 0, PageType::GUEST);
 }
 if ( ! $tfound) {
 
@@ -73,7 +75,7 @@ if ( ! $tfound) {
         $auser = unserialize($data);
     }
     if ( ! $auser["char"] || ! $auser["skills"]) {
-        msg("Неверный формат, обновите страницу", $GAME_NAME, 0, 'none');
+        msg("Неверный формат, обновите страницу", $GAME_NAME, 0, PageType::GUEST);
     }
     $auser["srv"] = time();
     $tuser        = explode("|", $auser["user"]);
@@ -139,7 +141,7 @@ if ($tfound == 2) {
     loadloc($loc);
     $loc_i[$loc][$login] = $auser;
     // FIXME: добавим событие появления в журнал(костыль)
-    addnpc($login, "", $loc);
+    manageNPC($login, "", $loc);
 }
 
 $sid = substr($login, 2) . "." . $p . "." . chr(rand(97, 122));
@@ -173,4 +175,4 @@ msg("Добро пожаловать, " . $char[0] . "!
       <br/><a href=\"?sid=$sid&cnick=1\">Настройки</a>
         <br/>Чтобы не вводить логин и пароль, сделайте в телефоне закладку на эту страницу.
         <br/>Для выхода используйте пункт меню \"Сохранить\", чтобы не потерять накопленные вещи и опыт.
-        <br/><a href=\"?sid=$sid\">В игру</a>", $GAME_NAME, 0, 'none');
+        <br/><a href=\"?sid=$sid\">В игру</a>", $GAME_NAME, 0, PageType::GUEST);

@@ -19,6 +19,8 @@
  */
 
 // продаем $to
+use MaxDark\Amulet\OldCode\PageType;
+
 $item = findItemByFullId($to);
 
 // фильтр
@@ -48,7 +50,7 @@ if ($count == 0) {
 if ($count > 1 && ! $num) {        // кол-во
     $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $count .
             "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&to=$to&start=$start&num=$(num)\">Отправить</a>";
-    msg($stmp, $tchar[0], 1, "", "num", $count);
+    msg($stmp, $tchar[0], 1, PageType::MSG, "num", $count);
 }
 if ( ! $num || $num < 1) {
     $num = 1;
@@ -61,8 +63,8 @@ if ($item[1] <= 1) {
     $trader[0] = 1;
 }
 $price = round($item[1] * $num * $trader[0]);
-additem($loc, "", $login, "i.money", $price, "items", "items", 0, -1, 1);
-additem($loc, $login, "", $to, $num, "items", "items", 0, -1, 1);
+manageItems($loc, "", $login, "i.money", $price, "items", "items", 0, -1, 1);
+manageItems($loc, $login, "", $to, $num, "items", "items", 0, -1, 1);
 msg("Вы продали " . $num . " " . $item[0] . " за " . $price .
     " монет<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start\">Продолжить</a>");
 

@@ -22,8 +22,8 @@ function nSarant_qvOK(&$title)
         $login = getCurrentUserId();
 
         $title = "Молодец, ты не задумывался о карьере профессионального грузчика? Не обижайся, ставь его сюда, спасибо. Это за работу, держи.";
-        additem($loc, $login, "", "i.q.yashik", 1);
-        additem($loc, "", $login, "i.money", 10);
+        manageItems($loc, $login, "", "i.q.yashik", 1);
+        manageItems($loc, "", $login, "i.money", 10);
         addexp($loc, $login, 5);
     } else {
         $title = "Это шутка? Возвращайся когда действительно принесешь хотя бы один ящик.";

@@ -39,18 +39,18 @@ if ( ! $to || ! isset($arr[$to])) {
 }
 
 if ($skills[32] * 20 - $arr[$to][2] > 0) {
-    if (additem($loc, $login, "", "i.acid", "count") == 0) {
+    if (manageItems($loc, $login, "", "i.acid", "count") == 0) {
         msg("Необходима кислота");
     }
     $char[6]                     = time();
     $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-    additem($loc, $login, "", $arr[$to][5], $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ингридиенты
-    additem($loc, $login, "", "i.acid", 1, "items", "items", 1, 0, 1);            // кислоту
+    manageItems($loc, $login, "", $arr[$to][5], $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ингридиенты
+    manageItems($loc, $login, "", "i.acid", 1, "items", "items", 1, 0, 1);            // кислоту
     if (rand(0, 100) < $skills[32] * 20 - $arr[$to][2]) {
         addjournal($loc, $login, "Вы сделали " . $arr[$to][1]);
         addjournal($loc, "all", $char[0] . " сделал " . $arr[$to][1], $login);
-        additem($loc, "", $login, $arr[$to][0] . "_" . substr($login, 2) . "_", 1);
+        manageItems($loc, "", $login, $arr[$to][0] . "_" . substr($login, 2) . "_", 1);
 
         if (round($arr[$to][2] / 10)) {
             addexp($loc, $login, round(rand(0, $arr[$to][2] / 10)));

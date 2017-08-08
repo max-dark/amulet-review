@@ -53,7 +53,7 @@ if (isset($loc_i[$loc]["i.s.rudnik"])) {
                 $loc_i[$loc]["i.s.rudnik"] = implode("|", $tree);
                 addjournal($loc, $login, "Вы добыли немного руды");
                 addjournal($loc, "all", $char[0] . " добыл немного руды", $login);
-                additem($loc, "", $login, "i.ruda", 1);
+                manageItems($loc, "", $login, "i.ruda", 1);
                 // самоцветы
                 $tc = explode("x", $loc);
                 if ($tc[2] >= 1099 || $loc == "c.5.gate") {
@@ -61,7 +61,7 @@ if (isset($loc_i[$loc]["i.s.rudnik"])) {
                     if (rand(0, 100) < $art[$rnd][2]) {
                         addjournal($loc, $login, "Вы нашли " . $art[$rnd][1] . "!");
                         addjournal($loc, "all", $char[0] . " нашел " . $art[$rnd][1] . "!", $login);
-                        additem($loc, "", $login, $art[$rnd][0], 1);
+                        manageItems($loc, "", $login, $art[$rnd][0], 1);
                     }
                 }
                 if (rand(1, 100) < 30) {

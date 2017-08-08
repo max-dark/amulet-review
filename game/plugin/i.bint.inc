@@ -11,7 +11,7 @@ $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 if ($skills[22] > 0) {
     $char[6]                     = time() + 5;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
-    additem($loc, $login, "", "i.bint", 1);
+    manageItems($loc, $login, "", "i.bint", 1);
 
     if (rand(1, 100) < 40 + $skills[22] * 10) {
         $heal = rand(5, 5 + $skills[22] * 2);

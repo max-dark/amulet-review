@@ -18,7 +18,7 @@ if ($char[13]) {
             $tsc = explode("|", $loc_i[$tmf][$tm[0]]["char"]);
             $tsm = explode(":", $tsc[13]);
             if (time() < $tsm[1]) {
-                addnpc($login, $loc, $tmf);
+                manageNPC($login, $loc, $tmf);
             } else {
                 addjournal($loc, $login, "Время для телепорта к мужу/жене истекло");
             }

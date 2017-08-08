@@ -33,13 +33,13 @@ if ($to) {
         $char[6]                     = time() + 10;
         $loc_i[$loc][$login]["char"] = implode("|", $char);
         if (rand(0, 100) < $skills[28] * 10 + 20) {
-            additem($loc, $login, "", $use, 1);
-            additem($loc, $login, "", $to, 1);
+            manageItems($loc, $login, "", $use, 1);
+            manageItems($loc, $login, "", $to, 1);
             if (rand(0, 100) >= (6 - $skills[28]) * 10 + $xF * 10) {
                 $to .= ".." . substr($use, 4);
                 addjournal($loc, $login, "Вы инкрустировали самоцвет в " . $title);
                 addjournal($loc, "all", $char[0] . " инкрустировал самоцвет в " . $title, $login);
-                additem($loc, "", $login, $to, 1);
+                manageItems($loc, "", $login, $to, 1);
                 addexp($loc, $login, rand(0, 10));
             } else {
                 addjournal($loc, $login, "Вы испортили " . $title);
@@ -49,7 +49,7 @@ if ($to) {
             if (rand(1, 100) <= 5) {
                 addjournal($loc, $login, "Вы сломали набор ювелира");
                 addjournal($loc, "all", $char[0] . " сломал набор ювелира", $login);
-                additem($loc, $login, "", "i.set.shlif", 1);
+                manageItems($loc, $login, "", "i.set.shlif", 1);
             }
         } else {
             addjournal($loc, $login, "Вам не удалось инкрустировать самоцвет, попробуйте еще раз");

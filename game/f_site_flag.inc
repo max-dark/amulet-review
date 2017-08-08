@@ -1,5 +1,7 @@
 <?php
 
+use MaxDark\Amulet\OldCode\PageType;
+
 function get_flag_page()
 {
     global $game;
@@ -25,4 +27,4 @@ PAGE;
     return $page;
 }
 
-msg(get_flag_page(), "Амулет дракона", 0, 'none');
+msg(get_flag_page(), "Амулет дракона", 0, PageType::GUEST);

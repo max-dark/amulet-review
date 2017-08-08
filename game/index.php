@@ -4,6 +4,9 @@
  * Входная точка
  */
 
+use MaxDark\Amulet\OldCode\MapPage;
+use MaxDark\Amulet\OldCode\PageType;
+
 /**
  * @global login
  * @global loc
@@ -27,7 +30,6 @@
 // class loader bootstrap
 require_once '../vendor/autoload.php';
 require_once('config.php'); // настройки игры
-require_once('datafunc.php'); // функции БД
 require_once('game_function.php'); // игровые функции
 
 $QUERY_STRING = get_value($_SERVER, 'QUERY_STRING');
@@ -276,9 +278,9 @@ if ($go) {
         if ( ! $b) {
             $tgo = "";
         }
-        addnpc($login, $loc, $go, $tgo, $hide);
+        manageNPC($login, $loc, $go, $tgo, $hide);
         if ($b) {
-            addnpc($login, $loc, $loc_c[$b + 1], 1, $hide);
+            manageNPC($login, $loc, $loc_c[$b + 1], 1, $hide);
         }
     }
 }
@@ -327,7 +329,7 @@ if ($cm) {
     // задан номер - выполнить
     if ($cm > 0 && $cm < 9) {
         $cm--;
-        $m  = explode("/", $loc_i[$loc][$login]["macro"]);
+        $m  = getMacroList($loc_i[$loc][$login]);
         $m  = explode("|", $m[$cm]);
         $ml = explode("|", $loc_i[$loc][$login]["macrol"]);
         
@@ -463,8 +465,7 @@ if ($list || $list = $cl) {
 }
 // показать карту и завершить работу скрипта
 if (false !== $map) {
-    include_once "f_map.inc";
-    msg(map_page($loc, $game, $g_map, $PHP_SELF, $sid));
+    msg(MapPage::buildPage($loc, $game, $g_map, $PHP_SELF, $sid));
 }
 
 // MAIN PAGE
@@ -692,5 +693,5 @@ $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=$(to)\">Инфo</a>"; // "осм�
 if (strpos($loc_c[0], "*") !== false) {
     $loc_c[0] = substr($loc_c[0], 0, strpos($loc_c[0], "*"));
 }
-msg($stmp, $loc_c[0], 1, 'main');
+msg($stmp, $loc_c[0], 1, PageType::MAIN);
 exit;

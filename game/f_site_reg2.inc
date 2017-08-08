@@ -1,6 +1,7 @@
 <?php
 
-use MaxDark\Amulet\database\DB;
+use MaxDark\Amulet\OldCode\DBOperations;
+use MaxDark\Amulet\OldCode\PageType;
 
 /**
  * @global login
@@ -27,30 +28,23 @@ $email = Request('email');
 
 if (strlen($nn) < 6 || strlen($pass) < 6 || strlen($nn) > 15 || strlen($pass) > 15) {
     msg("Длина логина и пароля должна быть не короче 6 и не длинее 15 символов.<br /><anchor>Назад<prev/></anchor>",
-        'Ошибка', 0, 'none');
+        'Ошибка', 0, PageType::GUEST);
 }
 if ( ! preg_match('|^[-0-9a-z_]+$|i', $nn)) {
-    msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
+    msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, PageType::GUEST);
 }
 if ( ! preg_match("|^[-0-9a-z_\\.]+@[-0-9a-z]+\\.[a-z]{2,6}+$|i", $email)) {
-    msg("Неверный синтаксис в email " . $email . "<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
+    msg("Неверный синтаксис в email " . $email . "<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, PageType::GUEST);
 }
 if (intval($age) != $age || $age < 5 || $age > 99) {
-    msg("Неправдоподобный возраст, укажите более реальный.<br /><anchor>Назад<prev/></anchor>", "Ошибка", 0, 'none');
+    msg("Неправдоподобный возраст, укажите более реальный.<br /><anchor>Назад<prev/></anchor>", "Ошибка", 0, PageType::GUEST);
 }
 if ($sex != 'm' && $sex != 'f') {
-    msg("Вы пришли играть или дыры искать?" . $sex . "<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
+    msg("Вы пришли играть или дыры искать?" . $sex . "<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, PageType::GUEST);
 }
 
 $now = time();
-openDB();
-$sqlLogin = 'INSERT INTO `users` (regtime,nick,pass,email) VALUES (?, ?, ?, ?)';
-DB::link()->prepare($sqlLogin)->execute([
-        $now,
-        $nn,
-        $pass,
-        $email
-    ]);
+DBOperations::insert($now, $nn, $pass, $email);
 $loc = "_begin"; // начальная локация
 
 // создаем игрока
@@ -73,13 +67,13 @@ calcparam($loc, $login);
 $auser = $loc_i[$loc][$login];
 unset($loc_i[$loc][$login]);
 if ($auser["user"] && $auser["char"] && $auser["skills"] && $auser["war"]) {
-    $res = SetData($nn, $pass, serialize($auser));
+    $res = DBOperations::setData($nn, $pass, serialize($auser));
 } else {
     $res = "Неверный формат";
 }
 if ($res) {
     unset($loc_i[$loc][$login]);
-    msg($res, "Ошибка", 0, 'none');
+    msg($res, "Ошибка", 0, PageType::GUEST);
 }
 
 // общее число зарегистрированных
@@ -103,4 +97,9 @@ if (file_exists($fntmp)) {
     }
 }
 
-msg("Регистрация завершена<br/><a href=\"?site=connect&login=$nn&p=$pass\">Начать игру</a>", "Регистрация", 0, 'none');
+msg(
+    "Регистрация завершена<br/><a href=\"?site=connect&login=$nn&p=$pass\">Начать игру</a>",
+    "Регистрация",
+    0,
+    PageType::GUEST
+);

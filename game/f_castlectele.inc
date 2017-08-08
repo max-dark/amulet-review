@@ -31,7 +31,7 @@ if ($clanc && $clanc == $clan) {// только если есть враги
                         strrpos($tchar[0], "*") - strpos($tchar[0], "*") - 1);
                 }
                 if ($tclan != $clan && strpos($d[0], ":" . $k . ":") === false) {
-                    addnpc($login, $loc, $ctele);
+                    manageNPC($login, $loc, $ctele);
 
                     return;
                 }
@@ -49,7 +49,7 @@ if ($clanc && $clanc == $clan) {// только если есть враги
                         strrpos($tchar[0], "*") - strpos($tchar[0], "*") - 1);
                 }
                 if ($tclan != $clan && strpos($d[0], ":" . $k . ":") === false) {
-                    addnpc($login, $loc, $ctele);
+                    manageNPC($login, $loc, $ctele);
 
                     return;
                 }
@@ -67,7 +67,7 @@ if ($clanc && $clanc == $clan) {// только если есть враги
                         strrpos($tchar[0], "*") - strpos($tchar[0], "*") - 1);
                 }
                 if ($tclan != $clan && strpos($d[0], ":" . $k . ":") === false) {
-                    addnpc($login, $loc, $ctele);
+                    manageNPC($login, $loc, $ctele);
 
                     return;
                 }
@@ -85,7 +85,7 @@ if ($clanc && $clanc == $clan) {// только если есть враги
                         strrpos($tchar[0], "*") - strpos($tchar[0], "*") - 1);
                 }
                 if ($tclan != $clan && strpos($d[0], ":" . $k . ":") === false) {
-                    addnpc($login, $loc, $ctele);
+                    manageNPC($login, $loc, $ctele);
 
                     return;
                 }

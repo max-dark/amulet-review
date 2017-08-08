@@ -47,7 +47,7 @@ function nCapT1_go(&$title, $speak)
         $title = "Приехали, все на берег!";
         foreach ($loc_i["x435x1167"] as $i => $val) {
             if ($i != $speak) {
-                addnpc($i, "x435x1167", "x249x1252");
+                manageNPC($i, "x435x1167", "x249x1252");
                 if (substr($i, 0, 2) == "u.") {
                     $f = fopen("online/" . $i, "w");
                     fputs($f, "x249x1252\n" . time());

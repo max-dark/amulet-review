@@ -1,5 +1,7 @@
 <?php
 
+use MaxDark\Amulet\OldCode\PageType;
+
 /**
  * @return string
  */
@@ -17,4 +19,4 @@ function get_stat_page()
 PAGE;
 }
 
-msg(get_stat_page(), "Статистика", 0, 'none');
+msg(get_stat_page(), "Статистика", 0, PageType::GUEST);

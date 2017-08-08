@@ -11,6 +11,9 @@
  * @global num
  * @global id
  */
+
+use MaxDark\Amulet\OldCode\PageType;
+
 $loc_i[$loc][$login]["macrol"] = "take|$take||";
 if ($take) {            //linkПоднять
     // $take=id предмета [$id=id предмета с трупа, $num=кол-во]
@@ -57,7 +60,7 @@ if ($take) {            //linkПоднять
                     }
                 }
                 if ($b) {
-                    addnpc($login, $loc, "x1086x501");
+                    manageNPC($login, $loc, "x1086x501");
                     msg("Вы покинули арену");
                 } else {
                     msg("Покинуть арену можно либо призраком, либо оставшись единственным в живых.");
@@ -97,7 +100,7 @@ if ($take) {            //linkПоднять
                 if ($item[1] > 1 && ! $num) {        // запросим кол-во
                     $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
                             $item[1] . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&num=$(num)\">Отправить</a>";
-                    msg($stmp, "Взять", 1, "", "num", $item[1]);
+                    msg($stmp, "Взять", 1, PageType::MSG, "num", $item[1]);
                 }
                 if ( ! $num || $num < 1) {
                     $num = 1;
@@ -105,12 +108,12 @@ if ($take) {            //linkПоднять
                 if ($num > $item[1]) {
                     $num = $item[1];
                 }    // и максимум берем все что есть
-                additem($loc, "loc", $login, $take, $num, "items", "items", 1, -1, 1);
+                manageItems($loc, "loc", $login, $take, $num, "items", "items", 1, -1, 1);
             }
 
             // портал
             if (substr($take, 0, 11) == 'i.s.portal_') {
-                addnpc($login, $loc, substr($take, 11));
+                manageNPC($login, $loc, substr($take, 11));
                 msg("Вы проходите сквозь портал и оказываетесь в совершенно другом месте");
             }
 

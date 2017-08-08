@@ -1,20 +1,15 @@
 <?php
 
-use MaxDark\Amulet\database\DB;
+use MaxDark\Amulet\OldCode\DBOperations;
+use MaxDark\Amulet\OldCode\PageType;
 
 $nn = Request('nn');
 if ( ! preg_match('|^[-0-9a-z_]+$|i', $nn)) {
-    msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, 'none');
+    msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, PageType::GUEST);
 }
-openDB();
-$sql   = "SELECT * FROM `users` WHERE `nick` = :nickname";
-$query = DB::link()->prepare($sql);
-$query->execute([
-        ':nickname' => $nn
-    ]);
-$Count = $query->rowCount();
-if ($Count != 0) {
-    msg('Этот логин уже занят.<br /><anchor>Назад<prev/></anchor>', 'Ошибка', 0, 'none');
+
+if (DBOperations::nicknameExists($nn)) {
+    msg('Этот логин уже занят.<br /><anchor>Назад<prev/></anchor>', 'Ошибка', 0, PageType::GUEST);
 }
 $stmp = <<<PAGE
 </p><p align="center">            
@@ -42,4 +37,4 @@ $stmp = <<<PAGE
 </go>
 </anchor>
 PAGE;
-msg($stmp, "Регистрация", 0, "none");
+msg($stmp, "Регистрация", 0, PageType::GUEST);

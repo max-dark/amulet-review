@@ -38,7 +38,7 @@ function nVilqyam_sell($itemId, $price)
     } elseif ($loc_i[$loc]["n.a.sheep.lr"]["owner"]) {
         $title = "Упс, а ведь я ее уже кому-то продал кажись... Облом.";
     } else {
-        additem($loc, $login, "", $itemId, $price, "items", "items", 1, 0, 1);
+        manageItems($loc, $login, "", $itemId, $price, "items", "items", 1, 0, 1);
         $loc_i[$loc]["n.a.sheep.lr"]["owner"] = implode('|', [
             $login,
             $login,

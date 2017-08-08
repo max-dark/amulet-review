@@ -61,7 +61,7 @@ function nOfficer_killedTo(&$title)
                 $char = explode("|", getCurrentUser("char"));
                 $title = "Награда за голову " . substr($k[1],
                         2) . " составила в сумме " . intval($list[$k[1]]) . " монет";
-                additem(getCurrentLocId(), "", getCurrentUserId(), "i.money", intval($list[$k[1]]));
+                manageItems(getCurrentLocId(), "", getCurrentUserId(), "i.money", intval($list[$k[1]]));
                 $list[$k[1]] = intval($list[$k[1]]) . " монет получил " . $char[0];
                 $k[1] = "";
                 $file = fopen("data/wanted.dat", "w");
@@ -115,7 +115,7 @@ function nOfficer_killedBy2(&$title)
             if (!isset($list[$k[0]]) && count($list) > 20 && intval($list[$keys[count($keys) - 1]]) >= $num) {
                 msg("Извините, ваша награда меньше, чем минимальная в списке, назначьте больше.");
             }
-            additem(getCurrentLocId(), getCurrentUserId(), "", "i.money", $num, "items", "items", 1, 0, 1);
+            manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.money", $num, "items", "items", 1, 0, 1);
             if (count($list) > 20) {
                 array_splice($list, 20);
             }

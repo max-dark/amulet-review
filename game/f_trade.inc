@@ -15,6 +15,8 @@
  */
 // торговля
 
+use MaxDark\Amulet\OldCode\PageType;
+
 if ($trade == "help") {
     msg("Чтобы торговать или передать предмет, выберите игрока и потом в меню пункт \"Обмен\". То же самое, если предлагают обмен вам. Добавляйте предметы в список или ждите, когда добавит собеседник. Обмен происходит когда обе стороны выбирают ссылку \"Я согласен\". Выбор своего предмета удалит его из списка, в выбор в списке собеседника покажет информацию о предмете.");
 }
@@ -75,7 +77,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
 
     $tc = intval(preg_replace('/.*' . $id . ':(\d+).*/', "\\1", $loc_i[$loc][$login]["trade"]["i"]));
     if ($trade == "add") {    // добавляем предмет
-        $tcount = additem($loc, $login, "", $id, "count");
+        $tcount = manageItems($loc, $login, "", $id, "count");
         if ($tcount == 0) {
             msg("У вас нет этого предмета");
         }
@@ -83,7 +85,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
         if ($tcount > 1 && ! $num) {        // запросим кол-во
             $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
                     $tcount . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&trade=$trade&id=$id&num=$(num)\">Отправить</a>";
-            msg($stmp, "Добавить", 1, "", "num", $tcount);
+            msg($stmp, "Добавить", 1, PageType::MSG, "num", $tcount);
         }
         $num = intval($num);
         if ( ! $num || $num < 1) {
@@ -187,10 +189,10 @@ if (isset($loc_i[$loc][$login]["trade"])) {
             }
             if ($b == 0) {    // передаем вещи
                 foreach (array_keys($i) as $j) {
-                    additem($loc, $login, $to, $i[$j][0], $i[$j][1], "items", "items", 1, -1, 1);
+                    manageItems($loc, $login, $to, $i[$j][0], $i[$j][1], "items", "items", 1, -1, 1);
                 }
                 foreach (array_keys($ito) as $j) {
-                    additem($loc, $to, $login, $ito[$j][0], $ito[$j][1], "items", "items", 1, -1, 1);
+                    manageItems($loc, $to, $login, $ito[$j][0], $ito[$j][1], "items", "items", 1, -1, 1);
                 }
                 unset($loc_i[$loc][$login]["trade"]);
                 unset($loc_i[$loc][$to]["trade"]);

@@ -17,15 +17,15 @@ if (intval(preg_replace('/.*' . "i.log" . ':(\d+).*/', "\\1", $loc_i[$loc][$logi
         $char[6]                     = time() + 6;
         $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-        additem($loc, $login, "",
+        manageItems($loc, $login, "",
             preg_replace('/.*(' . "i.h.p." . '[^:]+):\d+.*/', "\\1", $loc_i[$loc][$login]["items"]), 5, "items",
             "items", 1, 0, 1);        // удаляем 5 перьев
 
         if (rand(1, 100) < $skills[27] * 20) {
-            additem($loc, $login, "", "i.log", 1);
+            manageItems($loc, $login, "", "i.log", 1);
             //		addjournal($loc,$login,"Вы сделали 5 болтов"); 
             addjournal($loc, "all", $char[0] . " сделал 5 болтов", $login);
-            additem($loc, "", $login, "i.bolt", 5);
+            manageItems($loc, "", $login, "i.bolt", 5);
         } else {
             addjournal($loc, $login, "Вы не смогли сделать болты");
             addjournal($loc, "all", $char[0] . " пытался сделать болты", $login);

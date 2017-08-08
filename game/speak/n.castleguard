@@ -2,7 +2,7 @@
 
 function nCastleGuard_begin_v1(&$title, &$id)
 {
-    if (additem(getCurrentLocId(), getCurrentUserId(), "", "i.q.ditrih", "count") > 0) {
+    if (manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.q.ditrih", "count") > 0) {
         $title = "Ты что не видишь, что я один из стражников барона Дитриха?";
         $id = "gr";
     } else {
@@ -12,9 +12,9 @@ function nCastleGuard_begin_v1(&$title, &$id)
 
 function nCastleGuard_gr(&$title)
 {
-    if (additem(getCurrentLocId(), getCurrentUserId(), "", "i.q.ditrih", "count") > 0) {
+    if (manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.q.ditrih", "count") > 0) {
         $title = "Извини, <name>. Проходи, разумеется.";
-        addnpc(getCurrentUserId(), getCurrentLocId(), "x902x254");
+        manageNPC(getCurrentUserId(), getCurrentLocId(), "x902x254");
     } else {
         $title = "Не вижу на тебе ленты стражника, что ты несешь?";
     }
@@ -22,9 +22,9 @@ function nCastleGuard_gr(&$title)
 
 function nCastleGuard_vNow(&$title)
 {
-    additem(getCurrentLocId(), getCurrentUserId(), "", "i.money", 400, "items", "items", 1, 0, 1);
+    manageItems(getCurrentLocId(), getCurrentUserId(), "", "i.money", 400, "items", "items", 1, 0, 1);
     $title = "Хорошо, проходи. Но помни, что внутри есть вооруженная охрана, так что не делай глупостей!";
-    addnpc(getCurrentUserId(), getCurrentLocId(), "x902x254");
+    manageNPC(getCurrentUserId(), getCurrentLocId(), "x902x254");
 }
 
 return [

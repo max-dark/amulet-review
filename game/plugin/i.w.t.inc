@@ -37,7 +37,7 @@ if (isset($loc_i[$loc]["i.s.tree"])) {
                 $loc_i[$loc]["i.s.tree"] = implode("|", $tree);
                 addjournal($loc, $login, "Вы срубили ветку");
                 addjournal($loc, "all", $char[0] . " срубил ветку", $login);
-                additem($loc, "", $login, "i.log", 1);
+                manageItems($loc, "", $login, "i.log", 1);
                 if (rand(1, 100) < 50) {
                     addexp($loc, $login, rand(1, 3));
                 }

@@ -45,24 +45,24 @@ if ( ! $to || ! isset($arr[$to])) {
 }
 
 if ($skills[23] * 20 - $arr[$to][2] > 0) {
-    if (additem($loc, $login, "", "i.f.b.water", "count") == 0) {
+    if (manageItems($loc, $login, "", "i.f.b.water", "count") == 0) {
         msg("Нужна бутылка с чистой водой (пустую бутылку можно наполнить у любого источника воды).");
     }
     $char[6]                     = time() + 15;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
 
-    additem($loc, $login, "", $arr[$to][5], $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ингридиенты
-    additem($loc, $login, "", "i.f.b.water", 1, "items", "items", 1, 0, 1);            // удаляем бутылку с водой
+    manageItems($loc, $login, "", $arr[$to][5], $arr[$to][3], "items", "items", 1, 0, 1);    // удаляем ингридиенты
+    manageItems($loc, $login, "", "i.f.b.water", 1, "items", "items", 1, 0, 1);            // удаляем бутылку с водой
 
     if (rand(0, 100) < $skills[23] * 20 - $arr[$to][2]) {
         addjournal($loc, $login, "Вы сделали " . $arr[$to][1]);
         addjournal($loc, "all", $char[0] . " сделал " . $arr[$to][1], $login);
-        additem($loc, "", $login, $arr[$to][0], 1);
+        manageItems($loc, "", $login, $arr[$to][0], 1);
         if (round($arr[$to][2] / 10)) {
             addexp($loc, $login, round(rand(0, $arr[$to][2] / 10)));
         }
     } else {
-        additem($loc, "", $login, "i.f.b.empty", 1);
+        manageItems($loc, "", $login, "i.f.b.empty", 1);
         addjournal($loc, $login, "Вы не смогли сделать " . $arr[$to][1]);
         addjournal($loc, "all", $char[0] . " не смог сделать " . $arr[$to][1], $login);
     }

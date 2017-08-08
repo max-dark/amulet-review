@@ -12,6 +12,9 @@
  * @global id
  * @global locai
  */
+
+use MaxDark\Amulet\OldCode\PageType;
+
 if (time() > $game["lastai"] + 240) {
     // обновим список
     include "f_online.inc";
@@ -74,4 +77,4 @@ if ($i > -1) {
 
 $stmp .= "\n<br/><br/><anchor>[Назад]<prev/></anchor>";
 
-msg($stmp, "Онлайн", 0, 'none');
+msg($stmp, "Онлайн", 0, PageType::GUEST);
