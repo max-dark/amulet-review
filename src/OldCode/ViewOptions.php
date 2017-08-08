@@ -255,7 +255,7 @@ class ViewOptions
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getUserMenu()
     {
@@ -263,12 +263,12 @@ class ViewOptions
     }
 
     /**
-     * @param string $userMenu
-     * @return string
+     * @param int $userMenu
+     * @return int
      */
     public function &setUserMenu($userMenu)
     {
-        $this->userMenu = $userMenu;
+        $this->userMenu = intval($userMenu);
         return $this->userMenu;
     }
 

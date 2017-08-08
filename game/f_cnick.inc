@@ -33,7 +33,7 @@ if ($cnick == "1") {
 	<br/>Карта: 0 - нет, 1 - ч/б, 2 - цветная JPEG, 3 - цветная PNG: <br/><input name=\"map\" value=\"" .
         $viewOpt->getMapMode() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Пункты в меню (0-откл,1-магия,2-предмет,3-прием) и кол-во горячих клавиш для каждого пункта (0..9), порядок произвольный. Пример: 332110<br/><input name=\"smenu\" value=\"" .
-            intval($viewOpt->getUserMenu()) . "\" format=\"*N\" maxlength=\"6\"/>
+            $viewOpt->getUserMenu() . "\" format=\"*N\" maxlength=\"6\"/>
 	<br/>Описание локаций (1-вкл,0-выкл): <br/><input name=\"j2go\" value=\"" . $viewOpt->getShowDesc() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Сообщать о приходящих (1-вкл,0-выкл): <br/><input name=\"j2loc\" value=\"" . $viewOpt->getReportIncoming() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Звуки рядом с выходами (1-вкл,0-выкл): <br/><input name=\"sounds\" value=\"" . $viewOpt->getSoundsMode() . "\" format=\"*N\" maxlength=\"1\"/>
