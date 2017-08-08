@@ -6,11 +6,10 @@
 
 namespace MaxDark\Amulet\OldCode;
 
-
-use MaxDark\Amulet\database\DB;
-
 class DBOperations
 {
+    /** @var \PDO $link */
+    private static $link = null;
 
     /**
      * Init DB connection
@@ -23,10 +22,10 @@ class DBOperations
         global $server, $user, $dbpass, $dbname;
         $msg = '';
         try {
-            DB::link([
-                'server'   => $server,
-                'dbname'   => $dbname,
-                'login'    => $user,
+            self::db([
+                'server' => $server,
+                'dbname' => $dbname,
+                'login' => $user,
                 'password' => $dbpass,
             ]);
         } catch (\PDOException $e) {
@@ -64,7 +63,7 @@ class DBOperations
         $result  = [];
         $message = '';
         $sql     = "select $fields from `users` where `nick` = :nickname";
-        $query   = DB::link()->prepare($sql);
+        $query   = self::db()->prepare($sql);
         $query->execute([
             ':nickname' => $nick
         ]);
@@ -78,7 +77,7 @@ class DBOperations
             } else {
                 if ($result['pass'] != $pass && ! $skippass) {
                     $sql   = "UPDATE `users` SET `lastrefr` = :lastrefr WHERE `nick` = :nickname";
-                    $query = DB::link()->prepare($sql);
+                    $query = self::db()->prepare($sql);
                     $query->execute([
                         ':lastrefr' => $now,
                         ':nickname' => $nick
@@ -129,7 +128,7 @@ class DBOperations
         Params::setParam('gamedata', $data);
 
         $sqlUpd = 'UPDATE `users` SET `names` = :vnames, `vals` = :vals WHERE `nick` = :nickname';
-        DB::link()->prepare($sqlUpd)->execute([
+        self::db()->prepare($sqlUpd)->execute([
             ':vnames'   => Params::getNames(),
             ':vals'     =>  Params::getValues(),
             ':nickname' => $login
@@ -181,7 +180,7 @@ class DBOperations
     {
         DBOperations::openDB();
         $sql   = "SELECT `ind` FROM `users` WHERE `nick` = :nickname limit 1";
-        $query = DB::link()->prepare($sql);
+        $query = self::db()->prepare($sql);
         $query->execute([
             ':nickname' => $nickname
         ]);
@@ -198,11 +197,33 @@ class DBOperations
     {
         DBOperations::openDB();
         $sqlLogin = 'INSERT INTO `users` (regtime,nick,pass,email) VALUES (?, ?, ?, ?)';
-        DB::link()->prepare($sqlLogin)->execute([
+        self::db()->prepare($sqlLogin)->execute([
             $now,
             $nn,
             $pass,
             $email
         ]);
+    }
+
+    /**
+     * @param array|null $config database config(server, dbname, login, password)
+     *
+     * @return \PDO link to database
+     * @throws \PDOException if connect fail
+     */
+    private static function db($config = null)
+    {
+        if (is_null(self::$link)) {
+            if (is_array($config)) {
+                self::$link = new \PDO(
+                    sprintf('mysql:host=%s;dbname=%s;charset=utf8', $config['server'], $config['dbname']),
+                    $config['login'],
+                    $config['password'],
+                    [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]
+                );
+            }
+        }
+
+        return self::$link;
     }
 }
