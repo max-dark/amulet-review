@@ -27,8 +27,6 @@ use MaxDark\Amulet\OldCode\PageType;
  * @global g_smenu
  */
 
-// class loader bootstrap
-require_once '../vendor/autoload.php';
 require_once('config.php'); // настройки игры
 require_once('game_function.php'); // игровые функции
 

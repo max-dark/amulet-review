@@ -6,6 +6,11 @@
  */
 
 use MaxDark\Amulet\OldCode\DBConfig;
+use MaxDark\Amulet\OldCode\MenuMode;
+use MaxDark\Amulet\OldCode\ViewOptions;
+
+// class loader bootstrap
+require_once '../vendor/autoload.php';
 
 //=========================
 // Настройки БД
@@ -117,6 +122,8 @@ $g_skills_one = 5;
 // Пользовательские настройки
 //============================
 
+$pageOpt = ViewOptions::getInstance();
+
 /**
  * Количество элементов списка на одной странице (3..30).
  *
@@ -124,14 +131,14 @@ $g_skills_one = 5;
  *
  * @var int $g_list
  */
-$g_list = 5;
+$g_list = &$pageOpt->setListsSize(5);
 
 /**
  * Размер страницы (700..15000)
  *
  * @var int $g_size
  */
-$g_size = 2200;
+$g_size = &$pageOpt->setMaxPageSize(2200);
 
 /**
  * Тип меню.
@@ -143,7 +150,7 @@ $g_size = 2200;
  *
  * @var int $g_menu
  */
-$g_menu = 0;
+$g_menu = &$pageOpt->setMenuMode(MenuMode::FULL);
 
 /**
  * Дополнительные пункты в меню для быстрого доступа к предметам и умениям.
@@ -154,28 +161,28 @@ $g_menu = 0;
  *
  * @var string $g_smenu
  */
-$g_smenu = '301021';
+$g_smenu = &$pageOpt->setUserMenu('301021');
 
 /**
  * Сообщать о приходящих (1-вкл,0-выкл)
  *
  * @var int $g_j2loc
  */
-$g_j2loc = 1;
+$g_j2loc = &$pageOpt->setReportIncoming(1);
 
 /**
  * Отображение описания локаций при переходе (1-вкл,0-выкл)
  *
  * @var int $g_j2go
  */
-$g_j2go = 1;
+$g_j2go = &$pageOpt->setShowDesc(1);
 
 /**
  * Отключить отображение журнала (1-да,0-нет)
  *
  * @var int $g_smf
  */
-$g_joff = 0;
+$g_joff = &$pageOpt->setJournalDisabled(0);
 
 /**
  * Использовать маленький шрифт.
@@ -184,7 +191,7 @@ $g_joff = 0;
  *
  * @var int $g_smf
  */
-$g_smf = 0;
+$g_smf = &$pageOpt->setUseSmallFont(0);
 
 /**
  * Отображение ссылки на карту и ее тип.
@@ -196,7 +203,8 @@ $g_smf = 0;
  *
  * @var int $g_map
  */
-$g_map = 3;
+$g_map = &$pageOpt->setMapMode(3);
+
 /**
  * "Звуки".
  *
@@ -207,7 +215,7 @@ $g_map = 3;
  *
  * @var int $g_sounds
  */
-$g_sounds = 0;
+$g_sounds = &$pageOpt->setSoundsMode(0);
 
 //=========================
 // прочие настройки
