@@ -8,15 +8,6 @@
  * @global game
  * @global sid
  * @global PHP_SELF
- * @global g_list
- * @global g_size
- * @global g_menu
- * @global g_map
- * @global g_smenu
- * @global g_j2go
- * @global g_j2loc
- * @global g_joff
- * @global g_smf
  */
 
 use MaxDark\Amulet\OldCode\ViewOptions;
@@ -35,19 +26,19 @@ $viewOpt = ViewOptions::getInstance();
 if ($cnick == "1") {
     $stmp = "<p>Ваше имя: <br/><input name=\"new\" value=\"" . $char[0] . "\"/>
 	<br/>Возраст: <br/><input name=\"age\" value=\"" . intval($tus[3]) . "\" format=\"*N\" maxlength=\"2\"/>
-	<br/>Размер списков (3..30): <br/><input name=\"list\" value=\"" . intval($g_list) . "\" format=\"*N\" maxlength=\"2\"/>
-	<br/>Размер страницы (700..15000): <br/><input name=\"size\" value=\"" . intval($g_size) . "\"  format=\"*N\" maxlength=\"5\"/>
+	<br/>Размер списков (3..30): <br/><input name=\"list\" value=\"" . $viewOpt->getListsSize() . "\" format=\"*N\" maxlength=\"2\"/>
+	<br/>Размер страницы (700..15000): <br/><input name=\"size\" value=\"" . $viewOpt->getMaxPageSize() . "\"  format=\"*N\" maxlength=\"5\"/>
 	<br/>Тип меню: 0 - полное, 1 - сокращенное, 2 - на отдельной странице, 3 - в виде ссылок (если не видно обычное меню): <br/><input name=\"menu\" value=\"" .
-            intval($g_menu) . "\" format=\"*N\" maxlength=\"1\"/>
+        $viewOpt->getMenuMode() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Карта: 0 - нет, 1 - ч/б, 2 - цветная JPEG, 3 - цветная PNG: <br/><input name=\"map\" value=\"" .
-            intval($g_map) . "\" format=\"*N\" maxlength=\"1\"/>
+        $viewOpt->getMapMode() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Пункты в меню (0-откл,1-магия,2-предмет,3-прием) и кол-во горячих клавиш для каждого пункта (0..9), порядок произвольный. Пример: 332110<br/><input name=\"smenu\" value=\"" .
-            intval($g_smenu) . "\" format=\"*N\" maxlength=\"6\"/>
-	<br/>Описание локаций (1-вкл,0-выкл): <br/><input name=\"j2go\" value=\"" . intval($g_j2go) . "\" format=\"*N\" maxlength=\"1\"/>
-	<br/>Сообщать о приходящих (1-вкл,0-выкл): <br/><input name=\"j2loc\" value=\"" . intval($g_j2loc) . "\" format=\"*N\" maxlength=\"1\"/>
+            intval($viewOpt->getUserMenu()) . "\" format=\"*N\" maxlength=\"6\"/>
+	<br/>Описание локаций (1-вкл,0-выкл): <br/><input name=\"j2go\" value=\"" . $viewOpt->getShowDesc() . "\" format=\"*N\" maxlength=\"1\"/>
+	<br/>Сообщать о приходящих (1-вкл,0-выкл): <br/><input name=\"j2loc\" value=\"" . $viewOpt->getReportIncoming() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Звуки рядом с выходами (1-вкл,0-выкл): <br/><input name=\"sounds\" value=\"" . $viewOpt->getSoundsMode() . "\" format=\"*N\" maxlength=\"1\"/>
-	<br/>Отключить журнал (1-да,0-нет): <br/><input name=\"joff\" value=\"" . intval($g_joff) . "\" format=\"*N\" maxlength=\"1\"/>
-	<br/>Маленький шрифт (1-да,0-нет): <br/><input name=\"smf\" value=\"" . intval($g_smf) . "\" format=\"*N\" maxlength=\"1\"/>
+	<br/>Отключить журнал (1-да,0-нет): <br/><input name=\"joff\" value=\"" . $viewOpt->getJournalDisabled() . "\" format=\"*N\" maxlength=\"1\"/>
+	<br/>Маленький шрифт (1-да,0-нет): <br/><input name=\"smf\" value=\"" . $viewOpt->getUseSmallFont() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/><a href=\"$PHP_SELF?sid=$sid&cnick=$(new)&list=$(list)&size=$(size)&j2loc=$(j2loc)&j2go=$(j2go)&menu=$(menu)&smenu=$(smenu)&sounds=$(sounds)&joff=$(joff)&map=$(map)&smf=$(smf)&age=$(age)\">Сохранить</a>
 	<br/><a href=\"?site=faq&id=err\">Помощь</a>";
 
