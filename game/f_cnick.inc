@@ -15,20 +15,11 @@
  * @global g_smenu
  * @global g_j2go
  * @global g_j2loc
- * @global g_sounds
  * @global g_joff
  * @global g_smf
- * @global age
- * @global size
- * @global j2loc
- * @global j2go
- * @global joff
- * @global smf
- * @global menu
- * @global smenu
- * @global map
- * @global sounds
  */
+
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 $char = explode("|", $loc_i[$loc][$login]["char"]);
 if (strpos($char[0], " *") === false) {
@@ -38,6 +29,8 @@ if (strpos($char[0], " *") === false) {
     $char[0] = substr($char[0], 0, strpos($char[0], " *"));
 }
 $tus = explode("|", $loc_i[$loc][$login]["user"]);
+
+$viewOpt = ViewOptions::getInstance();
 
 if ($cnick == "1") {
     $stmp = "<p>Ваше имя: <br/><input name=\"new\" value=\"" . $char[0] . "\"/>
@@ -52,7 +45,7 @@ if ($cnick == "1") {
             intval($g_smenu) . "\" format=\"*N\" maxlength=\"6\"/>
 	<br/>Описание локаций (1-вкл,0-выкл): <br/><input name=\"j2go\" value=\"" . intval($g_j2go) . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Сообщать о приходящих (1-вкл,0-выкл): <br/><input name=\"j2loc\" value=\"" . intval($g_j2loc) . "\" format=\"*N\" maxlength=\"1\"/>
-	<br/>Звуки рядом с выходами (1-вкл,0-выкл): <br/><input name=\"sounds\" value=\"" . intval($g_sounds) . "\" format=\"*N\" maxlength=\"1\"/>
+	<br/>Звуки рядом с выходами (1-вкл,0-выкл): <br/><input name=\"sounds\" value=\"" . $viewOpt->getSoundsMode() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Отключить журнал (1-да,0-нет): <br/><input name=\"joff\" value=\"" . intval($g_joff) . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Маленький шрифт (1-да,0-нет): <br/><input name=\"smf\" value=\"" . intval($g_smf) . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/><a href=\"$PHP_SELF?sid=$sid&cnick=$(new)&list=$(list)&size=$(size)&j2loc=$(j2loc)&j2go=$(j2go)&menu=$(menu)&smenu=$(smenu)&sounds=$(sounds)&joff=$(joff)&map=$(map)&smf=$(smf)&age=$(age)\">Сохранить</a>
@@ -103,9 +96,19 @@ if ($cnick == "1") {
     if (intval($map) > 3) {
         msg("Допустимые значения для карты 0,1,2 и 3");
     }
-    $loc_i[$loc][$login]["o"]    = intval($list) . "|" . intval($size) . "|" . intval($j2loc) . "|" . intval($j2go) .
-                                   "|" . intval($menu) . "|" . intval($sounds) . "|" . intval($joff) . "|" .
-                                   intval($smenu) . "|" . intval($map) . "|" . intval($smf);
+
+    $viewOpt->setListsSize($list);
+    $viewOpt->setMaxPageSize($size);
+    $viewOpt->setReportIncoming($j2loc);
+    $viewOpt->setShowDesc($j2go);
+    $viewOpt->setMenuMode($menu);
+    $viewOpt->setSoundsMode($sounds);
+    $viewOpt->setJournalDisabled($joff);
+    $viewOpt->setUserMenu($smenu);
+    $viewOpt->setMapMode($map);
+    $viewOpt->setUseSmallFont($smf);
+
+    $loc_i[$loc][$login]["o"]    = $viewOpt->toString();
     $char[0]                     = $cnick . $clan;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     $tus[3]                      = intval($age);

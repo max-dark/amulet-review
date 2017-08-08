@@ -6,6 +6,7 @@
 
 use MaxDark\Amulet\OldCode\MapPage;
 use MaxDark\Amulet\OldCode\PageType;
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 /**
  * @global login
@@ -21,7 +22,6 @@ use MaxDark\Amulet\OldCode\PageType;
  * @global use
  * @global id
  * @global g_map
- * @global g_sounds
  * @global g_list
  * @global g_menu
  * @global g_smenu
@@ -223,8 +223,7 @@ unset($userData);
 
 $viewOptions = get_value($loc_i[$loc][$login], "o");
 if ($viewOptions) {
-    list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map, $g_smf) = explode("|",
-        $viewOptions);
+    ViewOptions::getInstance()->fromString($viewOptions);
 }
 unset($viewOptions);
 
@@ -506,7 +505,7 @@ if (substr($loc, 3) == ".in" || substr($loc, 3) == ".gate") {
 }
 
 // SOUNDS
-if ( ! $g_sounds) {
+if ( ! ViewOptions::getInstance()->getSoundsMode()) {
     $st = "";
     for ($i = 2; $i < count($loc_c); $i += 2) {
         if ($loc_c[$i + 1] != $loc) {
@@ -636,7 +635,7 @@ for ($i = 2; $i < count($loc_c); $i += 2) {
         // галопом на лошади
         $stmp .= "<a href=\"$PHP_SELF?sid=$sid&gal=1&go=" . $loc_c[$i + 1] . "\">*</a>";
     }
-    if ($g_sounds && count($loc_i[$loc_c[$i + 1]]) > 0) {
+    if (ViewOptions::getInstance()->getSoundsMode() && count($loc_i[$loc_c[$i + 1]]) > 0) {
         // выводим признак наличия персов/НПС в локе
         foreach ($loc_i[$loc_c[$i + 1]] as $j => $val) {
             if ((substr($j, 0, 2) == 'u.') || substr($j, 0, 2) == 'n.') {

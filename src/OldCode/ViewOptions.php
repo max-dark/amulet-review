@@ -222,13 +222,18 @@ class ViewOptions
     }
 
     /**
+     * "Звуки".
+     *
+     * Определяет как показывается наличие пользователей/НПС в соседних локах
+     *
+     * 0 - в виде списка названий переходов
+     * 1 - "!" рядом с переходами
+     *
      * @param bool|int $soundsMode
-     * @return bool|int
      */
-    public function &setSoundsMode($soundsMode)
+    public function setSoundsMode($soundsMode)
     {
         $this->soundsMode = intval($soundsMode);
-        return $this->soundsMode;
     }
 
     /**
