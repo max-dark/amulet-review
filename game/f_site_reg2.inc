@@ -1,6 +1,5 @@
 <?php
 
-use MaxDark\Amulet\database\DB;
 use MaxDark\Amulet\OldCode\DBOperations;
 use MaxDark\Amulet\OldCode\PageType;
 
