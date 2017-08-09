@@ -1,10 +1,10 @@
 <?php
 /**
  * @global info
- * @global g_list
  */
 
 use MaxDark\Amulet\OldCode\PageType;
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 if ($clan) {
     if ( ! file_exists("data/clans/" . $clan)) {
@@ -33,18 +33,19 @@ if ($clan) {
             $start = 0;
         }
         $keys = array_keys($tmp["m"]);
-        for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+        $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+        for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
             $stmp .= "<br/>" . substr($keys[$i], 2);
         }
         if ($start) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan\">^ </a>";
         }
-        if ($start + $g_list < count($keys)) {
+        if ($listEnd < count($keys)) {
             if ( ! $start) {
                 $stmp .= "\n<br/>";
             }
-            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan&start=" . ($start + $g_list) . "\">+ (" .
-                     (count($keys) + 1 - $start - $g_list) . ")</a>";
+            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan&start=" . ($listEnd) . "\">+ (" .
+                     (count($keys) + 1 - $listEnd) . ")</a>";
         }
     } else {
         $stmp .= "<br/>Больше никого в клане нет.";
@@ -72,19 +73,20 @@ if (count($arr) > 0) {
         $start = 0;
     }
     $keys = array_keys($arr);
-    for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+    $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+    for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=" . $keys[$i] . "\">" . $keys[$i] . "</a> (" .
                  $arr[$keys[$i]] . " чел.)";
     }
     if ($start) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=clans\">^ </a>";
     }
-    if ($start + $g_list < count($keys)) {
+    if ($listEnd < count($keys)) {
         if ( ! $start) {
             $stmp .= "\n<br/>";
         }
-        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=clans&start=" . ($start + $g_list) . "\">+ (" .
-                 (count($keys) + 1 - $start - $g_list) . ")</a>";
+        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=clans&start=" . ($listEnd) . "\">+ (" .
+                 (count($keys) + 1 - $listEnd) . ")</a>";
     }
 } else {
     $stmp = "<p>Нет ни одного клана";
