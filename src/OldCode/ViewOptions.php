@@ -149,13 +149,10 @@ class ViewOptions
 
     /**
      * @param int $maxPageSize
-     * @return int reference
      */
-    public function &setMaxPageSize($maxPageSize)
+    public function setMaxPageSize($maxPageSize)
     {
         $this->maxPageSize = intval($maxPageSize);
-
-        return $this->maxPageSize;
     }
 
     /**

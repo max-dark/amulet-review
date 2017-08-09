@@ -52,7 +52,7 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $g_size, $g_list;
+    global $g_list;
     global $g_query_string;
 
     $viewOpt = ViewOptions::getInstance();
@@ -172,7 +172,7 @@ function msg(
         $page_journal = substr($page_journal, 5);
     }
     // проверить размер страницы
-    $bsize = strlen($message . $page_journal) < $g_size;
+    $bsize = strlen($message . $page_journal) < $viewOpt->getMaxPageSize();
     // если журнал не пуст и задано его отображение
     if ($page_journal && $show_journal) {
         // страница влезает в ограничения?

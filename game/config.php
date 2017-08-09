@@ -135,10 +135,8 @@ $g_list = &$pageOpt->setListsSize(5);
 
 /**
  * Размер страницы (700..15000)
- *
- * @var int $g_size
  */
-$g_size = &$pageOpt->setMaxPageSize(2200);
+$pageOpt->setMaxPageSize(2200);
 
 /*
  * Тип меню.
