@@ -5,7 +5,6 @@
  * @global loc_i
  * @global loc_t
  * @global loc_tt
- * @global g_list
  * @global game
  * @global sid
  * @global PHP_SELF
@@ -15,6 +14,9 @@
  * @global mall
  * @global translit
  */
+
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 if ($msg) {
     $del = Request("del");
     if ($del && strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") !== false) {
@@ -43,12 +45,13 @@ if ($msg) {
         if ( ! $start) {
             $start = 0;
         }
+        $listEnd = $start + ViewOptions::getInstance()->getListsSize();
         if ($keys) {
             foreach ($keys as $i) {
                 if ($i) {
                     if (file_exists("online/" . $i) && filesize("online/" . $i) != 1) {
                         $count++;
-                        if ($c1 >= $start && $c1 < $start + $g_list) {
+                        if ($c1 >= $start && $c1 < $listEnd) {
                             $stmp .= "\n<br/><anchor>" . substr($i, 2) .
                                      "<go href=\"#menu\"><setvar name=\"id\" value=\"$i\"/></go></anchor>";
                         }
@@ -64,11 +67,11 @@ if ($msg) {
         if ($start) {
             $stmp .= "\n<br/><a href=\"?sid=$sid&msg=1\">^ </a>";
         }
-        if ($start + $g_list < $c1) {
+        if ($listEnd < $c1) {
             if ( ! $start) {
                 $stmp .= "\n<br/>";
             }
-            $stmp .= "<a href=\"?sid=$sid&msg=1&start=" . ($start + $g_list) . "\">+ (" . ($c1 - $start - $g_list) .
+            $stmp .= "<a href=\"?sid=$sid&msg=1&start=" . ($listEnd) . "\">+ (" . ($c1 - ($listEnd)) .
                      ")</a>";
         }
         $cnt = (count($keys) - $count);
@@ -116,13 +119,14 @@ TAG;
         if ($loc_i[$loc][$login]["msg"]) {
             $keys = explode("|", $loc_i[$loc][$login]["msg"]);
         }
+        $listEnd = $start + ViewOptions::getInstance()->getListsSize();
         if ($keys) {
             if (count($keys) - $count > 0) {
                 $stmp .= "Оффлайн (выберите, чтобы удалить):";
                 foreach ($keys as $i) {
                     if ($i) {
                         if ( ! file_exists("online/" . $i) || filesize("online/" . $i) == 1) {
-                            if ($c1 >= $start && $c1 < $start + $g_list) {
+                            if ($c1 >= $start && $c1 < $listEnd) {
                                 $stmp .= "\n<br/><a href=\"?sid=$sid&msg=del&id=" . $i . "\">" . substr($i, 2) . "</a>";
                             }
                             $c1++;
@@ -136,11 +140,11 @@ TAG;
         if ($start) {
             $stmp .= "\n<br/><a href=\"?sid=$sid&msg=off\">^ </a>";
         }
-        if ($start + $g_list < $c1) {
+        if ($listEnd < $c1) {
             if ( ! $start) {
                 $stmp .= "\n<br/>";
             }
-            $stmp .= "<a href=\"?sid=$sid&msg=off&start=" . ($start + $g_list) . "\">+ (" . ($c1 - $start - $g_list) .
+            $stmp .= "<a href=\"?sid=$sid&msg=off&start=" . ($listEnd) . "\">+ (" . ($c1 - $listEnd) .
                      ")</a>";
         }
         if ($count == 0) {
