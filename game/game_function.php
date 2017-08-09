@@ -1,4 +1,7 @@
 <?php
+
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 require_once 'f_message.inc';
 
 /**
@@ -2447,7 +2450,7 @@ function loadloc($loc)
  */
 function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
 {
-    global $loc_i, $loc, $login, $page_d, $loc_tt, $g_j2go, $game;
+    global $loc_i, $loc, $login, $loc_tt, $game;
 
     if ($from == $to) {
         return;
@@ -2546,8 +2549,8 @@ function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
     }
     if ($id == $login && $to && isset($loc_i[$to][$id])) {
         $loc = $to;
-        if ($g_j2go) {
-            $page_d = 1;
+        if (ViewOptions::getInstance()->getShowDesc()) {
+            ViewOptions::getInstance()->setDescEnabled(true);
         }
     }
 }

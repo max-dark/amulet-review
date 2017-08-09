@@ -8,6 +8,7 @@
 
 use MaxDark\Amulet\OldCode\MenuMode;
 use MaxDark\Amulet\OldCode\PageType;
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 /**
  * Выводит страницу пользователю.
@@ -51,9 +52,9 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $page_d, $g_size, $g_list, $g_menu, $g_j2loc, $g_joff, $g_smf, $g_map;
     global $g_query_string;
 
+    $viewOpt = ViewOptions::getInstance();
     $url_base = "?sid=$sid";
 
     header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
@@ -75,7 +76,7 @@ function msg(
      * Флаг, что перешли с главной страницы.
      * Как комманда показать меню в виде "действий"(<do></do> tag).
      *
-     * is_page_mode_menu = (!$is_page_mode_menu && $page_type == PageType::MAIN && $g_menu == MenuMode::PAGE)
+     * is_page_mode_menu = (!$is_page_mode_menu && $page_type == PageType::MAIN && $menuMode == MenuMode::PAGE)
      * is_page_mode_menu = is_page_mode_menu && ! is_links_mode_menu;
      *
      * @var $isMenuInPageMode bool
@@ -85,7 +86,7 @@ function msg(
      * Флаг, что перешли с главной(page_type == 'main') страницы.
      * Как комманда показать меню в виде ссылок(<a></a> tag) на отдельной странице.
      *
-     * is_links_mode_menu = (!$is_links_mode_menu && $page_type == PageType::MAIN && $g_menu == MenuMode::LINKS)
+     * is_links_mode_menu = (!$is_links_mode_menu && $page_type == PageType::MAIN && $menuMode == MenuMode::LINKS)
      * is_links_mode_menu = is_links_mode_menu && ! is_page_mode_menu;
      *
      * @var $isMenuInLinksMode bool
@@ -114,21 +115,21 @@ function msg(
     // меню в виде "действий"(<do> tag).
     if ($isMenuInPageMode) {
         $show_journal = false;
-        $page_d       = 0;
+        $viewOpt->setDescEnabled(false);
         $message      = "Нажмите кнопку Меню";
     }
     // меню в виде ссылок(<a> tag) на отдельной странице
     if ($isMenuInLinksMode) {
         $show_journal = false;
-        $page_d       = 0;
-        $message = menu_links($url_base, $currentUser, $g_map);
+        $viewOpt->setDescEnabled(false);
+        $message = menu_links($url_base, $currentUser, $viewOpt->getMapMode());
     }
     
     #start: подготовка журнала
     if ($skip_journal) {
         $show_journal = false;
     } else {
-        if ($g_joff) {
+        if ($viewOpt->getJournalDisabled()) {
             /* 
              * Данная регулярка удаляет строки не содержащие ':' или '!'
              * несколько '|' идущих подряд заменяет на один
@@ -146,7 +147,7 @@ function msg(
 
     if ($show_journal && $userJournal) {
         $page_journal = str_replace('|', '<br/>', $userJournal);
-        if ( ! $g_j2loc) {
+        if ( ! $viewOpt->getReportIncoming()) {
             $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/u', '', $page_journal);
         }
     }
@@ -156,13 +157,13 @@ function msg(
     if ($page_journal && $show_journal) {
         // урезать количество записей в журнале
         $pieces = explode('<br/>', $page_journal);
-        if (count($pieces) > $g_list) {
-            array_splice($pieces, 0, count($pieces) - $g_list);
+        if (count($pieces) > $viewOpt->getMaxListSize()) {
+            array_splice($pieces, 0, count($pieces) - $viewOpt->getMaxListSize());
             $page_journal = implode('<br/>', $pieces);
         }
     }
     // добавить описание локации
-    if ($page_d && file_exists('loc_f/' . $loc)) {
+    if ($viewOpt->getDescEnabled() && file_exists('loc_f/' . $loc)) {
         $page_journal .= '<br/>' . file_get_contents('loc_f/' . $loc);
     }
 
@@ -170,7 +171,7 @@ function msg(
         $page_journal = substr($page_journal, 5);
     }
     // проверить размер страницы
-    $bsize = strlen($message . $page_journal) < $g_size;
+    $bsize = strlen($message . $page_journal) < $viewOpt->getMaxPageSize();
     // если журнал не пуст и задано его отображение
     if ($page_journal && $show_journal) {
         // страница влезает в ограничения?
@@ -190,12 +191,12 @@ function msg(
     if ($bsize || ! $show_journal || ! $page_journal) {
         $wml .= buildMainCard(
             $page_title, $message, $page_type, $currentUser, $var_name, $var_value, $url_base,
-            $isMenuInPageMode, $isMenuInLinksMode, $g_menu, $g_map
+            $isMenuInPageMode, $isMenuInLinksMode, $viewOpt->getMenuMode(), $viewOpt->getMapMode()
         );
     }
     #end: формирование страницы
     // Используется "маленикий шрифт"?
-    if ($g_smf && strpos($wml, '<input') === false) {
+    if ($viewOpt->getUseSmallFont() && strpos($wml, '<input') === false) {
         $wml = preg_replace([
             "'(<p [^>]*>)'u",
             "'<p>'u",

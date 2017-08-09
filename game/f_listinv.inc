@@ -12,10 +12,10 @@
  * @global char
  * @global up
  * @global down
- * @global g_list
  */
 // список инвентори
 use MaxDark\Amulet\OldCode\PageType;
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 $items = explode("|", $loc_i[$loc][$login]["items"]);
 if ($up || $down) {
@@ -42,7 +42,8 @@ if ($loc_i[$loc][$login]["items"] == "") {
     }
     $keys = array_keys($items);
 
-    for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+    $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
+    for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         if ($items[$keys[$i]]) {
             $k = explode(":", $items[$keys[$i]]);
             $item = findItemByFullId($k[0]);
@@ -72,12 +73,12 @@ if ($loc_i[$loc][$login]["items"] == "") {
     if ($start) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=inv\">^ </a>";
     }
-    if ($start + $g_list < count($keys)) {
+    if ($listEnd < count($keys)) {
         if ( ! $start) {
             $stmp .= "\n<br/>";
         }
-        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=inv&start=" . ($start + $g_list) . "\">+ (" .
-                 (count($keys) - $start - $g_list) . ")</a>";
+        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=inv&start=" . ($listEnd) . "\">+ (" .
+                 (count($keys) - $listEnd) . ")</a>";
     }
 
     // меню
