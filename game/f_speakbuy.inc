@@ -12,11 +12,12 @@
  * @global id
  * @global locai
  * @global tchar
- * @global g_list
  * @global trader
  */
 
 // время обновления товаров
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 if (time() > $tchar[11]) {
     // формат записи шансналичия:минКоличество:максКоличество=идПредмета:текущееКоличество
     $xF = preg_match_all("'((\d+):(\d+):(\d+)=([^:]+):(\d+))'", $loc_i[$loc][$speak]["bank"], $regF);
@@ -40,7 +41,8 @@ $xF   = preg_match_all("'=([^:]+):([^0]\d*)'", $loc_i[$loc][$speak]["bank"], $re
 if ( ! $start) {
     $start = 0;
 }
-for ($i = $start; $i < $start + $g_list && $i < $xF; $i++) {
+$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+for ($i = $start; $i < $listEnd && $i < $xF; $i++) {
     $itemId = $regF[1][$i];
     $itemCount = $regF[2][$i];
     $item = findItemByFullId($itemId);
@@ -62,12 +64,12 @@ if ($stmp) {
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
 }
-if ($start + $g_list < $xF - 1) {
+if ($listEnd < $xF - 1) {
     if ( ! $start) {
         $stmp .= "\n<br/>";
     }
-    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" .
-             ($xF - $start - $g_list) . ")</a>";
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
+             ($xF - $listEnd) . ")</a>";
 }
 $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n";
 $stmp .= "<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Купить</a>\n";
