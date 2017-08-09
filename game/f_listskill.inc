@@ -12,11 +12,12 @@
  * @global char
  * @global up
  * @global down
- * @global g_list
  * @global act
  * @global num
  */
 // список всех скиллов
+
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 $arr_skills = [
     "str"          => 0,
@@ -108,7 +109,8 @@ if ( ! $start) {
     $start = 0;
 }
 $keys = array_keys($arr_skills);
-for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($to) {
         if ($keys[$i] == "meditation" || $keys[$i] == "animaltaming" || $keys[$i] == "steal") {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=skill." . $keys[$i] . $m . "\">" .
@@ -125,11 +127,11 @@ for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=skill\">^ </a>";
 }
-if ($start + $g_list < count($keys)) {
+if ($listEnd < count($keys)) {
     if ( ! $start) {
         $stmp .= "\n<br/>";
     }
-    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=skill&start=" . ($start + $g_list) . "\">+ (" .
-             (count($keys) - $start - $g_list) . ")</a>";
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=skill&start=" . ($listEnd) . "\">+ (" .
+             (count($keys) - $listEnd) . ")</a>";
 }
 msg($stmp, "Навыки", 1);
