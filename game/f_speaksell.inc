@@ -12,7 +12,6 @@
  * @global id
  * @global locai
  * @global tchar
- * @global g_list
  * @global trader
  * @global up
  * @global down
@@ -20,6 +19,8 @@
  */
 
 // список
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 if ($trader[1]) {
     $filter = explode(":", $trader[1]);
 } else {
@@ -50,7 +51,8 @@ if ( ! $start) {
     $start = 0;
 }
 
-for ($i = $start; $i < $start + $g_list && $i < $xF; $i++) {
+$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+for ($i = $start; $i < $listEnd && $i < $xF; $i++) {
     $itemId = $regF[1][$i];
     if ($itemId) {
         $itemCount = $regF[2][$i];
@@ -75,12 +77,12 @@ if ($stmp) {
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
 }
-if ($start + $g_list < $xF - 1) {
+if ($listEnd < $xF - 1) {
     if ( ! $start) {
         $stmp .= "\n<br/>";
     }
-    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" .
-             ($xF - $start - $g_list) . ")</a>";
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
+             ($xF - $listEnd) . ")</a>";
 }
 $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n";
 $stmp .= "<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Продать</a>\n";
