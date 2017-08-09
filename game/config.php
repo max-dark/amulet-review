@@ -176,12 +176,10 @@ $g_j2loc = &$pageOpt->setReportIncoming(1);
  */
 $g_j2go = &$pageOpt->setShowDesc(1);
 
-/**
+/*
  * Отключить отображение журнала (1-да,0-нет)
- *
- * @var int $g_smf
  */
-$g_joff = &$pageOpt->setJournalDisabled(0);
+$pageOpt->setJournalDisabled(0);
 
 /*
  * Использовать маленький шрифт.

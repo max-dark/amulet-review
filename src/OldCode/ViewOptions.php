@@ -246,12 +246,10 @@ class ViewOptions
 
     /**
      * @param bool|int $journalDisabled
-     * @return bool|int
      */
-    public function &setJournalDisabled($journalDisabled)
+    public function setJournalDisabled($journalDisabled)
     {
         $this->journalDisabled = intval($journalDisabled);
-        return $this->journalDisabled;
     }
 
     /**
