@@ -2450,7 +2450,7 @@ function loadloc($loc)
  */
 function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
 {
-    global $loc_i, $loc, $login, $loc_tt, $g_j2go, $game;
+    global $loc_i, $loc, $login, $loc_tt, $game;
 
     if ($from == $to) {
         return;
@@ -2549,7 +2549,7 @@ function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
     }
     if ($id == $login && $to && isset($loc_i[$to][$id])) {
         $loc = $to;
-        if ($g_j2go) {
+        if (ViewOptions::getInstance()->getShowDesc()) {
             ViewOptions::getInstance()->setDescEnabled(true);
         }
     }

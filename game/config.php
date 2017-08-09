@@ -169,12 +169,10 @@ $pageOpt->setUserMenu('301021');
  */
 $g_j2loc = &$pageOpt->setReportIncoming(1);
 
-/**
+/*
  * Отображение описания локаций при переходе (1-вкл,0-выкл)
- *
- * @var int $g_j2go
  */
-$g_j2go = &$pageOpt->setShowDesc(1);
+$pageOpt->setShowDesc(1);
 
 /*
  * Отключить отображение журнала (1-да,0-нет)

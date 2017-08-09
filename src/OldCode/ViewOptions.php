@@ -187,12 +187,10 @@ class ViewOptions
 
     /**
      * @param bool|int $showDesc
-     * @return bool|int
      */
-    public function &setShowDesc($showDesc)
+    public function setShowDesc($showDesc)
     {
         $this->showDesc = intval($showDesc);
-        return $this->showDesc;
     }
 
     /**
