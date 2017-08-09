@@ -12,13 +12,14 @@
  * @global char
  * @global up
  * @global down
- * @global g_list
  * @global num
  * @global act
  */
 // список магии
 
 // в $to цель, если есть
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 if ( ! $loc_i[$loc][$login]["magic"]) {
     msg("<p>Ваша книга заклинаний пуста, найдите NPC, который согласится учить вас магии.");
 }
@@ -74,7 +75,8 @@ if ( ! $start) {
     $start = 0;
 }
 $keys = array_keys($items);
-for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+$listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
+for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     $k = explode(":", $items[$keys[$i]]);
     $item = findItemByBaseId($k[0]);
     if (time() < $k[1]) {
@@ -92,12 +94,12 @@ for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=magic\">^ </a>";
 }
-if ($start + $g_list < count($keys)) {
+if ($listEnd < count($keys)) {
     if ( ! $start) {
         $stmp .= "\n<br/>";
     }
-    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$to&list=magic&start=" . ($start + $g_list) . "\">+ (" .
-             (count($keys) - $start - $g_list) . ")</a>";
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$to&list=magic&start=" . ($listEnd) . "\">+ (" .
+             (count($keys) - $listEnd) . ")</a>";
 }
 // карта меню
 $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&use=$(to)\">Кастовать</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a href=\"$PHP_SELF?sid=$sid&list=magic&up=$(to)\">Вверх</a> | <a href=\"$PHP_SELF?sid=$sid&list=magic&down=$(to)\">Вниз</a>]\n";

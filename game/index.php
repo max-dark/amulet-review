@@ -6,6 +6,7 @@
 
 use MaxDark\Amulet\OldCode\MapPage;
 use MaxDark\Amulet\OldCode\PageType;
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 /**
  * @global login
@@ -20,15 +21,8 @@ use MaxDark\Amulet\OldCode\PageType;
  * @global to
  * @global use
  * @global id
- * @global g_map
- * @global g_sounds
- * @global g_list
- * @global g_menu
- * @global g_smenu
  */
 
-// class loader bootstrap
-require_once '../vendor/autoload.php';
 require_once('config.php'); // настройки игры
 require_once('game_function.php'); // игровые функции
 
@@ -225,8 +219,7 @@ unset($userData);
 
 $viewOptions = get_value($loc_i[$loc][$login], "o");
 if ($viewOptions) {
-    list($g_list, $g_size, $g_j2loc, $g_j2go, $g_menu, $g_sounds, $g_joff, $g_smenu, $g_map, $g_smf) = explode("|",
-        $viewOptions);
+    ViewOptions::getInstance()->fromString($viewOptions);
 }
 unset($viewOptions);
 
@@ -434,7 +427,7 @@ if ($use) {
 if ($look || $look = $ci) {
     // раньше $list
     // после $take и $use
-    // при ci == 1 устанавливается page_d = true - флаг "вывести описание локации"
+    // при ci == 1 устанавливается ViewOptions::setDescEnabled(true) - флаг "вывести описание локации"
     // возможен возврат управления
     include_once "f_look.inc";
 }
@@ -465,7 +458,13 @@ if ($list || $list = $cl) {
 }
 // показать карту и завершить работу скрипта
 if (false !== $map) {
-    msg(MapPage::buildPage($loc, $game, $g_map, $PHP_SELF, $sid));
+    msg(MapPage::buildPage(
+        $loc,
+        $game,
+        ViewOptions::getInstance()->getMapMode(),
+        $PHP_SELF,
+        $sid
+    ));
 }
 
 // MAIN PAGE
@@ -508,7 +507,7 @@ if (substr($loc, 3) == ".in" || substr($loc, 3) == ".gate") {
 }
 
 // SOUNDS
-if ( ! $g_sounds) {
+if ( ! ViewOptions::getInstance()->getSoundsMode()) {
     $st = "";
     for ($i = 2; $i < count($loc_c); $i += 2) {
         if ($loc_c[$i + 1] != $loc) {
@@ -534,8 +533,9 @@ $ti = explode("x", $loc);
 if ( ! $start) {
     $start = 0;
 }
+$listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
 $keys = array_keys($loc_i[$loc]);
-for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($keys[$i] != $login) {
         $k = '';
         // предметы
@@ -618,12 +618,12 @@ if (count($keys) > 1 && $start) {
     // к началу списка
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">^ </a>";
 }
-if ($start + $g_list < count($keys)) {
+if ($listEnd < count($keys)) {
     if ( ! $start) {
         $stmp .= "<br/>";
     }
     // к следующей части списка
-    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&start=" . ($start + $g_list) . "\">+ (" . (count($keys) - $start - $g_list) .
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&start=" . ($listEnd) . "\">+ (" . (count($keys) - $listEnd) .
              ")</a>";
 }
 #end: "пагинация" списка объектов
@@ -638,7 +638,7 @@ for ($i = 2; $i < count($loc_c); $i += 2) {
         // галопом на лошади
         $stmp .= "<a href=\"$PHP_SELF?sid=$sid&gal=1&go=" . $loc_c[$i + 1] . "\">*</a>";
     }
-    if ($g_sounds && count($loc_i[$loc_c[$i + 1]]) > 0) {
+    if (ViewOptions::getInstance()->getSoundsMode() && count($loc_i[$loc_c[$i + 1]]) > 0) {
         // выводим признак наличия персов/НПС в локе
         foreach ($loc_i[$loc_c[$i + 1]] as $j => $val) {
             if ((substr($j, 0, 2) == 'u.') || substr($j, 0, 2) == 'n.') {
@@ -653,7 +653,7 @@ $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">обновить</a>";
 
 // Добавить ссылку на описание локи
 if (file_exists("loc_f/" . $loc)) {
-    // переход по ссылке устанавливает $page_d = "1"(смотри в f_look.inc)
+    // переход по ссылке устанавливает ViewOptions::setDescEnabled(true)(смотри в f_look.inc)
     // что используется в функции msg для добавления описания локации
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=1\">Инфo</a>";
 }
@@ -673,15 +673,16 @@ $stmp .= "<a href=\"$PHP_SELF?sid=$sid&ca=$(to)\">Атаковать</a>";
 $b  = "<br/>";
 // кнопки быстрого доступа к умениям и предметам
 $ts = ["", "", "m", "магия", "i", "предмет", "p", "прием"];
-for ($i = 0; $i < strlen($g_smenu); $i += 2) {
-    if ($ts[$g_smenu{$i} * 2]) {
+$userMenu = strval(ViewOptions::getInstance()->getUserMenu());
+for ($i = 0; $i < strlen($userMenu); $i += 2) {
+    if ($ts[$userMenu{$i} * 2]) {
         // просмотр списка и управление порядком
-        $stmp .= $b . "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$g_smenu{$i} * 2] . "\">" .
-                 $ts[$g_smenu{$i} * 2 + 1] . "</a>";
+        $stmp .= $b . "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$userMenu{$i} * 2] . "\">" .
+                 $ts[$userMenu{$i} * 2 + 1] . "</a>";
         $b = ", ";
-        for ($j = 1; $j <= $g_smenu{$i + 1}; $j++) {
+        for ($j = 1; $j <= $userMenu{$i + 1}; $j++) {
             // кнопка доступа к элементу с номером $j
-            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$g_smenu{$i} * 2] . "." . $j . "\">" . $j .
+            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$userMenu{$i} * 2] . "." . $j . "\">" . $j .
                      "</a>";
         }
     }

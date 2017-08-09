@@ -19,17 +19,19 @@ if (time() > $game["lastai"] + 240) {
     // обновим список
     include "f_online.inc";
 }
-$g_list = 10;
 $stmp   = "";
 if ( ! $start) {
     $start = 0;
 }
 $i  = -1;
+$listSize = 10;
+$listEnd = $start + $listSize;
+
 $dh = opendir("online/");
 while (($fname = readdir($dh)) !== false) {
     if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
         $i++;
-        if ($i >= $start && $i < $start + $g_list) {
+        if ($i >= $start && $i < $listEnd) {
             $tmp = file("online/" . $fname);
             if ($tmp[0] == ".") {
                 continue;
@@ -64,12 +66,12 @@ if ($i > -1) {
     if ($start) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=online\">^ </a>";
     }
-    if ($start + $g_list < $i + 1) {
+    if ($listEnd < $i + 1) {
         if ( ! $start) {
             $stmp .= "\n<br/>";
         }
-        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=online&start=" . ($start + $g_list) . "\">+ (" .
-                 ($i + 1 + 1 - $start - $g_list) . ")</a>";
+        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=online&start=" . $listEnd . "\">+ (" .
+                 ($i + 1 + 1 - $listEnd) . ")</a>";
     }
 } else {
     $stmp = "<p>Сейчас в игре никого нет";

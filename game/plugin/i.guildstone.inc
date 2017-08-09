@@ -10,10 +10,11 @@
  * @global clear
  * @global translit
  * @global cadd
- * @global g_list
  * @global p
  */
 // камень гильдии
+
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 $tc = explode("|", $loc_i[$loc][$login]["char"]);
 if (strpos($tc[0], "*") === false) {
@@ -131,17 +132,18 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
             $stmp = "<p>[<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1\">Пригласить</a>]";
             $stmp .= " [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&glava=1\">Сделать главой</a>]";
             $stmp .= " [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&info=1\">Инфо о клане</a> (<a href=\"$PHP_SELF?sid=$sid&use=$use&info=1&write=1&clear=1\">очистить</a>)]";
+            $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
             if ($tmp["m"]) {
                 $stmp .= "<br/>Состав (выберите, чтобы выгнать):";
                 if ( ! $start) {
                     $start = 0;
                 }
                 $keys = array_keys($tmp["m"]);
-                for ($i = $start; $i < count($keys) && $i < $start + $g_list; $i++) {
+                for ($i = $start; $i < count($keys) && $i < $listEnd; $i++) {
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&del=" . $keys[$i] . "\">" .
                              substr($keys[$i], 2) . "</a>";
                 }
-                $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=" . ($start + $g_list) .
+                $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=" . $listEnd .
                          "\">+</a>";
             } else {
                 $stmp .= "<br/>В вашем клане, кроме вас, никого нет.";
@@ -152,11 +154,11 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
                     $start = 0;
                 }
                 $keys = array_keys($tmp["wg"]);
-                for ($i = $start; $i < count($keys) && $i < $start + $g_list; $i++) {
+                for ($i = $start; $i < count($keys) && $i < $listEnd; $i++) {
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&del=" . $keys[$i] . "\">" .
                              substr($keys[$i], 2) . "</a>";
                 }
-                $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=" . ($start + $g_list) .
+                $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=" . ($listEnd) .
                          "\">+</a>";
             }
             if ($tmp["w"]) {
@@ -165,11 +167,11 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
                     $start = 0;
                 }
                 $keys = array_keys($tmp["w"]);
-                for ($i = $start; $i < count($keys) && $i < $start + $g_list; $i++) {
+                for ($i = $start; $i < count($keys) && $i < $listEnd; $i++) {
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&use=$use&del=" . $keys[$i] . "\">" .
                              substr($keys[$i], 2) . "</a>";
                 }
-                $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=" . ($start + $g_list) .
+                $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&use=i.guildstone&start=" . ($listEnd) .
                          "\">+</a>";
             } else {
                 $stmp .= "<br/>Список рекрутов пуст.";

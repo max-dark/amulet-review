@@ -12,7 +12,6 @@
  * @global id
  * @global locai
  * @global tchar
- * @global g_list
  * @global trader
  * @global num
  * @global to
