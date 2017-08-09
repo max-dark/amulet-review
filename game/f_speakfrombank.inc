@@ -12,11 +12,12 @@
  * @global id
  * @global locai
  * @global tchar
- * @global g_list
  * @global trader
  * @global up
  * @global down
  */
+
+use MaxDark\Amulet\OldCode\ViewOptions;
 
 if ($speak == "n.t.bankir" && $char[14] != "t") {
     msg("Извини, услуги банка только для вступивших в Орден Тамплиера.");
@@ -80,7 +81,8 @@ if ( ! $start) {
     $start = 0;
 }
 $keys = array_keys($items);
-for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($items[$keys[$i]]) {
         $k = explode(":", $items[$keys[$i]]);
         $item = findItemByFullId($k[0]);
@@ -103,12 +105,12 @@ if ($stmp) {
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
 }
-if ($start + $g_list < count($keys)) {
+if ($listEnd < count($keys)) {
     if ( ! $start) {
         $stmp .= "\n<br/>";
     }
-    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" .
-             (count($keys) - $start - $g_list) . ")</a>";
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
+             (count($keys) - $listEnd) . ")</a>";
 }
 $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n";
 $stmp .= "<p><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Забрать из банка</a>\n";
