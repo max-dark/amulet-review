@@ -164,10 +164,8 @@ $pageOpt->setUserMenu('301021');
 
 /**
  * Сообщать о приходящих (1-вкл,0-выкл)
- *
- * @var int $g_j2loc
  */
-$g_j2loc = &$pageOpt->setReportIncoming(1);
+$pageOpt->setReportIncoming(1);
 
 /*
  * Отображение описания локаций при переходе (1-вкл,0-выкл)

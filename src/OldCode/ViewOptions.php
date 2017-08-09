@@ -168,13 +168,10 @@ class ViewOptions
 
     /**
      * @param bool|int $reportIncoming
-     * @return bool|int
      */
-    public function &setReportIncoming($reportIncoming)
+    public function setReportIncoming($reportIncoming)
     {
         $this->reportIncoming = intval($reportIncoming);
-
-        return $this->reportIncoming;
     }
 
     /**

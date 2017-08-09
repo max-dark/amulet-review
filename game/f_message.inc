@@ -52,7 +52,7 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $g_size, $g_list, $g_menu, $g_j2loc;
+    global $g_size, $g_list, $g_menu;
     global $g_query_string;
 
     $viewOpt = ViewOptions::getInstance();
@@ -148,7 +148,7 @@ function msg(
 
     if ($show_journal && $userJournal) {
         $page_journal = str_replace('|', '<br/>', $userJournal);
-        if ( ! $g_j2loc) {
+        if ( ! $viewOpt->getReportIncoming()) {
             $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/u', '', $page_journal);
         }
     }
