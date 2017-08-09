@@ -12,7 +12,6 @@
  * @global char
  * @global up
  * @global down
- * @global g_list
  * @global items
  */
 // перемещение в инвентори

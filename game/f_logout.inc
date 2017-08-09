@@ -9,7 +9,6 @@
  * @global sid
  * @global PHP_SELF
  * @global char
- * @global g_list
  */
 
 use MaxDark\Amulet\OldCode\DBOperations;

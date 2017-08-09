@@ -10,7 +10,6 @@
  * @global PHP_SELF
  * @global char
  * @global tchar
- * @global g_list
  * @global id
  */
 
