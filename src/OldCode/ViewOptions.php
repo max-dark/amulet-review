@@ -264,12 +264,10 @@ class ViewOptions
 
     /**
      * @param int $userMenu
-     * @return int
      */
-    public function &setUserMenu($userMenu)
+    public function setUserMenu($userMenu)
     {
         $this->userMenu = intval($userMenu);
-        return $this->userMenu;
     }
 
     /**

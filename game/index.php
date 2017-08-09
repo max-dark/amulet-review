@@ -23,7 +23,6 @@ use MaxDark\Amulet\OldCode\ViewOptions;
  * @global id
  * @global g_list
  * @global g_menu
- * @global g_smenu
  */
 
 require_once('config.php'); // настройки игры
@@ -675,15 +674,16 @@ $stmp .= "<a href=\"$PHP_SELF?sid=$sid&ca=$(to)\">Атаковать</a>";
 $b  = "<br/>";
 // кнопки быстрого доступа к умениям и предметам
 $ts = ["", "", "m", "магия", "i", "предмет", "p", "прием"];
-for ($i = 0; $i < strlen($g_smenu); $i += 2) {
-    if ($ts[$g_smenu{$i} * 2]) {
+$userMenu = strval(ViewOptions::getInstance()->getUserMenu());
+for ($i = 0; $i < strlen($userMenu); $i += 2) {
+    if ($ts[$userMenu{$i} * 2]) {
         // просмотр списка и управление порядком
-        $stmp .= $b . "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$g_smenu{$i} * 2] . "\">" .
-                 $ts[$g_smenu{$i} * 2 + 1] . "</a>";
+        $stmp .= $b . "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$userMenu{$i} * 2] . "\">" .
+                 $ts[$userMenu{$i} * 2 + 1] . "</a>";
         $b = ", ";
-        for ($j = 1; $j <= $g_smenu{$i + 1}; $j++) {
+        for ($j = 1; $j <= $userMenu{$i + 1}; $j++) {
             // кнопка доступа к элементу с номером $j
-            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$g_smenu{$i} * 2] . "." . $j . "\">" . $j .
+            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$userMenu{$i} * 2] . "." . $j . "\">" . $j .
                      "</a>";
         }
     }
