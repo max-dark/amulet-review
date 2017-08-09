@@ -12,7 +12,6 @@
  * @global sid
  * @global PHP_SELF
  * @global char
- * @global g_list
  * @global use
  * @global glava
  */
@@ -20,6 +19,8 @@
 // в $use что использовать, здесь надо определить $to
 
 // выводим ссылку на себя, все окружение и все инвентори в отдельной карте
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 $stmp = "<p><a href=\"$PHP_SELF?sid=$sid&to=" . $login . "&use=$use\">На себя</a>";
 // по всем предметам в локации
 if (count($loc_i[$loc]) > 1) {
@@ -28,7 +29,8 @@ if (count($loc_i[$loc]) > 1) {
         $start = 0;
     }
     $keys = array_keys($loc_i[$loc]);
-    for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+    $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+    for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         if ($keys[$i] != $login) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=" . $keys[$i] . "&use=$use";
             if ($glava == 1) {
@@ -89,12 +91,12 @@ if (count($loc_i[$loc]) > 1) {
     if (count($keys) > 1 && $start) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=all&use=$use\">^ </a>";
     }
-    if ($start + $g_list < count($keys)) {
+    if ($listEnd < count($keys)) {
         if ( ! $start) {
             $stmp .= "\n<br/>";
         }
-        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=all&use=$use&start=" . ($start + $g_list) . "\">+ (" .
-                 (count($keys) - $start - $g_list) . ")</a>";
+        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=all&use=$use&start=" . ($listEnd) . "\">+ (" .
+                 (count($keys) - $listEnd) . ")</a>";
     }
 }
 
@@ -106,7 +108,8 @@ if ($loc_i[$loc][$login]["items"] != "") {
         $start = 0;
     }
     $keys = array_keys($items);
-    for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+    $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+    for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         if ($items[$keys[$i]]) {
             $k = explode(":", $items[$keys[$i]]);
             $item = findItemByFullId($k[0]);
@@ -129,12 +132,12 @@ if ($loc_i[$loc][$login]["items"] != "") {
     if ($start) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=all\">^ </a>";
     }
-    if ($start + $g_list < count($keys)) {
+    if ($listEnd < count($keys)) {
         if ( ! $start) {
             $stmp .= "\n<br/>";
         }
-        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=all&use=$use&start=" . ($start + $g_list) . "\">+ (" .
-                 (count($keys) - $start - $g_list) . ")</a>";
+        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=all&use=$use&start=" . ($listEnd) . "\">+ (" .
+                 (count($keys) - ($listEnd)) . ")</a>";
     }
 }
 msg($stmp, "Укажите цель");
