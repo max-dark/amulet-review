@@ -32,7 +32,7 @@ if ( ! $start) {
     $start = 0;
 }
 $keys = array_keys($items);
-$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+$listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
 for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($items[$keys[$i]]) {
         $k = explode(":", $items[$keys[$i]]);

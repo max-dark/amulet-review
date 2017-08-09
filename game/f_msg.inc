@@ -45,7 +45,7 @@ if ($msg) {
         if ( ! $start) {
             $start = 0;
         }
-        $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+        $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
         if ($keys) {
             foreach ($keys as $i) {
                 if ($i) {
@@ -119,7 +119,7 @@ TAG;
         if ($loc_i[$loc][$login]["msg"]) {
             $keys = explode("|", $loc_i[$loc][$login]["msg"]);
         }
-        $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+        $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
         if ($keys) {
             if (count($keys) - $count > 0) {
                 $stmp .= "Оффлайн (выберите, чтобы удалить):";

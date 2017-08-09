@@ -129,7 +129,7 @@ $pageOpt = ViewOptions::getInstance();
  *
  * Если размер списка превышает его, то будет разбит на несколько с возможностью перелистывания.
  */
-$pageOpt->setListsSize(5);
+$pageOpt->setMaxListSize(5);
 
 /**
  * Размер страницы (700..15000)

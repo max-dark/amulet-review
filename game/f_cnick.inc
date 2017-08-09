@@ -26,7 +26,7 @@ $viewOpt = ViewOptions::getInstance();
 if ($cnick == "1") {
     $stmp = "<p>Ваше имя: <br/><input name=\"new\" value=\"" . $char[0] . "\"/>
 	<br/>Возраст: <br/><input name=\"age\" value=\"" . intval($tus[3]) . "\" format=\"*N\" maxlength=\"2\"/>
-	<br/>Размер списков (3..30): <br/><input name=\"list\" value=\"" . $viewOpt->getListsSize() . "\" format=\"*N\" maxlength=\"2\"/>
+	<br/>Размер списков (3..30): <br/><input name=\"list\" value=\"" . $viewOpt->getMaxListSize() . "\" format=\"*N\" maxlength=\"2\"/>
 	<br/>Размер страницы (700..15000): <br/><input name=\"size\" value=\"" . $viewOpt->getMaxPageSize() . "\"  format=\"*N\" maxlength=\"5\"/>
 	<br/>Тип меню: 0 - полное, 1 - сокращенное, 2 - на отдельной странице, 3 - в виде ссылок (если не видно обычное меню): <br/><input name=\"menu\" value=\"" .
         $viewOpt->getMenuMode() . "\" format=\"*N\" maxlength=\"1\"/>
@@ -88,7 +88,7 @@ if ($cnick == "1") {
         msg("Допустимые значения для карты 0,1,2 и 3");
     }
 
-    $viewOpt->setListsSize($list);
+    $viewOpt->setMaxListSize($list);
     $viewOpt->setMaxPageSize($size);
     $viewOpt->setReportIncoming($j2loc);
     $viewOpt->setShowDesc($j2go);

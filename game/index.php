@@ -533,7 +533,7 @@ $ti = explode("x", $loc);
 if ( ! $start) {
     $start = 0;
 }
-$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+$listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
 $keys = array_keys($loc_i[$loc]);
 for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($keys[$i] != $login) {

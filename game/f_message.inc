@@ -157,8 +157,8 @@ function msg(
     if ($page_journal && $show_journal) {
         // урезать количество записей в журнале
         $pieces = explode('<br/>', $page_journal);
-        if (count($pieces) > $viewOpt->getListsSize()) {
-            array_splice($pieces, 0, count($pieces) - $viewOpt->getListsSize());
+        if (count($pieces) > $viewOpt->getMaxListSize()) {
+            array_splice($pieces, 0, count($pieces) - $viewOpt->getMaxListSize());
             $page_journal = implode('<br/>', $pieces);
         }
     }

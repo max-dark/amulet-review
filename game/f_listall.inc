@@ -29,7 +29,7 @@ if (count($loc_i[$loc]) > 1) {
         $start = 0;
     }
     $keys = array_keys($loc_i[$loc]);
-    $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+    $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
     for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         if ($keys[$i] != $login) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=" . $keys[$i] . "&use=$use";
@@ -108,7 +108,7 @@ if ($loc_i[$loc][$login]["items"] != "") {
         $start = 0;
     }
     $keys = array_keys($items);
-    $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+    $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
     for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         if ($items[$keys[$i]]) {
             $k = explode(":", $items[$keys[$i]]);

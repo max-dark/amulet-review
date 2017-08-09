@@ -109,7 +109,7 @@ if ( ! $start) {
     $start = 0;
 }
 $keys = array_keys($arr_skills);
-$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+$listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
 for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($to) {
         if ($keys[$i] == "meditation" || $keys[$i] == "animaltaming" || $keys[$i] == "steal") {

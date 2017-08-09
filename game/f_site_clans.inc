@@ -33,7 +33,7 @@ if ($clan) {
             $start = 0;
         }
         $keys = array_keys($tmp["m"]);
-        $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+        $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
         for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
             $stmp .= "<br/>" . substr($keys[$i], 2);
         }
@@ -73,7 +73,7 @@ if (count($arr) > 0) {
         $start = 0;
     }
     $keys = array_keys($arr);
-    $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+    $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
     for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=" . $keys[$i] . "\">" . $keys[$i] . "</a> (" .
                  $arr[$keys[$i]] . " чел.)";

@@ -132,7 +132,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
             $stmp = "<p>[<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1\">Пригласить</a>]";
             $stmp .= " [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&glava=1\">Сделать главой</a>]";
             $stmp .= " [<a href=\"$PHP_SELF?sid=$sid&use=$use&cadd=1&info=1\">Инфо о клане</a> (<a href=\"$PHP_SELF?sid=$sid&use=$use&info=1&write=1&clear=1\">очистить</a>)]";
-            $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+            $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
             if ($tmp["m"]) {
                 $stmp .= "<br/>Состав (выберите, чтобы выгнать):";
                 if ( ! $start) {

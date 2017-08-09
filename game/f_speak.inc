@@ -923,7 +923,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                                 $start = 0;
                             }
                             $keys = array_keys($arr_skills);
-                            $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+                            $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
                             for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
                                 if ($keys[$i] != 'str' && $keys[$i] != 'dex' && $keys[$i] != 'int') {
                                     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&skilldown=" . $keys[$i] . "\">" .

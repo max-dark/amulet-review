@@ -41,7 +41,7 @@ $xF   = preg_match_all("'=([^:]+):([^0]\d*)'", $loc_i[$loc][$speak]["bank"], $re
 if ( ! $start) {
     $start = 0;
 }
-$listEnd = $start + ViewOptions::getInstance()->getListsSize();
+$listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
 for ($i = $start; $i < $listEnd && $i < $xF; $i++) {
     $itemId = $regF[1][$i];
     $itemCount = $regF[2][$i];

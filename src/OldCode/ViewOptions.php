@@ -24,7 +24,7 @@ class ViewOptions
     private static $instance = null;
 
     /** @var  int Количество элементов списка на одной странице (3..30) */
-    private $listsSize;
+    private $maxListSize;
 
     /** @var int Размер страницы (700..15000) */
     private $maxPageSize;
@@ -82,7 +82,7 @@ class ViewOptions
     {
         $o = explode('|', $viewOptions);
 
-        $this->setListsSize($o[0]);
+        $this->setMaxListSize($o[0]);
         $this->setMaxPageSize($o[1]);
         $this->setReportIncoming($o[2]);
         $this->setShowDesc($o[3]);
@@ -104,7 +104,7 @@ class ViewOptions
     public function toString()
     {
         return implode('|', [
-            $this->getListsSize(),
+            $this->getMaxListSize(),
             $this->getMaxPageSize(),
             $this->getReportIncoming(),
             $this->getShowDesc(),
@@ -124,9 +124,9 @@ class ViewOptions
      *
      * @return int
      */
-    public function getListsSize()
+    public function getMaxListSize()
     {
-        return $this->listsSize;
+        return $this->maxListSize;
     }
 
     /**
@@ -134,11 +134,11 @@ class ViewOptions
      *
      * Если размер списка превышает его, то будет разбит на несколько с возможностью перелистывания.
      *
-     * @param int $listsSize
+     * @param int $maxListSize
      */
-    public function setListsSize($listsSize)
+    public function setMaxListSize($maxListSize)
     {
-        $this->listsSize = intval($listsSize);
+        $this->maxListSize = intval($maxListSize);
     }
 
     /**
