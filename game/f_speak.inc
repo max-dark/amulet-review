@@ -11,6 +11,8 @@
  * @global sid
  */
 
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 if (empty($speak)) {
     return;
 }
@@ -921,7 +923,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                                 $start = 0;
                             }
                             $keys = array_keys($arr_skills);
-                            for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+                            $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+                            for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
                                 if ($keys[$i] != 'str' && $keys[$i] != 'dex' && $keys[$i] != 'int') {
                                     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&skilldown=" . $keys[$i] . "\">" .
                                         $arr_title[$keys[$i]] . ": " . $skills[$arr_skills[$keys[$i]]] . "</a>";
@@ -930,12 +933,12 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                             if (count($keys) > 1 && $start) {
                                 $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
                             }
-                            if ($start + $g_list < count($keys)) {
+                            if ($listEnd < count($keys)) {
                                 if ( ! $start) {
                                     $stmp .= "\n<br/>";
                                 }
-                                $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($start + $g_list) . "\">+ (" .
-                                    (count($keys) - $start - $g_list) . ")</a>";
+                                $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . $listEnd . "\">+ (" .
+                                    (count($keys) - $listEnd) . ")</a>";
                             }
                             msg($stmp, $tchar[0]);
                         }
