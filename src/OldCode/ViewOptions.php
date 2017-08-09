@@ -200,12 +200,10 @@ class ViewOptions
 
     /**
      * @param int $menuMode
-     * @return int
      */
-    public function &setMenuMode($menuMode)
+    public function setMenuMode($menuMode)
     {
         $this->menuMode = intval($menuMode);
-        return $this->menuMode;
     }
 
     /**

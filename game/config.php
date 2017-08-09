@@ -140,17 +140,15 @@ $g_list = &$pageOpt->setListsSize(5);
  */
 $g_size = &$pageOpt->setMaxPageSize(2200);
 
-/**
+/*
  * Тип меню.
  *
  * 0 - полное,
  * 1 - сокращенное,
  * 2 - на отдельной странице,
  * 3 - в виде ссылок (если не видно обычное меню)
- *
- * @var int $g_menu
  */
-$g_menu = &$pageOpt->setMenuMode(MenuMode::FULL);
+$pageOpt->setMenuMode(MenuMode::FULL);
 
 /*
  * Дополнительные пункты в меню для быстрого доступа к предметам и умениям.

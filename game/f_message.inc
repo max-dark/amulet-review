@@ -52,7 +52,7 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $g_size, $g_list, $g_menu;
+    global $g_size, $g_list;
     global $g_query_string;
 
     $viewOpt = ViewOptions::getInstance();
@@ -77,7 +77,7 @@ function msg(
      * Флаг, что перешли с главной страницы.
      * Как комманда показать меню в виде "действий"(<do></do> tag).
      *
-     * is_page_mode_menu = (!$is_page_mode_menu && $page_type == PageType::MAIN && $g_menu == MenuMode::PAGE)
+     * is_page_mode_menu = (!$is_page_mode_menu && $page_type == PageType::MAIN && $menuMode == MenuMode::PAGE)
      * is_page_mode_menu = is_page_mode_menu && ! is_links_mode_menu;
      *
      * @var $isMenuInPageMode bool
@@ -87,7 +87,7 @@ function msg(
      * Флаг, что перешли с главной(page_type == 'main') страницы.
      * Как комманда показать меню в виде ссылок(<a></a> tag) на отдельной странице.
      *
-     * is_links_mode_menu = (!$is_links_mode_menu && $page_type == PageType::MAIN && $g_menu == MenuMode::LINKS)
+     * is_links_mode_menu = (!$is_links_mode_menu && $page_type == PageType::MAIN && $menuMode == MenuMode::LINKS)
      * is_links_mode_menu = is_links_mode_menu && ! is_page_mode_menu;
      *
      * @var $isMenuInLinksMode bool
@@ -192,7 +192,7 @@ function msg(
     if ($bsize || ! $show_journal || ! $page_journal) {
         $wml .= buildMainCard(
             $page_title, $message, $page_type, $currentUser, $var_name, $var_value, $url_base,
-            $isMenuInPageMode, $isMenuInLinksMode, $g_menu, $viewOpt->getMapMode()
+            $isMenuInPageMode, $isMenuInLinksMode, $viewOpt->getMenuMode(), $viewOpt->getMapMode()
         );
     }
     #end: формирование страницы

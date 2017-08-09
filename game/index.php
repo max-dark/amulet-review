@@ -22,7 +22,6 @@ use MaxDark\Amulet\OldCode\ViewOptions;
  * @global use
  * @global id
  * @global g_list
- * @global g_menu
  */
 
 require_once('config.php'); // настройки игры
