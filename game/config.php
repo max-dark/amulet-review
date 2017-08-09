@@ -192,7 +192,7 @@ $g_joff = &$pageOpt->setJournalDisabled(0);
  */
 $pageOpt->setUseSmallFont(0);
 
-/**
+/*
  * Отображение ссылки на карту и ее тип.
  *
  * 0 - отключена
@@ -200,9 +200,8 @@ $pageOpt->setUseSmallFont(0);
  * 2 - цветная JPEG
  * 3 - цветная PNG
  *
- * @var int $g_map
  */
-$g_map = &$pageOpt->setMapMode(3);
+$pageOpt->setMapMode(3);
 
 /*
  * "Звуки".

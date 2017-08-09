@@ -282,12 +282,10 @@ class ViewOptions
 
     /**
      * @param int $mapMode
-     * @return int
      */
-    public function &setMapMode($mapMode)
+    public function setMapMode($mapMode)
     {
         $this->mapMode = intval($mapMode);
-        return $this->mapMode;
     }
 
     /**

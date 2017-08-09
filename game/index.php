@@ -21,7 +21,6 @@ use MaxDark\Amulet\OldCode\ViewOptions;
  * @global to
  * @global use
  * @global id
- * @global g_map
  * @global g_list
  * @global g_menu
  * @global g_smenu
@@ -462,7 +461,13 @@ if ($list || $list = $cl) {
 }
 // показать карту и завершить работу скрипта
 if (false !== $map) {
-    msg(MapPage::buildPage($loc, $game, $g_map, $PHP_SELF, $sid));
+    msg(MapPage::buildPage(
+        $loc,
+        $game,
+        ViewOptions::getInstance()->getMapMode(),
+        $PHP_SELF,
+        $sid
+    ));
 }
 
 // MAIN PAGE

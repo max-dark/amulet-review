@@ -52,7 +52,7 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $g_size, $g_list, $g_menu, $g_j2loc, $g_joff, $g_map;
+    global $g_size, $g_list, $g_menu, $g_j2loc, $g_joff;
     global $g_query_string;
 
     $viewOpt = ViewOptions::getInstance();
@@ -123,7 +123,7 @@ function msg(
     if ($isMenuInLinksMode) {
         $show_journal = false;
         $viewOpt->setDescEnabled(false);
-        $message = menu_links($url_base, $currentUser, $g_map);
+        $message = menu_links($url_base, $currentUser, $viewOpt->getMapMode());
     }
     
     #start: подготовка журнала
@@ -192,7 +192,7 @@ function msg(
     if ($bsize || ! $show_journal || ! $page_journal) {
         $wml .= buildMainCard(
             $page_title, $message, $page_type, $currentUser, $var_name, $var_value, $url_base,
-            $isMenuInPageMode, $isMenuInLinksMode, $g_menu, $g_map
+            $isMenuInPageMode, $isMenuInLinksMode, $g_menu, $viewOpt->getMapMode()
         );
     }
     #end: формирование страницы
