@@ -10,10 +10,11 @@ namespace MaxDark\Amulet\OldCode;
 /**
  * Class ViewOptions
  *
- * Опции отображения страницы
+ * Хранит опции отображения страницы.
  *
- * Сеттеры возвращают ссылки на данные.
- * Это временная мера пока идет замена старых переменных
+ * Доступ реализован через Singleton.
+ *
+ * TODO: В дальнейшем нужно переделать на поле класса User
  *
  * @package MaxDark\Amulet\OldCode
  */
@@ -129,6 +130,10 @@ class ViewOptions
     }
 
     /**
+     * Количество элементов списка на одной странице (3..30).
+     *
+     * Если размер списка превышает его, то будет разбит на несколько с возможностью перелистывания.
+     *
      * @param int $listsSize
      */
     public function setListsSize($listsSize)
@@ -137,6 +142,8 @@ class ViewOptions
     }
 
     /**
+     * Размер страницы (700..15000)
+     *
      * @return int
      */
     public function getMaxPageSize()
@@ -145,6 +152,8 @@ class ViewOptions
     }
 
     /**
+     * Размер страницы (700..15000)
+     *
      * @param int $maxPageSize
      */
     public function setMaxPageSize($maxPageSize)
@@ -153,6 +162,8 @@ class ViewOptions
     }
 
     /**
+     * Сообщать о приходящих (1-вкл,0-выкл)
+     *
      * @return bool|int
      */
     public function getReportIncoming()
@@ -161,6 +172,8 @@ class ViewOptions
     }
 
     /**
+     * Сообщать о приходящих (1-вкл,0-выкл)
+     *
      * @param bool|int $reportIncoming
      */
     public function setReportIncoming($reportIncoming)
@@ -169,6 +182,8 @@ class ViewOptions
     }
 
     /**
+     * Отображение описания локаций при переходе (1-вкл,0-выкл)
+     *
      * @return bool|int
      */
     public function getShowDesc()
@@ -177,6 +192,8 @@ class ViewOptions
     }
 
     /**
+     * Отображение описания локаций при переходе (1-вкл,0-выкл)
+     *
      * @param bool|int $showDesc
      */
     public function setShowDesc($showDesc)
@@ -185,6 +202,13 @@ class ViewOptions
     }
 
     /**
+     * Тип меню.
+     *
+     * 0 - полное,
+     * 1 - сокращенное,
+     * 2 - на отдельной странице,
+     * 3 - в виде ссылок (если не видно обычное меню)
+     *
      * @return int
      */
     public function getMenuMode()
@@ -193,6 +217,13 @@ class ViewOptions
     }
 
     /**
+     * Тип меню.
+     *
+     * 0 - полное,
+     * 1 - сокращенное,
+     * 2 - на отдельной странице,
+     * 3 - в виде ссылок (если не видно обычное меню)
+     *
      * @param int $menuMode
      */
     public function setMenuMode($menuMode)
@@ -201,6 +232,13 @@ class ViewOptions
     }
 
     /**
+     * "Звуки".
+     *
+     * Определяет как показывается наличие пользователей/НПС в соседних локах
+     *
+     * 0 - в виде списка названий переходов
+     * 1 - "!" рядом с переходами
+     *
      * @return bool|int
      */
     public function getSoundsMode()
@@ -224,6 +262,8 @@ class ViewOptions
     }
 
     /**
+     * Отключить отображение журнала (1-да,0-нет)
+     *
      * @return bool|int
      */
     public function getJournalDisabled()
@@ -232,6 +272,8 @@ class ViewOptions
     }
 
     /**
+     * Отключить отображение журнала (1-да,0-нет)
+     *
      * @param bool|int $journalDisabled
      */
     public function setJournalDisabled($journalDisabled)
@@ -240,6 +282,12 @@ class ViewOptions
     }
 
     /**
+     * Дополнительные пункты в меню для быстрого доступа к предметам и умениям.
+     *
+     * (0-откл,1-магия,2-предмет,3-прием)
+     * и кол-во горячих клавиш для каждого пункта (0..9),
+     * порядок произвольный. Пример: 332110
+     *
      * @return int
      */
     public function getUserMenu()
@@ -248,6 +296,12 @@ class ViewOptions
     }
 
     /**
+     * Дополнительные пункты в меню для быстрого доступа к предметам и умениям.
+     *
+     * (0-откл,1-магия,2-предмет,3-прием)
+     * и кол-во горячих клавиш для каждого пункта (0..9),
+     * порядок произвольный. Пример: 332110
+     *
      * @param int $userMenu
      */
     public function setUserMenu($userMenu)
@@ -256,6 +310,13 @@ class ViewOptions
     }
 
     /**
+     * Отображение ссылки на карту и ее тип.
+     *
+     * 0 - отключена
+     * 1 - ч/б
+     * 2 - цветная JPEG
+     * 3 - цветная PNG
+     *
      * @return int
      */
     public function getMapMode()
@@ -264,6 +325,13 @@ class ViewOptions
     }
 
     /**
+     * Отображение ссылки на карту и ее тип.
+     *
+     * 0 - отключена
+     * 1 - ч/б
+     * 2 - цветная JPEG
+     * 3 - цветная PNG
+     *
      * @param int $mapMode
      */
     public function setMapMode($mapMode)
@@ -272,6 +340,10 @@ class ViewOptions
     }
 
     /**
+     * Использовать маленький шрифт.
+     *
+     * 1-да, 0-нет
+     *
      * @return bool|int
      */
     public function getUseSmallFont()
@@ -280,6 +352,10 @@ class ViewOptions
     }
 
     /**
+     * Использовать маленький шрифт.
+     *
+     * 1-да, 0-нет
+     *
      * @param bool|int $useSmallFont
      */
     public function setUseSmallFont($useSmallFont)
