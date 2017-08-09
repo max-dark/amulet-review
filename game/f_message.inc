@@ -52,7 +52,7 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $g_size, $g_list, $g_menu, $g_j2loc, $g_joff, $g_smf, $g_map;
+    global $g_size, $g_list, $g_menu, $g_j2loc, $g_joff, $g_map;
     global $g_query_string;
 
     $viewOpt = ViewOptions::getInstance();
@@ -197,7 +197,7 @@ function msg(
     }
     #end: формирование страницы
     // Используется "маленикий шрифт"?
-    if ($g_smf && strpos($wml, '<input') === false) {
+    if ($viewOpt->getUseSmallFont() && strpos($wml, '<input') === false) {
         $wml = preg_replace([
             "'(<p [^>]*>)'u",
             "'<p>'u",

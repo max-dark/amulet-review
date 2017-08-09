@@ -300,12 +300,10 @@ class ViewOptions
 
     /**
      * @param bool|int $useSmallFont
-     * @return bool|int
      */
-    public function &setUseSmallFont($useSmallFont)
+    public function setUseSmallFont($useSmallFont)
     {
         $this->useSmallFont = intval($useSmallFont);
-        return $this->useSmallFont;
     }
 
     /**
