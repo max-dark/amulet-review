@@ -21,7 +21,6 @@ use MaxDark\Amulet\OldCode\ViewOptions;
  * @global to
  * @global use
  * @global id
- * @global g_list
  */
 
 require_once('config.php'); // настройки игры
@@ -534,8 +533,9 @@ $ti = explode("x", $loc);
 if ( ! $start) {
     $start = 0;
 }
+$listEnd = $start + ViewOptions::getInstance()->getListsSize();
 $keys = array_keys($loc_i[$loc]);
-for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($keys[$i] != $login) {
         $k = '';
         // предметы
@@ -618,12 +618,12 @@ if (count($keys) > 1 && $start) {
     // к началу списка
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">^ </a>";
 }
-if ($start + $g_list < count($keys)) {
+if ($listEnd < count($keys)) {
     if ( ! $start) {
         $stmp .= "<br/>";
     }
     // к следующей части списка
-    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&start=" . ($start + $g_list) . "\">+ (" . (count($keys) - $start - $g_list) .
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&start=" . ($listEnd) . "\">+ (" . (count($keys) - $listEnd) .
              ")</a>";
 }
 #end: "пагинация" списка объектов
