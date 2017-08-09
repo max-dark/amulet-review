@@ -10,10 +10,11 @@
  * @global PHP_SELF
  * @global char
  * @global tchar
- * @global g_list
  * @global id
  */
 // если не указан предмет, то список
+use MaxDark\Amulet\OldCode\ViewOptions;
+
 $died = explode("|", $loc_i[$loc][$take]);
 if ($died[3]) {
     $items = explode(",", $died[3]);
@@ -46,7 +47,8 @@ if ($died[3]) {
             $start = 0;
         }
         $keys = array_keys($items);
-        for ($i = $start; $i < $start + $g_list && $i < count($keys); $i++) {
+        $listEnd = $start + ViewOptions::getInstance()->getListsSize();
+        for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
             if ($items[$keys[$i]]) {
                 $k = explode(":", $items[$keys[$i]]);
                 $item = findItemByFullId($k[0]);
@@ -64,12 +66,12 @@ if ($died[3]) {
         if ($start) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take\">^ </a>";
         }
-        if ($start + $g_list < count($keys) - 1) {
+        if ($listEnd < count($keys) - 1) {
             if ( ! $start) {
                 $stmp .= "\n<br/>";
             }
-            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&take=$take&start=" . ($start + $g_list) . "\">+ (" .
-                     (count($keys) - $start - $g_list) . ")</a>";
+            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&take=$take&start=" . $listEnd . "\">+ (" .
+                     (count($keys) - $listEnd) . ")</a>";
         }
         $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)\">Взять</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)&all=1\">Взять все</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&from=$take&look=$(to)\">Инфо</a>";
         msg($stmp, $died[0]);
