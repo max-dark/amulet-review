@@ -52,7 +52,6 @@ function msg(
     $var_value = ''
 ) {
     global $game, $g_admin, $gm, $login, $loc, $loc_i, $sid, $gm_id;
-    global $g_list;
     global $g_query_string;
 
     $viewOpt = ViewOptions::getInstance();
@@ -158,8 +157,8 @@ function msg(
     if ($page_journal && $show_journal) {
         // урезать количество записей в журнале
         $pieces = explode('<br/>', $page_journal);
-        if (count($pieces) > $g_list) {
-            array_splice($pieces, 0, count($pieces) - $g_list);
+        if (count($pieces) > $viewOpt->getListsSize()) {
+            array_splice($pieces, 0, count($pieces) - $viewOpt->getListsSize());
             $page_journal = implode('<br/>', $pieces);
         }
     }
