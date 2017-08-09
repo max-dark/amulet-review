@@ -130,13 +130,10 @@ class ViewOptions
 
     /**
      * @param int $listsSize
-     * @return int reference
      */
-    public function &setListsSize($listsSize)
+    public function setListsSize($listsSize)
     {
         $this->listsSize = intval($listsSize);
-
-        return $this->listsSize;
     }
 
     /**
