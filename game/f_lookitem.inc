@@ -12,6 +12,9 @@
  * @global char
  * @global $look
  */
+
+use MaxDark\Amulet\OldCode\Transliterate;
+
 $tlook = $look;
 $look = getBaseItemId($look);
 if (substr($look, 0, 6) != 'i.s.d.') {
@@ -108,8 +111,7 @@ if (substr($look, 0, 6) == 'i.s.d.') {
             } elseif (substr($tlook, 0, 5) == 'i.ms_') {
                 $stmp .= "После использования этого свитка рядом появится <b>";
                 if (strpos(substr($tlook, 5), "_") !== false) {
-                    include "f_translit.inc";
-                    $stmp .= trans(substr($tlook, strrpos($tlook, "_") + 1));
+                    $stmp .= Transliterate::convert(substr($tlook, strrpos($tlook, "_") + 1));
                 } else {
 
                     $npc = loadNpcById(substr($tlook, 5));

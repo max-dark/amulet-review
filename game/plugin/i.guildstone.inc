@@ -14,6 +14,7 @@
  */
 // камень гильдии
 
+use MaxDark\Amulet\OldCode\Transliterate;
 use MaxDark\Amulet\OldCode\ViewOptions;
 
 $tc = explode("|", $loc_i[$loc][$login]["char"]);
@@ -100,8 +101,7 @@ if (isset($tmp["g"][$login])) {    // гилдмастер
                     $write = "";
                 } else {
                     if ($translit) {
-                        include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
-                        $write = trans($write);
+                        $write = Transliterate::convert($write);
                     }
                     // UTF-8 русские буквы
                     $s = $write;

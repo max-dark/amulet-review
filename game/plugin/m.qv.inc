@@ -29,6 +29,8 @@
  * @global num
  */
 
+use MaxDark\Amulet\OldCode\Transliterate;
+
 if ( ! $do) {
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
     $tw = explode("|", $loc_i[$loc][$login]["war"]);
@@ -101,8 +103,7 @@ if ($do == "say") {
         msg("Нет текста для отправки");
     }
     if ($translit) {
-        include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
-        $text = trans($text);
+        $text = Transliterate::convert($text);
     }
     $text = tsrus($text);
     $tl   = [];
@@ -166,10 +167,9 @@ if ($do == "set") {
     }
     $tc = explode("|", $loc_i[$loc][$login]["char"]);
     if ($translit) {
-        include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
-        $name  = trans($name);
-        $sweap = trans($sweap);
-        $sdesc = trans($sdesc);
+        $name  = Transliterate::convert($name);
+        $sweap = Transliterate::convert($sweap);
+        $sdesc = Transliterate::convert($sdesc);
     }
     if ($sdesc) {
         $loc_i[$loc][$login]["qvi"] = tsrus($sdesc);
@@ -227,11 +227,10 @@ if ($do == "sum") {
         msg("Существа с id=$tsum не существует");
     }
     if ($tr && ($tsq || $tsn || $tqn)) {
-        include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
-        $tsq = trans($tsq);
+        $tsq = Transliterate::convert($tsq);
     }
     if ($tsq) {
-        $tsq = trans($tsq);
+        $tsq = Transliterate::convert($tsq);
         $tsq = tsrus($tsq);
         if ( ! $tsq) {
             msg("Нет названия оружия");
@@ -242,7 +241,7 @@ if ($do == "sum") {
     }
     if ($tsn) {
         $tsn = tsrus($tsn);
-        $tsn = trans($tsn);
+        $tsn = Transliterate::convert($tsn);
         $tc  = explode("|", $npc["char"]);
         if ( ! $tsn) {
             msg("Нет имени");
@@ -274,16 +273,16 @@ if ($do == "sum") {
 
         if ($tr) {
             if ($tqn[0]) {
-                $tqn[0] = trans($tqn[0]);
+                $tqn[0] = Transliterate::convert($tqn[0]);
             }
             if ($tqn[1]) {
-                $tqn[1] = trans($tqn[1]);
+                $tqn[1] = Transliterate::convert($tqn[1]);
             }
             if ($tqn[2]) {
-                $tqn[2] = trans($tqn[2]);
+                $tqn[2] = Transliterate::convert($tqn[2]);
             }
             if ($tqn[5]) {
-                $tqn[5] = trans($tqn[5]);
+                $tqn[5] = Transliterate::convert($tqn[5]);
             }
         }
         $tqn[0] = tsrus($tqn[0]);

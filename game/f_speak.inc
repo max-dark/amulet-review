@@ -11,6 +11,7 @@
  * @global sid
  */
 
+use MaxDark\Amulet\OldCode\Transliterate;
 use MaxDark\Amulet\OldCode\ViewOptions;
 
 if (empty($speak)) {
@@ -544,8 +545,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                                 msg("Имя должно быть не длиннее 10 символов");
                             }
                             if ($tr = Request('tr')) {
-                                include "f_translit.inc";
-                                $new = trans($new);
+                                $new = Transliterate::convert($new);
                             }
                             $s = $new;
                             // UTF-8 русские буквы

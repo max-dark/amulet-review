@@ -9,6 +9,8 @@
  */
 // призыв монстра
 
+use MaxDark\Amulet\OldCode\Transliterate;
+
 manageItems($loc, $login, "", $use, 1, "items", "items", 1, 0, 1);    // удаляем свиток
 $inp  = substr($use, 5);
 $name = "";
@@ -27,8 +29,7 @@ $npc = loadNpcById($inp);
 $tc  = explode("|", $npc["char"]);
 
 if ($name) {
-    include __DIR__ . DIRECTORY_SEPARATOR . "../f_translit.inc";
-    $name = trans($name);
+    $name = Transliterate::convert($name);
     if ( ! $name || $name == " ") {
         msg("Неверное имя");
     }
