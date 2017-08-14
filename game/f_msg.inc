@@ -15,6 +15,7 @@
  * @global translit
  */
 
+use MaxDark\Amulet\OldCode\Transliterate;
 use MaxDark\Amulet\OldCode\ViewOptions;
 
 if ($msg) {
@@ -201,8 +202,7 @@ TAG;
             $text = substr($text, 0, strpos($text, "?sid="));
         }
         if ($translit) {
-            include "f_translit.inc";
-            $text = trans($text);
+            $text = Transliterate::convert($text);
         }
 
         $s = $text;

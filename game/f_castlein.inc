@@ -19,6 +19,8 @@
  */
 
 // проверка флага лидерства
+use MaxDark\Amulet\OldCode\Transliterate;
+
 if ($game["fid"] != $login && intval($game["floc"]{2}) == $loc{2}) {
     loadloc($game["floc"]);
     if ( ! $game["fid"] || ! isset($loc_i[$game["floc"]][$game["fid"]])) {
@@ -110,8 +112,7 @@ if ($clanc) {    // инфа
         } else {
             if ($ctext) {
                 if ($translit == 1) {
-                    include "f_translit.inc";
-                    $ctext = trans($ctext);
+                    $ctext = Transliterate::convert($ctext);
                 }
                 $ctext                 = preg_replace('/([^ ,!.?А-я#])|\$|&/e', "", $ctext);
                 $ctext                 = str_replace("#", "", $ctext);
