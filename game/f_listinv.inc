@@ -82,7 +82,7 @@ if ($loc_i[$loc][$login]["items"] == "") {
     }
 
     // меню
-    $stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n<p>\n";
+    $stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n<p>\n";
     $stmp .= "<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&use=$(to)\">Использовать</a>\n<br/>";
     $stmp .= "<a class=\"btn btn-outline-danger btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&drop=$(to)\">Бросить</a>";
     if (isset($loc_i[$loc][$loc_i[$loc][$login]["trade"]["to"]])) {
@@ -95,7 +95,7 @@ if ($loc_i[$loc][$login]["items"] == "") {
 } // items!=""
 
 // персонаж
-$stmp .= "\n</p>\n</div>\n<div id=\"char\" title=\"Меню\">\n<p>";
+$stmp .= "\n</p>\n</div>\n<div id=\"char\" class=\"d-none\" title=\"Меню\">\n<p>";
 $stmp .= "<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=magic\">Магия</a><br/>";
 $stmp .= "<a class=\"btn btn-outline-success btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=skill\">Навыки</a><br/>";
 $stmp .= "<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=priem\">Приемы</a><br/>";

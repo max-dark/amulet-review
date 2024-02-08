@@ -1,14 +1,14 @@
 $(document).ready(function () {
     // Select all buttons with type="options"
-    $('button[type="options"], button[type="accept"]').each(function () {
-        var label = $(this).attr('label'); // Extract the label attribute
-        // Assuming the <a> tag is supposed to be somewhere related but not inside the button
-        // For demonstration, we're selecting an <a> tag following this button
-        $(this).find('a').first().html(label); // Set the label as the innerHTML of the <a> tag
-        $(this).children('prev').first().html(label);
-    });
-    $('#menu').toggleClass('d-none');
-    $('#char').toggleClass('d-none');
+    // $('button[type="options"], button[type="accept"]').each(function () {
+    //     var label = $(this).attr('label'); // Extract the label attribute
+    //     // Assuming the <a> tag is supposed to be somewhere related but not inside the button
+    //     // For demonstration, we're selecting an <a> tag following this button
+    //     $(this).find('a').first().html(label); // Set the label as the innerHTML of the <a> tag
+    //     $(this).children('prev').first().html(label);
+    // });
+    // $('#menu').toggleClass('d-none');
+    // $('#char').toggleClass('d-none');
     $('a[data-content="template"]').each(function () {
         let to = $(this).attr('label');
         let content = $('#menu').html().replaceAll('$(to)', to);

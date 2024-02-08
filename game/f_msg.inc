@@ -83,7 +83,7 @@ if ($msg) {
 <br/><br/><a href="?sid=$sid&msg=help">Помощь</a>
 </p>
 </div>
-<div id="menu" title="Меню">
+<div id="menu" class="d-none" title="Меню">
 <p>
 <a href="#write">Написать</a><br/>
 [<a href="?sid=$sid&msg=up&id=$(to)">Вверх</a> | <a href="?sid=$sid&msg=down&id=$(to)">Вниз</a>]

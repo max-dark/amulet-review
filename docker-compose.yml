@@ -4,8 +4,8 @@ services:
     build: .
     ports:
     - 80:80
-    # volumes:
-    #   - .:/var/www/html
+    volumes:
+      - .:/var/www/html
 
   db:
     image: mysql:8

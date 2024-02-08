@@ -1,10 +1,12 @@
 <?php
 
-header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");
+header("Expires: Thu, 01 Jan 2025 00:00:01 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Content-type:text/html;charset=utf-8");
+header("Refresh:5;/game/");
+header("Keep-Alive: timeout=50, max=250");
 ?>
 <!DOCTYPE html>
 <html>

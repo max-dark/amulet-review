@@ -26,8 +26,6 @@ use MaxDark\Amulet\OldCode\ViewOptions;
 require_once('config.php'); // настройки игры
 require_once('game_function.php'); // игровые функции
 
-const DEBUG = true;
-
 $QUERY_STRING = get_value($_SERVER, 'QUERY_STRING');
 
 $g_query_string = $QUERY_STRING;
@@ -674,7 +672,7 @@ if ($login == $g_admin || ($gm_id && $gm == $gm_id)) {
 }
 
 // MENU
-$stmp .= "</p></div><div id=\"menu\" title=\"Меню\"><p>";
+$stmp .= "</p></div><div id=\"menu\" class=\"d-none\" title=\"Меню\"><p>";
 $stmp .= "<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&cs=$(to)\">Говорить/Взять</a><br/>";
 $stmp .= "<a class=\"btn btn-outline-danger btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&ca=$(to)\">Атаковать</a>";
 $b = "<br/>";

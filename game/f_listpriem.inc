@@ -93,5 +93,5 @@ if ($listEnd < count($keys)) {
         (count($keys) - $listEnd) . ")</a>";
 }
 // карта меню
-$stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n<p><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=priem&up=$(to)\">Вверх</a> | <a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=priem&down=$(to)\">Вниз</a>]\n";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n<p><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=priem&up=$(to)\">Вверх</a> | <a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=priem&down=$(to)\">Вниз</a>]\n";
 msg($stmp, "Приемы", 1);

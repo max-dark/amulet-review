@@ -112,7 +112,7 @@ if ($listEnd < count($keys)) {
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
         (count($keys) - $listEnd) . ")</a>";
 }
-$stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n";
 $stmp .= "<p><a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Забрать из банка</a>\n";
 $stmp .= "<br/><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n";
 $stmp .= "<br/>[<a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&up=$(to)\">Вверх</a> | <a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&down=$(to)\">Вниз</a>]";

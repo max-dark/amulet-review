@@ -26,11 +26,11 @@ if (array_key_exists('img', $_GET)) {
  */
 function msg_m($page)
 {
-    header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");
-    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-    header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
-    header("Pragma: no-cache");
-    header("Content-type: text/html;charset=utf-8");
+    // header("Expires: Thu, 01 Jan 1970 00:00:01 GMT");
+    // header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    // header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
+    // header("Pragma: no-cache");
+    // header("Content-type: text/html;charset=utf-8");
 
     echo <<<XML
 <?xml version="1.0"?>

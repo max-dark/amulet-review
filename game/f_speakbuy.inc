@@ -73,7 +73,7 @@ if ($listEnd < $xF - 1) {
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
         ($xF - $listEnd) . ")</a>";
 }
-$stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n";
 $stmp .= "<p>\n<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Купить</a>\n";
 $stmp .= "<br/><a class=\"btn btn-outline-secondary btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
 msg($stmp, $tchar[0]);
