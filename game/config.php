@@ -64,7 +64,7 @@ $g_max = 100;
  *
  * @var string $g_admin
  */
-$g_admin = 'u.user';
+$g_admin = 'u.computerstein';
 
 /**
  * ключ для входа админом
