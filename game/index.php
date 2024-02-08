@@ -670,7 +670,7 @@ if ($game["fid"] == $login && $game["floc"] == $loc) {
 }
 // переход в админку и воскрешение
 if ($login == $g_admin || ($gm_id && $gm == $gm_id)) {
-    $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&adm=rsn\">res</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=smp&fmust=1\">admin</a>";
+    $stmp .= "<br/><a class=\"btn btn-outline-primary m-1\" href=\"$PHP_SELF?sid=$sid&adm=rsn\">res</a><br/><a class=\"btn btn-outline-primary m-1\" href=\"$PHP_SELF?sid=$sid&adm=smp&fmust=1\">admin</a>";
 }
 
 // MENU

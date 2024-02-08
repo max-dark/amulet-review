@@ -92,7 +92,7 @@ $g_destroy = 600;
  *
  * @var int $g_crim
  */
-$g_crim = 180;
+$g_crim = 1800;
 
 /**
  * @var int $g_exp множитель для экспы
@@ -129,12 +129,12 @@ $pageOpt = ViewOptions::getInstance();
  *
  * Если размер списка превышает его, то будет разбит на несколько с возможностью перелистывания.
  */
-$pageOpt->setMaxListSize(5);
+$pageOpt->setMaxListSize(30);
 
 /**
  * Размер страницы (700..15000)
  */
-$pageOpt->setMaxPageSize(2200);
+$pageOpt->setMaxPageSize(15000);
 
 /*
  * Тип меню.

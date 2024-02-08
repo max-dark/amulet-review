@@ -15,34 +15,37 @@
  */
 // сылка воскрешение для админа
 if ($login == $g_admin || $gm == $gm_id) {
+    $inp = Request('inp');
+    $val = Request('val');
+    $new = Request('new');
     switch ($adm) {
         case 'smp':
             msg(
                 "<p><input name=\"inp\" emptyok=\"true\"/>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=$(inp)\">teleport (loc)</a> <a href=\"#tele\"> [select]</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=mnn&inp=$(inp)\">money (count)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=filter&inp=$(inp)\">additem (filter)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=gdn\">god (" . intval($loc_i[$loc][$login]["god"]) . ")</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=getibm\">[items,bank,magic]</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=view&inp=$(inp)\">view (field|login|loc|t)</a>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=tln&inp=$(inp)\">teleport (loc)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=mnn&inp=$(inp)\">money (count)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=filter&inp=$(inp)\">additem (filter)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=gdn\">god (" . intval($loc_i[$loc][$login]["god"]) . ")</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=getibm\">[items,bank,magic]</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=view&inp=$(inp)\">view (field|login|loc|t)</button>
 	<br/><input name=\"val\" emptyok=\"true\"/>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=adni&inp=$(inp)&val=$(val)&new=$(new)\">add (item,count,[bank|loc])</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=del&inp=$(inp)&val=$(val)&new=$(new)\">delete (item,count|all,[bank])</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=gtp&inp=$(inp)&val=$(val)\">get (field,index)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=unset&inp=$(inp)&val=$(val)\">unset (field,index)</a>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=adni&inp=$(inp)&val=$(val)&new=$(new)\">add (item,count,[bank|loc])</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=del&inp=$(inp)&val=$(val)&new=$(new)\">delete (item,count|all,[bank])</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=gtp&inp=$(inp)&val=$(val)\">get (field,index)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=unset&inp=$(inp)&val=$(val)\">unset (field,index)</button>
 	<br/><input name=\"new\" emptyok=\"true\"/>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=stn&inp=$(inp)&val=$(val)&new=$(new)\">set (field,index,val)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=skillinfo\">[skill info]</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=locmail&inp=$(inp)\">mail_loc(email)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=reploc&inp=$(inp)\">load_bank(npc)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=resp&inp=$(inp)&val=$(val)&new=$(new)\">timer (id,min,max)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=guard&inp=$(inp)\">guard (1|0)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=setgclan&inp=$(inp)&val=$(val)\">setgclan (clan,glava)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=ban&inp=$(inp)\">CLEAR(skills=1)</a>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=stn&inp=$(inp)&val=$(val)&new=$(new)\">set (field,index,val)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=skillinfo\">[skill info]</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=locmail&inp=$(inp)\">mail_loc(email)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=reploc&inp=$(inp)\">load_bank(npc)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=resp&inp=$(inp)&val=$(val)&new=$(new)\">timer (id,min,max)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=guard&inp=$(inp)\">guard (1|0)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=setgclan&inp=$(inp)&val=$(val)\">setgclan (clan,glava)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=ban&inp=$(inp)\">CLEAR(skills=1)</button>
 	<br/>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=stop&inp=$(inp)\">stop 5 min(msg)</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=play\">play (msg: " . intval(isset($game["msg"])) . ")</a>
-	<br/><a href=\"$PHP_SELF?sid=$sid&adm=blank\">blank world</a>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=stop&inp=$(inp)\">stop 5 min(msg)</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=play\">play (msg: " . intval(isset($game["msg"])) . ")</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=blank\">blank world</button>
 	\n</p>\n</div>\n<div id=\"tele\" title=\"Телепорт\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=_begin\">Начало</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1092x474\">Банк</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1284x393\">Кладбище</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x902x254\">Замок</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1486x247\">Пещера</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2169x273\">Ансалон</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x1778x493\">Крепость</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=tln&inp=x2247x786\">Подземелье</a>",
                 $loc,
                 0

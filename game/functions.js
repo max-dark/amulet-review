@@ -36,4 +36,11 @@ $(document).ready(function () {
         href = $(this).attr('href').replaceAll('$(nn)', nn);
         window.location.href = href;
     });
+    $('button[type="admin"]').click(function () {
+        inp = $('input[name="inp"]').val();
+        val = $('input[name="val"]').val();
+        newval = $('input[name="new"]').val();
+        href = $(this).attr('href').replaceAll('$(inp)', inp).replaceAll('$(val)', val).replaceAll('$(new)', newval);
+        window.location.href = href;
+    });
 });
