@@ -19,11 +19,11 @@ if (time() > $game["lastai"] + 240) {
     // обновим список
     include "f_online.inc";
 }
-$stmp   = "";
-if ( ! $start) {
+$stmp = "";
+if (!$start) {
     $start = 0;
 }
-$i  = -1;
+$i = -1;
 $listSize = 10;
 $listEnd = $start + $listSize;
 
@@ -40,7 +40,7 @@ while (($fname = readdir($dh)) !== false) {
                 $tmp[$it] = str_replace("\n", "", $tmp[$it]);
                 $tmp[$it] = str_replace("\r", "", $tmp[$it]);
             }
-            if ( ! $tmp[0]) {
+            if (!$tmp[0]) {
                 @unlink("online/" . $fname);
                 $i--;
                 continue;
@@ -67,16 +67,16 @@ if ($i > -1) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=online\">^ </a>";
     }
     if ($listEnd < $i + 1) {
-        if ( ! $start) {
+        if (!$start) {
             $stmp .= "\n<br/>";
         }
         $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=online&start=" . $listEnd . "\">+ (" .
-                 ($i + 1 + 1 - $listEnd) . ")</a>";
+            ($i + 1 + 1 - $listEnd) . ")</a>";
     }
 } else {
     $stmp = "<p>Сейчас в игре никого нет";
 }
 
-$stmp .= "\n<br/><br/><anchor>[Назад]<prev/></anchor>";
+$stmp .= "\n<br/><br/><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>";
 
 msg($stmp, "Онлайн", 0, PageType::GUEST);

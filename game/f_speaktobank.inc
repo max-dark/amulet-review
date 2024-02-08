@@ -24,11 +24,11 @@ if ($speak == "n.p.bankir" && $char[14] != "p") {
 // список
 $items = explode("|", $loc_i[$loc][$login]["items"]);
 
-if ( ! $items) {
+if (!$items) {
     msg("У вас нет ни одного предмета", $tchar[0]);
 }
 $stmp = "<p>Выберите предмет:";
-if ( ! $start) {
+if (!$start) {
     $start = 0;
 }
 $keys = array_keys($items);
@@ -47,19 +47,18 @@ for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         if (strpos($loc_i[$loc][$login]["equip"], $k[0]) !== false) {
             $item .= " [одето]";
         }
-        $stmp .= "\n<br/><anchor>" . $item . "<go href=\"#menu\"><setvar name=\"to\" value=\"" . $k[0] .
-                 "\"/></go></anchor>";
+        $stmp .= "\n" . '<br/><a tabindex="0" class="btn btn-secondary m-1" role="button" data-trigger="focus" data-toggle="popover" data-content="template" title="' . $item . '" label="' . $k[0] . '">' . $item . '</a>';
     }
 }
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
 }
 if ($listEnd < count($keys)) {
-    if ( ! $start) {
+    if (!$start) {
         $stmp .= "\n<br/>";
     }
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
-             (count($keys) - $listEnd) . ")</a>";
+        (count($keys) - $listEnd) . ")</a>";
 }
-$stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Положить в банк</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n<p>\n<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Положить в банк</a>\n<br/><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
 msg($stmp, $tchar[0]);

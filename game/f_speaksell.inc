@@ -38,16 +38,16 @@ if ($filter) {
                 break;
             }
         }
-        if ( ! $b) {
+        if (!$b) {
             unset($items[$i]);
         }
     }
     $items = implode("|", $items);
 }
 $items = preg_replace('/\|?i\.money:(\d+)/', "", $items);
-$stmp  = "";
-$xF    = preg_match_all("'([^|]+):(\d+)'", $items, $regF);
-if ( ! $start) {
+$stmp = "";
+$xF = preg_match_all("'([^|]+):(\d+)'", $items, $regF);
+if (!$start) {
     $start = 0;
 }
 
@@ -65,7 +65,7 @@ for ($i = $start; $i < $listEnd && $i < $xF; $i++) {
             $tmp .= " (" . $itemCount . ")";
         }
         $tmp .= " за " . round($item[1] * $trader[0]) . " монет";
-        $stmp .= "\n<br/><anchor>$tmp<go href=\"#menu\"><setvar name=\"to\" value=\"{$itemId}\"/></go></anchor>";
+        $stmp .= "\n" . '<br/><a tabindex="0" class="btn btn-secondary m-1" role="button" data-trigger="focus" data-toggle="popover" data-content="template" title="' . $tmp . '" label="' . $itemId . '">' . $tmp . '</a>';
     }
 }
 
@@ -78,13 +78,13 @@ if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
 }
 if ($listEnd < $xF - 1) {
-    if ( ! $start) {
+    if (!$start) {
         $stmp .= "\n<br/>";
     }
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
-             ($xF - $listEnd) . ")</a>";
+        ($xF - $listEnd) . ")</a>";
 }
-$stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n";
-$stmp .= "<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Продать</a>\n";
-$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n";
+$stmp .= "<p>\n<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Продать</a>\n";
+$stmp .= "<br/><a class=\"btn btn-outline-secondary btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
 msg($stmp, $tchar[0]);

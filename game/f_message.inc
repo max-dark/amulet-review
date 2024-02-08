@@ -57,11 +57,11 @@ function msg(
     $viewOpt = ViewOptions::getInstance();
     $url_base = "?sid=$sid";
 
-    header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
-    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-    header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
-    header("Pragma: no-cache");
-    header("Content-type:text/vnd.wap.wml;charset=utf-8");
+    // header("Expires: Thu, 01 Jan 2010 00:00:01 GMT");
+    // header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    // header("Cache-Control: no-cache, no-store, must-revalidate, max-age=0");
+    // header("Pragma: no-cache");
+    // header("Content-type:text/vnd.wap.wml;charset=utf-8");
 
     /**
      * флаг пропуска журнала.
@@ -74,14 +74,14 @@ function msg(
 
     /**
      * Флаг, что перешли с главной страницы.
-     * Как комманда показать меню в виде "действий"(<do></do> tag).
+     * Как комманда показать меню в виде "действий"(<do></button> tag).
      *
      * is_page_mode_menu = (!$is_page_mode_menu && $page_type == PageType::MAIN && $menuMode == MenuMode::PAGE)
      * is_page_mode_menu = is_page_mode_menu && ! is_links_mode_menu;
      *
      * @var $isMenuInPageMode bool
      */
-    $isMenuInPageMode  = Request('fm');
+    $isMenuInPageMode = Request('fm');
     /**
      * Флаг, что перешли с главной(page_type == 'main') страницы.
      * Как комманда показать меню в виде ссылок(<a></a> tag) на отдельной странице.
@@ -116,7 +116,7 @@ function msg(
     if ($isMenuInPageMode) {
         $show_journal = false;
         $viewOpt->setDescEnabled(false);
-        $message      = "Нажмите кнопку Меню";
+        $message = "Нажмите кнопку Меню";
     }
     // меню в виде ссылок(<a> tag) на отдельной странице
     if ($isMenuInLinksMode) {
@@ -124,7 +124,7 @@ function msg(
         $viewOpt->setDescEnabled(false);
         $message = menu_links($url_base, $currentUser, $viewOpt->getMapMode());
     }
-    
+
     #start: подготовка журнала
     if ($skip_journal) {
         $show_journal = false;
@@ -147,7 +147,7 @@ function msg(
 
     if ($show_journal && $userJournal) {
         $page_journal = str_replace('|', '<br/>', $userJournal);
-        if ( ! $viewOpt->getReportIncoming()) {
+        if (!$viewOpt->getReportIncoming()) {
             $page_journal = preg_replace('/<br\/>(Пришел|Пришла) [^<]+/u', '', $page_journal);
         }
     }
@@ -176,7 +176,6 @@ function msg(
     if ($page_journal && $show_journal) {
         // страница влезает в ограничения?
         if ($bsize) {
-            // отобразить через <card></card>
             $tmp_url = "#g";
         } else {
             // FIXME: костыль
@@ -188,10 +187,19 @@ function msg(
     #end: формирование журнала
 
     #start: формирование страницы
-    if ($bsize || ! $show_journal || ! $page_journal) {
+    if ($bsize || !$show_journal || !$page_journal) {
         $wml .= buildMainCard(
-            $page_title, $message, $page_type, $currentUser, $var_name, $var_value, $url_base,
-            $isMenuInPageMode, $isMenuInLinksMode, $viewOpt->getMenuMode(), $viewOpt->getMapMode()
+            $page_title,
+            $message,
+            $page_type,
+            $currentUser,
+            $var_name,
+            $var_value,
+            $url_base,
+            $isMenuInPageMode,
+            $isMenuInLinksMode,
+            $viewOpt->getMenuMode(),
+            $viewOpt->getMapMode()
         );
     }
     #end: формирование страницы
@@ -201,17 +209,32 @@ function msg(
             "'(<p [^>]*>)'u",
             "'<p>'u",
             "'</p>'u"
-        ], ['\\1<small>', '<p><small>', '</small></p>'], $wml);
+        ], ['\\1<div>', '<p><div class="visible">', '</div></p>'], $wml);
     }
 
     // wml не позволяет использовать '&' отдельно, заменяем на "&amp;"
-    $wml = str_replace("&amp;", "&", $wml);
-    $wml = str_replace("&", "&amp;", $wml);
+    // $wml = str_replace("&amp;", "&", $wml);
+    // $wml = str_replace("&", "&amp;", $wml);
 
     $page = <<<WML
 <?xml version="1.0"?>
-<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.3//EN" "http://www.wapforum.org/DTD/wml13.dtd">
-<wml>$wml</wml>
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ <script src="/game/functions.js"></script>
+</head>
+<body>
+<div class="container">
+<div class="jumbotron">
+$wml
+</div>
+</div>
+</body>
+</html>
 WML;
     echo $page;
     exit;
@@ -244,7 +267,7 @@ function buildMainCard(
     $menuMode,
     $mapMode
 ) {
-    $wml = '<card id="g" title="' . $pageTitle . '"';
+    $wml = '<div id="g" title="' . $pageTitle . '"';
     // включить автообновление для главной страницы
     if ($pageType == PageType::MAIN) {
         $wml .= " ontimer=\"$url_base\"><timer value=\"600\"/";
@@ -260,17 +283,16 @@ function buildMainCard(
 
     #start: формирование меню
     if ($pageType == PageType::MSG || ($pageType == PageType::INVENTORY && $menuMode != MenuMode::SHORT)) {
-        $wml .= '<do name="b1" type="options" label="В игру">' .
-            "<go href=\"$url_base\"/></do>";
-        $wml .= '<do name="b2" type="accept" label="Назад"><prev/></do>';
+        $wml .= "<a class=\"btn btn-outline-primary m-1\" href=\"$url_base\">В игру</a>";
+        $wml .= '<button class="btn btn-outline-secondary m-1" name="b2" type="accept" label="Назад" onclick="history.back()"><prev>Назад</prev></button>';
     }
     $o = 4;
 
     // только для $pageType == PageType::MAIN
     // добавить ссылку на меню в режиме MenuMode::PAGE
     if ($pageType == PageType::MAIN && $menuMode == MenuMode::PAGE && !$isMenuInPageMode) {
-        $wml .= '<do name="o2" type="options" label="Меню">' .
-            "<go href=\"$url_base&fm=1&cj=1\"/></do>";
+        $wml .= '<button name="o2" type="options" label="Меню">' .
+            "<a href=\"$url_base&fm=1&cj=1\">Меню</a></button>";
         // дальше выводим как "диалоговую"
         $pageType = PageType::MSG;
     }
@@ -280,8 +302,11 @@ function buildMainCard(
     if ($pageType == PageType::MAIN && $menuMode == MenuMode::LINKS && !$isMenuInLinksMode) {
         // FIXME: тот еще костыль...
         // добавляет на главной странице ссылку на страницу с меню.
-        $message = str_replace("</p></card><card id=\"m\"",
-            "<br/><a href=\"$url_base&fm2=1&cj=1\">Меню</a></p></card><card id=\"m\"", $message);
+        $message = str_replace(
+            "</p></div><div id=\"m\"",
+            "<br/><a href=\"$url_base&fm2=1&cj=1\">Меню</a></p></div><div id=\"m\"",
+            $message
+        );
         // дальше выводим как "диалоговую"
         $pageType = PageType::MSG;
     }
@@ -290,44 +315,37 @@ function buildMainCard(
     // доп условие: ($menuMode != MenuMode::LINKS)
     // добавляет список макросов
     if (($pageType == PageType::MAIN || $isMenuInPageMode) && !$isMenuInLinksMode) {
-        $wml .= '<do name="b1" type="options" label="Пeрcoнaж">' .
-            "<go href=\"$url_base&cl=i&cj=1\"/></do>";
+        $wml .= "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base&cl=i&cj=1\">Пeрcoнaж</a>";
         $m = getMacroList($userData);
         for ($i = 1; $i < 9; $i++) {
             if (!empty($m[$i - 1])) {
                 $mn = explode("|", $m[$i - 1]);
-                $wml .= "<do name=\"b$o\" type=\"options\" label=\"" . $mn[4] . "\">" .
-                    "<go href=\"$url_base&cm=$i\"/></do>";
+                $wml .= "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base&cm=$i\">" . $mn[4] . "</a>";
                 $o++;
             }
         }
     }
 
     if ($pageType == PageType::INVENTORY && $menuMode == MenuMode::SHORT) {
-        $wml .= '<do name="b1" type="options" label="В игру">' .
-            "<go href=\"$url_base\"/></do>";
+        $wml .= "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base\">В игру</a>";
     }
 
-    if ($pageType == PageType::INVENTORY && $menuMode == MenuMode::SHORT ||
+    if (
+        $pageType == PageType::INVENTORY && $menuMode == MenuMode::SHORT ||
         $menuMode == MenuMode::FULL && $pageType == PageType::MAIN ||
         $isMenuInPageMode
     ) {
-        $wml .= "<do name=\"b2\" type=\"options\" label=\"Cкaзaть\">" .
-            "<go href=\"$url_base&cs=1&cj=1\"/></do>" . // чат
-            "<do name=\"b3\" type=\"options\" label=\"Koнтaкты\">" .
-            "<go href=\"$url_base&msg=1&cj=1\"/></do>" . // список контактов
-            "<do name=\"b$o\" type=\"options\" label=\"мaкpocы\">" .
-            "<go href=\"$url_base&cm=new\"/></do>" // управление макросами
+        $wml .= "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base&cs=1&cj=1\">Cкaзaть</a>" . // чат
+            "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base&msg=1&cj=1\">Koнтaкты</a></button>" . // список контактов
+            "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base&cm=new\">мaкpocы</a></button>" // управление макросами
         ;
         // Карта включена?
         if ($mapMode) {
             $o++;
-            $wml .= "<do name=\"b$o\" type=\"options\" label=\"Kapтa\">" .
-                "<go href=\"$url_base&map=$mapMode\"/></do>";
+            $wml .= "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base&map=$mapMode\">Kapтa</a></button>";
         }
         $o++;
-        $wml .= "<do name=\"b$o\" type=\"options\" label=\"Coxpaнить\">" .
-            "<go href=\"$url_base&ce=1\"/></do>";
+        $wml .= "<a class=\"btn btn-outline-secondary m-1\" href=\"$url_base&ce=1\">Coxpaнить</a></button>";
     }
     #end: формирование меню
 
@@ -337,7 +355,7 @@ function buildMainCard(
     if (substr($message, strlen($message) - 4) != '</p>') {
         $message .= '</p>';
     }
-    $wml .= $message . '</card>';
+    $wml .= $message . '</div>';
     return $wml;
 }
 
@@ -364,20 +382,13 @@ function getMacroList($userData)
 function buildJournalCard($tmp_url, $journal, $skip_journal)
 {
 
-    $journalCard = '<card title="Журнал">' .
-        '<do type="accept" label="Дальше">' .
-        '<go href="' . $tmp_url . '"/>' .
-        '</do>' .
+    $journalCard = '<div title="Журнал" class="alert alert-warning alert-dismissible fade show" role="alert">' .
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' .
+        '<span aria-hidden="true">&times;</span>' .
+        '</button>' .
         '<p>' . $journal .
-        '<br/><a href="' . $tmp_url . '">Дальше</a>';
-    if ($tmp_url != "#g") {
-        // BUG? бесполезное условие, т.к. $show_journal = !$skip_journal
-        if (!$skip_journal) {
-            $tmp_url .= '&cj=1';
-        }
-        $journalCard .= '/<a href="' . $tmp_url . '">к меню</a>/';
-    }
-    $journalCard .= '</p></card>';
+        '<br/>';
+    $journalCard .= '</p></div>';
     return $journalCard;
 }
 
@@ -399,12 +410,12 @@ function menu_links($url_base, $userData, $map_type)
         }
     }
     $message .= sprintf('<br/><a href="%s&cs=1&cj=1">Cкaзaть</a>', $url_base) .
-                sprintf('<br/><a href="%s&msg=1&cj=1">Koнтaкты</a>', $url_base) .
-                sprintf('<br/><a href="%s&cm=new">мaкpocы</a>', $url_base);
+        sprintf('<br/><a href="%s&msg=1&cj=1">Koнтaкты</a>', $url_base) .
+        sprintf('<br/><a href="%s&cm=new">мaкpocы</a>', $url_base);
     if ($map_type) {
         $message .= sprintf('<br/><a href="%s&map=%d">Kapтa</a>', $url_base, $map_type);
     }
     $message .= sprintf('<br/><a href="%s&ce=1">Coxpaнить</a>', $url_base) .
-                sprintf('<br/><br/><a href="%s">В игру</a>', $url_base);
+        sprintf('<br/><br/><a href="%s">В игру</a>', $url_base);
     return $message;
 }

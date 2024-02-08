@@ -32,18 +32,19 @@ if ($died[3]) {
         }
         if ($char[13]) {
             $wife = substr($take, 6, strrpos($take, ".") - 6) ==
-                    substr($char[13], 0, strlen(substr($take, 6, strrpos($take, ".") - 6)));
+                substr($char[13], 0, strlen(substr($take, 6, strrpos($take, ".") - 6)));
         } else {
             $wife = 0;
         }
-        if ( ! $died[1] && substr($take, 0, strlen("i.s.d." . $login)) != "i.s.d." . $login &&
-             ( ! $clan1 || ($clan1 && $clan1 != $clan)) && ! $wife && substr($take, 0, 11) != "i.s.d.u.qv."
+        if (
+            !$died[1] && substr($take, 0, strlen("i.s.d." . $login)) != "i.s.d." . $login &&
+            (!$clan1 || ($clan1 && $clan1 != $clan)) && !$wife && substr($take, 0, 11) != "i.s.d.u.qv."
         ) {
             $stmp = "<p>Брать отсюда предметы будет преступлением!";
         } else {
             $stmp = "<p>Предметы:";
         }
-        if ( ! $start) {
+        if (!$start) {
             $start = 0;
         }
         $keys = array_keys($items);
@@ -59,21 +60,20 @@ if ($died[3]) {
                 if ($k[1] > 1) {
                     $item .= " (" . $k[1] . ")";
                 }
-                $stmp .= "\n<br/><anchor>" . $item . "<go href=\"#menu\"><setvar name=\"to\" value=\"" . $k[0] .
-                         "\"/></go></anchor>";
+                $stmp .= "\n" . '<br/><a tabindex="0" class="btn btn-secondary m-1" role="button" data-trigger="focus" data-toggle="popover" data-content="template" title="' . $item . '" label="' . $k[0] . '">' . $item . '</a>';
             }
         }
         if ($start) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take\">^ </a>";
         }
         if ($listEnd < count($keys) - 1) {
-            if ( ! $start) {
+            if (!$start) {
                 $stmp .= "\n<br/>";
             }
             $stmp .= "<a href=\"$PHP_SELF?sid=$sid&take=$take&start=" . $listEnd . "\">+ (" .
-                     (count($keys) - $listEnd) . ")</a>";
+                (count($keys) - $listEnd) . ")</a>";
         }
-        $stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p>\n<a href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)\">Взять</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)&all=1\">Взять все</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&from=$take&look=$(to)\">Инфо</a>";
+        $stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n<p>\n<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)\">Взять</a>\n<br/><a class=\"btn btn-outline-success btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&take=$take&id=$(to)&all=1\">Взять все</a>\n<br/><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&from=$take&look=$(to)\">Инфо</a>";
         msg($stmp, $died[0]);
     }
 } else {

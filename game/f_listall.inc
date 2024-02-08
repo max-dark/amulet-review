@@ -25,7 +25,7 @@ $stmp = "<p><a href=\"$PHP_SELF?sid=$sid&to=" . $login . "&use=$use\">На се�
 // по всем предметам в локации
 if (count($loc_i[$loc]) > 1) {
     $stmp .= "\n<br/>Объекты:";
-    if ( ! $start) {
+    if (!$start) {
         $start = 0;
     }
     $keys = array_keys($loc_i[$loc]);
@@ -47,7 +47,7 @@ if (count($loc_i[$loc]) > 1) {
             }
             if (substr($keys[$i], 0, 2) == "n." || substr($keys[$i], 0, 2) == "u.") {
                 $tmp = explode("|", $loc_i[$loc][$keys[$i]]["char"]);
-                $k   = $tmp[0];
+                $k = $tmp[0];
                 if (substr($keys[$i], 0, 2) == "u." && $tmp[12]) {
                     $k .= " (всадник)";
                 }
@@ -73,12 +73,12 @@ if (count($loc_i[$loc]) > 1) {
                 }
                 if ($tmp[7] && isset($loc_i[$loc][$tmp[7]])) {
                     $tmp1 = explode("|", $loc_i[$loc][$tmp[7]]["char"]);
-                    if (substr($tmp[7], 0, 2) != "u." || (substr($tmp[7], 0, 2) != "u." && ! $tmp1[8])) {
+                    if (substr($tmp[7], 0, 2) != "u." || (substr($tmp[7], 0, 2) != "u." && !$tmp1[8])) {
                         $st .= " атакует " . $tmp1[0];
                     }
                 }
                 if ($st) {
-                    if ($st{0} == ' ') {
+                    if ($st { 0} == ' ') {
                         $st = substr($st, 1);
                     }
                     $k .= " [" . $st . "]";
@@ -92,11 +92,11 @@ if (count($loc_i[$loc]) > 1) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=all&use=$use\">^ </a>";
     }
     if ($listEnd < count($keys)) {
-        if ( ! $start) {
+        if (!$start) {
             $stmp .= "\n<br/>";
         }
         $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=all&use=$use&start=" . ($listEnd) . "\">+ (" .
-                 (count($keys) - $listEnd) . ")</a>";
+            (count($keys) - $listEnd) . ")</a>";
     }
 }
 
@@ -104,7 +104,7 @@ if ($loc_i[$loc][$login]["items"] != "") {
     $stmp .= "\n<br/>Инвентори:";
     $items = explode("|", $loc_i[$loc][$login]["items"]);
 
-    if ( ! $start) {
+    if (!$start) {
         $start = 0;
     }
     $keys = array_keys($items);
@@ -121,8 +121,9 @@ if ($loc_i[$loc][$login]["items"] != "") {
                 $item .= " (" . $k[1] . ")";
             }
             $tbp = strpos($loc_i[$loc][$login]["equip"], $k[0]);
-            if ($tbp !== false && ($loc_i[$loc][$login]["equip"]{$tbp + strlen($k[0])} == "|" ||
-                                   $loc_i[$loc][$login]["equip"]{$tbp + strlen($k[0])} == "")
+            if (
+                $tbp !== false && ($loc_i[$loc][$login]["equip"]{ $tbp + strlen($k[0])} == "|" ||
+                    $loc_i[$loc][$login]["equip"]{ $tbp + strlen($k[0])} == "")
             ) {
                 $item .= " [одето]";
             }
@@ -133,11 +134,11 @@ if ($loc_i[$loc][$login]["items"] != "") {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=all\">^ </a>";
     }
     if ($listEnd < count($keys)) {
-        if ( ! $start) {
+        if (!$start) {
             $stmp .= "\n<br/>";
         }
         $stmp .= "<a href=\"$PHP_SELF?sid=$sid&list=all&use=$use&start=" . ($listEnd) . "\">+ (" .
-                 (count($keys) - ($listEnd)) . ")</a>";
+            (count($keys) - ($listEnd)) . ")</a>";
     }
 }
 msg($stmp, "Укажите цель");

@@ -232,7 +232,7 @@ if (isset($loc_i[$loc][$login]["trade"])) {
             $stmp .= "<br/>" . $tchar . " пока не согласен";
         }
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&trade=agry\">Я согласен</a><br/><a href=\"$PHP_SELF?sid=$sid&list=inv\">Добавить предмет</a><br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Обновить</a><br/><a href=\"#say\">Сказать</a><br/><a href=\"$PHP_SELF?sid=$sid&trade=cancel\">Отмена</a><br/><br/><a href=\"$PHP_SELF?sid=$sid&trade=help\">Помощь</a>";
-        $stmp .= "\n</p>\n</card>\n<card id=\"say\" title=\"Сказать\">\n<p><input name=\"say\" emptyok=\"true\" type=\"text\" value=\"\"/>\n<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
+        $stmp .= "\n</p>\n</div>\n<div id=\"say\" title=\"Сказать\">\n<p><input name=\"say\" emptyok=\"true\" type=\"text\" value=\"\"/>\n<br/><select name=\"translit\" multiple=\"true\" value=\"1\"><option value=\"1\">Транслит</option></select>
 <anchor>Сказать<go href=\"$PHP_SELF?sid=$sid&trade=1\" method=\"post\">
 <postfield name=\"to\" value=\"$to\"/>
 <postfield name=\"say\" value=\"$(say)\"/>

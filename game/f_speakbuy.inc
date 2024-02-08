@@ -27,18 +27,20 @@ if (time() > $tchar[11]) {
         } else {
             $tmp = rand($regF[3][$i], $regF[4][$i]);
         }
-        $loc_i[$loc][$speak]["bank"] = str_replace($regF[1][$i],
+        $loc_i[$loc][$speak]["bank"] = str_replace(
+            $regF[1][$i],
             $regF[2][$i] . ":" . $regF[3][$i] . ":" . $regF[4][$i] . "=" . $regF[5][$i] . ":" . $tmp,
-            $loc_i[$loc][$speak]["bank"]);
+            $loc_i[$loc][$speak]["bank"]
+        );
     }
-    $tchar[11]                   = time() + round($trader[1] * (rand(70, 130) / 100));
+    $tchar[11] = time() + round($trader[1] * (rand(70, 130) / 100));
     $loc_i[$loc][$speak]["char"] = implode("|", $tchar);
 }
 
 $stmp = "";
-$xF   = preg_match_all("'=([^:]+):([^0]\d*)'", $loc_i[$loc][$speak]["bank"], $regF);
+$xF = preg_match_all("'=([^:]+):([^0]\d*)'", $loc_i[$loc][$speak]["bank"], $regF);
 
-if ( ! $start) {
+if (!$start) {
     $start = 0;
 }
 $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
@@ -54,7 +56,7 @@ for ($i = $start; $i < $listEnd && $i < $xF; $i++) {
         $tmp .= " (" . $regF[2][$i] . ")";
     }
     $tmp .= " за " . round($item[1] * $trader[0]) . " монет";
-    $stmp .= "\n<br/><anchor>$tmp<go href=\"#menu\"><setvar name=\"to\" value=\"$itemId\"/></go></anchor>";
+    $stmp .= "\n" . '<br/><a tabindex="0" class="btn btn-secondary m-1" role="button" data-trigger="focus" data-toggle="popover" data-content="template" title="' . $tmp . '" label="' . $itemId . '">' . $tmp . '</a>';
 }
 if ($stmp) {
     $stmp = "<p>Я продаю:" . $stmp;
@@ -65,13 +67,13 @@ if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
 }
 if ($listEnd < $xF - 1) {
-    if ( ! $start) {
+    if (!$start) {
         $stmp .= "\n<br/>";
     }
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . ($listEnd) . "\">+ (" .
-             ($xF - $listEnd) . ")</a>";
+        ($xF - $listEnd) . ")</a>";
 }
-$stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n";
-$stmp .= "<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Купить</a>\n";
-$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" title=\"Меню\">\n";
+$stmp .= "<p>\n<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=$start&to=$(to)\">Купить</a>\n";
+$stmp .= "<br/><a class=\"btn btn-outline-secondary btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>";
 msg($stmp, $tchar[0]);

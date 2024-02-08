@@ -17,10 +17,10 @@ require_once '../vendor/autoload.php';
 //=========================
 
 DBConfig::setConfig([
-    'server' => 'localhost',
+    'server' => 'db',
     'dbname' => 'amulet',
-    'login' => 'game',
-    'password' => 'pass',
+    'login' => 'amulet',
+    'password' => 'amulet',
 ]);
 
 //=========================
@@ -92,7 +92,7 @@ $g_destroy = 600;
  *
  * @var int $g_crim
  */
-$g_crim = 1800;
+$g_crim = 180;
 
 /**
  * @var int $g_exp множитель для экспы

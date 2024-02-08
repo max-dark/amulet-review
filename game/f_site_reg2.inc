@@ -21,26 +21,31 @@ use MaxDark\Amulet\OldCode\PageType;
  */
 
 $nn = Request('nn');
-$pass = Request('pass');
+$pass = Post('pass');
 $sex = Request('sex');
 $age = Request('age');
 $email = Request('email');
 
 if (strlen($nn) < 6 || strlen($pass) < 6 || strlen($nn) > 15 || strlen($pass) > 15) {
-    msg("Длина логина и пароля должна быть не короче 6 и не длинее 15 символов.<br /><anchor>Назад<prev/></anchor>",
-        'Ошибка', 0, PageType::GUEST);
+    msg(
+        $nn . $pass .
+        "Длина логина и пароля должна быть не короче 6 и не длинее 15 символов.<br /><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>",
+        'Ошибка',
+        0,
+        PageType::GUEST
+    );
 }
-if ( ! preg_match('|^[-0-9a-z_]+$|i', $nn)) {
-    msg("Неверный синтаксис в логине<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, PageType::GUEST);
+if (!preg_match('|^[-0-9a-z_]+$|i', $nn)) {
+    msg("Неверный синтаксис в логине<br /><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>", 'Ошибка', 0, PageType::GUEST);
 }
-if ( ! preg_match("|^[-0-9a-z_\\.]+@[-0-9a-z]+\\.[a-z]{2,6}+$|i", $email)) {
-    msg("Неверный синтаксис в email " . $email . "<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, PageType::GUEST);
+if (!preg_match("|^[-0-9a-z_\\.]+@[-0-9a-z]+\\.[a-z]{2,6}+$|i", $email)) {
+    msg("Неверный синтаксис в email " . $email . "<br /><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>", 'Ошибка', 0, PageType::GUEST);
 }
 if (intval($age) != $age || $age < 5 || $age > 99) {
-    msg("Неправдоподобный возраст, укажите более реальный.<br /><anchor>Назад<prev/></anchor>", "Ошибка", 0, PageType::GUEST);
+    msg("Неправдоподобный возраст, укажите более реальный.<br /><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>", "Ошибка", 0, PageType::GUEST);
 }
 if ($sex != 'm' && $sex != 'f') {
-    msg("Вы пришли играть или дыры искать?" . $sex . "<br /><anchor>Назад<prev/></anchor>", 'Ошибка', 0, PageType::GUEST);
+    msg("Вы пришли играть или дыры искать?" . $sex . "<br /><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>", 'Ошибка', 0, PageType::GUEST);
 }
 
 $now = time();
@@ -49,13 +54,13 @@ $loc = "_begin"; // начальная локация
 
 // создаем игрока
 $auser = [
-    "user"    => "$pass||$sex|$age||$now|0|0|0|0",
-    "char"    => "$nn|20|20|20|20|1|1||0|0|0||",
-    "skills"  => "1|1|1|0|2|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0",
-    "loc"     => $loc,
+    "user" => "$pass||$sex|$age||$now|0|0|0|0",
+    "char" => "$nn|20|20|20|20|1|1||0|0|0||",
+    "skills" => "1|1|1|0|2|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0",
+    "loc" => $loc,
     "journal" => "",
-    "items"   => "i.w.k.begin:1",
-    "magic"   => "",
+    "items" => "i.w.k.begin:1",
+    "magic" => "",
 ];
 $login = 'u.' . $nn;
 // добавим в локацию, чтобы посчитать параметры

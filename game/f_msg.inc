@@ -20,8 +20,10 @@ use MaxDark\Amulet\OldCode\ViewOptions;
 if ($msg) {
     $del = Request("del");
     if ($del && strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") !== false) {
-        $loc_i[$loc][$login]["msgt"] = substr($loc_i[$loc][$login]["msgt"],
-            strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") + strlen("{" . $del . "}"));
+        $loc_i[$loc][$login]["msgt"] = substr(
+            $loc_i[$loc][$login]["msgt"],
+            strpos($loc_i[$loc][$login]["msgt"], "{" . $del . "}") + strlen("{" . $del . "}")
+        );
     }
     if ($msg == 1) {    // основная страница
         $stmp .= "\n<br/><a href=\"?sid=$sid&msg=add\">Добавить</a>";
@@ -30,19 +32,19 @@ if ($msg) {
         if ($loc_i[$loc][$login]["msgt"]) {
             $del = substr($loc_i[$loc][$login]["msgt"], -11, -1);
             $stmp .= preg_replace("/{[^}]+}/", "", $loc_i[$loc][$login]["msgt"]) .
-                     "<br/><a href=\"?sid=$sid&msg=clear&del=" . $del . "\">Очистить</a><br/>";
+                "<br/><a href=\"?sid=$sid&msg=clear&del=" . $del . "\">Очистить</a><br/>";
         } else {
             $stmp .= "\n<br/>Сообщений нет";
         }
         // список онлайн
         $stmp .= "<br/>Онлайн:";
         $count = 0;
-        $c1    = 0;
-        $c2    = 0;
+        $c1 = 0;
+        $c2 = 0;
         if ($loc_i[$loc][$login]["msg"]) {
             $keys = explode("|", $loc_i[$loc][$login]["msg"]);
         }
-        if ( ! $start) {
+        if (!$start) {
             $start = 0;
         }
         $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
@@ -52,8 +54,8 @@ if ($msg) {
                     if (file_exists("online/" . $i) && filesize("online/" . $i) != 1) {
                         $count++;
                         if ($c1 >= $start && $c1 < $listEnd) {
-                            $stmp .= "\n<br/><anchor>" . substr($i, 2) .
-                                     "<go href=\"#menu\"><setvar name=\"id\" value=\"$i\"/></go></anchor>";
+                            $stmp .= "\n<br/><div>" .
+                                '<a tabindex="0" class="btn btn-secondary m-1" role="button" data-trigger="focus" data-toggle="popover" data-content="template" title="' . substr($i, 2) . '" label="' . $i . '">' . substr($i, 2) . '</a>';
                         }
                         $c1++;
                     }
@@ -68,11 +70,11 @@ if ($msg) {
             $stmp .= "\n<br/><a href=\"?sid=$sid&msg=1\">^ </a>";
         }
         if ($listEnd < $c1) {
-            if ( ! $start) {
+            if (!$start) {
                 $stmp .= "\n<br/>";
             }
             $stmp .= "<a href=\"?sid=$sid&msg=1&start=" . ($listEnd) . "\">+ (" . ($c1 - ($listEnd)) .
-                     ")</a>";
+                ")</a>";
         }
         $cnt = (count($keys) - $count);
         $stmp .= <<<TAG
@@ -80,41 +82,42 @@ if ($msg) {
 <br/><a href="?sid=$sid&msg=off">Оффлайн ($cnt)</a>
 <br/><br/><a href="?sid=$sid&msg=help">Помощь</a>
 </p>
-</card>
-<card id="menu" title="Меню">
+</div>
+<div id="menu" title="Меню">
 <p>
 <a href="#write">Написать</a><br/>
-[<a href="?sid=$sid&msg=up&id=$(id)">Вверх</a> | <a href="?sid=$sid&msg=down&id=$(id)">Вниз</a>]
+[<a href="?sid=$sid&msg=up&id=$(to)">Вверх</a> | <a href="?sid=$sid&msg=down&id=$(to)">Вниз</a>]
 <br/>---<br/>
-<a href="?sid=$sid&msg=del&id=$(id)">Удалить</a>
+<a href="?sid=$sid&msg=del&id=$(to)">Удалить</a>
 </p>
-</card>
-<card id="write" title="Написать">
+</div>
+<div id="write" title="Написать">
 <p>
-<input name="text" emptyok="true" type="text" maxlength="140"/><br/>
-<select name="translit" multiple="true" value="1">
-    <option value="1">Транслит</option>
-</select>
-<select name="mall" multiple="true" value="0">
-    <option value="1">Всем</option>
-</select>
-<anchor>
-Отправить<go href="?sid=$sid" method="post">
-    <postfield name="msg" value="write"/>
-    <postfield name="id" value="$(id)"/>
-    <postfield name="mall" value="$(mall)"/>
-    <postfield name="del" value="$del"/>
-    <postfield name="text" value="$(text)"/>
-    <postfield name="translit" value="$(translit)"/>
-</go></anchor>
-
+<form action="?sid=$sid" method="post">
+<input class="form-control" name="text" emptyok="true" type="text" maxlength="140"/><br/>
+<div class="form-check">
+<input class="form-check-input" name="translit" type="checkbox" value="" id="translitCheck">
+<label class="form-check-label" for="translitCheck">
+Транслит
+</label>
+</div>
+<div class="form-check">
+<input class="form-check-input" name="mall" type="checkbox" value="" id="mallCheck">
+<label class="form-check-label" for="mallCheck">
+Всем
+</label>
+</div>
+<input type="hidden" name="msg" value="write"/>
+<postfield name="id" value="write"/>
+<input class="btn btn-primary mt-1" type="submit" value="Отправить"/>
+</form>
 TAG;
     }
 
     if ($msg == 'off') {
         // список оффлайн
-        $c1    = 0;
-        $c2    = 0;
+        $c1 = 0;
+        $c2 = 0;
         $count = 0;
         if ($loc_i[$loc][$login]["msg"]) {
             $keys = explode("|", $loc_i[$loc][$login]["msg"]);
@@ -125,7 +128,7 @@ TAG;
                 $stmp .= "Оффлайн (выберите, чтобы удалить):";
                 foreach ($keys as $i) {
                     if ($i) {
-                        if ( ! file_exists("online/" . $i) || filesize("online/" . $i) == 1) {
+                        if (!file_exists("online/" . $i) || filesize("online/" . $i) == 1) {
                             if ($c1 >= $start && $c1 < $listEnd) {
                                 $stmp .= "\n<br/><a href=\"?sid=$sid&msg=del&id=" . $i . "\">" . substr($i, 2) . "</a>";
                             }
@@ -141,11 +144,11 @@ TAG;
             $stmp .= "\n<br/><a href=\"?sid=$sid&msg=off\">^ </a>";
         }
         if ($listEnd < $c1) {
-            if ( ! $start) {
+            if (!$start) {
                 $stmp .= "\n<br/>";
             }
             $stmp .= "<a href=\"?sid=$sid&msg=off&start=" . ($listEnd) . "\">+ (" . ($c1 - $listEnd) .
-                     ")</a>";
+                ")</a>";
         }
         if ($count == 0) {
             $stmp = "Список оффлайн пуст";
@@ -155,7 +158,7 @@ TAG;
         if (strlen($loc_i[$loc][$login]["msg"]) > 500) {
             msg("В контактах нет места, удалите кого-нибудь", "Ошибка");
         }
-        if ( ! $id) {
+        if (!$id) {
             $stmp = "";
             foreach (array_keys($loc_i[$loc]) as $i) {
                 if ($i != $login && substr($i, 0, 2) == "u.") {
@@ -170,7 +173,7 @@ TAG;
         } else {
             if (isset($loc_i[$loc][$id])) {
                 if (strpos($loc_i[$loc][$login]["msg"], $id . "|") === false) {
-                    if ( ! $loc_i[$loc][$login]["msg"]) {
+                    if (!$loc_i[$loc][$login]["msg"]) {
                         $loc_i[$loc][$login]["msg"] = $id;
                     } else {
                         $loc_i[$loc][$login]["msg"] .= "|" . $id;
@@ -188,13 +191,14 @@ TAG;
         }
         $loc_i[$loc][$login]["msg"] = str_replace("|" . $id, "", $loc_i[$loc][$login]["msg"]);
         $loc_i[$loc][$login]["msg"] = str_replace($id, "", $loc_i[$loc][$login]["msg"]);
-        $stmp                       = substr($id, 2) . " удален";
+        $stmp = substr($id, 2) . " удален";
     }
     if ($msg == 'write') {
-        if ( ! $mall && ( ! file_exists("online/" . $id) || filesize("online/" . $id) == 1)) {
+        $text = Post("text");
+        if (!$mall && (!file_exists("online/" . $id) || filesize("online/" . $id) == 1)) {
             msg(substr($id, 2) . " сейчас не в игре, оправлять сообщения можно только тем кто онлайн");
         }
-        if ( ! $text) {
+        if (!$text) {
             msg("Нет текста для отправки");
         }
         if (strpos($text, "?sid=") !== false) {
@@ -207,11 +211,11 @@ TAG;
 
         $s = $text;
 
-        $s    = str_replace('\\', "", $s);
-        $s    = preg_replace('/([^ -}А-я#])|\$|&/u', '', $s);
-        $s    = str_replace("|", "", $s);
-        $s    = str_replace("<", "", $s);
-        $s    = str_replace(">", "", $s);
+        $s = str_replace('\\', "", $s);
+        $s = preg_replace('/([^ -}А-я#])|\$|&/u', '', $s);
+        $s = str_replace("|", "", $s);
+        $s = str_replace("<", "", $s);
+        $s = str_replace(">", "", $s);
         $text = $s;
 
         $keys = explode("|", $loc_i[$loc][$login]["msg"]);
@@ -219,12 +223,12 @@ TAG;
             foreach ($keys as $i) {
                 if ($i) {
                     if (file_exists("online/" . $i) && filesize("online/" . $i) != 1 && ($id == $i || $mall)) {
-                        $tmp    = file("online/" . $i);
+                        $tmp = file("online/" . $i);
                         $tmp[0] = str_replace("\n", "", $tmp[0]);
                         $tmp[0] = str_replace("\r", "", $tmp[0]);
 
                         loadloc($tmp[0]);
-                        if ( ! isset($loc_i[$tmp[0]][$i])) {
+                        if (!isset($loc_i[$tmp[0]][$i])) {
                             if ($mall) {
                                 continue;
                             } else {
@@ -241,10 +245,10 @@ TAG;
                         }
 
                         $loc_i[$tmp[0]][$i]["msgt"] = substr($loc_i[$tmp[0]][$i]["msgt"] .= "<br/>" .
-                                                                                            substr($login, 2) . ": " .
-                                                                                            strip_tags($text) . "{" .
-                                                                                            time() . "}", -500);
-                        if ( ! $mall) {
+                            substr($login, 2) . ": " .
+                            strip_tags($text) . "{" .
+                            time() . "}", -500);
+                        if (!$mall) {
                             $stmp = "Сообщение для " . substr($id, 2) . " отправлено";
                             break;
                         }
@@ -252,7 +256,7 @@ TAG;
                 }
             }
         }
-        if ( ! $stmp) {
+        if (!$stmp) {
             $stmp = "Сообщение для всех отправлено";
         }
         //if ($login == "u.tatus") @mail("blade17@bk.ru", "BAG " . $text, $text);
@@ -264,8 +268,8 @@ TAG;
 
     if ($msg == 'help') {
         $stmp = 'Вы можете отправлять текстовые сообщения только игрокам, находящимся в игре.' .
-                ' Причем вы должны быть добавлены у них в контактах тоже.' .
-                ' Если вам придет новое сообщение, вы увидите спец. ссылку на игровом экране.';
+            ' Причем вы должны быть добавлены у них в контактах тоже.' .
+            ' Если вам придет новое сообщение, вы увидите спец. ссылку на игровом экране.';
     }
 
     if ($msg != 'clear') {
