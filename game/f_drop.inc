@@ -47,7 +47,7 @@ if ($drop) {            //linkБросить
             $stmp = "<p>Укажите количество:\n<br/><form action=\"$PHP_SELF\" method=\"get\">" .
                 "<input name=\"sid\" value=\"" . $sid . "\" type=\"hidden\"/>" .
                 "<input name=\"drop\" value=\"" . $drop . "\" type=\"hidden\"/>" .
-                "<input class=\"form-control\" name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $count .
+                "<input class=\"form-control\" name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $tcount .
                 "\"/>\n<br/><button class=\"btn btn-outline-primary\" type=\"submit\">Отправить</button></form></p>";
             msg($stmp, "Бросить", 1, PageType::MSG, "num", $tcount);
         }

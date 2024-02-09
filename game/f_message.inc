@@ -105,8 +105,8 @@ function msg(
         $userJournal = '';
         $currentUser = [];
     } else {
-        $currentUser = $loc_i[$loc][$login];
-        $userJournal = $loc_i[$loc][$login]['journal'];
+        $currentUser = isset($loc_i[$loc][$login]) ? $loc_i[$loc][$login] : '';
+        $userJournal = isset($loc_i[$loc][$login]['journal']) ? $loc_i[$loc][$login]['journal'] : '';
         $loc_i[$loc][$login]['journal'] = '';
     }
 

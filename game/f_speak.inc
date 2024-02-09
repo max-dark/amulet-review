@@ -35,7 +35,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
         } else {
             $to = "";
         }
-        $smtp = '<p>';
+        $stmp = '<p>';
         $stmp .= '<form action="?sid=' . $sid . '" method="post">';
         if (!empty($to)) {
             $stmp .= "<input class=\"form-control\" name=\"to\" emptyok=\"true\" type=\"text\" value=\"$to\"/><br />";
@@ -46,7 +46,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
         $stmp .= "</form>";
 
         if (!empty($tt)) {
-            $stmp .= "<br/><a href=\"?sid=$sid&trade=$tt\">Обмен</a>";
+            $stmp .= "<br/><a class=\"btn btn-outline-primary\" href=\"?sid=$sid&trade=$tt\">Обмен</a>";
         }
 
         msg($stmp, "Сказать", 1);
@@ -643,7 +643,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 msg("<p>Вы не можете разговаривать с " . $tchar[0] . ", т.к. он вас атакует");
             }
             // диалог загрузится в $dialog (у стражи тоже)
-            $dialog_file = $npc_subtype == "n.g." ? "speak/n.g.guard" : "speak/{$speak}";
+            $dialog_file = $npc_subtype == "n.g." ? "speak/n.g.guard" : "speak/" . $speak;
             // load dialog array
             $dialog = require $dialog_file;
             if ($char[7] == $speak) {
@@ -717,11 +717,19 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 );
             }
             $current_dialog = explode("#", $dialog[$id]);
-            $title = $current_dialog[0]; // может быть переназначен в "eval: "
+            
+            $title = $current_dialog[0];
             if (substr($title, 0, 6) == "eval: ") {
-                // скриптовая часть диалога
-                // TODO: избавиться от eval
-                eval(substr($title, 6));
+                $functionCall = substr($title, 6);
+                if (preg_match('/^(\w+)\(([^)]*)\);?$/', $functionCall, $matches)) {
+                    $functionName = $matches[1];
+                    $arguments = [&$title];
+                    if (function_exists($functionName)) {
+                        call_user_func_array($functionName, $arguments);
+                    } else {
+                        echo "Function $functionName does not exist.";
+                    }
+                }
             }
 
             // обучение
@@ -729,10 +737,10 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 // диалог повышения скилла или аттрибута на 1
 
                 $tmp = explode("|", $title);
-                $skill = $tmp[1];
-                $cost = $tmp[2];
-                $min = $tmp[3];
-                $max = $tmp[4];
+                $skill = isset($tmp[1]) ? $tmp[1] : '';
+                $cost = isset($tmp[2]) ? $tmp[2] : '';
+                $min = isset($tmp[3]) ? $tmp[3] : '';
+                $max = isset($tmp[4]) ? $tmp[4] : '';
 
                 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
                 if (substr($skill, 0, 2) == "m.") {

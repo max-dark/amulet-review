@@ -224,7 +224,7 @@ function rndname()
     while (strlen($stmp) < rand(4, 6)) {
         $stmp .= $arr_rndnames[rand(0, count($arr_rndnames) - 1)];
     }
-    $stmp { 0} = strtoupper($stmp { 0});
+    $stmp[0] = strtoupper($stmp[0]);
 
     return $stmp;
 }
@@ -337,21 +337,34 @@ function calcparam($loc, $login)
                 }
                 // штраф в формате str:dex:int
                 $stats = explode(":", $str);
-
-                if ($skills[1] < $stats[1]) {
-                    $dex = $stats[1] - $skills[1];
+                if (isset($skills[1], $stats[1])) {
+                    if ($skills[1] < $stats[1]) {
+                        $dex = $stats[1] - $skills[1];
+                    } else {
+                        $dex = 0;
+                    }
                 } else {
-                    $dex = 0;
+                    $dex = 0; // or handle the missing index case as appropriate
                 }
-                if ($skills[2] < $stats[2]) {
-                    $int = $stats[2] - $skills[2];
+                
+                if (isset($skills[2], $stats[2])) {
+                    if ($skills[2] < $stats[2]) {
+                        $int = $stats[2] - $skills[2];
+                    } else {
+                        $int = 0;
+                    }
                 } else {
-                    $int = 0;
+                    $int = 0; // or handle the missing index case as appropriate
                 }
-                if ($skills[0] < $stats[0]) {
-                    $str = $stats[0] - $skills[0];
+                
+                if (isset($skills[0], $stats[0])) {
+                    if ($skills[0] < $stats[0]) {
+                        $str = $stats[0] - $skills[0];
+                    } else {
+                        $str = 0;
+                    }
                 } else {
-                    $str = 0;
+                    $str = 0; // or handle the missing index case as appropriate
                 }
 
                 $hits += $dex * 10;
@@ -584,7 +597,7 @@ function attack(
     }
     $twar = explode("|", $loc_i[$loct][$to]["war"]);
 
-    if ($fchar[6] - time() > 300) {
+    if (intval($fchar[6]) - time() > 300) {
         $fchar[6] = time() - 1;
     }
     if (!$rmagic && time() <= $fchar[6]) {
@@ -594,7 +607,7 @@ function attack(
 
         return;
     }
-    if ($loc_i[$loc][$to]["def"]) {
+    if (isset($loc_i[$loc][$to]["def"])) {
         $tdef = explode("|", $loc_i[$loc][$to]["def"]);
     } else {
         $tdef = ["", "", 0];
@@ -619,8 +632,8 @@ function attack(
         $loc_i[$loc][$from]["char"] = implode("|", $fchar);
     }
     // eng a,e
-    if ($fwar[12] == "мaгиeй") {
-        $fwar[12] = "магией"; // FIXME: смесь русских и английских букв в описаниях NPC
+    if ($fwar[12] == "магией") {
+        $fwar[12] = "магией";
     }
     if ($rmagic || $fwar[12] == "магией" || $fwar[12] == "молнией") {
         // Атака магией
@@ -637,7 +650,7 @@ function attack(
                 $fwar[0] = 0;
             }
         }
-        if (substr($loc_i[$loc][$from]["def"], 0, 5) == "p.d.c") {
+        if (isset($loc_i[$loc][$from]["def"]) && substr($loc_i[$loc][$from]["def"], 0, 5) == "p.d.c") {
             $loc_i[$loc][$from]["def"] = "";
         }
         if ($tdef[0] == "p.d.z") {
@@ -652,6 +665,7 @@ function attack(
         $uklon = $twar[6];
         $parring = $twar[7];
         $shield = $twar[8];
+        $t1 = "";
         // активен баф на уклонение от стрел
         if ($tdef[0] == "p.d.u" && $fwar[4]) {
             if (rand(0, 100) <= $tdef[3]) {
@@ -688,7 +702,7 @@ function attack(
         $loc_i[$loc][$to]["def"] = "";
         $t2 = $tdef[1];
     }
-    if (substr($loc_i[$loc][$from]["def"], 0, 6) == "p.d.re") {
+    if (isset($loc_i[$loc][$from]["def"]) && substr($loc_i[$loc][$from]["def"], 0, 6) == "p.d.re") {
         $fwar[1] = round($fwar[1] * 0.6);
         $fwar[2] = round($fwar[2] * 0.6);
     }
@@ -707,9 +721,7 @@ function attack(
     ) {
         $t2 = $tdef[1];
     }
-    if ($t2) {
-        $t2 = " (" . $t2 . ")";
-    }
+    $t2 = isset($t2) ? " (" . $t2 . ")": "";
 
     // крим если атакует не крима или животное в городе
     $fstp = strpos($fchar[0], "*");
@@ -731,7 +743,7 @@ function attack(
     if ($tloc[2] >= 1099) {
         $tcrim = $tcrim || $tchar[14] == "p" || substr($to, 0, 4) == "n.p." || $fchar[14] == "p" && $tchar[14] == "t";
     }
-    if ($fchar[13]) {
+    if (isset($fchar[13])) {
         $wife = $to == substr($fchar[13], 0, strlen($to));
     } else {
         $wife = 0;
@@ -825,7 +837,7 @@ function attack(
                 } else {
                     $tkrit = "";
                 }
-                if ($loc_i[$loct][$to]["god"]) {
+                if (isset($loc_i[$loct][$to]["god"])) {
                     $damage = 0;
                 }    // БОГ
                 // урон
@@ -834,7 +846,7 @@ function attack(
                 if ($tchar[1] < 0) {
                     $tchar[1] = 0;
                 }
-                if (!$answer && !$rmagic) {
+                if (!$answer && !$rmagic && isset($t1)) {
                     addjournal(
                         $loc,
                         $from,
@@ -852,23 +864,23 @@ function attack(
                         ", "
                     );
                 } else {
-                    addjournal(
-                        $loc,
-                        $from,
-                        "Вы" . $ptitle . " по " . $tchar[0] . $tkrit . " " . $fwar[12] . " " . $damage . $t1 . $t2
-                    );
-                    addjournal(
-                        $loc,
-                        $to,
-                        $fchar[0] . $ptitle . " по вам" . $tkrit . " " . $fwar[12] . " " . $damage . $t1 . $t2
-                    );
-                    addjournal(
-                        $loc,
-                        "all",
-                        $fchar[0] . $ptitle . " по " . $tchar[0] . $tkrit . " " . $fwar[12] . " " . $damage . $t1 . $t2,
-                        $from,
-                        $to
-                    );
+                        addjournal(
+                            $loc,
+                            $from,
+                            "Вы" . $ptitle . " по " . $tchar[0] . $tkrit . " " . $fwar[12] . " " . $damage . $t1 . $t2
+                        );
+                        addjournal(
+                            $loc,
+                            $to,
+                            $fchar[0] . $ptitle . " по вам" . $tkrit . " " . $fwar[12] . " " . $damage . $t1 . $t2
+                        );
+                        addjournal(
+                            $loc,
+                            "all",
+                            $fchar[0] . $ptitle . " по " . $tchar[0] . $tkrit . " " . $fwar[12] . " " . $damage . $t1 . $t2,
+                            $from,
+                            $to
+                        );
                 }
 
                 // жена/муж
@@ -916,9 +928,9 @@ function attack(
                         $item .= "0|";
                     }
                     $item .= time() + $g_destroy . "|";
-                    if (strpos($loc_i[$loc][$to]["items"], "i.q.pjpt:") === false || substr($to, 0, 2) != "u.") {
+                    if (isset($loc_i[$loc][$to]["items"]) && strpos($loc_i[$loc][$to]["items"], "i.q.pjpt:") === false || substr($to, 0, 2) != "u.") {
                         // предметы
-                        if ($loc_i[$loc][$to]["items"]) {
+                        if (isset($loc_i[$loc][$to]["items"])) {
                             $item .= str_replace("|", ",", $loc_i[$loc][$to]["items"]) . "|";
                         } else {
                             $item .= "|";
@@ -932,7 +944,7 @@ function attack(
                         $item .= "|";
                     }
                     // шкура и т.д.
-                    if ($loc_i[$loc][$to]["osvej"]) {
+                    if (isset($loc_i[$loc][$to]["osvej"])) {
                         $item .= str_replace("|", ",", $loc_i[$loc][$to]["osvej"]);
                     }
                     $loc_i[$loc][$id] = $item;
@@ -993,7 +1005,7 @@ function attack(
                         // установка таймера респа NPC
                         if ($twar[15]) {
                             $resp = explode(":", $twar[15]);
-                            if ($resp[3]) {
+                            if (isset($resp[3])) {
                                 // восстановить здоровье
                                 $tchar[1] = $tchar[2];
                                 // восстановить ману
@@ -1044,9 +1056,8 @@ function attack(
                             $loc_i[$loc][$from]["war"] = implode("|", $fwarr);
                         }
                         if (substr($to, 0, 2) != "u.") {    //killedto
-                            // TODO: заменить на addExp
                             $skills = explode("|", $loc_i[$loc][$from]["skills"]);
-                            $skills[3] += $twar[13];
+                            addexp($loc, $from, "Опыт +" . intval($twar[13]));
                             addjournal($loc, $from, "Опыт +" . intval($twar[13]));
                             if ($skills[3] > $fwar[13] * $g_exp) {
                                 $skills[3] = 0;
@@ -1084,15 +1095,15 @@ function attack(
                             $to
                         );
                     } else {
-                        addjournal($loct, $from, "Вы" . $ptitle . " по " . $tchar[0] . " мимо (уклон от магии)" . $t2);
-                        addjournal($loct, $to, $fchar[0] . $ptitle . " по вам мимо (уклон от магии)" . $t2);
-                        addjournal(
-                            $loct,
-                            "all",
-                            $fchar[0] . $ptitle . " по " . $tchar[0] . " мимо (уклон от магии)" . $t2,
-                            $from,
-                            $to
-                        );
+                            addjournal($loct, $from, "Вы" . $ptitle . " по " . $tchar[0] . " мимо (уклон от магии)" . $t2);
+                            addjournal($loct, $to, $fchar[0] . $ptitle . " по вам мимо (уклон от магии)" . $t2);
+                            addjournal(
+                                $loct,
+                                "all",
+                                $fchar[0] . $ptitle . " по " . $tchar[0] . " мимо (уклон от магии)" . $t2,
+                                $from,
+                                $to
+                            );
                     }
                 }
             }
@@ -1314,12 +1325,23 @@ function manageItems(
                     strpos($items, "=" . $itemId . ":" . $tcount) === false
                 ) {    // удаляем предмет (кроме торговцев, у кот. ver|min|max=id:count), проверяем equip
                     $items = preg_replace('/\|?' . $itemId . ':(\d+)/', "", $items);
-                    $equip = $loc_i[$loc][$from]["equip"];
-                    $tbp = strpos($loc_i[$loc][$from]["equip"], $itemId);
+                    $equip = isset($loc_i[$loc][$from]["equip"]) ? $loc_i[$loc][$from]["equip"] : "";
+                    if (is_string($equip)) {
+                        // Handle the string case
+                        $tbp = strpos($equip, $itemId);
+                        if ($tbp !== false) {
+                            // Item ID found in string
+                        }
+                    } elseif (is_array($equip)) {
+                        // Handle the array case
+                        if (array_key_exists($itemId, $equip)) {
+                            // Item ID exists as a key in the array
+                        }
+                    }
                     if ($tbp === false) {
                         $tb = "a";
                     } else {
-                        $tb = $loc_i[$loc][$from] { $tbp + strlen($itemId)};
+                        $tb = $loc_i[$loc][$from][$tbp + strlen($itemId)];
                     }
                     if (!$d && $equip && ($tb == "|" || $tb == "")) {
                         $equip = preg_replace('/' . $itemId . '\|?/', "", $equip);
@@ -2223,8 +2245,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
                 $b = 1;
             }
         } else {
-            /// FIXME: PHP Notice:  Undefined offset: 3
-            if (time() > $move[3]) {
+            if (isset($move[3]) && time() > $move[3]) {
                 if ($char[12] && count($steps) >= $move[0]) {
                     $b = 1;
                     $k = $steps[count($steps) - 1];
@@ -2520,10 +2541,13 @@ function manageNPC($id, $from = "", $to = "", $gal = 0, $hide = 0)
     }
     $ars = ["Появился", "исчез", "Пришел", "ушел", "прискакал", "поскакал", "пронесся"];
 
-    /// FIXME: PHP Notice:  Undefined index: ''
+    
     if (
         substr($id, 0, 2) == "u." &&
-        (strpos($loc_i[$from][$id]["user"], "|f|") !== false || strpos($loc_i[$to][$id]["user"], "|f|") !== false)
+        (
+            (isset($loc_i[$from][$id]["user"]) && strpos($loc_i[$from][$id]["user"], "|f|") !== false) ||
+            (isset($loc_i[$to][$id]["user"]) && strpos($loc_i[$to][$id]["user"], "|f|") !== false)
+        )
     ) {
         $ars = [
             "Появилась",

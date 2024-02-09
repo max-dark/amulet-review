@@ -13,7 +13,7 @@
  * @global $look
  */
 if (isset($loc_i[$loc][$look])) {
-    if ($loc_i[$loc][$look]["qvi"]) {
+    if (isset($loc_i[$loc][$look]["qvi"])) {
         msg($loc_i[$loc][$look]["qvi"]);
     }
     $char = explode("|", $loc_i[$loc][$look]["char"]);
@@ -115,7 +115,7 @@ if (isset($loc_i[$loc][$look])) {
     $maxid  = 8;
     $maxval = 0;
     foreach (array_keys($arr_best) as $i) {
-        if ($sk[$i] >= $maxval) {
+        if (isset($sk[$i]) && $sk[$i] >= $maxval) {
             $maxid  = $i;
             $maxval = $sk[$i];
         }

@@ -35,14 +35,24 @@ if (substr($trade, 0, 2) == "u.") { //новая торговля
     if ($tchar[8]) {
         msg($tchar[0] . " призрак, с ним нельзя вести обмен");
     }
+    // Initialize "trade" structure if it does not exist
+    if (!isset($loc_i[$loc][$login]["trade"])) {
+        $loc_i[$loc][$login]["trade"] = ["to" => "", "i" => "", "ito" => "", "a" => 0];
+    }
+
+    if (!isset($loc_i[$loc][$trade]["trade"])) {
+        $loc_i[$loc][$trade]["trade"] = ["to" => "", "i" => "", "ito" => "", "a" => 0];
+    }
     $loc_i[$loc][$login]["trade"] = ["to" => $trade, "i" => "", "ito" => "", "a" => 0];
-    if ($loc_i[$loc][$trade]["trade"]["to"] != $login) {
+    if (isset($loc_i[$loc][$trade]["trade"]["to"]) && $loc_i[$loc][$trade]["trade"]["to"] != $login) {
         addjournal($loc, $trade, $char[0] . ": предлагает вам обмен, выберите разговор с ним и ссылку Обмен");
         msg("Вы предложили обмен, теперь надо подождать согласия другой стороны.<br/><a href=\"$PHP_SELF?sid=$sid&trade=1\">Продолжить</a>");
     } else {
-        $loc_i[$loc][$login]["trade"]["ito"] = $loc_i[$loc][$trade]["trade"]["i"];
-        $loc_i[$loc][$trade]["trade"]["ito"] = $loc_i[$loc][$login]["trade"]["i"];
-        $loc_i[$loc][$trade]["trade"]["a"] = 0;
+        if (isset($loc_i[$loc][$trade]["trade"]) && isset($loc_i[$loc][$login]["trade"])) {
+            $loc_i[$loc][$login]["trade"]["ito"] = $loc_i[$loc][$trade]["trade"]["i"];
+            $loc_i[$loc][$trade]["trade"]["ito"] = $loc_i[$loc][$login]["trade"]["i"];
+            $loc_i[$loc][$trade]["trade"]["a"] = 0;
+        }
     }
 }
 

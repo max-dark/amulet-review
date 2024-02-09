@@ -55,12 +55,13 @@ if ($loc_i[$loc][$login]["items"] == "") {
                 $item .= " (" . $k[1] . ")";
             }
             $tbp = strpos($loc_i[$loc][$login]["equip"], $k[0]);
-            if (
-                $tbp !== false && ($loc_i[$loc][$login]["equip"]{ $tbp + strlen($k[0])} == "|" ||
-                    $loc_i[$loc][$login]["equip"]{ $tbp + strlen($k[0])} == "")
+            $offset = $tbp + strlen($k[0]);
+            if ($tbp !== false && isset($loc_i[$loc][$login]["equip"][$offset])) {
+                $targetChar = $loc_i[$loc][$login]["equip"][$offset];
+                if ($targetChar == "|" || $targetChar == ""
             ) {
                 $item .= " [одето]";
-            }
+            }}
             if ($to) {
                 // цель задана - использовать
                 $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=" . $k[0] . "\">" . $item . "</a>";
@@ -85,8 +86,8 @@ if ($loc_i[$loc][$login]["items"] == "") {
     $stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n<p>\n";
     $stmp .= "<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&use=$(to)\">Использовать</a>\n<br/>";
     $stmp .= "<a class=\"btn btn-outline-danger btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&drop=$(to)\">Бросить</a>";
-    if (isset($loc_i[$loc][$loc_i[$loc][$login]["trade"]["to"]])) {
-        $stmp .= "\n<br/><a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&trade=add&id=$(to)\">Добавить в обмен</a>";
+    if (isset($loc_i[$loc][$login]["trade"]) && isset($loc_i[$loc][$loc_i[$loc][$login]["trade"]["to"]])) {
+        $stmp .= "\n<br/><a class=\"btn btn-outline-primary btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&trade=add&id=" . urlencode($to) . "\">Добавить в обмен</a>";
     }
     $stmp .= "\n<br/><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&from=$login&look=$(to)\">Инфо</a>\n<br/>";
     $stmp .= "[<a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&from=$login&list=inv&up=$(to)\">Вверх</a> | ";

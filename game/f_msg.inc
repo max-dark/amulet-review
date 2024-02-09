@@ -26,10 +26,11 @@ if ($msg) {
         );
     }
     if ($msg == 1) {    // основная страница
+        $stmp = "<p>";
         $stmp .= "\n<br/><a href=\"?sid=$sid&msg=add\">Добавить</a>";
         // текст
         $del = 0;
-        if ($loc_i[$loc][$login]["msgt"]) {
+        if (isset($loc_i[$loc][$login]["msgt"])) {
             $del = substr($loc_i[$loc][$login]["msgt"], -11, -1);
             $stmp .= preg_replace("/{[^}]+}/", "", $loc_i[$loc][$login]["msgt"]) .
                 "<br/><a href=\"?sid=$sid&msg=clear&del=" . $del . "\">Очистить</a><br/>";
@@ -41,14 +42,14 @@ if ($msg) {
         $count = 0;
         $c1 = 0;
         $c2 = 0;
-        if ($loc_i[$loc][$login]["msg"]) {
+        if (isset($loc_i[$loc][$login]["msg"])) {
             $keys = explode("|", $loc_i[$loc][$login]["msg"]);
         }
         if (!$start) {
             $start = 0;
         }
         $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
-        if ($keys) {
+        if (isset($keys)) {
             foreach ($keys as $i) {
                 if ($i) {
                     if (file_exists("online/" . $i) && filesize("online/" . $i) != 1) {
@@ -76,7 +77,11 @@ if ($msg) {
             $stmp .= "<a href=\"?sid=$sid&msg=1&start=" . ($listEnd) . "\">+ (" . ($c1 - ($listEnd)) .
                 ")</a>";
         }
-        $cnt = (count($keys) - $count);
+        if (isset($keys)) {
+            $cnt = (count($keys) - $count);
+        } else {
+            $cnt = 0;
+        }
         $stmp .= <<<TAG
 
 <br/><a href="?sid=$sid&msg=off">Оффлайн ($cnt)</a>
@@ -93,7 +98,7 @@ if ($msg) {
 </div>
 <div id="write" title="Написать">
 <p>
-<form action="?sid=$sid" method="post">
+<form action="$PHP_SELF" method="get">
 <input class="form-control" name="text" emptyok="true" type="text" maxlength="140"/><br/>
 <div class="form-check">
 <input class="form-check-input" name="translit" type="checkbox" value="" id="translitCheck">
@@ -107,8 +112,9 @@ if ($msg) {
 Всем
 </label>
 </div>
+<input type="hidden" name="sid" value="$sid"/>
 <input type="hidden" name="msg" value="write"/>
-<postfield name="id" value="write"/>
+<input type="hidden" name="id" value="$to"/>
 <input class="btn btn-primary mt-1" type="submit" value="Отправить"/>
 </form>
 TAG;
@@ -119,12 +125,13 @@ TAG;
         $c1 = 0;
         $c2 = 0;
         $count = 0;
-        if ($loc_i[$loc][$login]["msg"]) {
+        if (isset($loc_i[$loc][$login]["msg"])) {
             $keys = explode("|", $loc_i[$loc][$login]["msg"]);
         }
         $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
-        if ($keys) {
+        if (isset($keys)) {
             if (count($keys) - $count > 0) {
+                $stmp = isset($stmp) ? $stmp : "";
                 $stmp .= "Оффлайн (выберите, чтобы удалить):";
                 foreach ($keys as $i) {
                     if ($i) {
@@ -155,7 +162,7 @@ TAG;
         }
     }
     if ($msg == 'add') {
-        if (strlen($loc_i[$loc][$login]["msg"]) > 500) {
+        if (isset($loc_i[$loc][$login]["msg"]) && strlen($loc_i[$loc][$login]["msg"]) > 500) {
             msg("В контактах нет места, удалите кого-нибудь", "Ошибка");
         }
         if (!$id) {
@@ -172,7 +179,7 @@ TAG;
             }
         } else {
             if (isset($loc_i[$loc][$id])) {
-                if (strpos($loc_i[$loc][$login]["msg"], $id . "|") === false) {
+                if (isset($loc_i[$loc][$login]["msg"]) && strpos($loc_i[$loc][$login]["msg"], $id . "|") === false) {
                     if (!$loc_i[$loc][$login]["msg"]) {
                         $loc_i[$loc][$login]["msg"] = $id;
                     } else {
@@ -194,7 +201,7 @@ TAG;
         $stmp = substr($id, 2) . " удален";
     }
     if ($msg == 'write') {
-        $text = Post("text");
+        $text = Request("text");
         if (!$mall && (!file_exists("online/" . $id) || filesize("online/" . $id) == 1)) {
             msg(substr($id, 2) . " сейчас не в игре, оправлять сообщения можно только тем кто онлайн");
         }
@@ -218,8 +225,8 @@ TAG;
         $s = str_replace(">", "", $s);
         $text = $s;
 
-        $keys = explode("|", $loc_i[$loc][$login]["msg"]);
-        if ($keys) {
+        $keys = isset($loc_i[$loc][$login]["msg"]) ? explode("|", $loc_i[$loc][$login]["msg"]) : [];
+        if (isset($keys)) {
             foreach ($keys as $i) {
                 if ($i) {
                     if (file_exists("online/" . $i) && filesize("online/" . $i) != 1 && ($id == $i || $mall)) {
@@ -256,7 +263,7 @@ TAG;
                 }
             }
         }
-        if (!$stmp) {
+        if (!isset($stmp)) {
             $stmp = "Сообщение для всех отправлено";
         }
         //if ($login == "u.tatus") @mail("blade17@bk.ru", "BAG " . $text, $text);

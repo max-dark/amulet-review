@@ -20,7 +20,7 @@ $died = explode("|", $loc_i[$loc][$take]);
 $tcount = intval(preg_replace('/.*' . $id . ':(\d+).*/', "\\1", $died[3]));
 if ($tcount) {
     // проверим кол-во
-    if ($all) {
+    if (isset($all)) {
         $num = $tcount;
     }
     if ($tcount > 1 && !$num) {

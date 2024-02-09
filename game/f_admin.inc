@@ -18,6 +18,7 @@ if ($login == $g_admin || $gm == $gm_id) {
     $inp = Request('inp');
     $val = Request('val');
     $new = Request('new');
+    $godValue = isset($loc_i[$loc][$login]["god"]) ? intval($loc_i[$loc][$login]["god"]) : 0;
     switch ($adm) {
         case 'smp':
             msg(
@@ -25,7 +26,7 @@ if ($login == $g_admin || $gm == $gm_id) {
 	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=tln&inp=$(inp)\">teleport (loc)</button>
 	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=mnn&inp=$(inp)\">money (count)</button>
 	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=filter&inp=$(inp)\">additem (filter)</button>
-	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=gdn\">god (" . intval($loc_i[$loc][$login]["god"]) . ")</button>
+	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=gdn\">god (" . $godValue . ")</button>
 	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=getibm\">[items,bank,magic]</button>
 	<br/><button class=\"btn btn-outline-primary m-1\" type=\"admin\" href=\"$PHP_SELF?sid=$sid&adm=view&inp=$(inp)\">view (field|login|loc|t)</button>
 	<br/><input name=\"val\" emptyok=\"true\"/>

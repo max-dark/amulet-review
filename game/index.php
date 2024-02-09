@@ -83,6 +83,10 @@ $drop = Request('drop');
 $pass = Request('pass');
 $nn = Request('nn');
 $num = Request('num');
+$up = Request('up');
+$down = Request('down');
+$mall = Request('mall');
+$translit = Request('translit');
 
 // Если строка запроса пуста
 if (
@@ -643,7 +647,7 @@ for ($i = 2; $i < count($loc_c); $i += 2) {
         // галопом на лошади
         $stmp .= "<a class=\"btn btn-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&gal=1&go=" . $loc_c[$i + 1] . "\">*</a>";
     }
-    if (ViewOptions::getInstance()->getSoundsMode() && count($loc_i[$loc_c[$i + 1]]) > 0) {
+    if (ViewOptions::getInstance()->getSoundsMode() && isset($loc_i[$loc_c[$i + 1]]) && count($loc_i[$loc_c[$i + 1]]) > 0) {
         // выводим признак наличия персов/НПС в локе
         foreach ($loc_i[$loc_c[$i + 1]] as $j => $val) {
             if ((substr($j, 0, 2) == 'u.') || substr($j, 0, 2) == 'n.') {
@@ -680,14 +684,14 @@ $b = "<br/>";
 $ts = ["", "", "m", "магия", "i", "предмет", "p", "прием"];
 $userMenu = strval(ViewOptions::getInstance()->getUserMenu());
 for ($i = 0; $i < strlen($userMenu); $i += 2) {
-    if ($ts[$userMenu { $i} * 2]) {
+    if ($ts[$userMenu[$i] * 2]) {
         // просмотр списка и управление порядком
-        $stmp .= $b . "<a class=\"btn btn-outline-warning btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$userMenu { $i} * 2] . "\">" .
-            $ts[$userMenu { $i} * 2 + 1] . "</a>";
+        $stmp .= $b . "<a class=\"btn btn-outline-warning btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$userMenu[$i] * 2] . "\">" .
+            $ts[$userMenu[$i] * 2 + 1] . "</a>";
         $b = ", ";
-        for ($j = 1; $j <= $userMenu { $i + 1}; $j++) {
+        for ($j = 1; $j <= $userMenu[$i + 1]; $j++) {
             // кнопка доступа к элементу с номером $j
-            $stmp .= "<a class=\"btn btn-sm btn-warning m-1\" href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$userMenu { $i} * 2] . "." . $j . "\">" . $j .
+            $stmp .= "<a class=\"btn btn-sm btn-warning m-1\" href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$userMenu[$i] * 2] . "." . $j . "\">" . $j .
                 "</a>";
         }
     }
