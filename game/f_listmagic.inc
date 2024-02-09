@@ -65,7 +65,7 @@ if ($down) {
     $loc_i[$loc][$login]["magic"] = implode("|", $items);
     msg("Заклинание передвинуто вниз.");
 }
-if ($macro == 1) {
+if (isset($macro) && $macro == 1) {
     $m = "&macros=list&num=$num&name=$name&act=$act#add";
 } else {
     $m = '';
@@ -101,5 +101,5 @@ if ($listEnd < count($keys)) {
         (count($keys) - $listEnd) . ")</a>";
 }
 // карта меню
-$stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n<p>\n<a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&use=$(to)\">Кастовать</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=magic&up=$(to)\">Вверх</a> | <a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=magic&down=$(to)\">Вниз</a>]\n";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n<p>\n<a class=\"btn btn-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&use=$(to)\">Кастовать</a>\n<br/><a class=\"btn btn-outline-secondary btn-sm m-1 \"  href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=magic&up=$(to)\">Вверх</a> | <a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=magic&down=$(to)\">Вниз</a>]\n";
 msg($stmp, "Магия", 1);

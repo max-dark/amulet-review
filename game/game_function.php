@@ -638,6 +638,7 @@ function attack(
     if ($rmagic || $fwar[12] == "магией" || $fwar[12] == "молнией") {
         // Атака магией
         // у цели активен баф "сбить заклинание"
+        $t1 = "";
         if ($tdef[0] == "p.d.z" && rand(0, 100) <= $tdef[3] * 0.10) {
             // у атакуещего активен баф "концентрация"
             if (substr($loc_i[$loc][$from]["def"], 0, 5) == "p.d.c") {
@@ -846,7 +847,7 @@ function attack(
                 if ($tchar[1] < 0) {
                     $tchar[1] = 0;
                 }
-                if (!$answer && !$rmagic && isset($t1)) {
+                if (!$answer && !$rmagic) {
                     addjournal(
                         $loc,
                         $from,
@@ -1237,6 +1238,7 @@ function manageItems(
     }
     if (
         $to == $from && ($ft == "bank" || $tt == "bank") && substr($to, 0, 2) == "u." &&
+        isset($loc_i[$loc][$to][$tt]) &&
         strlen($loc_i[$loc][$to][$tt]) > 800 && strpos($loc_i[$loc][$to][$tt], $itemId . ":") === false
     ) {
         msg("Нет места для " . $title);
@@ -1741,7 +1743,7 @@ function makeLists(&$loc_i, $locId, $locType)
                          */
                         if (
                             $locType != 3 && $uc[9] ||
-                            $ti[2] >= 1099 && ($locType == 2 && $uc[14] == "p" || $locType == 3 && $uc[14] == "t")
+                            (isset($ti[2]) && $ti[2] >= 1099 && ($locType == 2 && $uc[14] == "p" || $locType == 3 && $uc[14] == "t"))
                         ) {
                             $crim[] = $j;
                         }
@@ -2031,7 +2033,7 @@ function stepForNPC(&$loc_tt, &$loc_i, $locai, $i, $j, $g_regen, $loc, $crim, $u
             $b = 1;
             unset($loc_i[$i][$j]["owner"]);
             addjournal($i, $owner[0], $char[0] . " покинул вас");
-            if ($owner[6]) {
+            if (isset($owner[6])) {
                 manageNPC($j, $i, $owner[6]);
             } else {
                 $ttw = explode("|", $loc_i[$i][$j]["war"]);

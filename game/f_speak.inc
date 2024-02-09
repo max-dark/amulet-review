@@ -17,7 +17,7 @@ if (empty($speak)) {
     return;
 }
 $npc_type = substr($speak, 0, 2);
-if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$loc][$speak]))) {
+if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.'))) {
     if ($npc_type == 'u.') {
         $to = $speak;
         $speak = 1;
@@ -51,7 +51,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
 
         msg($stmp, "Сказать", 1);
     } else {
-        $tchar = explode("|", $loc_i[$loc][$speak]["char"]);
+        $tchar = isset($loc_i[$loc][$speak]["char"]) ? explode("|", $loc_i[$loc][$speak]["char"]): [];
         if ($npc_subtype == "n.q.") {
             // с квестовым NPC
             // диалог с квестовым NPC:
@@ -345,7 +345,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
             if (!empty($stmp)) {
                 msg($stmp, $tchar[0]);
             }
-        } elseif (!empty([$loc][$speak]["owner"])) {
+        } elseif (!empty($loc_i[$loc][$speak]["owner"])) {
             // со своим
             $owner = explode("|", $loc_i[$loc][$speak]["owner"]);
             if ($owner[0] == $login) {
@@ -723,9 +723,25 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 $functionCall = substr($title, 6);
                 if (preg_match('/^(\w+)\(([^)]*)\);?$/', $functionCall, $matches)) {
                     $functionName = $matches[1];
-                    $arguments = [&$title];
+                    $arguments = isset($matches[2]) ? explode(',', $matches[2]) : [];
+                    // Preprocess arguments to handle references
+                    $processedArguments = [];
+                    foreach ($arguments as $arg) {
+                        $arg = trim($arg); // Trim spaces
+                        if (strpos($arg, '&$') === 0) {
+                            // It's a reference, strip '&$' and get variable by name
+                            $varName = substr($arg, 2);
+                            global $$varName; // Ensure variable is accessible, consider scope carefully
+                            $processedArguments[] = &$$varName;
+                        } else if (strpos($arg, '$') === 0) {
+                            // It's a variable, strip '$' and get variable by name
+                            $varName = substr($arg, 1);
+                            global $$varName; // Ensure variable is accessible, consider scope carefully
+                            $processedArguments[] = $$varName;
+                        }
+                    }
                     if (function_exists($functionName)) {
-                        call_user_func_array($functionName, $arguments);
+                        call_user_func_array($functionName, $processedArguments);
                     } else {
                         echo "Function $functionName does not exist.";
                     }
@@ -930,7 +946,9 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     $sum = 0;
                     foreach (array_keys($arr_skills) as $i) {
                         if ($i != 'str' && $i != 'dex' && $i != 'int') {
-                            $sum += $skills[$arr_skills[$i]];
+                            if (isset($skills[$arr_skills[$i]])){
+                                $sum += $skills[$arr_skills[$i]];
+                            }
                         }
                     }
                     if (!$skilldown) {
@@ -987,6 +1005,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 $skills[4] -= 1;    // очки опыта
                 $loc_i[$loc][$login]["skills"] = implode("|", $skills);
                 calcparam($loc, $login);
+                $stmp = isset($stmp) ? $stmp : "";
                 $stmp .= "<p>" . $arr_title[$skill] . ": +1";
                 if ($skilldown) {
                     $stmp .= "<br/>" . $arr_title[$skilldown] . ": -1";
@@ -998,9 +1017,31 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 $title = $current_dialog[$i]; // может быть переназначен в "eval: "
                 $id = $current_dialog[$i + 1]; // может быть переназначен в "eval: "
                 if (substr($title, 0, 6) == "eval: ") {
-                    // скриптовая часть диалога
-                    // TODO: избавиться от eval
-                    eval(substr($title, 6));
+                    $functionCall = substr($title, 6);
+                    if (preg_match('/^(\w+)\(([^)]*)\);?$/', $functionCall, $matches)) {
+                        $functionName = $matches[1];
+                        $arguments = isset($matches[2]) ? explode(',', $matches[2]) : [];
+                        $processedArguments = [];
+                        foreach ($arguments as $arg) {
+                            $arg = trim($arg); // Trim spaces
+                            if (strpos($arg, '&$') === 0) {
+                                // It's a reference, strip '&$' and get variable by name
+                                $varName = substr($arg, 2);
+                                global $$varName; // Ensure variable is accessible, consider scope carefully
+                                $processedArguments[] = &$$varName;
+                            } else if (strpos($arg, '$') === 0) {
+                                // It's a variable, strip '$' and get variable by name
+                                $varName = substr($arg, 1);
+                                global $$varName; // Ensure variable is accessible, consider scope carefully
+                                $processedArguments[] = $$varName;
+                            }
+                        }
+                        if (function_exists($functionName)) {
+                            call_user_func_array($functionName, $processedArguments);
+                        } else {
+                            echo "Function $functionName does not exist.";
+                        }
+                    }
                 }
                 if ($title) {
                     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">$title</a>";
@@ -1014,7 +1055,11 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
             msg($stmp, $tchar[0], 1);
 
         } else {
-            addjournal($loc, $login, $tchar[0] . " не может с вами разговаривать");
+            if (!isset($tchar[0])) {
+                msg("Нет такого персонажа");
+            } else {
+                addjournal($loc, $login, $tchar[0] . " не может с вами разговаривать");
+            }
         }
     }
 } else {

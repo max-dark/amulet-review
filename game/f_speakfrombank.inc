@@ -25,7 +25,7 @@ if ($speak == "n.t.bankir" && $char[14] != "t") {
 if ($speak == "n.p.bankir" && $char[14] != "p") {
     msg("Ха, ты не не один из нас. Вначале стань настоящим пиратом, тогда и поговорим.");
 }
-$items = explode("|", $loc_i[$loc][$login]["bank"]);
+$items = isset($loc_i[$loc][$login]["bank"]) ? explode("|", $loc_i[$loc][$login]["bank"]) : [];
 if (empty($items)) {
     msg("У вас в банке нет ни одного предмета", $tchar[0]);
 }

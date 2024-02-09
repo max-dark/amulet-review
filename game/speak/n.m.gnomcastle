@@ -27,8 +27,8 @@ function nmGnomCastle_gr(&$title)
 }
 
 return [
-    'begin' => 'стой сюда могут войти люди с особым знаком дружбы между людьми и гномами.#eval: nmGnomCastle_begin_gr($title, $id);#end#я так и знал. Все вы гномы такие... ненавижу.#end1',
+    'begin' => 'стой сюда могут войти люди с особым знаком дружбы между людьми и гномами.#eval: nmGnomCastle_begin_gr(&$title, &$id);#end#я так и знал. Все вы гномы такие... ненавижу.#end1',
     'end'   => 'ну тогда извени я не могу тебя тогда пустить.',
     'end1'  => 'Взаимно, давай проваливай пока цел!',
-    'gr'    => 'eval: nmGnomCastle_gr($title);'
+    'gr'    => 'eval: nmGnomCastle_gr(&$title);'
 ];

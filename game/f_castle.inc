@@ -129,7 +129,7 @@ if (substr($loc, 3) == ".gate" && $clanc && $clanc != $clan &&
         }
     }
 
-    $tclan = unserialize((file_get_contents("data/clans/" . $clanc)));
+    $tclan = file_exists("data/clans/" . $clanc) ? unserialize(file_get_contents("data/clans/" . $clanc)) : 0;
     if ($tclan) {
         $k1                 = array_keys($tclan["g"]);
         $tclan["m"][$k1[0]] = 1;//глава

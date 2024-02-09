@@ -34,7 +34,7 @@ function nmGrimli_cepNow(&$title)
 }
 
 return [
-    'begin'   => 'Что ты хотел, человек?#eval: nmGrimli_begin_tr($title, $id);#tr#Я много что хочу, тебе может весь список моих желаний предоставить?#end#я так тут гуляю.#end1',
+    'begin'   => 'Что ты хотел, человек?#eval: nmGrimli_begin_tr(&$title, &$id);#tr#Я много что хочу, тебе может весь список моих желаний предоставить?#end#я так тут гуляю.#end1',
     'end'     => 'Я что похож на золотую рыбку, что бы исполнять твои желания? Давай проваливай отсюда.',
     'end1'    => 'Погуляй в другом месте тут занимаются серьезными делами!',
     'end2'    => 'И что бы больше я тебя тут не видел!',
@@ -51,7 +51,7 @@ return [
                  $sid . '&look=m.w.dead">Подробней...</a>#Согласен#deadnov#Можно другое заклинание?#tren',
     'tuc'     => 'Полезное заклинание, всегда приятно, что за тобой следует верный защитник.Особенно если он бросает молнии в твоих врагов. Стоит 2000 монет<br/><a href="?sid=' .
                  $sid . '&look=m.s.tucha">Подробней...</a>#Согласен#tucnov#А еще какие есть заклинания?#tren',
-    'tucnov'  => 'eval: nmGrimli_tucNow($title);',
-    'deadnov' => 'eval: nmGrimli_deadNow($title);',
-    'cepnov'  => 'eval: nmGrimli_cepNow($title);',
+    'tucnov'  => 'eval: nmGrimli_tucNow(&$title);',
+    'deadnov' => 'eval: nmGrimli_deadNow(&$title);',
+    'cepnov'  => 'eval: nmGrimli_cepNow(&$title);',
 ];

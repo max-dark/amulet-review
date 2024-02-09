@@ -19,7 +19,7 @@
  */
 
 // проверка флага лидерства
-if ($game["fid"] != $login && intval($game["floc"]{2}) == $loc{2}) {
+if ($game["fid"] != $login && intval($game["floc"][2]) == $loc[2]) {
     loadloc($game["floc"]);
     if ( ! $game["fid"] || ! isset($loc_i[$game["floc"]][$game["fid"]])) {
         $loc_i[$loc]["i.flag"] = "флаг лидерства|1|0";
@@ -32,7 +32,7 @@ if ($clanc) {    // инфа
     if ($char[8] && $stuk) {
         msg("Призраки не могут стучать в ворота");
     }
-    if ($stuk) {    // стук в ворота
+    if (isset($stuk)) {    // стук в ворота
         if (strpos($d[0], "[") !== false) {
             $tmp = substr($d[0], strpos($d[0], "[") + 1, strpos($d[0], "]") - strpos($d[0], "[") - 1);
         } else {

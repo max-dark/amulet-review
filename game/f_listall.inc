@@ -33,7 +33,7 @@ if (count($loc_i[$loc]) > 1) {
     for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         if ($keys[$i] != $login) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&to=" . $keys[$i] . "&use=$use";
-            if ($glava == 1) {
+            if (isset($glava) && $glava == 1) {
                 $stmp .= "&glava=1"; // используется в plugin/i.guildstone.inc
             }
             $stmp .= "\">";
@@ -78,7 +78,7 @@ if (count($loc_i[$loc]) > 1) {
                     }
                 }
                 if ($st) {
-                    if ($st { 0} == ' ') {
+                    if ($st[0] == ' ') {
                         $st = substr($st, 1);
                     }
                     $k .= " [" . $st . "]";
@@ -122,8 +122,8 @@ if ($loc_i[$loc][$login]["items"] != "") {
             }
             $tbp = strpos($loc_i[$loc][$login]["equip"], $k[0]);
             if (
-                $tbp !== false && ($loc_i[$loc][$login]["equip"]{ $tbp + strlen($k[0])} == "|" ||
-                    $loc_i[$loc][$login]["equip"]{ $tbp + strlen($k[0])} == "")
+                $tbp !== false && ($loc_i[$loc][$login]["equip"][$tbp + strlen($k[0])] == "|" ||
+                    $loc_i[$loc][$login]["equip"][$tbp + strlen($k[0])] == "")
             ) {
                 $item .= " [одето]";
             }

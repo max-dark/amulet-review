@@ -197,7 +197,27 @@ if ($login == $g_admin || $gm == $gm_id) {
             addjournal($loc, $login, "Таймер установлен");
             break;
         case 'skillinfo':
-            msg("skills = 0:str|1:dex|2:int|3:level|4:points|5:meditation|6:steal|7:animaltaming|8:hand|9:coldweapon|10:ranged|11:parring|12:uklon|13:magic|14:magic_resist|15:magic_uklon|16:regeneration|17:hiding|18:look|19:steallook|20:animallore|21:spirit|22:healing|23:alchemy|24:mine|25:smith|26:lumb|27:bow|28:stone|29:fish|30:food");
+            $skillsStr = "0:str|1:dex|2:int|3:level|4:points|5:meditation|6:steal|7:animaltaming|8:hand|9:coldweapon|10:ranged|11:parring|12:uklon|13:magic|14:magic_resist|15:magic_uklon|16:regeneration|17:hiding|18:look|19:steallook|20:animallore|21:spirit|22:healing|23:alchemy|24:mine|25:smith|26:lumb|27:bow|28:stone|29:fish|30:food";
+            $skillsArray = explode('|', $skillsStr);
+
+            // Calculate halfway point to split array for two columns
+            $halfLength = ceil(count($skillsArray) / 2);
+            $skillsColumn1 = array_slice($skillsArray, 0, $halfLength);
+            $skillsColumn2 = array_slice($skillsArray, $halfLength);
+            msg(
+                "<div class=\"row\">
+                    <div class=\"col-md-6\">
+                        <ul>
+                            <li>" . implode("</li><li>", $skillsColumn1) . "</li>
+                        </ul>
+                    </div>
+                    <div class=\"col-md-6\">
+                        <ul>
+                            <li>" . implode("</li><li>", $skillsColumn2) . "</li>
+                        </ul>
+                    </div>
+                </div>"
+            );
             break;
         case 'stop':
             $game["stop"] = time() + 180;
