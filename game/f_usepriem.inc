@@ -19,9 +19,9 @@ if (strpos($loc_i[$loc][$login]["equip"], "i.w.r.") !== false) {
     msg("Приемы можно использовать только в рукопашном бою или с холодным оружием ближнего боя");
 }
 
-if ($use{2} > 0 && $use{2} < 10) {
+if ($use[2] > 0 && $use[2] < 10) {
     $tm = explode("|", $loc_i[$loc][$login]["priem"]);
-    $tc = intval($use{2}) - 1;
+    $tc = intval($use[2]) - 1;
     if ($tm[$tc]) {
         $use                           = substr($tm[$tc], 0, strpos($tm[$tc], ":"));
         $loc_i[$loc][$login]["macrol"] = "use|$use|to|$to";

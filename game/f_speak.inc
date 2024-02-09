@@ -17,7 +17,7 @@ if (empty($speak)) {
     return;
 }
 $npc_type = substr($speak, 0, 2);
-if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$loc][$speak]))) {
+if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.'))) {
     if ($npc_type == 'u.') {
         $to = $speak;
         $speak = 1;
@@ -29,31 +29,29 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
     if ($speak == 1) {
         // чат
         if ($to && isset($loc_i[$loc][$to])) {
-            $tt    = $to;
+            $tt = $to;
             $tchar = explode("|", $loc_i[$loc][$to]["char"]);
-            $to    = $tchar[0] . ", ";
+            $to = $tchar[0] . ", ";
         } else {
             $to = "";
         }
-        $stmp = "<p>";
+        $stmp = '<p>';
+        $stmp .= '<form action="?sid=' . $sid . '" method="post">';
         if (!empty($to)) {
-            $stmp .= "<input name=\"to\" emptyok=\"true\" type=\"text\" value=\"$to\"/><br />";
+            $stmp .= "<input class=\"form-control\" name=\"to\" emptyok=\"true\" type=\"text\" value=\"$to\"/><br />";
         }
-        $stmp .= "<input name=\"say\" emptyok=\"true\" type=\"text\" maxlength=\"250\" value=\"\"/>\n";
+        $stmp .= "<input class=\"form-control\" name=\"say\" emptyok=\"true\" type=\"text\" maxlength=\"250\" value=\"\"/>\n";
         $stmp .= "<br/>\n";
-        $stmp .= "<anchor>Сказать\n";
-        $stmp .= "<go href=\"?sid=$sid\" method=\"post\">\n";
-        $stmp .= "<postfield name=\"to\" value=\"$(to)\"/>\n";
-        $stmp .= "<postfield name=\"say\" value=\"$(say)\"/>\n";
-        $stmp .= "</go></anchor>";
+        $stmp .= '<button class="btn btn-primary" type="submit">Сказать</button>';
+        $stmp .= "</form>";
 
         if (!empty($tt)) {
-            $stmp .= "<br/><a href=\"?sid=$sid&trade=$tt\">Обмен</a>";
+            $stmp .= "<br/><a class=\"btn btn-outline-primary\" href=\"?sid=$sid&trade=$tt\">Обмен</a>";
         }
 
         msg($stmp, "Сказать", 1);
     } else {
-        $tchar = explode("|", $loc_i[$loc][$speak]["char"]);
+        $tchar = isset($loc_i[$loc][$speak]["char"]) ? explode("|", $loc_i[$loc][$speak]["char"]): [];
         if ($npc_subtype == "n.q.") {
             // с квестовым NPC
             // диалог с квестовым NPC:
@@ -73,7 +71,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 $loc_i[$loc][$speak]["owner"] = $login . "|" . $login . "||";
                 msg($loc_i[$loc][$speak]["in"] . "<br/><a href=\"?sid=$sid\">Хорошо, следуй за мной</a>", $tchar[0]);
             } elseif (substr($owner, 0, strpos($owner, "|")) == $login) {
-                if (isset($loc_i[$loc][$speak]["ok"]) &&
+                if (
+                    isset($loc_i[$loc][$speak]["ok"]) &&
                     substr($loc_i[$loc][$speak]["ok"], 0, strpos($loc_i[$loc][$speak]["ok"], " | ")) == $loc
                 ) {
                     $items = explode(" | ", $loc_i[$loc][$speak]["ok"]);
@@ -103,9 +102,11 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 }
             } else {
                 $tc = explode("|", $loc_i[$loc][substr($owner, 0, strpos($owner, "|"))]["char"]);
-                msg("Извини, " . $char[0] . ", но я сейчас следую за " . $tc[0] . ", с тобой могу пойти только если " . $tc[0] .
+                msg(
+                    "Извини, " . $char[0] . ", но я сейчас следую за " . $tc[0] . ", с тобой могу пойти только если " . $tc[0] .
                     " откажется провожать меня или я потеряю его из вида.<br/><a href=\"?sid=$sid\">Понятно, пока</a>",
-                    $tchar[0]);
+                    $tchar[0]
+                );
             }
         } elseif ($npc_subtype == "n.o.") {
             // диалог с стражником замка
@@ -120,7 +121,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
             // в замке...
             // инфа о замке
             $gate = substr($loc, 0, 4) . "gate";
-            $d    = explode("|", $loc_tt[$gate]["d"]);
+            $d = explode("|", $loc_tt[$gate]["d"]);
             if (strpos($d[0], "*") === false) {
                 msg("Этот замок никому не принадлежит, я не буду защищать его, пока не определится хозяин этой земли!");
             }
@@ -136,14 +137,14 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 msg("Вы не состоите в клане, которому принадлежит этот замок, поэтому мне нечего вам сказать. Найдите в замке барона Дитриха моего командира, стражника Лансета, он знает все о крепостях, о том как их захватывать и защищать.");
             }
 
-            if ( ! $id) {            // основной диалог
+            if (!$id) {            // основной диалог
                 $stmp = "<p>Что прикажете, сир?";
                 $stmp .= "<br/><a href=\"#move\">Иди...</a>";
                 $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=close\">Запереть ворота</a>";
                 $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=new\">Пропустить гостя...</a>";
                 $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=list\">Список гостей</a>";
                 $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=status\">Статус?</a>";
-                $stmp .= "\n</p>\n</card>\n<card id=\"move\" title=\"Иди...\">\n<p>Куда?";
+                $stmp .= "\n</p>\n</div>\n<div id=\"move\" title=\"Иди...\">\n<p>Куда?";
                 if (substr($loc, 3) == ".gate") {
                     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=move&to=tron\">В тронный зал</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=move&to=sklad\">В кладовую</a>\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=move&to=main\">Общий зал</a>";
                 } else {
@@ -153,7 +154,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
 
             if ($id == 'new') {    // список кого пропустить
                 $stmp = "";
-                $in   = substr($loc, 0, 4) . "in";
+                $in = substr($loc, 0, 4) . "in";
                 loadloc($in);
                 if ($loc_i[$in]) {
                     foreach (array_keys($loc_i[$in]) as $i) {
@@ -174,14 +175,14 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     msg(substr($who, 2) . " и так является гостем этого замка, сир.");
                 }
                 $d[0] .= ":" . $who . ":";
-                $loc_tt[$gate]["d"]    = implode("|", $d);
+                $loc_tt[$gate]["d"] = implode("|", $d);
                 $loc_tt[$gate]["save"] = 1;
                 $stmp .= substr($who, 2) .
                     " с этого момента является гостем этого замка и может беспрепятственно входить и выходить из него.";
             }
             if ($id == 'list') {    // список гостей
                 $stmp = "<p>Кого больше не считать гостем замка?";
-                $xF   = preg_match_all("':([^:]+):'", $d[0], $regF);
+                $xF = preg_match_all("':([^:]+):'", $d[0], $regF);
                 for ($i = 0; $i < $xF; $i++) {
                     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=del&who=" . $regF[1][$i] . "\">" .
                         substr($regF[1][$i], 2) . "</a>";
@@ -191,12 +192,12 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 }
             }
 
-            if ($id == 'del' && ($who= Request('who'))) { // удалить гостя $who
+            if ($id == 'del' && ($who = Request('who'))) { // удалить гостя $who
                 if (strpos($loc_tt[$gate]["d"], ":" . $who . ":") === false) {
                     msg(substr($who, 2) . " не является гостем этого замка, сир.");
                 }
-                $d[0]                  = str_replace(":" . $who . ":", "", $d[0]);
-                $loc_tt[$gate]["d"]    = implode("|", $d);
+                $d[0] = str_replace(":" . $who . ":", "", $d[0]);
+                $loc_tt[$gate]["d"] = implode("|", $d);
                 $loc_tt[$gate]["save"] = 1;
                 $stmp .= $tchar[0] .
                     " с этого момента больше не является гостем замка, если попытается проникнуть внутрь, будет немедленно атакован стражниками.";
@@ -241,14 +242,14 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     $tc = 100;
                 }
                 manageItems($loc, $login, "", "i.money", $tc * $val, "items", "items", 1, 0, 1);
-                $owner[3] += (int)$val * 60 * 60 * 24;
+                $owner[3] += (int) $val * 60 * 60 * 24;
                 $loc_i[$loc][$speak]["owner"] = implode("|", $owner);
                 $stmp .= "Контракт продлен на " . $val .
                     " дней. Клянусь защищать этот замок от любого, кто посмеет оспаривать ваши права на него, будь то человек или зверь.";
             }
 
             if ($id == 'move' && $to) {    // идти
-                if ( ! isset($loc_tt[substr($loc, 0, 4) . $to])) {
+                if (!isset($loc_tt[substr($loc, 0, 4) . $to])) {
                     msg("Сожалею, сир, но в вашем замке нет такого места");
                 }
                 $count = 0;
@@ -280,7 +281,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     }
                     // проверим, нет ли врагов
                     $arr = ["main", "gate", "tron", "sklad"];
-                    $tc  = substr($loc, 0, 4);
+                    $tc = substr($loc, 0, 4);
                     if (strpos($d[0], "*") === false) {
                         $clanc = "";
                     } else {
@@ -296,10 +297,13 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                                     if (strpos($tchar[0], "*") === false) {
                                         $tclan = "";
                                     } else {
-                                        $tclan = substr($tchar[0], strpos($tchar[0], "*") + 1,
-                                            strrpos($tchar[0], "*") - strpos($tchar[0], "*") - 1);
+                                        $tclan = substr(
+                                            $tchar[0],
+                                            strpos($tchar[0], "*") + 1,
+                                            strrpos($tchar[0], "*") - strpos($tchar[0], "*") - 1
+                                        );
                                     }
-                                    if ( ! $tchar[8] && $tclan != $clanc && strpos($d[0], ":" . $k . ":") === false) {
+                                    if (!$tchar[8] && $tclan != $clanc && strpos($d[0], ":" . $k . ":") === false) {
                                         $b = 1;
                                     }
                                 }
@@ -317,7 +321,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         $d[0] = substr($d[0], 0, strpos($d[0], "#")) . substr($d[0], strrpos($d[0], "#") + 1);
                     }
                     $d[0] .= "{" . (time() + 60 * 60 * 10) . "}";
-                    $loc_tt[$gate]["d"]    = implode("|", $d);
+                    $loc_tt[$gate]["d"] = implode("|", $d);
                     $loc_tt[$gate]["save"] = 1;
                     addjournal($loc, $login, "Вы заперли ворота замка на ближайшие 10 часов");
                 } else {
@@ -341,7 +345,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
             if (!empty($stmp)) {
                 msg($stmp, $tchar[0]);
             }
-        } elseif (!empty([$loc][$speak]["owner"])) {
+        } elseif (!empty($loc_i[$loc][$speak]["owner"])) {
             // со своим
             $owner = explode("|", $loc_i[$loc][$speak]["owner"]);
             if ($owner[0] == $login) {
@@ -362,12 +366,12 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=name\">Изменить имя</a>";
                     }
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=free\">Нам пора расстаться</a>";
-                    $stmp .= "\n</p>\n</card>\n<card id=\"battle\" title=\"Насчет боя...\">\n";
+                    $stmp .= "\n</p>\n</div>\n<div id=\"battle\" title=\"Насчет боя...\">\n";
                     $stmp .= "<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=guardme\">Защищай меня</a>\n";
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=nelez\">Не лезь в драку</a>\n";
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=attacklist\">Атакуй...</a>\n";
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=guardlist\">Защищай...</a>";
-                    $stmp .= "\n</p>\n</card>\n<card id=\"move\" title=\"Насчет движения...\">\n";
+                    $stmp .= "\n</p>\n</div>\n<div id=\"move\" title=\"Насчет движения...\">\n";
                     $stmp .= "<p>\n<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=followme\">Следуй за мной</a>\n";
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=stay\">Стой здесь</a>\n";
                     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=followlist\">Следуй за...</a>";
@@ -475,7 +479,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         $fchar = explode("|", $loc_i[$loc][$login]["char"]);
                         $fcrim = $fchar[9];
                         $tcrim = $tc[9] || substr($who, 0, 4) == "n.c.";
-                        if (!$fcrim && $tc[7] != $login &&
+                        if (
+                            !$fcrim && $tc[7] != $login &&
                             ((!$tcrim && substr($who, 0, 4) != "n.a.") || ($loc_c[1] == 1 && substr($who, 0, 4) == "n.a."))
                         ) {
                             docrim($loc, $login);
@@ -638,7 +643,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 msg("<p>Вы не можете разговаривать с " . $tchar[0] . ", т.к. он вас атакует");
             }
             // диалог загрузится в $dialog (у стражи тоже)
-            $dialog_file = $npc_subtype == "n.g." ? "speak/n.g.guard" : "speak/{$speak}";
+            $dialog_file = $npc_subtype == "n.g." ? "speak/n.g.guard" : "speak/" . $speak;
             // load dialog array
             $dialog = require $dialog_file;
             if ($char[7] == $speak) {
@@ -647,7 +652,8 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 // Может быть "прекратить атаковать при начале разговора"?
                 $char[7] = '';
                 $loc_i[$loc][$login]["char"] = implode("|", $char);
-            };
+            }
+            ;
 
             // разговор с торговцем
             if ($id == 'buy' || $id == 'sell') {
@@ -655,14 +661,15 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     msg($tchar[0] . " торговать не будет");
                 }
                 $user_items = $loc_i[$loc][$login]["items"];
-                if ($speak == "n.Natan" && strpos($user_items, "i.q.hagen:") === false &&
+                if (
+                    $speak == "n.Natan" && strpos($user_items, "i.q.hagen:") === false &&
                     strpos($user_items, "i.q.ditrih:") === false
                 ) {
                     msg("Прости, но я продаю палладинское оружие и броню только стражникам барона Дитриха или тем кто имеет грамоту от Лорда Хагена");
                 }
                 $trader = explode("|", $dialog[$id]);
 
-                switch (empty($to) ? $id : $id . "to"){
+                switch (empty($to) ? $id : $id . "to") {
                     case 'buy':
                         require 'f_speakbuy.inc';
                         break;
@@ -683,7 +690,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 if (!isset($dialog["bank"])) {
                     msg($tchar[0] . " не банкир");
                 }
-                switch (empty($to) ? $id : $id . "to"){
+                switch (empty($to) ? $id : $id . "to") {
                     case 'frombank':
                         require 'f_speakfrombank.inc';
                         break;
@@ -704,26 +711,52 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 $id = "begin";
             }
             if (!isset($dialog[$id])) {
-                msg("Отсутствует тема \"$id\" в диалоге \"$speak\", сообщите разработчику игры, спасибо",
-                    "Ошибка");
+                msg(
+                    "Отсутствует тема \"$id\" в диалоге \"$speak\", сообщите разработчику игры, спасибо",
+                    "Ошибка"
+                );
             }
             $current_dialog = explode("#", $dialog[$id]);
-            $title = $current_dialog[0]; // может быть переназначен в "eval: "
+            
+            $title = $current_dialog[0];
             if (substr($title, 0, 6) == "eval: ") {
-                // скриптовая часть диалога
-                // TODO: избавиться от eval
-                eval(substr($title, 6));
+                $functionCall = substr($title, 6);
+                if (preg_match('/^(\w+)\(([^)]*)\);?$/', $functionCall, $matches)) {
+                    $functionName = $matches[1];
+                    $arguments = isset($matches[2]) ? explode(',', $matches[2]) : [];
+                    // Preprocess arguments to handle references
+                    $processedArguments = [];
+                    foreach ($arguments as $arg) {
+                        $arg = trim($arg); // Trim spaces
+                        if (strpos($arg, '&$') === 0) {
+                            // It's a reference, strip '&$' and get variable by name
+                            $varName = substr($arg, 2);
+                            global $$varName; // Ensure variable is accessible, consider scope carefully
+                            $processedArguments[] = &$$varName;
+                        } else if (strpos($arg, '$') === 0) {
+                            // It's a variable, strip '$' and get variable by name
+                            $varName = substr($arg, 1);
+                            global $$varName; // Ensure variable is accessible, consider scope carefully
+                            $processedArguments[] = $$varName;
+                        }
+                    }
+                    if (function_exists($functionName)) {
+                        call_user_func_array($functionName, $processedArguments);
+                    } else {
+                        echo "Function $functionName does not exist.";
+                    }
+                }
             }
 
             // обучение
             if (substr($title, 0, 5) == "skill") {
                 // диалог повышения скилла или аттрибута на 1
 
-                $tmp   = explode("|", $title);
-                $skill = $tmp[1];
-                $cost  = $tmp[2];
-                $min   = $tmp[3];
-                $max   = $tmp[4];
+                $tmp = explode("|", $title);
+                $skill = isset($tmp[1]) ? $tmp[1] : '';
+                $cost = isset($tmp[2]) ? $tmp[2] : '';
+                $min = isset($tmp[3]) ? $tmp[3] : '';
+                $max = isset($tmp[4]) ? $tmp[4] : '';
 
                 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
                 if (substr($skill, 0, 2) == "m.") {
@@ -749,7 +782,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         }
                         manageItems($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
                     }
-                    if ( ! $loc_i[$loc][$login]["magic"]) {
+                    if (!$loc_i[$loc][$login]["magic"]) {
                         $loc_i[$loc][$login]["magic"] = $skill . ":1";
                     } else {
                         $loc_i[$loc][$login]["magic"] .= "|" . $skill . ":1";
@@ -769,7 +802,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                         }
                         manageItems($loc, $login, "", "i.money", $cost, "items", "items", 1, -1, 1);
                     }
-                    if ( ! $loc_i[$loc][$login]["priem"]) {
+                    if (!$loc_i[$loc][$login]["priem"]) {
                         $loc_i[$loc][$login]["priem"] = $skill . ":1";
                     } else {
                         $loc_i[$loc][$login]["priem"] .= "|" . $skill . ":1";
@@ -785,75 +818,75 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 }
 
                 $arr_skills = [
-                    "str"          => 0,
-                    "dex"          => 1,
-                    "int"          => 2,
-                    "meditation"   => 5,
-                    "steal"        => 6,
+                    "str" => 0,
+                    "dex" => 1,
+                    "int" => 2,
+                    "meditation" => 5,
+                    "steal" => 6,
                     "animaltaming" => 7,
-                    "hand"         => 8,
-                    "coldweapon"   => 9,
-                    "ranged"       => 10,
-                    "parring"      => 11,
-                    "uklon"        => 12,
-                    "magic"        => 13,
+                    "hand" => 8,
+                    "coldweapon" => 9,
+                    "ranged" => 10,
+                    "parring" => 11,
+                    "uklon" => 12,
+                    "magic" => 13,
                     "magic_resist" => 14,
-                    "magic_uklon"  => 15,
+                    "magic_uklon" => 15,
                     "regeneration" => 16,
-                    "hiding"       => 17,
-                    "look"         => 18,
-                    "steallook"    => 19,
-                    "animallore"   => 20,
-                    "spirit"       => 21,
-                    "healing"      => 22,
-                    "alchemy"      => 23,
-                    "mine"         => 24,
-                    "smith"        => 25,
-                    "lumb"         => 26,
-                    "bow"          => 27,
-                    "stone"        => 28,
-                    "fish"         => 29,
-                    "food"         => 30,
-                    "necro"        => 31,
-                    "currier"      => 32
+                    "hiding" => 17,
+                    "look" => 18,
+                    "steallook" => 19,
+                    "animallore" => 20,
+                    "spirit" => 21,
+                    "healing" => 22,
+                    "alchemy" => 23,
+                    "mine" => 24,
+                    "smith" => 25,
+                    "lumb" => 26,
+                    "bow" => 27,
+                    "stone" => 28,
+                    "fish" => 29,
+                    "food" => 30,
+                    "necro" => 31,
+                    "currier" => 32
                 ];
 
                 $arr_title = [
-                    "str"          => "Сила",
-                    "dex"          => "Ловкость",
-                    "int"          => "Интеллект",
-                    "meditation"   => "Медитация",
-                    "steal"        => "Кража",
+                    "str" => "Сила",
+                    "dex" => "Ловкость",
+                    "int" => "Интеллект",
+                    "meditation" => "Медитация",
+                    "steal" => "Кража",
                     "animaltaming" => "Прир.животных",
-                    "hand"         => "Рукопашная",
-                    "coldweapon"   => "Холодн.оружие",
-                    "ranged"       => "Стрельба",
-                    "parring"      => "Парирование",
-                    "uklon"        => "Уклон",
-                    "magic"        => "Магия",
+                    "hand" => "Рукопашная",
+                    "coldweapon" => "Холодн.оружие",
+                    "ranged" => "Стрельба",
+                    "parring" => "Парирование",
+                    "uklon" => "Уклон",
+                    "magic" => "Магия",
                     "magic_resist" => "Сопр.магии",
-                    "magic_uklon"  => "Уклон от магии",
+                    "magic_uklon" => "Уклон от магии",
                     "regeneration" => "Регенерация",
-                    "hiding"       => "Скрытность",
-                    "look"         => "Осторожность",
-                    "steallook"    => "Подглядывание",
-                    "animallore"   => "Изуч.животных",
-                    "spirit"       => "Спиритизм",
-                    "healing"      => "Лечение",
-                    "alchemy"      => "Алхимия",
-                    "mine"         => "Рудокоп",
-                    "smith"        => "Кузнец",
-                    "lumb"         => "Лесоруб",
-                    "bow"          => "Плотник",
-                    "stone"        => "Ювелир",
-                    "fish"         => "Рыболов",
-                    "food"         => "Повар",
-                    "necro"        => "Некромант",
-                    "currier"      => "друид",
+                    "hiding" => "Скрытность",
+                    "look" => "Осторожность",
+                    "steallook" => "Подглядывание",
+                    "animallore" => "Изуч.животных",
+                    "spirit" => "Спиритизм",
+                    "healing" => "Лечение",
+                    "alchemy" => "Алхимия",
+                    "mine" => "Рудокоп",
+                    "smith" => "Кузнец",
+                    "lumb" => "Лесоруб",
+                    "bow" => "Плотник",
+                    "stone" => "Ювелир",
+                    "fish" => "Рыболов",
+                    "food" => "Повар",
+                    "necro" => "Некромант",
+                    "currier" => "друид",
                 ];
 
                 // проверки
-                if ( ! isset($arr_skills[$skill])) {
+                if (!isset($arr_skills[$skill])) {
                     msg("<p>Несуществующий скилл: $skill в диалоге с $speak, сообщите разработчику игры.", "Ошибка");
                 }
                 if ($skills[4] < 1) {
@@ -882,7 +915,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     if ($skilldown && $skills[$arr_skills[$skilldown]] <= 1) {
                         msg("<p>Невозможно понизить, т.к. аттрибут уже на минимальном уровне 1, выберите другой", $tchar[0]);
                     }
-                    if ( ! $skilldown) {
+                    if (!$skilldown) {
                         if ($skills[0] + $skills[1] + $skills[2] >= $g_attr) {
                             $stmp = "<p>Превышен предел суммы очков (" . $g_attr . ") для аттрибутов, выберите что уменьшить: ";
                             if ($skill != 'str') {
@@ -913,13 +946,15 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                     $sum = 0;
                     foreach (array_keys($arr_skills) as $i) {
                         if ($i != 'str' && $i != 'dex' && $i != 'int') {
-                            $sum += $skills[$arr_skills[$i]];
+                            if (isset($skills[$arr_skills[$i]])){
+                                $sum += $skills[$arr_skills[$i]];
+                            }
                         }
                     }
-                    if ( ! $skilldown) {
+                    if (!$skilldown) {
                         if ($sum >= $g_skills) {
                             $stmp = "<p>Превышен предел суммы очков (" . $g_skills . ") для навыков, выберите что уменьшить: ";
-                            if ( ! $start) {
+                            if (!$start) {
                                 $start = 0;
                             }
                             $keys = array_keys($arr_skills);
@@ -934,7 +969,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                                 $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">^ </a>";
                             }
                             if ($listEnd < count($keys)) {
-                                if ( ! $start) {
+                                if (!$start) {
                                     $stmp .= "\n<br/>";
                                 }
                                 $stmp .= "<a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id&start=" . $listEnd . "\">+ (" .
@@ -970,6 +1005,7 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 $skills[4] -= 1;    // очки опыта
                 $loc_i[$loc][$login]["skills"] = implode("|", $skills);
                 calcparam($loc, $login);
+                $stmp = isset($stmp) ? $stmp : "";
                 $stmp .= "<p>" . $arr_title[$skill] . ": +1";
                 if ($skilldown) {
                     $stmp .= "<br/>" . $arr_title[$skilldown] . ": -1";
@@ -981,9 +1017,31 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
                 $title = $current_dialog[$i]; // может быть переназначен в "eval: "
                 $id = $current_dialog[$i + 1]; // может быть переназначен в "eval: "
                 if (substr($title, 0, 6) == "eval: ") {
-                    // скриптовая часть диалога
-                    // TODO: избавиться от eval
-                    eval(substr($title, 6));
+                    $functionCall = substr($title, 6);
+                    if (preg_match('/^(\w+)\(([^)]*)\);?$/', $functionCall, $matches)) {
+                        $functionName = $matches[1];
+                        $arguments = isset($matches[2]) ? explode(',', $matches[2]) : [];
+                        $processedArguments = [];
+                        foreach ($arguments as $arg) {
+                            $arg = trim($arg); // Trim spaces
+                            if (strpos($arg, '&$') === 0) {
+                                // It's a reference, strip '&$' and get variable by name
+                                $varName = substr($arg, 2);
+                                global $$varName; // Ensure variable is accessible, consider scope carefully
+                                $processedArguments[] = &$$varName;
+                            } else if (strpos($arg, '$') === 0) {
+                                // It's a variable, strip '$' and get variable by name
+                                $varName = substr($arg, 1);
+                                global $$varName; // Ensure variable is accessible, consider scope carefully
+                                $processedArguments[] = $$varName;
+                            }
+                        }
+                        if (function_exists($functionName)) {
+                            call_user_func_array($functionName, $processedArguments);
+                        } else {
+                            echo "Function $functionName does not exist.";
+                        }
+                    }
                 }
                 if ($title) {
                     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&speak=$speak&id=$id\">$title</a>";
@@ -997,7 +1055,11 @@ if ($speak == 1 || (($npc_type == 'u.' || $npc_type == 'n.') && isset($loc_i[$lo
             msg($stmp, $tchar[0], 1);
 
         } else {
-            addjournal($loc, $login, $tchar[0] . " не может с вами разговаривать");
+            if (!isset($tchar[0])) {
+                msg("Нет такого персонажа");
+            } else {
+                addjournal($loc, $login, $tchar[0] . " не может с вами разговаривать");
+            }
         }
     }
 } else {

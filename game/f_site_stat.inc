@@ -15,7 +15,7 @@ function get_stat_page()
 <a href="?site=flag&r=$rnd">Флаг лидерства</a><br/>
 <a href="?site=clans&r=$rnd">Список кланов</a><br/>
 <a href="?site=castle&r=$rnd">Захват замков</a>
-</p><p><anchor>Назад<prev/></anchor>
+</p><p><button class="btn btn-outline-secondary m-1" name="b2" type="accept" label="Назад" onclick="history.back()"><prev>Назад</prev></button>
 PAGE;
 }
 

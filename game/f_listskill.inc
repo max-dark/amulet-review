@@ -68,6 +68,7 @@ $arr_title = [
     "magic"        => "Магия",
     "magic_resist" => "Сопр.магии",
     "magic_uklon"  => "Уклон от магии",
+    "necro"        => "Некромантия",
     "regeneration" => "Регенерация",
     "hiding"       => "Скрытность",
     "look"         => "Осторожность",
@@ -89,17 +90,16 @@ $arr_title = [
 // в $to цель, если есть
 $skills = explode("|", $loc_i[$loc][$login]["skills"]);
 $war    = explode("|", $loc_i[$loc][$login]["war"]);
-if ($macro == 1) {
-    $m = "&macros=list&num=$num&name=$name&act=$act#add";
-} else {
-    $m = '';
-}
 $stmp = "<p>";
-if ( ! $macro) {
-    $stmp = "<a href=\"$PHP_SELF?sid=$sid&look=skill.str\">Сила</a>: " . $skills[0] .
+if (!isset($macro)) {
+    $stmp .= "<a href=\"$PHP_SELF?sid=$sid&look=skill.str\">Сила</a>: " . $skills[0] .
             "<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.dex\">Ловкость</a>: " . $skills[1] .
             "<br/><a href=\"$PHP_SELF?sid=$sid&look=skill.int\">Интеллект</a>: " . $skills[2] . "<br/>Опыт: " .
             $skills[3] . "/" . $war[13] * $g_exp . "<br/>Очки опыта: " . $skills[4];
+} elseif ($macro == 1) {
+    $m = "&macros=list&num=$num&name=$name&act=$act#add";
+} else {
+    $m = '';
 }
 unset($arr_skills["str"]);
 unset($arr_skills["dex"]);

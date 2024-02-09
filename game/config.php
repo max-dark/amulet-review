@@ -17,10 +17,10 @@ require_once '../vendor/autoload.php';
 //=========================
 
 DBConfig::setConfig([
-    'server' => 'localhost',
+    'server' => 'db',
     'dbname' => 'amulet',
-    'login' => 'game',
-    'password' => 'pass',
+    'login' => 'amulet',
+    'password' => 'amulet',
 ]);
 
 //=========================
@@ -64,7 +64,7 @@ $g_max = 100;
  *
  * @var string $g_admin
  */
-$g_admin = 'u.user';
+$g_admin = 'u.computerstein';
 
 /**
  * ключ для входа админом
@@ -129,12 +129,12 @@ $pageOpt = ViewOptions::getInstance();
  *
  * Если размер списка превышает его, то будет разбит на несколько с возможностью перелистывания.
  */
-$pageOpt->setMaxListSize(5);
+$pageOpt->setMaxListSize(30);
 
 /**
  * Размер страницы (700..15000)
  */
-$pageOpt->setMaxPageSize(2200);
+$pageOpt->setMaxPageSize(15000);
 
 /*
  * Тип меню.

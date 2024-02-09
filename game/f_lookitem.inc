@@ -184,13 +184,13 @@ if (substr($look, 0, 6) == 'i.s.d.') {
                 $stmp .= "<br/>Урон: " . $item[2] . "-" .$item[3];
                 if ($item[4]) {
                     $str = explode(":", $item[4]);
-                    if ($str[0]) {
+                    if (isset($str[0])) {
                         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=weapon.str\">Требует силы</a>: " . $str[0];
                     }
-                    if ($str[1]) {
+                    if (isset($str[1])) {
                         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=weapon.dex\">Требует ловкости</a>: " . $str[1];
                     }
-                    if ($str[2]) {
+                    if (isset($str[2])) {
                         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=weapon.int\">Требует интеллекта</a>: " . $str[2];
                     }
                 }

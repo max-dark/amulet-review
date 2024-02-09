@@ -16,27 +16,31 @@
 
 use MaxDark\Amulet\OldCode\PageType;
 
-$died   = explode("|", $loc_i[$loc][$take]);
+$died = explode("|", $loc_i[$loc][$take]);
 $tcount = intval(preg_replace('/.*' . $id . ':(\d+).*/', "\\1", $died[3]));
 if ($tcount) {
     // проверим кол-во
-    if ($all) {
+    if (isset($all)) {
         $num = $tcount;
     }
-    if ($tcount > 1 && ! $num) {
-        $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $tcount .
-                "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&take=$take&id=$id&num=$(num)\">Отправить</a>";
+    if ($tcount > 1 && !$num) {
+        $stmp = "<p>Укажите количество:\n<br/><form action=\"$PHP_SELF\" method=\"get\">" .
+            "<input name=\"sid\" value=\"" . $sid . "\" type=\"hidden\"/>" .
+            "<input name=\"take\" value=\"" . $take . "\" type=\"hidden\"/>" .
+            "<input name=\"id\" value=\"" . $id . "\" type=\"hidden\"/>" .
+            "<input class=\"form-control\" name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $tcount .
+            "\"/>\n<br/><button class=\"btn btn-outline-primary\" type=\"submit\">Отправить</button></form></p>";
         msg($stmp, "Взять", 1, PageType::MSG, "num", $tcount);
     }
-    if ( ! $num || $num < 1) {
+    if (!$num || $num < 1) {
         $num = 1;
     }
     if ($num > $tcount) {
         $num = $tcount;
     }
     manageItems($loc, $take, $login, $id, $num, "items", "items", 1, -1, 1);
-    $char                        = explode("|", $loc_i[$loc][$login]["char"]);
-    $char[6]                     = time() + 2;
+    $char = explode("|", $loc_i[$loc][$login]["char"]);
+    $char[6] = time() + 2;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
     //$id=0;	// чтобы вывести список оставшихся
 } else {

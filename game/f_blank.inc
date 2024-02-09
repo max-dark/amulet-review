@@ -16,7 +16,7 @@ function is_castle($fname)
     return substr($fname, 0, 2) == "c.";
 }
 
-$excluded     = [
+$excluded = [
     ".",
     "..",
     ".htaccess",

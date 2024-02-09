@@ -7,16 +7,16 @@ use MaxDark\Amulet\OldCode\PageType;
 use MaxDark\Amulet\OldCode\ViewOptions;
 
 if ($clan) {
-    if ( ! file_exists("data/clans/" . $clan)) {
+    if (!file_exists("data/clans/" . $clan)) {
         msg("Клан $clan не существует");
     }
     $tmp = unserialize((file_get_contents("data/clans/" . $clan)));
-    if ( ! isset($tmp["g"])) {
+    if (!isset($tmp["g"])) {
         msg("Ошибка при загрузке клана $clan, сообщите разработчику.");
     }
     if ($info) {
         if ($tmp["i"]) {
-            msg($tmp["i"] . "<br/><anchor>[Назад]<prev/></anchor>", "Инфо о клане " . $clan);
+            msg($tmp["i"] . "<br/><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>", "Инфо о клане " . $clan);
         } else {
             msg("Нет описания");
         }
@@ -29,7 +29,7 @@ if ($clan) {
     $stmp .= "<br/>Состав:";
 
     if (count($tmp["m"]) > 0) {
-        if ( ! $start) {
+        if (!$start) {
             $start = 0;
         }
         $keys = array_keys($tmp["m"]);
@@ -41,11 +41,11 @@ if ($clan) {
             $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan\">^ </a>";
         }
         if ($listEnd < count($keys)) {
-            if ( ! $start) {
+            if (!$start) {
                 $stmp .= "\n<br/>";
             }
             $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=clans&clan=$clan&start=" . ($listEnd) . "\">+ (" .
-                     (count($keys) + 1 - $listEnd) . ")</a>";
+                (count($keys) + 1 - $listEnd) . ")</a>";
         }
     } else {
         $stmp .= "<br/>Больше никого в клане нет.";
@@ -57,10 +57,10 @@ if ($clan) {
 // все кланы
 
 $arr = [];
-$dh  = opendir("data/clans/");
+$dh = opendir("data/clans/");
 while (($fname = readdir($dh)) !== false) {
     if ($fname != "." && $fname != ".." && $fname != "1.htaccess" && $fname != ".htaccess") {
-        $tmp         = unserialize((file_get_contents("data/clans/" . $fname)));
+        $tmp = unserialize((file_get_contents("data/clans/" . $fname)));
         $arr[$fname] = count($tmp["m"]) + 1;
     }
 }
@@ -69,24 +69,24 @@ closedir($dh);
 if (count($arr) > 0) {
     $stmp = "<p>Всего кланов: " . count($arr);
     arsort($arr);
-    if ( ! $start) {
+    if (!$start) {
         $start = 0;
     }
     $keys = array_keys($arr);
     $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
     for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&site=clans&clan=" . $keys[$i] . "\">" . $keys[$i] . "</a> (" .
-                 $arr[$keys[$i]] . " чел.)";
+            $arr[$keys[$i]] . " чел.)";
     }
     if ($start) {
         $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&site=clans\">^ </a>";
     }
     if ($listEnd < count($keys)) {
-        if ( ! $start) {
+        if (!$start) {
             $stmp .= "\n<br/>";
         }
         $stmp .= "<a href=\"$PHP_SELF?sid=$sid&site=clans&start=" . ($listEnd) . "\">+ (" .
-                 (count($keys) + 1 - $listEnd) . ")</a>";
+            (count($keys) + 1 - $listEnd) . ")</a>";
     }
 } else {
     $stmp = "<p>Нет ни одного клана";

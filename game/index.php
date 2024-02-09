@@ -29,7 +29,7 @@ require_once('game_function.php'); // игровые функции
 $QUERY_STRING = get_value($_SERVER, 'QUERY_STRING');
 
 $g_query_string = $QUERY_STRING;
-$tmp            = urldecode($QUERY_STRING);
+$tmp = urldecode($QUERY_STRING);
 
 /** @var array $loc_i предметы, НПС и игроки в загруженных локациях */
 $loc_i = [];
@@ -40,52 +40,57 @@ $loc_tt = [];
 /** @var array $game Массив с состоянием игры */
 $game = [];
 
-$gm  = Request('gm');
+$gm = Request('gm');
 // ИД пользователя
 $sid = Request('sid');
 /** @var string $site */
-$site  = Request('site');
+$site = Request('site');
 $login = Request('login');
-$p     = Request('p');
+$p = Request('p');
 $cnick = Request('cnick');
-$go    = Request('go');
-$gal   = Request('gal');
+$go = Request('go');
+$gal = Request('gal');
 $ctele = Request('ctele');
 $stele = Request('stele');
 // "Атаковать"
-$ca    = Request('ca');
+$ca = Request('ca');
 // "Сохранить"
-$ce    = Request('ce');
+$ce = Request('ce');
 // "Инфо"
-$ci    = Request('ci');
+$ci = Request('ci');
 // Макросы
-$cm    = Request('cm');
+$cm = Request('cm');
 // Чат
-$cs    = Request('cs');
+$cs = Request('cs');
 
 /* @var $cl string "command list"(?) == i|p|m */
-$cl    = Request('cl');
-$id    = Request('id');
+$cl = Request('cl');
+$id = Request('id');
 // функции админки
-$adm   = Request('adm');
-$use   = Request('use');
-$to    = Request('to');
-$list  = Request('list');
+$adm = Request('adm');
+$use = Request('use');
+$to = Request('to');
+$list = Request('list');
 $speak = Request('speak');
 $start = Request('start');
-$map   = Request('map');
-$take  = Request('take');
-$look  = Request('look');
+$map = Request('map');
+$take = Request('take');
+$look = Request('look');
 $trade = Request('trade');
-$msg   = Request('msg');
-$say   = Request('say');
-$drop  = Request('drop');
-$pass  = Request('pass');
-$nn    = Request('nn');
-$num   = Request('num');
+$msg = Request('msg');
+$say = Request('say');
+$drop = Request('drop');
+$pass = Request('pass');
+$nn = Request('nn');
+$num = Request('num');
+$up = Request('up');
+$down = Request('down');
+$mall = Request('mall');
+$translit = Request('translit');
 
 // Если строка запроса пуста
-if (empty($tmp) || // или не заданы логин и страница перехода
+if (
+    empty($tmp) || // или не заданы логин и страница перехода
     (empty($sid) && empty($site))
 ) {
     // установить страницу перехода на форму логина
@@ -99,9 +104,9 @@ if ($sid) {
         // добавить префикс
         $sid = "u." . $sid;
     }
-    $sid    = explode(".", $sid);
+    $sid = explode(".", $sid);
     $sid[1] = strtolower($sid[1]);
-    $login  = "u." . $sid[1];
+    $login = "u." . $sid[1];
     if (empty($p)) {
         $p = $sid[2];
     }
@@ -119,7 +124,7 @@ if ($sid) {
 if (file_exists("data/game.dat")) {
     // загрузить состояние
     $file_save = fopen("data/game.dat", "r+");
-    if ( false === $file_save) {
+    if (false === $file_save) {
         msg("Ошибка загрузки game.dat");
     }
     if (flock($file_save, LOCK_EX)) {
@@ -127,7 +132,7 @@ if (file_exists("data/game.dat")) {
         $game = unserialize(
             fread($file_save, 65535)
         );
-        if (! is_array($game)) {
+        if (!is_array($game)) {
             $game = [];
         }
     } else {
@@ -154,35 +159,35 @@ if (isset($game["msg"]) && $gm != $gm_id) {
     msg($game["msg"]);
 }
 
-if ( ! empty($site)) { // если задана страница перехода
+if (!empty($site)) { // если задана страница перехода
     /** @var string[] $pages */
     $pages = [
         // форма входа. Так же служит для задания логина нового пользователя
-        'main'     => 'f_site_main.inc',
+        'main' => 'f_site_main.inc',
         // ссылки на  статистику
-        'stat'     => 'f_site_stat.inc',
+        'stat' => 'f_site_stat.inc',
         // инфо о флаге
-        'flag'     => 'f_site_flag.inc',
+        'flag' => 'f_site_flag.inc',
         // замки и их владельцы
-        'castle'   => 'f_site_castle.inc',
+        'castle' => 'f_site_castle.inc',
         // кланы и их участники
-        'clans'    => 'f_site_clans.inc',
+        'clans' => 'f_site_clans.inc',
         // вход в игру
         // TODO: упростить механизм входа
-        'connect'  => 'f_site_connect.inc',
+        'connect' => 'f_site_connect.inc',
         'connect2' => 'f_site_connect2.inc',
         // информация
         // ЧаВо
-        'faq'      => 'f_site_faq.inc',
+        'faq' => 'f_site_faq.inc',
         // новости
-        'news'     => 'f_site_news.inc',
+        'news' => 'f_site_news.inc',
         // список игроков онлайн
-        'online'   => 'f_site_online.inc',
+        'online' => 'f_site_online.inc',
         // регистрация в игре
         // форма ввода информации о новом игроке
-        'gamereg'  => 'f_site_gamereg.inc',
+        'gamereg' => 'f_site_gamereg.inc',
         // проверяет данные и записывает их в БД
-        'reg2'     => 'f_site_reg2.inc'
+        'reg2' => 'f_site_reg2.inc'
     ];
     if (array_key_exists($site, $pages)) {
         if (file_exists($pages[$site])) {
@@ -199,14 +204,14 @@ if (time() > $game["lastai"] + 240) {
     include_once "f_online.inc";
 }
 // пользователь оффлайн
-if ( ! file_exists("online/" . $login)) {
+if (!file_exists("online/" . $login)) {
     $f_c = 1;
     include_once "f_site_connect2.inc";
 }
 $tmp = file("online/" . $login);
 $loc = trim($tmp[0]);
 loadloc($loc);
-if ( ! isset($loc_i[$loc][$login])) {
+if (!isset($loc_i[$loc][$login])) {
     @unlink("online/" . $login);
     msg("Нет данных");
 }
@@ -245,30 +250,32 @@ if ($go) {
         msg("Ангел сверхестественной силой не дает вам двигаться дальше");
     }
     if ($game["fid"] == $login) {
-        if (in_array($go, [
+        if (
+            in_array($go, [
                 "x393x1167",
                 "x33x1252",
                 "x435x1167",
                 "x287x1252"
-            ])) {
+            ])
+        ) {
             msg("С флагом на борт запрещено!");
         }
     }
 
     $loc_c = explode("|", $loc_tt[$loc]["d"]);
-    $b     = array_search($go, $loc_c);
+    $b = array_search($go, $loc_c);
     if ($b) {
         $tgo = $loc_c[$b - 1];
         loadloc($go);
-        $b      = 0;
-        $char   = explode("|", $loc_i[$loc][$login]["char"]);
+        $b = 0;
+        $char = explode("|", $loc_i[$loc][$login]["char"]);
         $skills = explode("|", $loc_i[$loc][$login]["skills"]);
-        $hide   = (rand(1, 100) <= $skills[17] * 8) ? 1 : 0;
+        $hide = (rand(1, 100) <= $skills[17] * 8) ? 1 : 0;
         if ($gal && $char[12]) {
             $loc_c = explode("|", $loc_tt[$go]["d"]);
-            $b     = array_search($tgo, $loc_c);
+            $b = array_search($tgo, $loc_c);
         }
-        if ( ! $b) {
+        if (!$b) {
             $tgo = "";
         }
         manageNPC($login, $loc, $go, $tgo, $hide);
@@ -277,15 +284,17 @@ if ($go) {
         }
     }
 }
+
 if ($game["fid"] == $login) {
     $game["floc"] = $loc;
 }
-if ( ! $game["floc"] || isset($loc_tt[$game["floc"]]) && ! isset($loc_i[$game["floc"]]["i.flag"]) &&
-                        ! isset($loc_i[$game["floc"]][$game["fid"]])
+if (
+    !$game["floc"] || isset($loc_tt[$game["floc"]]) && !isset($loc_i[$game["floc"]]["i.flag"]) &&
+    !isset($loc_i[$game["floc"]][$game["fid"]])
 ) {
     $loc_i[$loc]["i.flag"] = "флаг лидерства|1|0";
-    $game["floc"]          = $loc;
-    $game["fid"]           = "";
+    $game["floc"] = $loc;
+    $game["fid"] = "";
 }
 if ($ctele) {
     include_once "f_castle.inc";
@@ -306,7 +315,7 @@ for ($i = 2; $i < count($loc_c); $i += 2) {
     doai($loc_c[$i + 1]);
 }
 
-if ( ! isset($loc_i[$loc][$login]) || ! $login) {
+if (!isset($loc_i[$loc][$login]) || !$login) {
     @unlink("online/" . $login);
     msg("Нет данных");
 }
@@ -322,10 +331,10 @@ if ($cm) {
     // задан номер - выполнить
     if ($cm > 0 && $cm < 9) {
         $cm--;
-        $m  = getMacroList($loc_i[$loc][$login]);
-        $m  = explode("|", $m[$cm]);
+        $m = getMacroList($loc_i[$loc][$login]);
+        $m = explode("|", $m[$cm]);
         $ml = explode("|", $loc_i[$loc][$login]["macrol"]);
-        
+
         // TODO: избавиться от eval
         if ($m[0] == "last" && $ml[0]) {
             eval('$' . $ml[0] . "=\"" . $ml[1] . "\";");
@@ -374,8 +383,8 @@ if ($say) {
 // атака
 if ($ca) {
     $loc_i[$loc][$login]["macrol"] = "ca|$ca||";
-    $char[7]                       = $ca;
-    $loc_i[$loc][$login]["char"]   = implode("|", $char);
+    $char[7] = $ca;
+    $loc_i[$loc][$login]["char"] = implode("|", $char);
     attack($loc, $login, $ca);
     $char = explode("|", $loc_i[$loc][$login]["char"]);
 }
@@ -402,20 +411,20 @@ if ($use) {
                 case "i.": {
                     include_once "f_useitem.inc";
                 }
-                break;
+                    break;
                 case "m.": {
                     include_once "f_usemagic.inc";
                 }
-                break;
+                    break;
                 case "p.": {
                     include_once "f_usepriem.inc";
                 }
-                break;
+                    break;
                 default:
                     if (substr($use, 0, 6) == "skill.") {
                         include_once "f_useskill.inc";
                     }
-                break;
+                    break;
             }
             $char = explode("|", $loc_i[$loc][$login]["char"]);
         }
@@ -442,13 +451,13 @@ if ($trade) {
 switch ($cl) {
     case "i":
         $cl = "inv";
-    break;
+        break;
     case "m":
         $cl = "magic";
-    break;
+        break;
     case "p":
         $cl = "priem";
-    break;
+        break;
 }
 // управление списками предметов, умений и тд
 if ($list || $list = $cl) {
@@ -458,13 +467,15 @@ if ($list || $list = $cl) {
 }
 // показать карту и завершить работу скрипта
 if (false !== $map) {
-    msg(MapPage::buildPage(
-        $loc,
-        $game,
-        ViewOptions::getInstance()->getMapMode(),
-        $PHP_SELF,
-        $sid
-    ));
+    msg(
+        MapPage::buildPage(
+            $loc,
+            $game,
+            ViewOptions::getInstance()->getMapMode(),
+            $PHP_SELF,
+            $sid
+        )
+    );
 }
 
 // MAIN PAGE
@@ -507,7 +518,7 @@ if (substr($loc, 3) == ".in" || substr($loc, 3) == ".gate") {
 }
 
 // SOUNDS
-if ( ! ViewOptions::getInstance()->getSoundsMode()) {
+if (!ViewOptions::getInstance()->getSoundsMode()) {
     $st = "";
     for ($i = 2; $i < count($loc_c); $i += 2) {
         if ($loc_c[$i + 1] != $loc) {
@@ -530,7 +541,7 @@ if ( ! ViewOptions::getInstance()->getSoundsMode()) {
 
 // OBJECTS
 $ti = explode("x", $loc);
-if ( ! $start) {
+if (!$start) {
     $start = 0;
 }
 $listEnd = $start + ViewOptions::getInstance()->getMaxListSize();
@@ -541,7 +552,7 @@ for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         // предметы
         if (substr($keys[$i], 0, 2) == "i.") {
             $tmp = explode("|", $loc_i[$loc][$keys[$i]]);
-            $k   = $tmp[0];
+            $k = $tmp[0];
             // есть самоцветы?(уточнить)
             if (strpos($keys[$i], "..") !== false) {
                 $k .= " *";
@@ -554,7 +565,7 @@ for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
         // НПС и игроки
         if (substr($keys[$i], 0, 2) == "n." || substr($keys[$i], 0, 2) == "u.") {
             $tmp = explode("|", $loc_i[$loc][$keys[$i]]["char"]);
-            $k   = $tmp[0];
+            $k = $tmp[0];
             // на коне
             if (substr($keys[$i], 0, 2) == "u." && $tmp[12]) {
                 $k .= " (всадник)";
@@ -587,14 +598,14 @@ for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
             // есть цель атаки и цель находится в текущей локе
             // является НПС или лока не "безопасного" типа
             if (
-                $tmp[7] &&isset($loc_i[$loc][$tmp[7]]) &&
+                $tmp[7] && isset($loc_i[$loc][$tmp[7]]) &&
                 (
                     substr($keys[$i], 0, 2) == "n." ||
                     (substr($keys[$i], 0, 2) == "u." && $loc_c[1] != 1)
                 )
             ) {
                 $tmp1 = explode("|", $loc_i[$loc][$tmp[7]]["char"]);
-                if (substr($tmp[7], 0, 2) == "n." || (substr($tmp[7], 0, 2) == "u." && ! $tmp1[8])) {
+                if (substr($tmp[7], 0, 2) == "n." || (substr($tmp[7], 0, 2) == "u." && !$tmp1[8])) {
                     $st .= " атакует ";
                     if ($tmp[7] == $login) {
                         $st .= "вас!";
@@ -608,9 +619,7 @@ for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
             }
         }
         // добавить кнопку вызова  "контекстного меню" с установкой переменной $to
-        $stmp .= '<br/><anchor>' . $k . '<go href="#m">';
-        $stmp .= '<setvar name="to" value="' . $keys[$i] . '"/>';
-        $stmp .= '</go></anchor>';
+        $stmp .= '<br/><a tabindex="0" class="btn btn-secondary m-1" role="button" data-trigger="focus" data-toggle="popover" data-content="template" title="' . $k . '" label="' . $keys[$i] . '">' . $k . '</a>';
     }
 }
 #start: "пагинация" списка объектов
@@ -619,12 +628,12 @@ if (count($keys) > 1 && $start) {
     $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">^ </a>";
 }
 if ($listEnd < count($keys)) {
-    if ( ! $start) {
+    if (!$start) {
         $stmp .= "<br/>";
     }
     // к следующей части списка
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&start=" . ($listEnd) . "\">+ (" . (count($keys) - $listEnd) .
-             ")</a>";
+        ")</a>";
 }
 #end: "пагинация" списка объектов
 
@@ -632,13 +641,13 @@ $stmp .= "<br/>---";
 
 // Переходы к соседним локациям
 for ($i = 2; $i < count($loc_c); $i += 2) {
-    $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&go=" . $loc_c[$i + 1] . "\">" . $loc_c[$i] . "</a>";
+    $stmp .= "<br/><a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&go=" . $loc_c[$i + 1] . "\">" . $loc_c[$i] . "</a>";
     // TODO: странное условие, нужно разобраться
     if ($char[12] && strpos($loc_tt[$loc_c[$i + 1]]["d"], $loc_c[$i] . "|") !== false) {
         // галопом на лошади
-        $stmp .= "<a href=\"$PHP_SELF?sid=$sid&gal=1&go=" . $loc_c[$i + 1] . "\">*</a>";
+        $stmp .= "<a class=\"btn btn-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&gal=1&go=" . $loc_c[$i + 1] . "\">*</a>";
     }
-    if (ViewOptions::getInstance()->getSoundsMode() && count($loc_i[$loc_c[$i + 1]]) > 0) {
+    if (ViewOptions::getInstance()->getSoundsMode() && isset($loc_i[$loc_c[$i + 1]]) && count($loc_i[$loc_c[$i + 1]]) > 0) {
         // выводим признак наличия персов/НПС в локе
         foreach ($loc_i[$loc_c[$i + 1]] as $j => $val) {
             if ((substr($j, 0, 2) == 'u.') || substr($j, 0, 2) == 'n.') {
@@ -649,45 +658,45 @@ for ($i = 2; $i < count($loc_c); $i += 2) {
     }
 }
 
-$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid\">обновить</a>";
+$stmp .= "<br/><a class=\"btn btn-outline-info btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid\">обновить</a>";
 
 // Добавить ссылку на описание локи
 if (file_exists("loc_f/" . $loc)) {
     // переход по ссылке устанавливает ViewOptions::setDescEnabled(true)(смотри в f_look.inc)
     // что используется в функции msg для добавления описания локации
-    $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=1\">Инфo</a>";
+    $stmp .= "<br/><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&ci=1\">Инфo</a>";
 }
 
 if ($game["fid"] == $login && $game["floc"] == $loc) {
-    $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&drop=f\">Бросить флаг</a>";
+    $stmp .= "<br/><a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&drop=f\">Бросить флаг</a>";
 }
 // переход в админку и воскрешение
 if ($login == $g_admin || ($gm_id && $gm == $gm_id)) {
-    $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&adm=rsn\">res</a><br/><a href=\"$PHP_SELF?sid=$sid&adm=smp&fmust=1\">admin</a>";
+    $stmp .= "<br/><a class=\"btn btn-outline-primary m-1\" href=\"$PHP_SELF?sid=$sid&adm=rsn\">res</a><br/><a class=\"btn btn-outline-primary m-1\" href=\"$PHP_SELF?sid=$sid&adm=smp&fmust=1\">admin</a>";
 }
 
 // MENU
-$stmp .= "</p></card><card id=\"m\" title=\"Меню\"><p>";
-$stmp .= "<a href=\"$PHP_SELF?sid=$sid&cs=$(to)\">Говорить/Взять</a><br/>";
-$stmp .= "<a href=\"$PHP_SELF?sid=$sid&ca=$(to)\">Атаковать</a>";
-$b  = "<br/>";
+$stmp .= "</p></div><div id=\"menu\" class=\"d-none\" title=\"Меню\"><p>";
+$stmp .= "<a class=\"btn btn-outline-primary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&cs=$(to)\">Говорить/Взять</a><br/>";
+$stmp .= "<a class=\"btn btn-outline-danger btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&ca=$(to)\">Атаковать</a>";
+$b = "<br/>";
 // кнопки быстрого доступа к умениям и предметам
 $ts = ["", "", "m", "магия", "i", "предмет", "p", "прием"];
 $userMenu = strval(ViewOptions::getInstance()->getUserMenu());
 for ($i = 0; $i < strlen($userMenu); $i += 2) {
-    if ($ts[$userMenu{$i} * 2]) {
+    if ($ts[$userMenu[$i] * 2]) {
         // просмотр списка и управление порядком
-        $stmp .= $b . "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$userMenu{$i} * 2] . "\">" .
-                 $ts[$userMenu{$i} * 2 + 1] . "</a>";
+        $stmp .= $b . "<a class=\"btn btn-outline-warning btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&to=$(to)&cl=" . $ts[$userMenu[$i] * 2] . "\">" .
+            $ts[$userMenu[$i] * 2 + 1] . "</a>";
         $b = ", ";
-        for ($j = 1; $j <= $userMenu{$i + 1}; $j++) {
+        for ($j = 1; $j <= $userMenu[$i + 1]; $j++) {
             // кнопка доступа к элементу с номером $j
-            $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$userMenu{$i} * 2] . "." . $j . "\">" . $j .
-                     "</a>";
+            $stmp .= "<a class=\"btn btn-sm btn-warning m-1\" href=\"$PHP_SELF?sid=$sid&to=$(to)&use=" . $ts[$userMenu[$i] * 2] . "." . $j . "\">" . $j .
+                "</a>";
         }
     }
 }
-$stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&ci=$(to)\">Инфo</a>"; // "осмотреть" выбранный объект
+$stmp .= "<br/><a class=\"btn btn-outline-secondary btn-sm m-1\" href=\"$PHP_SELF?sid=$sid&ci=$(to)\">Инфo</a>"; // "осмотреть" выбранный объект
 
 // FIXME: похоже на костыль для захваченных замков
 // удалить служебную информацию из названия

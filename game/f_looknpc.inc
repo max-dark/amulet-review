@@ -56,7 +56,7 @@ if (isset($loc_i[$loc][$look])) {
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&look=char.tame\">Сложность приручения</a>: " . $char[8];
     }
 
-    if ($loc_i[$loc][$look]["owner"]) {
+    if (isset($loc_i[$loc][$look]["owner"])) {
         $owner = explode("|", $loc_i[$loc][$look]["owner"]);
         if (isset($loc_i[$loc][$owner[0]])) {
             $tmp = explode("|", $loc_i[$loc][$owner[0]]["char"]);
@@ -67,7 +67,7 @@ if (isset($loc_i[$loc][$look])) {
     }
 
     // что одето
-    if ($loc_i[$loc][$look]["equip"]) {
+    if (isset($loc_i[$loc][$look]["equip"])) {
         $str   = "";
         $sto   = "";
         $equip = explode("|", $loc_i[$loc][$look]["equip"]);

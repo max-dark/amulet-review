@@ -50,6 +50,7 @@ if ($look) {
                 break;
             default:
                 if (file_exists("desc/" . $look)) {
+                    $stmp = isset($stmp) ? $stmp : "";
                     $stmp .= "<p>" . (file_get_contents("desc/" . $look));
                 } else {
                     $stmp .= "Описание недоступно";

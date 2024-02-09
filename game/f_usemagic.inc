@@ -26,9 +26,9 @@ if ((strpos($loc_i[$loc][$login]["items"], "i.magicbook:") === false) && $login 
 //if ($use{3}=="r") msg("ok");
 //if (substr($use,0,3)!="i.r") msg("у вас нет руны");
 
-if ($use{2} > 0 && $use{2} < 10) {
+if ($use[2] > 0 && $use[2] < 10) {
     $tm = explode("|", $loc_i[$loc][$login]["magic"]);
-    $tc = intval($use{2}) - 1;
+    $tc = intval($use[2]) - 1;
     if ($tm[$tc] && ((strpos($loc_i[$loc][$login]["items"], "i.magicbook:") !== false) || $login == "u.qv" ||
                      substr($use, 6, 8) == 'godanger' || substr($use, 4, 4) == 'holy')
     ) {

@@ -28,9 +28,9 @@ if ($up) {
         array_push($items, $items[$i]);
         array_shift($items);
     } else {
-        $tc            = $items[$i - 1];
+        $tc = $items[$i - 1];
         $items[$i - 1] = $items[$i];
-        $items[$i]     = $tc;
+        $items[$i] = $tc;
     }
     $loc_i[$loc][$login]["items"] = implode("|", $items);
     msg("Предмет передвинут вверх.");
@@ -49,9 +49,9 @@ if ($down) {
         array_unshift($items, $items[$i]);
         array_pop($items);
     } else {
-        $tc            = $items[$i + 1];
+        $tc = $items[$i + 1];
         $items[$i + 1] = $items[$i];
-        $items[$i]     = $tc;
+        $items[$i] = $tc;
     }
 
     $loc_i[$loc][$login]["items"] = implode("|", $items);

@@ -17,7 +17,7 @@
 
 use MaxDark\Amulet\OldCode\ViewOptions;
 
-if ( ! $loc_i[$loc][$login]["priem"]) {
+if (!$loc_i[$loc][$login]["priem"]) {
     msg("<p>Вы не знаете ни одного приема, найдите NPC, который согласится обучить вас.");
 }
 $items = explode("|", $loc_i[$loc][$login]["priem"]);
@@ -34,9 +34,9 @@ if ($up) {
         array_push($items, $items[$i]);
         array_shift($items);
     } else {
-        $tc            = $items[$i - 1];
+        $tc = $items[$i - 1];
         $items[$i - 1] = $items[$i];
-        $items[$i]     = $tc;
+        $items[$i] = $tc;
     }
     $loc_i[$loc][$login]["priem"] = implode("|", $items);
     msg("Прием передвинут вверх.");
@@ -55,15 +55,15 @@ if ($down) {
         array_unshift($items, $items[$i]);
         array_pop($items);
     } else {
-        $tc            = $items[$i + 1];
+        $tc = $items[$i + 1];
         $items[$i + 1] = $items[$i];
-        $items[$i]     = $tc;
+        $items[$i] = $tc;
     }
     $loc_i[$loc][$login]["priem"] = implode("|", $items);
     msg("Прием передвинут вниз.");
 }
 $stmp = "<p>Ваши приемы:";
-if ( ! $start) {
+if (!$start) {
     $start = 0;
 }
 $keys = array_keys($items);
@@ -79,20 +79,19 @@ for ($i = $start; $i < $listEnd && $i < count($keys); $i++) {
     if ($to) {
         $stmp .= "<br/><a href=\"$PHP_SELF?sid=$sid&to=$to&use=" . $k[0] . "\">" . $item . "</a>";
     } else {
-        $stmp .= "\n<br/><anchor>" . $item . "<go href=\"#menu\"><setvar name=\"to\" value=\"" . $k[0] .
-                 "\"/></go></anchor>";
+        $stmp .= "\n" . '<br/><a tabindex="0" class="btn btn-secondary m-1" role="button" data-trigger="focus" data-toggle="popover" data-content="template" title="' . $item . '" label="' . $k[0] . '">' . $item . '</a>';
     }
 }
 if ($start) {
     $stmp .= "\n<br/><a href=\"$PHP_SELF?sid=$sid&list=priem\">^ </a>";
 }
 if ($listEnd < count($keys)) {
-    if ( ! $start) {
+    if (!$start) {
         $stmp .= "\n<br/>";
     }
     $stmp .= "<a href=\"$PHP_SELF?sid=$sid&to=$to&list=priem&start=" . ($listEnd) . "\">+ (" .
-             (count($keys) - $listEnd) . ")</a>";
+        (count($keys) - $listEnd) . ")</a>";
 }
 // карта меню
-$stmp .= "\n</p>\n</card>\n<card id=\"menu\" title=\"Меню\">\n<p><a href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a href=\"$PHP_SELF?sid=$sid&list=priem&up=$(to)\">Вверх</a> | <a href=\"$PHP_SELF?sid=$sid&list=priem&down=$(to)\">Вниз</a>]\n";
+$stmp .= "\n</p>\n</div>\n<div id=\"menu\" class=\"d-none\" title=\"Меню\">\n<p><a class=\"btn btn-outline-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&look=$(to)\">Инфо</a>\n<br/>[<a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=priem&up=$(to)\">Вверх</a> | <a class=\"btn btn-secondary btn-sm m-1 \" href=\"$PHP_SELF?sid=$sid&list=priem&down=$(to)\">Вниз</a>]\n";
 msg($stmp, "Приемы", 1);

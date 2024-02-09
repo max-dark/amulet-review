@@ -16,7 +16,7 @@ $char = explode("|", $loc_i[$loc][$login]["char"]);
 if (strpos($char[0], " *") === false) {
     $clan = "";
 } else {
-    $clan    = substr($char[0], strpos($char[0], " *"));
+    $clan = substr($char[0], strpos($char[0], " *"));
     $char[0] = substr($char[0], 0, strpos($char[0], " *"));
 }
 $tus = explode("|", $loc_i[$loc][$login]["user"]);
@@ -24,7 +24,10 @@ $tus = explode("|", $loc_i[$loc][$login]["user"]);
 $viewOpt = ViewOptions::getInstance();
 
 if ($cnick == "1") {
-    $stmp = "<p>Ваше имя: <br/><input name=\"new\" value=\"" . $char[0] . "\"/>
+    $stmp = "<form action=\"$PHP_SELF\" method=\"get\">
+    <input name=\"sid\" value=\"" . $sid . "\" type=\"hidden\"/>
+    <input name=\"cnick\" value=\"" . $char[0] . "\" type=\"hidden\"/>
+    <p>Ваше имя: <br/><input name=\"new\" value=\"" . $char[0] . "\"/>
 	<br/>Возраст: <br/><input name=\"age\" value=\"" . intval($tus[3]) . "\" format=\"*N\" maxlength=\"2\"/>
 	<br/>Размер списков (3..30): <br/><input name=\"list\" value=\"" . $viewOpt->getMaxListSize() . "\" format=\"*N\" maxlength=\"2\"/>
 	<br/>Размер страницы (700..15000): <br/><input name=\"size\" value=\"" . $viewOpt->getMaxPageSize() . "\"  format=\"*N\" maxlength=\"5\"/>
@@ -33,13 +36,14 @@ if ($cnick == "1") {
 	<br/>Карта: 0 - нет, 1 - ч/б, 2 - цветная JPEG, 3 - цветная PNG: <br/><input name=\"map\" value=\"" .
         $viewOpt->getMapMode() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Пункты в меню (0-откл,1-магия,2-предмет,3-прием) и кол-во горячих клавиш для каждого пункта (0..9), порядок произвольный. Пример: 332110<br/><input name=\"smenu\" value=\"" .
-            $viewOpt->getUserMenu() . "\" format=\"*N\" maxlength=\"6\"/>
+        $viewOpt->getUserMenu() . "\" format=\"*N\" maxlength=\"6\"/>
 	<br/>Описание локаций (1-вкл,0-выкл): <br/><input name=\"j2go\" value=\"" . $viewOpt->getShowDesc() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Сообщать о приходящих (1-вкл,0-выкл): <br/><input name=\"j2loc\" value=\"" . $viewOpt->getReportIncoming() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Звуки рядом с выходами (1-вкл,0-выкл): <br/><input name=\"sounds\" value=\"" . $viewOpt->getSoundsMode() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Отключить журнал (1-да,0-нет): <br/><input name=\"joff\" value=\"" . $viewOpt->getJournalDisabled() . "\" format=\"*N\" maxlength=\"1\"/>
 	<br/>Маленький шрифт (1-да,0-нет): <br/><input name=\"smf\" value=\"" . $viewOpt->getUseSmallFont() . "\" format=\"*N\" maxlength=\"1\"/>
-	<br/><a href=\"$PHP_SELF?sid=$sid&cnick=$(new)&list=$(list)&size=$(size)&j2loc=$(j2loc)&j2go=$(j2go)&menu=$(menu)&smenu=$(smenu)&sounds=$(sounds)&joff=$(joff)&map=$(map)&smf=$(smf)&age=$(age)\">Сохранить</a>
+	<br/><button class=\"btn btn-primary m-1\"type=\"submit\">Сохранить</button>
+    </form>
 	<br/><a href=\"?site=faq&id=err\">Помощь</a>";
 
 } else {
@@ -99,12 +103,12 @@ if ($cnick == "1") {
     $viewOpt->setMapMode($map);
     $viewOpt->setUseSmallFont($smf);
 
-    $loc_i[$loc][$login]["o"]    = $viewOpt->toString();
-    $char[0]                     = $cnick . $clan;
+    $loc_i[$loc][$login]["o"] = $viewOpt->toString();
+    $char[0] = $cnick . $clan;
     $loc_i[$loc][$login]["char"] = implode("|", $char);
-    $tus[3]                      = intval($age);
+    $tus[3] = intval($age);
     $loc_i[$loc][$login]["user"] = implode("|", $tus);
-    $stmp                        = "Настройки сохранены.";
+    $stmp = "Настройки сохранены.";
 }
 
 msg($stmp, "Настройки", 0);

@@ -28,8 +28,8 @@ if ($drop) {            //linkБросить
             $loc1 = $loc;
         }
         $loc_i[$loc1]["i.flag"] = "флаг лидерства|1|0";
-        $game["floc"]           = $loc1;
-        $game["fid"]            = "";
+        $game["floc"] = $loc1;
+        $game["fid"] = "";
         calcparam($loc, $login);
         msg("Вы бросили флаг лидерства");
     }
@@ -43,12 +43,15 @@ if ($drop) {            //linkБросить
         // бросаем предмет в локацию
         $title = findItemByFullId($drop); // FIXME: dead code?
         // проверим кол-во
-        if ($tcount > 1 && ! $num) {        // запросим кол-во
-            $stmp = "<p>Укажите количество:\n<br/><input name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" .
-                    $tcount . "\"/>\n<br/><a href=\"$PHP_SELF?sid=$sid&drop=$drop&num=$(num)\">Отправить</a>";
+        if ($tcount > 1 && !$num) {        // запросим кол-во
+            $stmp = "<p>Укажите количество:\n<br/><form action=\"$PHP_SELF\" method=\"get\">" .
+                "<input name=\"sid\" value=\"" . $sid . "\" type=\"hidden\"/>" .
+                "<input name=\"drop\" value=\"" . $drop . "\" type=\"hidden\"/>" .
+                "<input class=\"form-control\" name=\"num\" format=\"*N\" maxlength=\"7\" value=\"" . $tcount .
+                "\"/>\n<br/><button class=\"btn btn-outline-primary\" type=\"submit\">Отправить</button></form></p>";
             msg($stmp, "Бросить", 1, PageType::MSG, "num", $tcount);
         }
-        if ( ! $num || $num < 1) {
+        if (!$num || $num < 1) {
             $num = 1;
         }    // если не указано, то 1 предмет
         if ($num > $tcount) {

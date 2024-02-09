@@ -3,8 +3,9 @@
 /.idea/
 # игнорим временные файлы
 /game/online/u.*
+/game/*
+
 # игнорм все кроме .htaccess
 !/game/data/clans/.htaccess
-
 # composer files
 /vendor/

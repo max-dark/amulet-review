@@ -15,10 +15,10 @@ use MaxDark\Amulet\OldCode\DBOperations;
 
 if ($login != $g_admin && $gm != $gm_id && $loc_i[$loc][$login]["srv"] > time() - 120) {
     $logout_msg = [
-        'text'         => ("Вы только что вошли в игру, персонаж может покинуть этот сервер не раньше, чем через " .
-                           round(($loc_i[$loc][$login]["srv"] - time() + 120) / 60 + 1) .
-                           " минуты<br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a>"),
-        'title'        => 'Уже уходите?(',
+        'text' => ("Вы только что вошли в игру, персонаж может покинуть этот сервер не раньше, чем через " .
+            round(($loc_i[$loc][$login]["srv"] - time() + 120) / 60 + 1) .
+            " минуты<br/><a href=\"$PHP_SELF?sid=$sid\">В игру</a>"),
+        'title' => 'Уже уходите?(',
         'show_journal' => 1
     ];
 } else { // если никого рядом нет, то можем удалить персонажа
@@ -31,7 +31,7 @@ if ($login != $g_admin && $gm != $gm_id && $loc_i[$loc][$login]["srv"] > time() 
             }
         }
     }
-    if ( ! $b) {
+    if (!$b) {
         for ($i = 2; $i < count($loc_c); $i += 2) {
             if ($loc_c[$i + 1] != $loc) {
                 if (count($loc_i[$loc_c[$i + 1]]) > 0) {
@@ -56,14 +56,14 @@ if ($login != $g_admin && $gm != $gm_id && $loc_i[$loc][$login]["srv"] > time() 
                 $last_loc = $loc;
             }
             $loc_i[$last_loc]["i.flag"] = "флаг лидерства|1|0";
-            $game["floc"]               = $last_loc;
-            $game["fid"]                = "";
+            $game["floc"] = $last_loc;
+            $game["fid"] = "";
             calcparam($loc, $login);
         }
-        $auser            = $loc_i[$loc][$login];
+        $auser = $loc_i[$loc][$login];
         $auser["journal"] = "";
-        $auser["loc"]     = $loc;
-        $auser["time"]    = time();
+        $auser["loc"] = $loc;
+        $auser["time"] = time();
         unset($auser["msgt"]);
         unset($auser["macrol"]);
         unset($auser["trade"]);
@@ -79,29 +79,29 @@ if ($login != $g_admin && $gm != $gm_id && $loc_i[$loc][$login]["srv"] > time() 
 
     if ($error_message) {
         $logout_msg = [
-            'text'         => ("<p>Ошибка при сохранении персонажа: " . $error_message .
-                               "<br/>Рекомендуем вам оставаться онлайн и регулярно пытаться сохраниться, " .
-                               "иначе весь опыт, найденные предметы и т.д. с последнего сохранения, " .
-                               "когда покидали игру, будут потеряны.<br/><anchor>Назад<prev/></anchor>"),
-            'title'        => "Ошибка",
+            'text' => ("<p>Ошибка при сохранении персонажа: " . $error_message .
+                "<br/>Рекомендуем вам оставаться онлайн и регулярно пытаться сохраниться, " .
+                "иначе весь опыт, найденные предметы и т.д. с последнего сохранения, " .
+                "когда покидали игру, будут потеряны.<br/><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>"),
+            'title' => "Ошибка",
             'show_journal' => 0
         ];
     } else {
         if ($b) {
             $b = "Если вы сейчас покинете игру, то ваш персонаж останется в игре еще минимум на " .
-                 round($g_logout / 60) . " минут, так как рядом кто-то есть.";
+                round($g_logout / 60) . " минут, так как рядом кто-то есть.";
         } else {
             manageNPC($login, $loc, "");
             @unlink("online/" . $login);
-            $b     = "Так как рядом никого нет, то ваш персонаж только что покинул игру, " .
-                     "теперь его не смогут в ваше отсутствие убить или обворовать." . "<br/>Удачного дня, " . $char[0] .
-                     "!<br/><a href=\"$PHP_SELF\">На главную</a>";
+            $b = "Так как рядом никого нет, то ваш персонаж только что покинул игру, " .
+                "теперь его не смогут в ваше отсутствие убить или обворовать." . "<br/>Удачного дня, " . $char[0] .
+                "!<br/><a href=\"$PHP_SELF\">На главную</a>";
             $login = "";
         }
 
         $logout_msg = [
-            'text'         => "<p>Персонаж сохранен успешно.<br/>" . $b,
-            'title'        => "Сохранение",
+            'text' => "<p>Персонаж сохранен успешно.<br/>" . $b,
+            'title' => "Сохранение",
             'show_journal' => 0
         ];
     }

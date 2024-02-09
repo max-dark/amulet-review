@@ -18,8 +18,8 @@
 use MaxDark\Amulet\OldCode\DBOperations;
 use MaxDark\Amulet\OldCode\PageType;
 
-if ( ! preg_match('|^[-0-9a-z_\.]+$|i', $login)) {
-    msg("Неверный синтаксис в логине $login<br /><anchor>Назад<prev/></anchor>", 'Проверка входа', 0, PageType::GUEST);
+if (!preg_match('|^[-0-9a-z_\.]+$|i', $login)) {
+    msg("Неверный синтаксис в логине $login<br /><button class=\"btn btn-outline-secondary m-1\" name=\"b2\" type=\"accept\" label=\"Назад\" onclick=\"history.back()\"><prev>Назад</prev></button>", 'Проверка входа', 0, PageType::GUEST);
 }
 if (substr($login, 0, 2) != "u.") {
     $login = "u." . $login;
@@ -47,8 +47,11 @@ if ($res) {
     msg($res, 'Проверка входа', 0, PageType::GUEST);
 }
 $auser = unserialize($data);
-if ( ! $auser["char"] || ! $auser["skills"]) {
-    $data  = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $data);
+if (!$auser["char"] || !$auser["skills"]) {
+    $data = preg_replace_callback('/s:(\d+):"(.*?)";/', function ($matches) {
+        return "s:" . strlen($matches[2]) . ":\"" . addslashes($matches[2]) . "\";";
+    }, $data);
+    // $data  = preg_replace('/s:(?:\d+):"(.*?)";/e', "calcser('\\1')", $data);
     $auser = unserialize($data);
 }
 
@@ -56,8 +59,11 @@ if ( ! $auser["char"] || ! $auser["skills"]) {
 if (strpos($auser["char"], "*") === false) {
     $clan = "";
 } else {
-    $clan = substr($auser["char"], strpos($auser["char"], "*") + 1,
-        strrpos($auser["char"], "*") - strpos($auser["char"], "*") - 1);
+    $clan = substr(
+        $auser["char"],
+        strpos($auser["char"], "*") + 1,
+        strrpos($auser["char"], "*") - strpos($auser["char"], "*") - 1
+    );
 }
 if ($clan && (check_clan($clan, $login)) == "no") {
     $clan = "no";
@@ -65,7 +71,7 @@ if ($clan && (check_clan($clan, $login)) == "no") {
     $clan = "yes";
 }
 // ок, получили данные, пробуем войти в игру
-$t     = filemtime('../news/news.htm');
+$t = filemtime('../news/news.htm');
 $tnews = date("d/m/Y", $t);
 include_once('f_site_connect2.inc');
 if (filesize("online/" . $login) == 1 || strpos($s, "cnick=1") === false) {
@@ -89,7 +95,7 @@ function check_clan($clan, $login)
             if (strtolower($fname) === strtolower($clan)) {
                 closedir($dh);
                 $tmp = @unserialize((@file_get_contents("data/clans/" . $fname)));
-                if (is_array($tmp) && ! isset($tmp["m"][$login]) && ! isset($tmp["g"][$login])) {
+                if (is_array($tmp) && !isset($tmp["m"][$login]) && !isset($tmp["g"][$login])) {
                     return ("no");
                 }
 
